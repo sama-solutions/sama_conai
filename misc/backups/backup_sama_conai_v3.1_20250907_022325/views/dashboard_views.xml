@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- ========================================= -->
+        <!-- DASHBOARD SAMA CONAI - VERSION SIMPLE    -->
+        <!-- ========================================= -->
+        
+        <!-- Action Dashboard Principal -->
+        <record id="action_sama_conai_dashboard" model="ir.actions.act_window">
+            <field name="name">Tableau de Bord SAMA CONAI</field>
+            <field name="res_model">request.information</field>
+            <field name="view_mode">kanban,list,graph</field>
+            <field name="context">{'search_default_this_month': 1}</field>
+        </record>
+        
+        <!-- Graphique des demandes d'information par mois -->
+        <record id="action_info_requests_graph" model="ir.actions.act_window">
+            <field name="name">Évolution des Demandes</field>
+            <field name="res_model">request.information</field>
+            <field name="view_mode">graph</field>
+            <field name="context">{'search_default_this_year': 1}</field>
+        </record>
+        
+        <!-- Graphique des signalements par catégorie -->
+        <record id="action_whistleblowing_by_category" model="ir.actions.act_window">
+            <field name="name">Signalements par Catégorie</field>
+            <field name="res_model">whistleblowing.alert</field>
+            <field name="view_mode">graph</field>
+            <field name="context">{'search_default_this_year': 1}</field>
+        </record>
+        
+        <!-- KPI Demandes en retard -->
+        <record id="action_overdue_requests" model="ir.actions.act_window">
+            <field name="name">Demandes en Retard</field>
+            <field name="res_model">request.information</field>
+            <field name="view_mode">kanban,list,form</field>
+            <field name="domain">[('is_overdue', '=', True)]</field>
+        </record>
+        
+        <!-- KPI Signalements urgents -->
+        <record id="action_urgent_alerts" model="ir.actions.act_window">
+            <field name="name">Signalements Urgents</field>
+            <field name="res_model">whistleblowing.alert</field>
+            <field name="view_mode">kanban,list,form</field>
+            <field name="domain">[('priority', '=', 'urgent')]</field>
+        </record>
+        
+        <!-- KPI Demandes du mois -->
+        <record id="action_monthly_requests" model="ir.actions.act_window">
+            <field name="name">Demandes du Mois</field>
+            <field name="res_model">request.information</field>
+            <field name="view_mode">kanban,list,graph</field>
+            <field name="context">{'search_default_this_month': 1}</field>
+        </record>
+        
+        <!-- Action pour l'analyse avancée -->
+        <record id="action_info_requests_analysis" model="ir.actions.act_window">
+            <field name="name">Analyse Avancée</field>
+            <field name="res_model">request.information</field>
+            <field name="view_mode">pivot,graph</field>
+            <field name="context">{'search_default_this_year': 1}</field>
+        </record>
+        
+    </data>
+</odoo>

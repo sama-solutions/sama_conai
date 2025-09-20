@@ -1,0 +1,653 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- ========================================= -->
+        <!-- TEMPLATES POUR L'ACCÈS À L'INFORMATION -->
+        <!-- ========================================= -->
+        
+        <!-- Template du formulaire de demande d'information -->
+        <template id="information_request_form_template" name="Formulaire de Demande d'Information">
+            <t t-call="website.layout">
+                <div id="wrap" class="oe_structure oe_empty">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-8 offset-lg-2">
+                                <div class="card mt-4">
+                                    <div class="card-header bg-primary text-white">
+                                        <h3 class="mb-0">
+                                            <i class="fa fa-file-text-o"/> Demande d'Accès à l'Information
+                                        </h3>
+                                        <p class="mb-0">Conformément à la loi sénégalaise sur l'accès à l'information publique</p>
+                                    </div>
+                                    <div class="card-body">
+                                        
+                                        <!-- Affichage des erreurs -->
+                                        <t t-if="error_message">
+                                            <div class="alert alert-danger" role="alert">
+                                                <strong>Erreur :</strong> <t t-esc="error_message"/>
+                                            </div>
+                                        </t>
+                                        
+                                        <!-- Informations légales -->
+                                        <div class="alert alert-info">
+                                            <h5><i class="fa fa-info-circle"/> Informations importantes</h5>
+                                            <ul class="mb-0">
+                                                <li>Délai de réponse légal : <strong>30 jours</strong></li>
+                                                <li>Service gratuit pour les citoyens sénégalais</li>
+                                                <li>Vous recevrez un accusé de réception par email</li>
+                                                <li>Un numéro de suivi vous sera communiqué</li>
+                                            </ul>
+                                        </div>
+                                        
+                                        <!-- Formulaire -->
+                                        <form action="/acces-information/submit" method="post" class="needs-validation" novalidate="true">
+                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                            
+                                            <!-- Informations du demandeur -->
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="partner_name" class="required">Nom complet *</label>
+                                                        <input type="text" class="form-control" id="partner_name" name="partner_name" 
+                                                               t-att-value="form_data.get('partner_name', '')" required="true"/>
+                                                        <div class="invalid-feedback">
+                                                            Veuillez saisir votre nom complet.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="partner_email" class="required">Adresse email *</label>
+                                                        <input type="email" class="form-control" id="partner_email" name="partner_email" 
+                                                               t-att-value="form_data.get('partner_email', '')" required="true"/>
+                                                        <div class="invalid-feedback">
+                                                            Veuillez saisir une adresse email valide.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="partner_phone">Téléphone</label>
+                                                        <input type="tel" class="form-control" id="partner_phone" name="partner_phone" 
+                                                               t-att-value="form_data.get('partner_phone', '')" placeholder="+221 XX XXX XX XX"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="requester_quality" class="required">Qualité du demandeur *</label>
+                                                        <select class="form-control" id="requester_quality" name="requester_quality" required="true">
+                                                            <option value="">-- Sélectionnez --</option>
+                                                            <t t-foreach="requester_qualities" t-as="quality">
+                                                                <option t-att-value="quality[0]" 
+                                                                        t-att-selected="form_data.get('requester_quality') == quality[0] and 'selected' or None">
+                                                                    <t t-esc="quality[1]"/>
+                                                                </option>
+                                                            </t>
+                                                        </select>
+                                                        <div class="invalid-feedback">
+                                                            Veuillez sélectionner votre qualité.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Description de la demande -->
+                                            <div class="form-group">
+                                                <label for="description" class="required">Description détaillée de votre demande *</label>
+                                                <textarea class="form-control" id="description" name="description" rows="6" 
+                                                          placeholder="Décrivez précisément les informations que vous souhaitez obtenir..." 
+                                                          required="true"><t t-esc="form_data.get('description', '')"/></textarea>
+                                                <small class="form-text text-muted">
+                                                    Soyez le plus précis possible pour faciliter le traitement de votre demande.
+                                                </small>
+                                                <div class="invalid-feedback">
+                                                    Veuillez décrire votre demande.
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Acceptation des conditions -->
+                                            <div class="form-check mb-3">
+                                                <input class="form-check-input" type="checkbox" id="accept_conditions" required="true"/>
+                                                <label class="form-check-label" for="accept_conditions">
+                                                    J'accepte que mes données personnelles soient traitées dans le cadre de cette demande 
+                                                    conformément à la loi sur la protection des données personnelles. *
+                                                </label>
+                                                <div class="invalid-feedback">
+                                                    Vous devez accepter les conditions.
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Boutons -->
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-primary btn-lg">
+                                                    <i class="fa fa-paper-plane"/> Soumettre ma demande
+                                                </button>
+                                                <a href="/" class="btn btn-secondary btn-lg ml-2">
+                                                    <i class="fa fa-times"/> Annuler
+                                                </a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+        
+        <!-- Template de confirmation de demande d'information -->
+        <template id="information_request_confirmation_template" name="Confirmation de Demande d'Information">
+            <t t-call="website.layout">
+                <div id="wrap" class="oe_structure oe_empty">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-8 offset-lg-2">
+                                <div class="card mt-4">
+                                    <div class="card-header bg-success text-white">
+                                        <h3 class="mb-0">
+                                            <i class="fa fa-check-circle"/> Demande Enregistrée avec Succès
+                                        </h3>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <div class="alert alert-success">
+                                            <h4><i class="fa fa-thumbs-up"/> Votre demande a été enregistrée !</h4>
+                                            <p class="mb-0">Vous allez recevoir un accusé de réception par email.</p>
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="card bg-light">
+                                                    <div class="card-body">
+                                                        <h5><i class="fa fa-hashtag"/> Numéro de suivi</h5>
+                                                        <h3 class="text-primary"><t t-esc="info_request.name"/></h3>
+                                                        <p class="text-muted">Conservez ce numéro pour suivre votre demande</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="card bg-light">
+                                                    <div class="card-body">
+                                                        <h5><i class="fa fa-calendar"/> Date limite de réponse</h5>
+                                                        <h3 class="text-info"><t t-esc="request.deadline_date" t-options="{'widget': 'date'}"/></h3>
+                                                        <p class="text-muted">Délai légal de 30 jours</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mt-4">
+                                            <h5>Prochaines étapes :</h5>
+                                            <ol class="text-left">
+                                                <li>Vous recevrez un accusé de réception par email</li>
+                                                <li>Votre demande sera assignée à un expert</li>
+                                                <li>La réponse sera préparée et validée</li>
+                                                <li>Vous recevrez la réponse finale par email</li>
+                                            </ol>
+                                        </div>
+                                        
+                                        <div class="mt-4">
+                                            <a href="/acces-information" class="btn btn-primary">
+                                                <i class="fa fa-plus"/> Nouvelle demande
+                                            </a>
+                                            <a href="/" class="btn btn-secondary ml-2">
+                                                <i class="fa fa-home"/> Retour à l'accueil
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+        
+        <!-- ========================================= -->
+        <!-- TEMPLATES POUR LES SIGNALEMENTS D'ALERTE -->
+        <!-- ========================================= -->
+        
+        <!-- Template du formulaire de signalement anonyme -->
+        <template id="whistleblowing_form_template" name="Formulaire de Signalement Anonyme">
+            <t t-call="website.layout">
+                <div id="wrap" class="oe_structure oe_empty">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-8 offset-lg-2">
+                                <div class="card mt-4">
+                                    <div class="card-header bg-warning text-dark">
+                                        <h3 class="mb-0">
+                                            <i class="fa fa-shield"/> Signalement d'Alerte Anonyme
+                                        </h3>
+                                        <p class="mb-0">Protection des lanceurs d'alerte - Signalement confidentiel</p>
+                                    </div>
+                                    <div class="card-body">
+                                        
+                                        <!-- Affichage des erreurs -->
+                                        <t t-if="error_message">
+                                            <div class="alert alert-danger" role="alert">
+                                                <strong>Erreur :</strong> <t t-esc="error_message"/>
+                                            </div>
+                                        </t>
+                                        
+                                        <!-- Informations sur la confidentialité -->
+                                        <div class="alert alert-warning">
+                                            <h5><i class="fa fa-lock"/> Confidentialité Garantie</h5>
+                                            <ul class="mb-0">
+                                                <li><strong>Anonymat total :</strong> Aucune information personnelle n'est demandée</li>
+                                                <li><strong>Accès restreint :</strong> Seuls les référents d'alerte autorisés peuvent voir votre signalement</li>
+                                                <li><strong>Suivi sécurisé :</strong> Vous recevrez un lien de suivi anonyme</li>
+                                                <li><strong>Protection légale :</strong> Vous êtes protégé par la loi sur les lanceurs d'alerte</li>
+                                            </ul>
+                                        </div>
+                                        
+                                        <!-- Formulaire -->
+                                        <form action="/signalement-anonyme/submit" method="post" class="needs-validation" novalidate="true">
+                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                            
+                                            <!-- Catégorie du signalement -->
+                                            <div class="form-group">
+                                                <label for="category" class="required">Type de signalement *</label>
+                                                <select class="form-control" id="category" name="category" required="true">
+                                                    <option value="">-- Sélectionnez le type --</option>
+                                                    <t t-foreach="categories" t-as="cat">
+                                                        <option t-att-value="cat[0]" 
+                                                                t-att-selected="form_data.get('category') == cat[0] and 'selected' or None">
+                                                            <t t-esc="cat[1]"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Veuillez sélectionner le type de signalement.
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Description du signalement -->
+                                            <div class="form-group">
+                                                <label for="description" class="required">Description détaillée du signalement *</label>
+                                                <textarea class="form-control" id="description" name="description" rows="8" 
+                                                          placeholder="Décrivez les faits de manière précise : qui, quoi, quand, où, comment..." 
+                                                          required="true"><t t-esc="form_data.get('description', '')"/></textarea>
+                                                <small class="form-text text-muted">
+                                                    Plus votre description est précise, plus l'investigation sera efficace. 
+                                                    N'hésitez pas à mentionner des dates, lieux, personnes impliquées, etc.
+                                                </small>
+                                                <div class="invalid-feedback">
+                                                    Veuillez décrire le signalement.
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Informations sur les preuves -->
+                                            <div class="alert alert-info">
+                                                <h6><i class="fa fa-paperclip"/> Pièces justificatives</h6>
+                                                <p class="mb-0">
+                                                    Si vous disposez de documents, photos ou autres preuves, 
+                                                    vous pourrez les transmettre ultérieurement via le lien de suivi qui vous sera fourni.
+                                                </p>
+                                            </div>
+                                            
+                                            <!-- Acceptation des conditions -->
+                                            <div class="form-check mb-3">
+                                                <input class="form-check-input" type="checkbox" id="accept_conditions" required="true"/>
+                                                <label class="form-check-label" for="accept_conditions">
+                                                    Je certifie que les informations fournies sont exactes et je comprends 
+                                                    que les fausses déclarations peuvent avoir des conséquences légales. *
+                                                </label>
+                                                <div class="invalid-feedback">
+                                                    Vous devez accepter les conditions.
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Boutons -->
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-warning btn-lg">
+                                                    <i class="fa fa-shield"/> Envoyer le signalement
+                                                </button>
+                                                <a href="/" class="btn btn-secondary btn-lg ml-2">
+                                                    <i class="fa fa-times"/> Annuler
+                                                </a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+        
+        <!-- Template de confirmation de signalement -->
+        <template id="whistleblowing_confirmation_template" name="Confirmation de Signalement">
+            <t t-call="website.layout">
+                <div id="wrap" class="oe_structure oe_empty">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-8 offset-lg-2">
+                                <div class="card mt-4">
+                                    <div class="card-header bg-success text-white">
+                                        <h3 class="mb-0">
+                                            <i class="fa fa-check-circle"/> Signalement Enregistré
+                                        </h3>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <div class="alert alert-success">
+                                            <h4><i class="fa fa-shield"/> Votre signalement a été enregistré de manière sécurisée !</h4>
+                                            <p class="mb-0">Il sera traité par nos référents d'alerte dans les plus brefs délais.</p>
+                                        </div>
+                                        
+                                        <div class="card bg-light mb-4">
+                                            <div class="card-body">
+                                                <h5><i class="fa fa-hashtag"/> Référence de votre signalement</h5>
+                                                <h3 class="text-primary"><t t-esc="alert.name"/></h3>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="alert alert-warning">
+                                            <h5><i class="fa fa-link"/> Lien de Suivi Anonyme</h5>
+                                            <p><strong>IMPORTANT :</strong> Conservez précieusement ce lien pour suivre l'évolution de votre signalement :</p>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" t-att-value="request.httprequest.host_url + follow_url" readonly="true" id="follow_link"/>
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-secondary" type="button" onclick="copyToClipboard()">
+                                                        <i class="fa fa-copy"/> Copier
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <small class="text-muted">
+                                                Ce lien est unique et confidentiel. Ne le partagez avec personne d'autre.
+                                            </small>
+                                        </div>
+                                        
+                                        <div class="mt-4">
+                                            <h5>Prochaines étapes :</h5>
+                                            <ol class="text-left">
+                                                <li>Votre signalement sera évalué par un référent d'alerte</li>
+                                                <li>Une enquête préliminaire sera menée si nécessaire</li>
+                                                <li>Vous pourrez suivre l'évolution via le lien fourni</li>
+                                                <li>Des mesures appropriées seront prises selon les conclusions</li>
+                                            </ol>
+                                        </div>
+                                        
+                                        <div class="mt-4">
+                                            <a t-att-href="follow_url" class="btn btn-primary">
+                                                <i class="fa fa-eye"/> Suivre mon signalement
+                                            </a>
+                                            <a href="/" class="btn btn-secondary ml-2">
+                                                <i class="fa fa-home"/> Retour à l'accueil
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <script>
+                    function copyToClipboard() {
+                        var copyText = document.getElementById("follow_link");
+                        copyText.select();
+                        copyText.setSelectionRange(0, 99999);
+                        document.execCommand("copy");
+                        alert("Lien copié dans le presse-papiers !");
+                    }
+                </script>
+            </t>
+        </template>
+        
+        <!-- Template de suivi anonyme -->
+        <template id="whistleblowing_follow_template" name="Suivi de Signalement Anonyme">
+            <t t-call="website.layout">
+                <div id="wrap" class="oe_structure oe_empty">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-8 offset-lg-2">
+                                <div class="card mt-4">
+                                    <div class="card-header bg-info text-white">
+                                        <h3 class="mb-0">
+                                            <i class="fa fa-search"/> Suivi de Signalement
+                                        </h3>
+                                    </div>
+                                    <div class="card-body">
+                                        
+                                        <t t-if="page_name == 'whistleblowing_follow_error'">
+                                            <div class="alert alert-danger text-center">
+                                                <h4><i class="fa fa-exclamation-triangle"/> Erreur</h4>
+                                                <p><t t-esc="error_message"/></p>
+                                                <a href="/signalement-anonyme" class="btn btn-primary">
+                                                    <i class="fa fa-shield"/> Nouveau signalement
+                                                </a>
+                                            </div>
+                                        </t>
+                                        
+                                        <t t-if="page_name == 'whistleblowing_follow' and alert_data">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="card bg-light">
+                                                        <div class="card-body">
+                                                            <h5><i class="fa fa-hashtag"/> Référence</h5>
+                                                            <h4 class="text-primary"><t t-esc="alert_data['name']"/></h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="card bg-light">
+                                                        <div class="card-body">
+                                                            <h5><i class="fa fa-calendar"/> Date</h5>
+                                                            <h4 class="text-info"><t t-esc="alert_data['alert_date']" t-options="{'widget': 'datetime'}"/></h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row mt-3">
+                                                <div class="col-md-6">
+                                                    <div class="card bg-light">
+                                                        <div class="card-body">
+                                                            <h5><i class="fa fa-tag"/> Catégorie</h5>
+                                                            <h4 class="text-secondary"><t t-esc="alert_data['category']"/></h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="card bg-light">
+                                                        <div class="card-body">
+                                                            <h5><i class="fa fa-flag"/> État Actuel</h5>
+                                                            <h4 class="text-warning"><t t-esc="alert_data['stage_name']"/></h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <t t-if="alert_data['resolution']">
+                                                <div class="mt-4">
+                                                    <div class="alert alert-success">
+                                                        <h5><i class="fa fa-check-circle"/> Résolution</h5>
+                                                        <p><t t-esc="alert_data['resolution']"/></p>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                            
+                                            <div class="mt-4 text-center">
+                                                <button onclick="location.reload()" class="btn btn-primary">
+                                                    <i class="fa fa-refresh"/> Actualiser
+                                                </button>
+                                                <a href="/" class="btn btn-secondary ml-2">
+                                                    <i class="fa fa-home"/> Retour à l'accueil
+                                                </a>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+        
+        
+        <!-- ========================================= -->
+        <!-- PORTAL: Mes demandes d'information (liste) -->
+        <!-- ========================================= -->
+        <template id="portal_my_information_requests" name="Portail - Mes Demandes d'Information">
+            <t t-call="portal.portal_layout">
+                <t t-set="breadcrumbs_searchbar"/>
+                <div class="o_portal_wrap">
+                    <div class="o_portal_my_doc_table">
+                        <h3 class="mb-3">Mes Demandes d'Information</h3>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="btn-group" role="group">
+                                <a href="/acces-information" class="btn btn-primary">
+                                    <i class="fa fa-plus"/> Nouvelle demande
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <t t-if="not requests">
+                            <div class="alert alert-info">
+                                Aucune demande trouvée.
+                            </div>
+                        </t>
+                        <t t-if="requests">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Référence</th>
+                                        <th>Date</th>
+                                        <th>Échéance</th>
+                                        <th>Étape</th>
+                                        <th>Responsable</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="requests" t-as="req">
+                                        <tr>
+                                            <td><span class="badge badge-secondary"><t t-esc="req.name"/></span></td>
+                                            <td><t t-esc="req.request_date" t-options="{'widget': 'datetime'}"/></td>
+                                            <td><t t-esc="req.deadline_date" t-options="{'widget': 'date'}"/></td>
+                                            <td><t t-esc="req.stage_id.name"/></td>
+                                            <td><t t-esc="req.user_id.name or '-'"/></td>
+                                            <td class="text-right">
+                                                <a t-att-href="'/my/information-requests/%s' % req.id" class="btn btn-sm btn-primary">
+                                                    <i class="fa fa-eye"/> Voir
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                            <t t-call="portal.pager">
+                                <t t-set="url">/my/information-requests</t>
+                                <t t-set="page" t-value="pager['page']"/>
+                                <t t-set="step" t-value="pager['step']"/>
+                                <t t-set="scope" t-value="pager['scope']"/>
+                                <t t-set="total" t-value="pager['total']"/>
+                                <t t-set="url_args" t-value="{'date_begin': date_begin, 'date_end': date_end, 'sortby': sortby}"/>
+                            </t>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </template>
+        
+        <!-- ========================================= -->
+        <!-- PORTAL: Détail d'une demande -->
+        <!-- ========================================= -->
+        <template id="portal_information_request_detail" name="Portail - Détail Demande d'Information">
+            <t t-call="portal.portal_layout">
+                <div class="o_portal_wrap">
+                    <div class="o_portal_my_doc o_portal_my_invoices">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h3 class="mb-0">
+                                        Demande <span class="badge badge-secondary"><t t-esc="info_request.name"/></span>
+                                    </h3>
+                                    <div>
+                                        <a href="/my/information-requests" class="btn btn-secondary">
+                                            <i class="fa fa-arrow-left"/> Retour
+                                        </a>
+                                    </div>
+                                </div>
+                                
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p class="mb-1 text-muted">Date de demande</p>
+                                                <p><t t-esc="info_request.request_date" t-options="{'widget': 'datetime'}"/></p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p class="mb-1 text-muted">Date limite de réponse</p>
+                                                <p><t t-esc="info_request.deadline_date" t-options="{'widget': 'date'}"/></p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <p class="mb-1 text-muted">Étape</p>
+                                                <p><span class="badge badge-info"><t t-esc="info_request.stage_id.name"/></span></p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p class="mb-1 text-muted">Responsable</p>
+                                                <p><t t-esc="info_request.user_id.name or '-'"/></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="card mb-3">
+                                    <div class="card-header">
+                                        <strong>Description de la demande</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <t t-raw="info_request.description"/>
+                                    </div>
+                                </div>
+                                
+                                <t t-if="info_request.state in ['responded', 'refused']">
+                                    <div class="card mb-3">
+                                        <div class="card-header">
+                                            <strong>Réponse</strong>
+                                        </div>
+                                        <div class="card-body">
+                                            <t t-if="info_request.is_refusal">
+                                                <div class="alert alert-warning">
+                                                    <p class="mb-1"><strong>Motif de refus :</strong> <t t-esc="info_request.refusal_reason_id.name"/></p>
+                                                    <t t-if="info_request.refusal_reason_id.legal_reference">
+                                                        <p class="mb-0"><em>Référence légale :</em> <t t-esc="info_request.refusal_reason_id.legal_reference"/></p>
+                                                    </t>
+                                                </div>
+                                                <pre class="mb-0" style="white-space: pre-wrap;"> <t t-esc="info_request.refusal_motivation"/> </pre>
+                                            </t>
+                                            <t t-else="">
+                                                <t t-raw="info_request.response_body"/>
+                                                <t t-if="info_request.response_attachment_ids">
+                                                    <hr/>
+                                                    <h6>Pièces jointes</h6>
+                                                    <ul class="mb-0">
+                                                        <t t-foreach="info_request.response_attachment_ids" t-as="att">
+                                                            <li><t t-esc="att.name"/></li>
+                                                        </t>
+                                                    </ul>
+                                                </t>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+    </data>
+</odoo>

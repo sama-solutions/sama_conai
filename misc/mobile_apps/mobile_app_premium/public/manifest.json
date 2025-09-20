@@ -1,0 +1,182 @@
+{
+  "name": "SAMA CONAI Premium - Transparence Révolutionnaire",
+  "short_name": "SAMA CONAI Premium",
+  "description": "Application mobile premium pour la transparence gouvernementale au Sénégal avec design ultra-moderne, gamification et IA",
+  "version": "4.0.0",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#3B82F6",
+  "background_color": "#FFFFFF",
+  "scope": "/",
+  "lang": "fr",
+  "dir": "ltr",
+  "categories": ["government", "productivity", "social"],
+  "screenshots": [
+    {
+      "src": "/images/screenshot-mobile.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Interface mobile avec glassmorphism"
+    },
+    {
+      "src": "/images/screenshot-desktop.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Dashboard adaptatif selon les rôles"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/images/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/images/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/images/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/images/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/images/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/images/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/images/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/images/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Nouvelle Demande",
+      "short_name": "Demande",
+      "description": "Créer une nouvelle demande d'information",
+      "url": "/new-request",
+      "icons": [
+        {
+          "src": "/images/shortcut-request.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Mes Demandes",
+      "short_name": "Mes Demandes",
+      "description": "Voir mes demandes en cours",
+      "url": "/my-requests",
+      "icons": [
+        {
+          "src": "/images/shortcut-list.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Signalement",
+      "short_name": "Signaler",
+      "description": "Créer un signalement d'alerte",
+      "url": "/new-alert",
+      "icons": [
+        {
+          "src": "/images/shortcut-alert.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Assistant IA",
+      "short_name": "Assistant",
+      "description": "Ouvrir l'assistant IA",
+      "url": "/ai-assistant",
+      "icons": [
+        {
+          "src": "/images/shortcut-ai.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=sn.sama_conai.premium",
+      "id": "sn.sama_conai.premium"
+    },
+    {
+      "platform": "itunes",
+      "url": "https://apps.apple.com/app/sama-conai-premium/id123456789"
+    }
+  ],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "handle_links": "preferred",
+  "capture_links": "existing-client-navigate",
+  "protocol_handlers": [
+    {
+      "protocol": "web+samaconai",
+      "url": "/handle?type=%s"
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "/handle-file",
+      "accept": {
+        "application/pdf": [".pdf"],
+        "image/*": [".jpg", ".jpeg", ".png", ".gif", ".webp"]
+      }
+    }
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "files",
+          "accept": ["image/*", "application/pdf"]
+        }
+      ]
+    }
+  }
+}

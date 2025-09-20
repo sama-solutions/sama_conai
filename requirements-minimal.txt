@@ -1,0 +1,14 @@
+# SAMA CONAI - Minimal Dependencies
+# 
+# This file contains only the essential external dependencies
+# for SAMA CONAI module beyond what's included with Odoo 18.0
+
+# Essential for mobile app notifications
+requests>=2.25.1
+
+# Note: All other dependencies are either:
+# - Built-in Python libraries (json, logging, datetime, secrets, etc.)
+# - Included with Odoo 18.0 (psycopg2, lxml, Pillow, reportlab, etc.)
+# - Part of the Odoo framework (odoo.*, etc.)
+#
+# For a complete list of optional dependencies, see requirements.txt

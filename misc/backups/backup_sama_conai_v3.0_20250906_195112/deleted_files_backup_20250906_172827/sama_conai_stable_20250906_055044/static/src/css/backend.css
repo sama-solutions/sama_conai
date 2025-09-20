@@ -1,0 +1,393 @@
+/* CSS pour le backend - Module Transparence Sénégal */
+
+/* Styles pour les vues Kanban */
+.o_kanban_view .oe_kanban_card_danger {
+    border-left: 4px solid #dc3545;
+    background-color: #f8d7da;
+}
+
+.o_kanban_view .oe_kanban_card_warning {
+    border-left: 4px solid #ffc107;
+    background-color: #fff3cd;
+}
+
+.o_kanban_view .oe_kanban_card_success {
+    border-left: 4px solid #28a745;
+    background-color: #d4edda;
+}
+
+/* Styles pour les badges dans les vues */
+.badge-overdue {
+    background-color: #dc3545;
+    color: white;
+    font-size: 0.75em;
+    padding: 0.25em 0.5em;
+}
+
+.badge-urgent {
+    background-color: #fd7e14;
+    color: white;
+    font-size: 0.75em;
+    padding: 0.25em 0.5em;
+}
+
+.badge-anonymous {
+    background-color: #6c757d;
+    color: white;
+    font-size: 0.75em;
+    padding: 0.25em 0.5em;
+}
+
+.badge-confidential {
+    background-color: #e83e8c;
+    color: white;
+    font-size: 0.75em;
+    padding: 0.25em 0.5em;
+}
+
+/* Styles pour les champs sensibles */
+.field-sensitive {
+    background-color: #fff3cd;
+    border: 1px solid #ffc107;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.field-sensitive::before {
+    content: "🔒 ";
+    color: #856404;
+}
+
+/* Styles pour les formulaires de signalement */
+.whistleblowing-form .o_form_sheet {
+    background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.whistleblowing-form .o_form_sheet_bg {
+    background: transparent;
+}
+
+/* Styles pour les boutons d'action */
+.btn-approve {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+}
+
+.btn-approve:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+    color: white;
+}
+
+.btn-reject {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+
+.btn-reject:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+    color: white;
+}
+
+.btn-investigate {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #212529;
+}
+
+.btn-investigate:hover {
+    background-color: #e0a800;
+    border-color: #d39e00;
+    color: #212529;
+}
+
+/* Styles pour les vues de liste */
+.o_list_view .table-danger {
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+.o_list_view .table-warning {
+    background-color: rgba(255, 193, 7, 0.1);
+}
+
+.o_list_view .table-success {
+    background-color: rgba(40, 167, 69, 0.1);
+}
+
+/* Styles pour les indicateurs de délai */
+.deadline-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.deadline-indicator.overdue {
+    background-color: #dc3545;
+}
+
+.deadline-indicator.urgent {
+    background-color: #ffc107;
+}
+
+.deadline-indicator.normal {
+    background-color: #28a745;
+}
+
+/* Styles pour les graphiques et analyses */
+.o_graph_view .o_graph_canvas_container {
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.o_pivot_view .table {
+    background: white;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles pour les notifications de sécurité */
+.security-warning {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.security-warning::before {
+    content: "⚠️ ";
+    font-weight: bold;
+}
+
+/* Styles pour les champs de workflow */
+.o_statusbar_status .o_arrow_button {
+    border-radius: 3px;
+    margin: 0 2px;
+}
+
+.o_statusbar_status .o_arrow_button.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.o_statusbar_status .o_arrow_button.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.o_statusbar_status .o_arrow_button.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #212529;
+}
+
+.o_statusbar_status .o_arrow_button.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+/* Styles pour les champs HTML */
+.o_field_html .note-editor {
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+
+.o_field_html .note-toolbar {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Styles pour les pièces jointes */
+.o_attachment_preview {
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px;
+    background-color: #f8f9fa;
+}
+
+.o_attachment_preview:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+}
+
+/* Styles pour les menus de navigation */
+.o_main_navbar .o_menu_brand {
+    color: #007bff;
+    font-weight: bold;
+}
+
+.o_main_navbar .o_menu_sections .dropdown-menu {
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles pour les vues de recherche */
+.o_searchview .o_searchview_facet {
+    background-color: #e7f3ff;
+    border: 1px solid #b8daff;
+    color: #004085;
+}
+
+.o_searchview .o_searchview_facet .o_facet_remove {
+    color: #dc3545;
+}
+
+/* Styles pour l'accessibilité */
+.o_form_view .o_field_widget:focus-within {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
+
+/* Styles pour les messages de chatter */
+.o_mail_thread .o_thread_message {
+    border-left: 3px solid #007bff;
+    padding-left: 10px;
+}
+
+.o_mail_thread .o_thread_message.o_mail_not_discussion {
+    border-left-color: #28a745;
+}
+
+.o_mail_thread .o_thread_message.o_mail_notification {
+    border-left-color: #ffc107;
+}
+
+/* Styles pour les activités */
+.o_activity .o_activity_summary {
+    background-color: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.o_activity .o_activity_summary.overdue {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+/* Styles responsifs pour le backend */
+@media (max-width: 768px) {
+    .o_form_view .o_form_sheet {
+        padding: 10px;
+    }
+    
+    .o_kanban_view .oe_kanban_card {
+        margin-bottom: 10px;
+    }
+    
+    .o_list_view .table {
+        font-size: 0.9em;
+    }
+}
+
+/* ========================================= */
+/* CORRECTION COULEUR MENUS - TOUS EN BLANC */
+/* ========================================= */
+
+/* Correction pour uniformiser la couleur des menus - tous en blanc */
+.o_main_navbar .o_menu_sections .dropdown-toggle,
+.o_main_navbar .o_menu_sections .o_menu_entry_lvl_1,
+.o_main_navbar .o_menu_sections .o_menu_entry_lvl_1 > a,
+.o_main_navbar .o_menu_sections .dropdown-toggle:first-child,
+.o_main_navbar .o_menu_sections .o_menu_entry_lvl_1:first-child,
+.o_main_navbar .o_menu_sections .o_menu_entry_lvl_1:first-child > a {
+    color: white !important;
+    background-color: transparent !important;
+}
+
+/* Styles au survol - tous les menus restent blancs */
+.o_main_navbar .o_menu_sections .dropdown-toggle:hover,
+.o_main_navbar .o_menu_sections .o_menu_entry_lvl_1:hover,
+.o_main_navbar .o_menu_sections .o_menu_entry_lvl_1:hover > a,
+.o_main_navbar .o_menu_sections .dropdown-toggle:first-child:hover,
+.o_main_navbar .o_menu_sections .o_menu_entry_lvl_1:first-child:hover,
+.o_main_navbar .o_menu_sections .o_menu_entry_lvl_1:first-child:hover > a {
+    color: white !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Styles pour les menus actifs */
+.o_main_navbar .o_menu_sections .dropdown-toggle.active,
+.o_main_navbar .o_menu_sections .o_menu_entry_lvl_1.active,
+.o_main_navbar .o_menu_sections .o_menu_entry_lvl_1.active > a,
+.o_main_navbar .o_menu_sections .dropdown-toggle:first-child.active,
+.o_main_navbar .o_menu_sections .o_menu_entry_lvl_1:first-child.active,
+.o_main_navbar .o_menu_sections .o_menu_entry_lvl_1:first-child.active > a {
+    color: white !important;
+    background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* ========================================= */
+/* CORRECTION SUPPLÉMENTAIRE PREMIER MENU   */
+/* ========================================= */
+
+/* Correction supplémentaire pour le premier menu - sélecteurs plus larges */
+.o_main_navbar .navbar-nav .nav-link,
+.o_main_navbar .navbar-nav .nav-item .nav-link,
+.o_main_navbar .navbar-nav .dropdown-toggle,
+.o_main_navbar .o_menu_sections > li > a,
+.o_main_navbar .o_menu_sections > li:first-child > a,
+.o_main_navbar .o_menu_sections li a,
+.o_main_navbar .o_menu_sections .nav-link {
+    color: white !important;
+    background-color: transparent !important;
+}
+
+/* Survol pour les nouveaux sélecteurs */
+.o_main_navbar .navbar-nav .nav-link:hover,
+.o_main_navbar .navbar-nav .nav-item .nav-link:hover,
+.o_main_navbar .navbar-nav .dropdown-toggle:hover,
+.o_main_navbar .o_menu_sections > li > a:hover,
+.o_main_navbar .o_menu_sections > li:first-child > a:hover,
+.o_main_navbar .o_menu_sections li a:hover,
+.o_main_navbar .o_menu_sections .nav-link:hover {
+    color: white !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Actif pour les nouveaux sélecteurs */
+.o_main_navbar .navbar-nav .nav-link.active,
+.o_main_navbar .navbar-nav .nav-item .nav-link.active,
+.o_main_navbar .navbar-nav .dropdown-toggle.active,
+.o_main_navbar .o_menu_sections > li > a.active,
+.o_main_navbar .o_menu_sections > li:first-child > a.active,
+.o_main_navbar .o_menu_sections li a.active,
+.o_main_navbar .o_menu_sections .nav-link.active {
+    color: white !important;
+    background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Correction spécifique pour le premier menu */
+.o_main_navbar .o_menu_sections > li:first-child,
+.o_main_navbar .o_menu_sections > li:first-child *,
+.o_main_navbar .navbar-nav > li:first-child,
+.o_main_navbar .navbar-nav > li:first-child *,
+.o_main_navbar .o_menu_sections .dropdown:first-child,
+.o_main_navbar .o_menu_sections .dropdown:first-child * {
+    color: white !important;
+}
+
+/* Force globale sur tous les liens de la navbar */
+.o_main_navbar a,
+.o_main_navbar .nav-link,
+.o_main_navbar .dropdown-toggle {
+    color: white !important;
+}
+
+.o_main_navbar a:hover,
+.o_main_navbar .nav-link:hover,
+.o_main_navbar .dropdown-toggle:hover {
+    color: white !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}

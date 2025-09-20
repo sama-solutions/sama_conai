@@ -1,0 +1,3227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAMA CONAI Mobile - Interface Neumorphique</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/cache_manager.js"></script>
+    <script src="/performance_monitor.js"></script>
+    <script src="/offline_mode_implementation.js"></script>
+    <style>
+        /* =============================================================================
+           SAMA CONAI - Interface Mobile Neumorphique
+           ============================================================================= */
+        
+        :root {
+            /* Thème Institutionnel par défaut */
+            --background-color: #EFF2F5;
+            --text-color: #2C3E50;
+            --shadow-dark: #d1d9e6;
+            --shadow-light: #ffffff;
+            --accent-action: #3498DB;
+            --accent-alert: #E67E22;
+            --accent-danger: #E74C3C;
+            --accent-success: #27AE60;
+            --font-family: 'Poppins', sans-serif;
+            
+            /* Ombres neumorphiques */
+            --neumorphic-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+            --neumorphic-inset: inset 8px 8px 16px var(--shadow-dark), inset -8px -8px 16px var(--shadow-light);
+            --neumorphic-small: 4px 4px 8px var(--shadow-dark), -4px -4px 8px var(--shadow-light);
+            --neumorphic-large: 12px 12px 24px var(--shadow-dark), -12px -12px 24px var(--shadow-light);
+        }
+
+        /* Thèmes alternatifs */
+        body[data-theme="terre"] {
+            --background-color: #F5F1E8;
+            --text-color: #8B4513;
+            --shadow-dark: #e6ddd0;
+            --shadow-light: #ffffff;
+            --accent-action: #D2691E;
+            --accent-alert: #FF8C00;
+            --accent-danger: #CD853F;
+            --accent-success: #228B22;
+        }
+
+        body[data-theme="moderne"] {
+            --background-color: #F8F9FA;
+            --text-color: #495057;
+            --shadow-dark: #e9ecef;
+            --shadow-light: #ffffff;
+            --accent-action: #6C63FF;
+            --accent-alert: #FF6B6B;
+            --accent-danger: #FF5722;
+            --accent-success: #4CAF50;
+        }
+
+        body[data-theme="dark"] {
+            --background-color: #1a1a1a;
+            --text-color: #e0e0e0;
+            --shadow-dark: #0d0d0d;
+            --shadow-light: #2d2d2d;
+            --accent-action: #4A90E2;
+            --accent-alert: #FF8C42;
+            --accent-danger: #FF6B6B;
+            --accent-success: #5CB85C;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-container {
+            max-width: 375px;
+            margin: 20px auto;
+            background: var(--background-color);
+            border-radius: 25px;
+            box-shadow: var(--neumorphic-large);
+            overflow: hidden;
+            min-height: 667px;
+            position: relative;
+        }
+
+        /* Status Bar Neumorphique */
+        .status-bar {
+            background: var(--background-color);
+            color: var(--text-color);
+            padding: 8px 20px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 500;
+            box-shadow: var(--neumorphic-small);
+            margin: 8px;
+            border-radius: 12px;
+        }
+
+        /* Header Neumorphique */
+        .header {
+            background: var(--background-color);
+            color: var(--text-color);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--neumorphic-shadow);
+            margin: 8px;
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent-action);
+        }
+
+        .back-button {
+            background: var(--background-color);
+            border: none;
+            color: var(--accent-action);
+            font-size: 18px;
+            cursor: pointer;
+            padding: 12px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: var(--neumorphic-small);
+            font-weight: 600;
+        }
+
+        .back-button:hover {
+            box-shadow: var(--neumorphic-inset);
+        }
+
+        .back-button:active {
+            box-shadow: var(--neumorphic-inset);
+            transform: scale(0.98);
+        }
+
+        .nav-indicator {
+            font-size: 12px;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .content {
+            padding: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            min-height: 400px;
+        }
+
+        .data-source {
+            position: absolute;
+            top: 8px;
+            right: 15px;
+            font-size: 10px;
+            background: var(--background-color);
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            box-shadow: var(--neumorphic-small);
+            color: var(--accent-success);
+        }
+
+        /* Neumorphic Cards */
+        .neumorphic-card {
+            background: var(--background-color);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: var(--neumorphic-shadow);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .neumorphic-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--neumorphic-large);
+        }
+
+        .neumorphic-card:active {
+            transform: translateY(0);
+            box-shadow: var(--neumorphic-inset);
+        }
+
+        .neumorphic-inset {
+            background: var(--background-color);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: var(--neumorphic-inset);
+            margin-bottom: 15px;
+        }
+
+        /* Login Screen Neumorphique */
+        .login-container {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .login-logo {
+            width: 80px;
+            height: 80px;
+            background: var(--background-color);
+            border-radius: 25px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: var(--accent-action);
+            box-shadow: var(--neumorphic-shadow);
+            font-weight: 700;
+        }
+
+        .login-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--accent-action);
+            margin-bottom: 10px;
+        }
+
+        .login-subtitle {
+            color: var(--text-color);
+            margin-bottom: 40px;
+            font-size: 16px;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 18px 20px;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: var(--background-color);
+            box-shadow: var(--neumorphic-inset);
+            color: var(--text-color);
+            font-family: var(--font-family);
+            font-weight: 500;
+        }
+
+        .form-input:focus {
+            outline: none;
+            box-shadow: var(--neumorphic-inset), 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-color);
+            opacity: 0.6;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 18px;
+            background: var(--background-color);
+            color: var(--accent-action);
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--neumorphic-shadow);
+            margin-bottom: 20px;
+            font-family: var(--font-family);
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--neumorphic-large);
+        }
+
+        .login-button:active {
+            transform: translateY(0);
+            box-shadow: var(--neumorphic-inset);
+        }
+
+        .login-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+
+
+        /* Dashboard Neumorphique */
+        .user-header {
+            background: var(--background-color);
+            color: var(--text-color);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            position: relative;
+            box-shadow: var(--neumorphic-shadow);
+        }
+
+        .user-info {
+            position: relative;
+            z-index: 2;
+        }
+
+        .user-name {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--accent-action);
+        }
+
+        .user-email {
+            opacity: 0.8;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .logout-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--background-color);
+            border: none;
+            color: var(--accent-danger);
+            padding: 8px 15px;
+            border-radius: 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 3;
+            box-shadow: var(--neumorphic-small);
+            font-weight: 600;
+        }
+
+        .logout-button:hover {
+            box-shadow: var(--neumorphic-inset);
+        }
+
+        .backend-button {
+            position: absolute;
+            top: 20px;
+            right: 120px;
+            background: var(--background-color);
+            border: none;
+            color: var(--accent-action);
+            padding: 8px 15px;
+            border-radius: 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 3;
+            box-shadow: var(--neumorphic-small);
+            font-weight: 600;
+        }
+
+        .backend-button:hover {
+            box-shadow: var(--neumorphic-inset);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-arrow {
+            color: var(--accent-action);
+            font-size: 20px;
+            transition: transform 0.3s ease;
+            font-weight: 700;
+        }
+
+        .neumorphic-card:hover .card-arrow {
+            transform: translateX(5px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: var(--background-color);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: var(--neumorphic-inset);
+        }
+
+        .stat-card:hover {
+            transform: scale(1.02);
+            box-shadow: var(--neumorphic-shadow);
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--accent-action);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+        }
+
+        /* Lists Neumorphiques */
+        .list-item {
+            background: var(--background-color);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--neumorphic-shadow);
+        }
+
+        .list-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--neumorphic-large);
+        }
+
+        .list-item:active {
+            transform: translateY(0);
+            box-shadow: var(--neumorphic-inset);
+        }
+
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .item-title {
+            font-weight: 700;
+            color: var(--accent-action);
+            font-size: 16px;
+        }
+
+        .status-chip {
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: var(--neumorphic-small);
+            background: var(--background-color);
+        }
+
+        .status-submitted { color: var(--accent-alert); }
+        .status-in-progress { color: var(--accent-action); }
+        .status-responded { color: var(--accent-success); }
+        .status-refused { color: var(--accent-danger); }
+        .status-overdue { color: var(--accent-danger); }
+
+        .item-description {
+            font-size: 14px;
+            color: var(--text-color);
+            margin-bottom: 12px;
+            line-height: 1.5;
+            opacity: 0.9;
+        }
+
+        .item-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-color);
+            font-weight: 500;
+            opacity: 0.7;
+        }
+
+        /* Detail Sections */
+        .detail-section {
+            background: var(--background-color);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--neumorphic-shadow);
+        }
+
+        .detail-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent-action);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--shadow-dark);
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--shadow-dark);
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--text-color);
+            flex: 1;
+            opacity: 0.8;
+        }
+
+        .detail-value {
+            flex: 2;
+            color: var(--text-color);
+            text-align: right;
+            font-weight: 500;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            background: var(--background-color);
+            border-radius: 15px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            box-shadow: var(--neumorphic-inset);
+            padding: 5px;
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            font-family: var(--font-family);
+        }
+
+        .nav-tab.active {
+            background: var(--background-color);
+            color: var(--accent-action);
+            box-shadow: var(--neumorphic-small);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .action-button {
+            flex: 1;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-family: var(--font-family);
+        }
+
+        .primary-button {
+            background: var(--background-color);
+            color: var(--accent-action);
+            box-shadow: var(--neumorphic-shadow);
+        }
+
+        .primary-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--neumorphic-large);
+        }
+
+        .primary-button:active {
+            transform: translateY(0);
+            box-shadow: var(--neumorphic-inset);
+        }
+
+        .secondary-button {
+            background: var(--background-color);
+            color: var(--text-color);
+            box-shadow: var(--neumorphic-inset);
+        }
+
+        .secondary-button:hover {
+            box-shadow: var(--neumorphic-shadow);
+            transform: translateY(-1px);
+        }
+
+        /* Timeline */
+        .timeline {
+            margin-top: 20px;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            background: var(--background-color);
+            border-radius: 50%;
+            margin-right: 20px;
+            margin-top: 5px;
+            flex-shrink: 0;
+            box-shadow: var(--neumorphic-small);
+            border: 3px solid var(--accent-action);
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: var(--background-color);
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: var(--neumorphic-inset);
+        }
+
+        .timeline-event {
+            font-weight: 700;
+            color: var(--accent-action);
+            margin-bottom: 5px;
+        }
+
+        .timeline-description {
+            font-size: 13px;
+            color: var(--text-color);
+            margin-bottom: 5px;
+            opacity: 0.8;
+        }
+
+        .timeline-date {
+            font-size: 11px;
+            color: var(--text-color);
+            font-weight: 600;
+            opacity: 0.6;
+        }
+
+        /* Messages */
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: var(--text-color);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--shadow-dark);
+            border-top: 4px solid var(--accent-action);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background: var(--background-color);
+            color: var(--accent-danger);
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: var(--neumorphic-shadow);
+        }
+
+        .success-message {
+            background: var(--background-color);
+            color: var(--accent-success);
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: var(--neumorphic-shadow);
+        }
+
+        /* Theme Selector */
+        .theme-selector {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .theme-toggle {
+            background: var(--background-color);
+            border: none;
+            padding: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: var(--neumorphic-shadow);
+            color: var(--accent-action);
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: var(--neumorphic-large);
+        }
+
+        .theme-toggle:active {
+            box-shadow: var(--neumorphic-inset);
+        }
+
+        .theme-menu {
+            position: absolute;
+            bottom: 60px;
+            right: 0;
+            background: var(--background-color);
+            border-radius: 15px;
+            padding: 10px;
+            box-shadow: var(--neumorphic-shadow);
+            display: none;
+            min-width: 150px;
+        }
+
+        .theme-menu.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .theme-option {
+            display: block;
+            width: 100%;
+            padding: 10px 15px;
+            background: transparent;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 10px;
+            font-family: var(--font-family);
+            font-weight: 500;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .theme-option:hover {
+            background: var(--background-color);
+            box-shadow: var(--neumorphic-inset);
+        }
+
+        .theme-option.active {
+            color: var(--accent-action);
+            font-weight: 700;
+        }
+
+        /* Responsive */
+        @media (max-width: 400px) {
+            .mobile-container {
+                margin: 0;
+                border-radius: 0;
+                min-height: 100vh;
+                box-shadow: none;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        /* Scrollbar neumorphique */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--background-color);
+            border-radius: 10px;
+            box-shadow: var(--neumorphic-inset);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--background-color);
+            border-radius: 10px;
+            box-shadow: var(--neumorphic-small);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            box-shadow: var(--neumorphic-shadow);
+        }
+
+        /* Styles iframe supprimés - backend ouvert dans nouvel onglet */
+
+        /* Chart container */
+        .chart-container {
+            background: var(--background-color);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: var(--neumorphic-shadow);
+            position: relative;
+        }
+
+        .chart-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent-action);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .chart-canvas {
+            background: var(--background-color);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: var(--neumorphic-inset);
+        }
+
+        /* Profile styles */
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background: var(--background-color);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: var(--accent-action);
+            box-shadow: var(--neumorphic-shadow);
+            font-weight: 700;
+        }
+
+        .profile-info {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent-action);
+            margin-bottom: 5px;
+        }
+
+        .profile-email {
+            font-size: 16px;
+            color: var(--text-color);
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+
+        .profile-role {
+            display: inline-block;
+            padding: 8px 16px;
+            background: var(--background-color);
+            color: var(--accent-action);
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: var(--neumorphic-small);
+        }
+
+        .profile-section {
+            background: var(--background-color);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: var(--neumorphic-shadow);
+        }
+
+        .profile-section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent-action);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--shadow-dark);
+        }
+
+        .profile-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--shadow-dark);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .profile-option:hover {
+            background: var(--background-color);
+            margin: 0 -15px;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: var(--neumorphic-inset);
+        }
+
+        .profile-option-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .profile-option-icon {
+            font-size: 20px;
+            width: 30px;
+            text-align: center;
+        }
+
+        .profile-option-text {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .profile-option-arrow {
+            color: var(--accent-action);
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-option:hover .profile-option-arrow {
+            transform: translateX(5px);
+        }
+
+        /* Styles pour les boutons d'en-tête - profil supprimé car redondant avec Mon Espace */
+
+        /* Mon Espace Portal styles */
+        .portal-header {
+            background: var(--background-color);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: var(--neumorphic-shadow);
+            text-align: center;
+        }
+
+        .portal-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent-action);
+            margin-bottom: 10px;
+        }
+
+        .portal-subtitle {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+
+        .portal-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .portal-stat {
+            background: var(--background-color);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: var(--neumorphic-inset);
+        }
+
+        .portal-stat-number {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent-action);
+            margin-bottom: 5px;
+        }
+
+        .portal-stat-label {
+            font-size: 11px;
+            opacity: 0.8;
+            font-weight: 600;
+        }
+
+        .portal-section {
+            background: var(--background-color);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: var(--neumorphic-shadow);
+        }
+
+        .portal-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--shadow-dark);
+        }
+
+        .portal-section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent-action);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .portal-section-count {
+            background: var(--background-color);
+            color: var(--accent-action);
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            box-shadow: var(--neumorphic-small);
+        }
+
+        .portal-item {
+            background: var(--background-color);
+            padding: 18px;
+            border-radius: 15px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--neumorphic-inset);
+            border-left: 4px solid transparent;
+        }
+
+        .portal-item:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--neumorphic-shadow);
+        }
+
+        .portal-item.priority-high {
+            border-left-color: var(--accent-danger);
+        }
+
+        .portal-item.priority-medium {
+            border-left-color: var(--accent-alert);
+        }
+
+        .portal-item.priority-low {
+            border-left-color: var(--accent-success);
+        }
+
+        .portal-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .portal-item-title {
+            font-weight: 700;
+            color: var(--text-color);
+            font-size: 14px;
+        }
+
+        .portal-item-status {
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .portal-item-description {
+            font-size: 13px;
+            color: var(--text-color);
+            opacity: 0.8;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .portal-item-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            opacity: 0.7;
+        }
+
+        .portal-item-date {
+            color: var(--text-color);
+        }
+
+        .portal-item-department {
+            color: var(--accent-action);
+            font-weight: 600;
+        }
+
+        .portal-quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .portal-quick-action {
+            background: var(--background-color);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--neumorphic-shadow);
+            border: none;
+            font-family: var(--font-family);
+        }
+
+        .portal-quick-action:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--neumorphic-large);
+        }
+
+        .portal-quick-action:active {
+            transform: translateY(0);
+            box-shadow: var(--neumorphic-inset);
+        }
+
+        .portal-quick-action-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .portal-quick-action-text {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .portal-empty {
+            text-align: center;
+            padding: 40px 20px;
+            opacity: 0.6;
+        }
+
+        .portal-empty-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .portal-empty-text {
+            font-size: 14px;
+            color: var(--text-color);
+        }
+    </style>
+</head>
+<body data-theme="institutionnel" id="appBody">
+    <div class="mobile-container">
+        <div class="status-bar">
+            <span>9:41</span>
+            <span>🔋 100%</span>
+        </div>
+        
+        <div class="header">
+            <button class="back-button" id="backButton" style="display: none;" onclick="navigateBack()">←</button>
+            <div>
+                <h1 id="headerTitle">🇸🇳 SAMA CONAI</h1>
+                <div class="nav-indicator" id="navIndicator">Interface Neumorphique</div>
+            </div>
+            <div class="data-source" id="dataSource">RÉEL</div>
+        </div>
+        
+        <div class="content" id="content">
+            <!-- Écran de login neumorphique par défaut -->
+            <div class="login-container">
+                <div class="login-logo">🇸🇳</div>
+                <h2 class="login-title">SAMA CONAI</h2>
+                <p class="login-subtitle">Interface Neumorphique</p>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label">Email / Nom d'utilisateur</label>
+                        <input type="text" class="form-input" id="loginEmail" placeholder="admin" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Mot de passe</label>
+                        <input type="password" class="form-input" id="loginPassword" placeholder="admin" required>
+                    </div>
+                    
+                    <button type="submit" class="login-button" id="loginButton">
+                        Se connecter
+                    </button>
+                </form>
+                
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Theme Selector -->
+    <div class="theme-selector">
+        <button class="theme-toggle" onclick="toggleThemeMenu()">🎨</button>
+        <div class="theme-menu" id="themeMenu">
+            <button class="theme-option active" onclick="setTheme('institutionnel')">🏛️ Institutionnel</button>
+            <button class="theme-option" onclick="setTheme('terre')">🌍 Terre du Sénégal</button>
+            <button class="theme-option" onclick="setTheme('moderne')">🚀 Moderne</button>
+            <button class="theme-option" onclick="setTheme('dark')">🌙 Dark Mode</button>
+        </div>
+    </div>
+
+    <!-- Backend iframe container -->
+    <div class="backend-iframe-container" id="backendIframeContainer">
+        <div class="backend-iframe-header">
+            <div class="backend-iframe-title">
+                📊 Backend Odoo SAMA CONAI
+            </div>
+            <button class="backend-iframe-close" onclick="closeBackendIframe()">
+                ✕ Fermer
+            </button>
+        </div>
+        <div class="backend-loading" id="backendLoading">
+            <div class="backend-loading-spinner"></div>
+            <p>Chargement du backend Odoo...</p>
+        </div>
+        <iframe class="backend-iframe" id="backendIframe" src="" style="display: none;"></iframe>
+    </div>
+
+    <script>
+        // État de l'application
+        let navigationStack = [];
+        let currentLevel = 1;
+        let currentData = null;
+        let authToken = null;
+        let currentUser = null;
+        let currentTheme = 'institutionnel';
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Charger le thème sauvegardé
+            const savedTheme = localStorage.getItem('sama_conai_theme');
+            if (savedTheme) {
+                setTheme(savedTheme);
+            }
+
+            // Vérifier si l'utilisateur est déjà connecté
+            const savedToken = localStorage.getItem('sama_conai_token');
+            if (savedToken) {
+                authToken = savedToken;
+                loadDashboard();
+            }
+            
+            // Gestionnaire de formulaire de login
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+        });
+
+        // Gestion des thèmes
+        function toggleThemeMenu() {
+            const menu = document.getElementById('themeMenu');
+            menu.classList.toggle('show');
+        }
+
+        function setTheme(theme) {
+            console.log('Changement de thème vers:', theme);
+            currentTheme = theme;
+            
+            // Appliquer le thème au body
+            const body = document.getElementById('appBody') || document.body;
+            body.setAttribute('data-theme', theme);
+            
+            // Sauvegarder le thème
+            localStorage.setItem('sama_conai_theme', theme);
+            
+            // Mettre à jour les boutons actifs
+            document.querySelectorAll('.theme-option').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Trouver le bouton correspondant au thème et le marquer comme actif
+            const themeButtons = document.querySelectorAll('.theme-option');
+            themeButtons.forEach(btn => {
+                const buttonText = btn.textContent.toLowerCase();
+                let isActive = false;
+                
+                if (theme === 'institutionnel' && buttonText.includes('institutionnel')) isActive = true;
+                else if (theme === 'terre' && buttonText.includes('terre')) isActive = true;
+                else if (theme === 'moderne' && buttonText.includes('moderne')) isActive = true;
+                else if (theme === 'dark' && (buttonText.includes('dark') || buttonText.includes('Dark'))) isActive = true;
+                
+                if (isActive) {
+                    btn.classList.add('active');
+                    console.log('Bouton activé:', btn.textContent);
+                }
+            });
+            
+            // Fermer le menu
+            const themeMenu = document.getElementById('themeMenu');
+            if (themeMenu) {
+                themeMenu.classList.remove('show');
+            }
+            
+            // Forcer le rafraîchissement des styles
+            setTimeout(() => {
+                body.style.display = 'none';
+                body.offsetHeight; // Trigger reflow
+                body.style.display = '';
+            }, 10);
+        }
+
+        // Fermer le menu des thèmes en cliquant ailleurs
+        document.addEventListener('click', function(event) {
+            const themeSelector = document.querySelector('.theme-selector');
+            if (!themeSelector.contains(event.target)) {
+                document.getElementById('themeMenu').classList.remove('show');
+            }
+        });
+        
+        // Gestionnaires iframe supprimés
+
+        // Gestion de la connexion (même logique que l'original)
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const loginButton = document.getElementById('loginButton');
+            
+            if (!email || !password) {
+                showError('Veuillez remplir tous les champs');
+                return;
+            }
+            
+            loginButton.disabled = true;
+            loginButton.textContent = 'Connexion...';
+            
+            try {
+                const response = await fetch('/api/mobile/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    authToken = data.data.token;
+                    currentUser = data.data.user;
+                    
+                    localStorage.setItem('sama_conai_token', authToken);
+                    
+                    showSuccess('Connexion réussie !');
+                    setTimeout(() => {
+                        loadDashboard();
+                    }, 1000);
+                } else {
+                    showError(data.error || 'Erreur de connexion');
+                }
+            } catch (error) {
+                console.error('Erreur login:', error);
+                showError('Erreur de connexion au serveur');
+            } finally {
+                loginButton.disabled = false;
+                loginButton.textContent = 'Se connecter';
+            }
+        }
+
+        // Déconnexion
+        async function logout() {
+            try {
+                await fetch('/api/mobile/auth/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+            } catch (error) {
+                console.error('Erreur logout:', error);
+            }
+            
+            authToken = null;
+            currentUser = null;
+            localStorage.removeItem('sama_conai_token');
+            
+            showLoginScreen();
+        }
+
+        // Ouvrir le backend Odoo directement dans un nouvel onglet
+        function openBackend() {
+            if (currentUser && currentUser.isAdmin) {
+                showSuccess('Ouverture du backend Odoo dans un nouvel onglet...');
+                
+                // Ouvrir directement dans un nouvel onglet
+                const backendUrl = 'http://localhost:8077/web';
+                const newWindow = window.open(backendUrl, '_blank', 'noopener,noreferrer');
+                
+                // Vérifier si la fenêtre s'est ouverte (popup blocker)
+                if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+                    showError('Popup bloqué. Veuillez autoriser les popups pour ce site.');
+                    
+                    // Fallback: copier l'URL dans le presse-papiers
+                    if (navigator.clipboard) {
+                        navigator.clipboard.writeText(backendUrl).then(() => {
+                            showSuccess('URL copiée dans le presse-papiers: ' + backendUrl);
+                        }).catch(() => {
+                            showError('Veuillez accéder manuellement à: ' + backendUrl);
+                        });
+                    } else {
+                        showError('Veuillez accéder manuellement à: ' + backendUrl);
+                    }
+                }
+                
+            } else {
+                showError('Accès au backend réservé aux administrateurs. Contactez votre administrateur pour obtenir les droits d\'accès.');
+            }
+        }
+        
+        // Fonction closeBackendIframe supprimée - plus nécessaire
+
+        // Afficher l'écran de login
+        function showLoginScreen() {
+            document.getElementById('headerTitle').textContent = '🇸🇳 SAMA CONAI';
+            document.getElementById('navIndicator').textContent = 'Interface Neumorphique';
+            document.getElementById('backButton').style.display = 'none';
+            
+            document.getElementById('content').innerHTML = `
+                <div class="login-container fade-in">
+                    <div class="login-logo">🇸🇳</div>
+                    <h2 class="login-title">SAMA CONAI</h2>
+                    <p class="login-subtitle">Interface Neumorphique</p>
+                    
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label class="form-label">Email / Nom d'utilisateur</label>
+                            <input type="text" class="form-input" id="loginEmail" placeholder="admin" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Mot de passe</label>
+                            <input type="password" class="form-input" id="loginPassword" placeholder="admin" required>
+                        </div>
+                        
+                        <button type="submit" class="login-button" id="loginButton">
+                            Se connecter
+                        </button>
+                    </form>
+                    
+
+                </div>
+            `;
+            
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+        }
+
+        // Navigation
+        function navigateTo(level, title, loadFunction, data = null) {
+            navigationStack.push({
+                level: currentLevel,
+                title: document.getElementById('headerTitle').textContent,
+                content: document.getElementById('content').innerHTML,
+                data: currentData
+            });
+
+            currentLevel = level;
+            currentData = data;
+            
+            document.getElementById('headerTitle').textContent = title;
+            document.getElementById('navIndicator').textContent = `Niveau ${level} - ${title}`;
+            document.getElementById('backButton').style.display = level > 1 ? 'block' : 'none';
+            
+            loadFunction(data);
+        }
+
+        function navigateBack() {
+            if (navigationStack.length > 0) {
+                const previous = navigationStack.pop();
+                currentLevel = previous.level;
+                currentData = previous.data;
+                
+                document.getElementById('headerTitle').textContent = previous.title;
+                document.getElementById('navIndicator').textContent = `Niveau ${previous.level} - ${previous.title.replace('🇸🇳 ', '')}`;
+                document.getElementById('backButton').style.display = previous.level > 1 ? 'block' : 'none';
+                document.getElementById('content').innerHTML = previous.content;
+            }
+        }
+
+        // Dashboard principal avec cache
+        async function loadDashboard() {
+            showLoading();
+            
+            try {
+                const data = await fetchWithCache('/api/mobile/citizen/dashboard', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                }, { priority: 'high', persistent: true });
+                
+                if (data.success) {
+                    if (data.requireAuth) {
+                        showLoginScreen();
+                        return;
+                    }
+                    
+                    renderDashboard(data.data);
+                    updateDataSource(data.source || (data.fromCache ? 'cache' : 'real'));
+                    
+                    // Afficher indicateur de cache si nécessaire
+                    if (data.fromCache) {
+                        showCacheIndicator('Dashboard chargé depuis le cache');
+                    }
+                } else {
+                    if (data.requireAuth) {
+                        showLoginScreen();
+                        return;
+                    }
+                    showError(data.error || 'Erreur lors du chargement du dashboard');
+                    // Si erreur de connexion Odoo, rediriger vers login
+                    if (data.error && data.error.includes('Odoo')) {
+                        setTimeout(() => {
+                            showLoginScreen();
+                        }, 3000);
+                    }
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showError('Erreur de connexion au serveur');
+            }
+        }
+
+        function renderDashboard(data) {
+            document.getElementById('headerTitle').textContent = 'Dashboard';
+            document.getElementById('navIndicator').textContent = 'Niveau 1 - Dashboard Neumorphique';
+            document.getElementById('backButton').style.display = 'none';
+            
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="fade-in">
+                    <div class="user-header">
+                        <button class="logout-button" onclick="logout()">Déconnexion</button>
+                        <button class="backend-button" onclick="openBackend()" title="Accéder au backend Odoo">📊 Backend</button>
+                        <div class="user-info">
+                            <div class="user-name">${data.user_info.name}</div>
+                            <div class="user-email">${data.user_info.email}</div>
+                        </div>
+                    </div>
+
+                    <div class="neumorphic-card" onclick="navigateTo(2, 'Mon Espace', loadMyPortal)">
+                        <div class="card-title">
+                            🏠 Mon Espace SAMA CONAI
+                            <span class="card-arrow">→</span>
+                        </div>
+                        <div style="font-size: 14px; opacity: 0.8;">
+                            Accédez à tous vos documents et demandes
+                        </div>
+                    </div>
+
+                    <div class="neumorphic-card" onclick="navigateTo(2, 'Mes Statistiques', loadGlobalStats)">
+                        <div class="card-title">
+                            📊 Mes Statistiques
+                            <span class="card-arrow">→</span>
+                        </div>
+                        <div style="font-size: 14px; opacity: 0.8;">
+                            Consulter mes statistiques détaillées et graphiques
+                        </div>
+                    </div>
+
+                    <div class="neumorphic-card" onclick="navigateTo(2, 'Mes Demandes', loadRequestsList)">
+                        <div class="card-title">
+                            📋 Mes Demandes
+                            <span class="card-arrow">→</span>
+                        </div>
+                        <div style="font-size: 14px; opacity: 0.8;">
+                            Consulter toutes mes demandes d'information
+                        </div>
+                    </div>
+
+                    <div class="neumorphic-card" onclick="navigateTo(2, 'Demandes Récentes', loadRecentRequests, data.recent_requests)">
+                        <div class="card-title">
+                            Demandes Récentes
+                            <span class="card-arrow">→</span>
+                        </div>
+                        <div style="font-size: 14px; opacity: 0.8;">
+                            ${data.recent_requests.length} demande(s) récente(s)
+                        </div>
+                    </div>
+
+                    <div class="neumorphic-card" onclick="navigateTo(2, 'Nouvelle Demande', loadNewRequestForm)">
+                        <div class="card-title">
+                            📝 Nouvelle Demande
+                            <span class="card-arrow">→</span>
+                        </div>
+                        <div style="font-size: 14px; opacity: 0.8;">
+                            Soumettre une nouvelle demande d'information
+                        </div>
+                    </div>
+
+                    ${data.alert_stats ? `
+                    <div class="neumorphic-card" onclick="navigateTo(2, 'Alertes', loadAlertsList)">
+                        <div class="card-title">
+                            Signalements d'Alerte
+                            <span class="card-arrow">→</span>
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-number">${data.alert_stats.total_alerts}</div>
+                                <div class="stat-label">Total</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: var(--accent-alert)">${data.alert_stats.active_alerts}</div>
+                                <div class="stat-label">Actives</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: var(--accent-danger)">${data.alert_stats.urgent_alerts}</div>
+                                <div class="stat-label">Urgentes</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: var(--accent-action)">${data.alert_stats.new_alerts}</div>
+                                <div class="stat-label">Nouvelles</div>
+                            </div>
+                        </div>
+                    </div>
+                    ` : ''}
+
+                    <div class="neumorphic-card" onclick="navigateTo(2, 'Statistiques Globales', loadGlobalStats)">
+                        <div class="card-title">
+                            Transparence Publique
+                            <span class="card-arrow">→</span>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Demandes totales</div>
+                            <div class="detail-value">${data.public_stats.total_public_requests}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Temps moyen</div>
+                            <div class="detail-value">${data.public_stats.avg_response_time} jours</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Taux de succès</div>
+                            <div class="detail-value">${data.public_stats.success_rate}%</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Liste des demandes avec cache
+        async function loadRequestsList() {
+            showLoading();
+            try {
+                const data = await fetchWithCache('/api/mobile/citizen/requests', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                }, { priority: 'high', persistent: true });
+                
+                if (data.success) {
+                    renderRequestsList(data.data);
+                    updateDataSource(data.source || (data.fromCache ? 'cache' : 'real'));
+                    
+                    if (data.fromCache) {
+                        showCacheIndicator('Demandes chargées depuis le cache');
+                    }
+                } else {
+                    if (data.requireAuth) {
+                        showLoginScreen();
+                        return;
+                    }
+                    showError('Erreur lors du chargement des demandes');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showError('Erreur de connexion');
+            }
+        }
+
+        function renderRequestsList(data) {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="slide-in">
+                    <div class="nav-tabs">
+                        <button class="nav-tab active" onclick="filterRequests('all')">Toutes</button>
+                        <button class="nav-tab" onclick="filterRequests('in_progress')">En cours</button>
+                        <button class="nav-tab" onclick="filterRequests('responded')">Répondues</button>
+                    </div>
+
+                    <div id="requestsList">
+                        ${data.requests.map(request => `
+                            <div class="list-item" onclick="navigateTo(3, 'Détail Demande', loadRequestDetail, ${request.id})">
+                                <div class="list-header">
+                                    <div class="item-title">${request.name}</div>
+                                    <div class="status-chip status-${request.state}">${request.state_label}</div>
+                                </div>
+                                <div class="item-description">${request.description}</div>
+                                <div class="item-footer">
+                                    <span>Par: ${request.requester || 'Non spécifié'}</span>
+                                    <span>${new Date(request.request_date).toLocaleDateString('fr-FR')}</span>
+                                </div>
+                                ${request.is_overdue ? '<div style="color: var(--accent-danger); font-size: 12px; margin-top: 8px; font-weight: 600;">⚠️ En retard</div>' : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    ${data.pagination.has_more ? `
+                    <div class="action-buttons">
+                        <button class="action-button secondary-button" onclick="loadMoreRequests()">
+                            Charger plus
+                        </button>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        // Demandes récentes
+        function loadRecentRequests(requests) {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="slide-in">
+                    <div style="margin-bottom: 25px;">
+                        <div style="font-size: 14px; opacity: 0.8; margin-bottom: 20px; font-weight: 600;">
+                            ${requests.length} demande(s) récente(s)
+                        </div>
+                    </div>
+
+                    ${requests.map(request => `
+                        <div class="list-item" onclick="navigateTo(3, 'Détail Demande', loadRequestDetail, ${request.id})">
+                            <div class="list-header">
+                                <div class="item-title">${request.name}</div>
+                                <div class="status-chip status-${request.state}">${request.state_label}</div>
+                            </div>
+                            <div class="item-description">${request.description}</div>
+                            <div class="item-footer">
+                                <span>Par: ${request.partner_name || 'Non spécifié'}</span>
+                                <span>${request.days_to_deadline > 0 ? request.days_to_deadline + ' jours restants' : 'Échéance dépassée'}</span>
+                            </div>
+                            ${request.is_overdue ? '<div style="color: var(--accent-danger); font-size: 12px; margin-top: 8px; font-weight: 600;">⚠️ En retard</div>' : ''}
+                        </div>
+                    `).join('')}
+
+                    <div class="action-buttons">
+                        <button class="action-button primary-button" onclick="navigateTo(2, 'Toutes les Demandes', loadRequestsList)">
+                            Voir toutes les demandes
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Détail d'une demande avec cache
+        async function loadRequestDetail(requestId) {
+            showLoading();
+            try {
+                const data = await fetchWithCache(`/api/mobile/citizen/requests/${requestId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                }, { priority: 'normal', persistent: false });
+                
+                if (data.success) {
+                    renderRequestDetail(data.data);
+                    updateDataSource(data.source || (data.fromCache ? 'cache' : 'real'));
+                    
+                    if (data.fromCache) {
+                        showCacheIndicator('Détail chargé depuis le cache');
+                    }
+                } else {
+                    if (data.requireAuth) {
+                        showLoginScreen();
+                        return;
+                    }
+                    showError(data.error || 'Erreur lors du chargement du détail');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showError('Erreur de connexion');
+            }
+        }
+
+        function renderRequestDetail(request) {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="slide-in">
+                    <div class="detail-section">
+                        <div class="detail-title">Informations Générales</div>
+                        <div class="detail-row">
+                            <div class="detail-label">Numéro</div>
+                            <div class="detail-value">${request.name}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">État</div>
+                            <div class="detail-value">
+                                <span class="status-chip status-${request.state}">${request.state_label}</span>
+                            </div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Date de demande</div>
+                            <div class="detail-value">${new Date(request.request_date).toLocaleDateString('fr-FR')}</div>
+                        </div>
+                        ${request.deadline_date ? `
+                        <div class="detail-row">
+                            <div class="detail-label">Date limite</div>
+                            <div class="detail-value">${new Date(request.deadline_date).toLocaleDateString('fr-FR')}</div>
+                        </div>
+                        ` : ''}
+                        <div class="detail-row">
+                            <div class="detail-label">Délai restant</div>
+                            <div class="detail-value" style="color: ${request.is_overdue ? 'var(--accent-danger)' : 'var(--accent-success)'}; font-weight: 700;">
+                                ${request.is_overdue ? `En retard de ${Math.abs(request.days_to_deadline)} jours` : `${request.days_to_deadline} jours`}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-title">Demandeur</div>
+                        <div class="detail-row">
+                            <div class="detail-label">Nom</div>
+                            <div class="detail-value">${request.requester_name || 'Non spécifié'}</div>
+                        </div>
+                        ${request.requester_email ? `
+                        <div class="detail-row">
+                            <div class="detail-label">Email</div>
+                            <div class="detail-value">${request.requester_email}</div>
+                        </div>
+                        ` : ''}
+                        ${request.requester_quality ? `
+                        <div class="detail-row">
+                            <div class="detail-label">Qualité</div>
+                            <div class="detail-value">${request.requester_quality}</div>
+                        </div>
+                        ` : ''}
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-title">Description</div>
+                        <div class="neumorphic-inset" style="line-height: 1.6;">
+                            ${request.description}
+                        </div>
+                    </div>
+
+                    ${request.response_body ? `
+                    <div class="detail-section">
+                        <div class="detail-title">${request.is_refusal ? 'Motif de Refus' : 'Réponse'}</div>
+                        <div class="neumorphic-inset" style="line-height: 1.6; color: ${request.is_refusal ? 'var(--accent-danger)' : 'var(--accent-success)'};">
+                            ${request.response_body}
+                        </div>
+                        ${request.refusal_motivation ? `
+                        <div style="margin-top: 15px; font-size: 14px; opacity: 0.8; font-weight: 500;">
+                            <strong>Motivation:</strong> ${request.refusal_motivation}
+                        </div>
+                        ` : ''}
+                    </div>
+                    ` : ''}
+
+                    <div class="detail-section">
+                        <div class="detail-title">Traitement</div>
+                        <div class="detail-row">
+                            <div class="detail-label">Agent assigné</div>
+                            <div class="detail-value">${request.assigned_user || 'Non assigné'}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Département</div>
+                            <div class="detail-value">${request.department || 'Non assigné'}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Étape</div>
+                            <div class="detail-value">${request.stage_name || 'Non définie'}</div>
+                        </div>
+                    </div>
+
+                    ${request.timeline && request.timeline.length > 0 ? `
+                    <div class="detail-section">
+                        <div class="detail-title">Chronologie</div>
+                        <div class="timeline">
+                            ${request.timeline.map(item => `
+                                <div class="timeline-item">
+                                    <div class="timeline-dot"></div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-event">${item.event}</div>
+                                        <div class="timeline-description">${item.description}</div>
+                                        <div class="timeline-date">${new Date(item.date).toLocaleDateString('fr-FR')} à ${new Date(item.date).toLocaleTimeString('fr-FR', {hour: '2-digit', minute: '2-digit'})}</div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        // Fonctions utilitaires
+        function showLoading() {
+            document.getElementById('content').innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Chargement des données...</p>
+                </div>
+            `;
+        }
+
+        function showError(message) {
+            const content = document.getElementById('content');
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message fade-in';
+            errorDiv.textContent = message;
+            content.insertBefore(errorDiv, content.firstChild);
+            
+            setTimeout(() => {
+                if (errorDiv.parentNode) {
+                    errorDiv.parentNode.removeChild(errorDiv);
+                }
+            }, 5000);
+        }
+
+        function showSuccess(message) {
+            const content = document.getElementById('content');
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success-message fade-in';
+            successDiv.textContent = message;
+            content.insertBefore(successDiv, content.firstChild);
+            
+            setTimeout(() => {
+                if (successDiv.parentNode) {
+                    successDiv.parentNode.removeChild(successDiv);
+                }
+            }, 3000);
+        }
+
+        function updateDataSource(source) {
+            const sourceElement = document.getElementById('dataSource');
+            if (source === 'odoo_real_data' || source === 'real') {
+                sourceElement.textContent = 'RÉEL';
+                sourceElement.style.color = 'var(--accent-success)';
+            } else if (source === 'cache') {
+                sourceElement.textContent = 'CACHE';
+                sourceElement.style.color = 'var(--accent-action)';
+            } else {
+                sourceElement.textContent = 'DEMO';
+                sourceElement.style.color = 'var(--accent-alert)';
+            }
+        }
+
+        // Afficher un indicateur de cache temporaire
+        function showCacheIndicator(message) {
+            const indicator = document.createElement('div');
+            indicator.className = 'cache-indicator';
+            indicator.style.cssText = `
+                position: fixed;
+                top: 60px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: var(--accent-action);
+                color: white;
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-size: 12px;
+                font-weight: 600;
+                z-index: 1000;
+                box-shadow: var(--neumorphic-shadow);
+                animation: slideDown 0.3s ease;
+                opacity: 0.9;
+            `;
+            indicator.textContent = '⚡ ' + message;
+            document.body.appendChild(indicator);
+            
+            setTimeout(() => {
+                indicator.style.animation = 'slideUp 0.3s ease';
+                setTimeout(() => {
+                    if (indicator.parentNode) {
+                        indicator.parentNode.removeChild(indicator);
+                    }
+                }, 300);
+            }, 2000);
+        }
+
+        // Fonction pour forcer le rafraîchissement des données
+        function forceRefresh() {
+            console.log('🔄 Forçage du rafraîchissement...');
+            
+            // Invalider le cache
+            if (window.invalidateCache) {
+                window.invalidateCache('/api/mobile/citizen/');
+            }
+            
+            // Recharger la page actuelle
+            const currentTitle = document.getElementById('headerTitle').textContent;
+            if (currentTitle === 'Dashboard') {
+                loadDashboard();
+            } else if (currentTitle.includes('Demandes')) {
+                loadRequestsList();
+            }
+            
+            showSuccess('Données rafraîchies');
+        }
+
+        // Fonction pour précharger les données
+        async function preloadCriticalData() {
+            if (window.preloadData && authToken) {
+                try {
+                    await window.preloadData();
+                    console.log('🚀 Données critiques préchargées');
+                } catch (error) {
+                    console.error('❌ Erreur préchargement:', error);
+                }
+            }
+        }
+
+        // Fonction pour afficher les stats du cache
+        function showCacheStats() {
+            if (window.getCacheStats) {
+                const stats = window.getCacheStats();
+                console.log('📊 Stats Cache SAMA CONAI:');
+                console.log('   📦 Entrées:', stats.validEntries + '/' + stats.totalEntries);
+                console.log('   💾 Taille:', Math.round(stats.totalSize / 1024) + ' KB');
+                console.log('   📤 Queue sync:', stats.syncQueueSize);
+                console.log('   🌐 État:', stats.isOnline ? 'En ligne' : 'Hors ligne');
+                
+                showSuccess(`Cache: ${stats.validEntries} entrées, ${Math.round(stats.totalSize / 1024)} KB`);
+            }
+        }
+
+        // Formulaire de nouvelle demande
+        function loadNewRequestForm() {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="slide-in">
+                    <div class="detail-section">
+                        <div class="detail-title">📝 Nouvelle Demande d'Information</div>
+                        <p style="margin-bottom: 20px; opacity: 0.8; line-height: 1.5;">
+                            Remplissez ce formulaire pour soumettre une nouvelle demande d'accès à l'information.
+                        </p>
+                    </div>
+
+                    <form id="newRequestForm">
+                        <div class="detail-section">
+                            <div class="detail-title">Informations du Demandeur</div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Nom complet *</label>
+                                <input type="text" class="form-input" id="requesterName" placeholder="Votre nom complet" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Email *</label>
+                                <input type="email" class="form-input" id="requesterEmail" placeholder="votre.email@exemple.com" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Téléphone</label>
+                                <input type="tel" class="form-input" id="requesterPhone" placeholder="+221 XX XXX XX XX">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Qualité / Profession</label>
+                                <input type="text" class="form-input" id="requesterQuality" placeholder="Journaliste, Citoyen, ONG, etc.">
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <div class="detail-title">Description de la Demande</div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Description détaillée *</label>
+                                <textarea class="form-input" id="requestDescription" rows="6" 
+                                    placeholder="Décrivez précisément les informations que vous souhaitez obtenir..." 
+                                    required style="resize: vertical; min-height: 120px;"></textarea>
+                            </div>
+                            
+                            <div style="font-size: 12px; opacity: 0.7; margin-top: 10px;">
+                                📝 Soyez précis dans votre demande pour faciliter le traitement
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button type="button" class="action-button secondary-button" onclick="navigateBack()">
+                                Annuler
+                            </button>
+                            <button type="submit" class="action-button primary-button" id="submitRequestButton">
+                                Soumettre la demande
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            
+            // Pré-remplir avec les informations de l'utilisateur
+            if (currentUser) {
+                document.getElementById('requesterName').value = currentUser.name || '';
+                document.getElementById('requesterEmail').value = currentUser.email || '';
+            }
+            
+            // Gestionnaire de soumission du formulaire
+            document.getElementById('newRequestForm').addEventListener('submit', handleNewRequestSubmit);
+        }
+
+        // Gestion de la soumission de nouvelle demande
+        async function handleNewRequestSubmit(event) {
+            event.preventDefault();
+            
+            const submitButton = document.getElementById('submitRequestButton');
+            const originalText = submitButton.textContent;
+            
+            // Récupérer les données du formulaire
+            const formData = {
+                requester_name: document.getElementById('requesterName').value.trim(),
+                requester_email: document.getElementById('requesterEmail').value.trim(),
+                requester_phone: document.getElementById('requesterPhone').value.trim(),
+                requester_quality: document.getElementById('requesterQuality').value.trim(),
+                description: document.getElementById('requestDescription').value.trim()
+            };
+            
+            // Validation
+            if (!formData.requester_name || !formData.requester_email || !formData.description) {
+                showError('Veuillez remplir tous les champs obligatoires');
+                return;
+            }
+            
+            // Validation email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(formData.requester_email)) {
+                showError('Veuillez saisir une adresse email valide');
+                return;
+            }
+            
+            submitButton.disabled = true;
+            submitButton.textContent = 'Soumission en cours...';
+            
+            try {
+                const response = await fetch('/api/mobile/citizen/requests', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showSuccess(`Demande créée avec succès ! Numéro: ${data.data.name}`);
+                    
+                    // Rediriger vers la liste des demandes après 2 secondes
+                    setTimeout(() => {
+                        navigateTo(2, 'Mes Demandes', loadRequestsList);
+                    }, 2000);
+                } else {
+                    if (data.requireAuth) {
+                        showLoginScreen();
+                        return;
+                    }
+                    showError(data.error || 'Erreur lors de la création de la demande');
+                }
+            } catch (error) {
+                console.error('Erreur soumission demande:', error);
+                showError('Erreur de connexion au serveur');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
+            }
+        }
+
+        // Fonctions de navigation (stubs pour les autres écrans)
+        async function loadAlertsList() {
+            showLoading();
+            setTimeout(() => {
+                showError('Fonctionnalité en développement');
+            }, 1000);
+        }
+
+        async function loadGlobalStats() {
+            showLoading();
+            
+            try {
+                // Récupérer les données du dashboard pour les statistiques
+                const dashboardResponse = await fetch('/api/mobile/citizen/dashboard', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                const dashboardData = await dashboardResponse.json();
+                
+                // Récupérer toutes les demandes pour des statistiques détaillées
+                const requestsResponse = await fetch('/api/mobile/citizen/requests?limit=100', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                const requestsData = await requestsResponse.json();
+                
+                if (dashboardData.success && requestsData.success) {
+                    // Vérifier si nous avons des données réelles
+                    const hasRealData = dashboardData.data.user_stats.total_requests > 0 || requestsData.data.requests.length > 0;
+                    
+                    if (hasRealData) {
+                        renderDetailedStats(dashboardData.data, requestsData.data);
+                    } else {
+                        // Utiliser des données de démonstration pour les graphiques
+                        renderDetailedStatsWithDemo();
+                    }
+                } else {
+                    showError('Erreur lors du chargement des statistiques');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showError('Erreur de connexion au serveur');
+            }
+        }
+        
+        function renderDetailedStatsWithDemo() {
+            const content = document.getElementById('content');
+            
+            // Données de démonstration pour les graphiques
+            const demoStats = {
+                total_requests: 12,
+                pending_requests: 4,
+                completed_requests: 6,
+                overdue_requests: 2
+            };
+            
+            const demoRequests = [
+                { state: 'in_progress', request_date: '2024-01-15', department: 'Ministère de la Santé' },
+                { state: 'responded', request_date: '2024-01-10', department: 'Ministère de l\'Education' },
+                { state: 'in_progress', request_date: '2024-01-20', department: 'Ministère de la Santé' },
+                { state: 'overdue', request_date: '2024-01-05', department: 'Ministère des Finances' },
+                { state: 'responded', request_date: '2024-01-12', department: 'Ministère de l\'Education' },
+                { state: 'pending_validation', request_date: '2024-01-18', department: 'Ministère de la Santé' }
+            ];
+            
+            const monthlyStats = {
+                '2024-01': 6,
+                '2024-02': 4,
+                '2024-03': 2
+            };
+            
+            const departmentStats = {
+                'Ministère de la Santé': 4,
+                'Ministère de l\'Education': 3,
+                'Ministère des Finances': 2,
+                'Ministère de l\'Intérieur': 3
+            };
+            
+            const responseTimeStats = {
+                average: 15,
+                min: 5,
+                max: 30
+            };
+            
+            content.innerHTML = `
+                <div class="slide-in">
+                    <!-- En-tête des statistiques -->
+                    <div class="portal-header">
+                        <div class="portal-title">📊 Statistiques Détaillées</div>
+                        <div class="portal-subtitle">Analyse complète de vos demandes d'information</div>
+                        
+                        <div class="portal-stats">
+                            <div class="portal-stat">
+                                <div class="portal-stat-number">${demoStats.total_requests}</div>
+                                <div class="portal-stat-label">Total</div>
+                            </div>
+                            <div class="portal-stat">
+                                <div class="portal-stat-number">${Math.round((demoStats.completed_requests / demoStats.total_requests) * 100)}%</div>
+                                <div class="portal-stat-label">Taux succès</div>
+                            </div>
+                            <div class="portal-stat">
+                                <div class="portal-stat-number">${responseTimeStats.average}</div>
+                                <div class="portal-stat-label">Délai moyen</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Graphique de répartition par état -->
+                    <div class="chart-container">
+                        <div class="chart-title">📈 Répartition par État</div>
+                        <div class="chart-canvas">
+                            <canvas id="statusChart" width="300" height="200"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Graphique évolution mensuelle -->
+                    <div class="chart-container">
+                        <div class="chart-title">📅 Évolution Mensuelle</div>
+                        <div class="chart-canvas">
+                            <canvas id="monthlyChart" width="300" height="200"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Statistiques par département -->
+                    <div class="portal-section">
+                        <div class="portal-section-header">
+                            <div class="portal-section-title">
+                                🏛️ Répartition par Département
+                            </div>
+                            <div class="portal-section-count">${Object.keys(departmentStats).length}</div>
+                        </div>
+                        
+                        ${Object.entries(departmentStats).map(([dept, count]) => `
+                            <div class="portal-item">
+                                <div class="portal-item-header">
+                                    <div class="portal-item-title">${dept}</div>
+                                    <div class="portal-item-status">${count} demande(s)</div>
+                                </div>
+                                <div class="portal-item-description">
+                                    ${Math.round((count / demoStats.total_requests) * 100)}% du total des demandes
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <!-- Temps de réponse -->
+                    <div class="portal-section">
+                        <div class="portal-section-header">
+                            <div class="portal-section-title">
+                                ⏱️ Analyse des Délais
+                            </div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-label">Délai moyen de réponse</div>
+                            <div class="detail-value">${responseTimeStats.average} jours</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Délai le plus court</div>
+                            <div class="detail-value">${responseTimeStats.min} jours</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Délai le plus long</div>
+                            <div class="detail-value">${responseTimeStats.max} jours</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Demandes en retard</div>
+                            <div class="detail-value" style="color: var(--accent-danger); font-weight: 700;">${demoStats.overdue_requests}</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tendances -->
+                    <div class="portal-section">
+                        <div class="portal-section-header">
+                            <div class="portal-section-title">
+                                📈 Tendances et Insights
+                            </div>
+                        </div>
+                        
+                        <div class="portal-item">
+                            <div class="portal-item-header">
+                                <div class="portal-item-title">Performance Globale</div>
+                                <div class="portal-item-status" style="background: var(--accent-success); color: white;">BONNE</div>
+                            </div>
+                            <div class="portal-item-description">
+                                Votre taux de succès de ${Math.round((demoStats.completed_requests / demoStats.total_requests) * 100)}% est excellent.
+                            </div>
+                        </div>
+                        
+                        <div class="portal-item">
+                            <div class="portal-item-header">
+                                <div class="portal-item-title">Département le plus sollicité</div>
+                                <div class="portal-item-status">Ministère de la Santé</div>
+                            </div>
+                            <div class="portal-item-description">
+                                4 demandes traitées par ce département.
+                            </div>
+                        </div>
+                        
+                        <div class="portal-item">
+                            <div class="portal-item-header">
+                                <div class="portal-item-title">Note</div>
+                                <div class="portal-item-status" style="background: var(--accent-alert); color: white;">DÉMO</div>
+                            </div>
+                            <div class="portal-item-description">
+                                Ces statistiques sont des données de démonstration. Connectez-vous avec des données réelles pour voir vos vraies statistiques.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Créer les graphiques après un court délai
+            setTimeout(() => {
+                createStatusChart(demoStats);
+                createMonthlyChart(monthlyStats);
+            }, 100);
+        }
+        
+        function renderDetailedStats(dashboardData, requestsData) {
+            const content = document.getElementById('content');
+            
+            // Calculer des statistiques avancées
+            const requests = requestsData.requests;
+            const monthlyStats = calculateMonthlyStats(requests);
+            const departmentStats = calculateDepartmentStats(requests);
+            const responseTimeStats = calculateResponseTimeStats(requests);
+            
+            content.innerHTML = `
+                <div class="slide-in">
+                    <!-- En-tête des statistiques -->
+                    <div class="portal-header">
+                        <div class="portal-title">📊 Statistiques Détaillées</div>
+                        <div class="portal-subtitle">Analyse complète de vos demandes d'information</div>
+                        
+                        <div class="portal-stats">
+                            <div class="portal-stat">
+                                <div class="portal-stat-number">${dashboardData.user_stats.total_requests}</div>
+                                <div class="portal-stat-label">Total</div>
+                            </div>
+                            <div class="portal-stat">
+                                <div class="portal-stat-number">${Math.round((dashboardData.user_stats.completed_requests / dashboardData.user_stats.total_requests) * 100) || 0}%</div>
+                                <div class="portal-stat-label">Taux succès</div>
+                            </div>
+                            <div class="portal-stat">
+                                <div class="portal-stat-number">${responseTimeStats.average}</div>
+                                <div class="portal-stat-label">Délai moyen</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Graphique de répartition par état -->
+                    <div class="chart-container">
+                        <div class="chart-title">📈 Répartition par État</div>
+                        <div class="chart-canvas">
+                            <canvas id="statusChart" width="300" height="200"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Graphique évolution mensuelle -->
+                    <div class="chart-container">
+                        <div class="chart-title">📅 Évolution Mensuelle</div>
+                        <div class="chart-canvas">
+                            <canvas id="monthlyChart" width="300" height="200"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Statistiques par département -->
+                    <div class="portal-section">
+                        <div class="portal-section-header">
+                            <div class="portal-section-title">
+                                🏛️ Répartition par Département
+                            </div>
+                            <div class="portal-section-count">${Object.keys(departmentStats).length}</div>
+                        </div>
+                        
+                        ${Object.entries(departmentStats).map(([dept, count]) => `
+                            <div class="portal-item">
+                                <div class="portal-item-header">
+                                    <div class="portal-item-title">${dept}</div>
+                                    <div class="portal-item-status">${count} demande(s)</div>
+                                </div>
+                                <div class="portal-item-description">
+                                    ${Math.round((count / requests.length) * 100)}% du total des demandes
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <!-- Temps de réponse -->
+                    <div class="portal-section">
+                        <div class="portal-section-header">
+                            <div class="portal-section-title">
+                                ⏱️ Analyse des Délais
+                            </div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-label">Délai moyen de réponse</div>
+                            <div class="detail-value">${responseTimeStats.average} jours</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Délai le plus court</div>
+                            <div class="detail-value">${responseTimeStats.min} jours</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Délai le plus long</div>
+                            <div class="detail-value">${responseTimeStats.max} jours</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Demandes en retard</div>
+                            <div class="detail-value" style="color: var(--accent-danger); font-weight: 700;">${dashboardData.user_stats.overdue_requests}</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tendances -->
+                    <div class="portal-section">
+                        <div class="portal-section-header">
+                            <div class="portal-section-title">
+                                📈 Tendances et Insights
+                            </div>
+                        </div>
+                        
+                        <div class="portal-item">
+                            <div class="portal-item-header">
+                                <div class="portal-item-title">Performance Globale</div>
+                                <div class="portal-item-status" style="background: var(--accent-success); color: white;">BONNE</div>
+                            </div>
+                            <div class="portal-item-description">
+                                Votre taux de succès de ${Math.round((dashboardData.user_stats.completed_requests / dashboardData.user_stats.total_requests) * 100) || 0}% est ${(dashboardData.user_stats.completed_requests / dashboardData.user_stats.total_requests) > 0.7 ? 'excellent' : 'satisfaisant'}.
+                            </div>
+                        </div>
+                        
+                        <div class="portal-item">
+                            <div class="portal-item-header">
+                                <div class="portal-item-title">Département le plus sollicité</div>
+                                <div class="portal-item-status">${Object.entries(departmentStats).sort((a, b) => b[1] - a[1])[0]?.[0] || 'N/A'}</div>
+                            </div>
+                            <div class="portal-item-description">
+                                ${Object.entries(departmentStats).sort((a, b) => b[1] - a[1])[0]?.[1] || 0} demandes traitées par ce département.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Créer les graphiques après un court délai
+            setTimeout(() => {
+                createStatusChart(dashboardData.user_stats);
+                createMonthlyChart(monthlyStats);
+            }, 100);
+        }
+        
+        // Fonctions utilitaires pour les statistiques
+        function calculateMonthlyStats(requests) {
+            const monthlyData = {};
+            
+            requests.forEach(request => {
+                const date = new Date(request.request_date);
+                const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+                
+                if (!monthlyData[monthKey]) {
+                    monthlyData[monthKey] = 0;
+                }
+                monthlyData[monthKey]++;
+            });
+            
+            return monthlyData;
+        }
+        
+        function calculateDepartmentStats(requests) {
+            const deptStats = {};
+            
+            requests.forEach(request => {
+                const dept = request.department || 'Non assigné';
+                if (!deptStats[dept]) {
+                    deptStats[dept] = 0;
+                }
+                deptStats[dept]++;
+            });
+            
+            return deptStats;
+        }
+        
+        function calculateResponseTimeStats(requests) {
+            const responseTimes = requests
+                .filter(req => req.response_date)
+                .map(req => {
+                    const requestDate = new Date(req.request_date);
+                    const responseDate = new Date(req.response_date);
+                    return Math.ceil((responseDate - requestDate) / (1000 * 60 * 60 * 24));
+                });
+            
+            if (responseTimes.length === 0) {
+                return { average: 0, min: 0, max: 0 };
+            }
+            
+            const average = Math.round(responseTimes.reduce((a, b) => a + b, 0) / responseTimes.length);
+            const min = Math.min(...responseTimes);
+            const max = Math.max(...responseTimes);
+            
+            return { average, min, max };
+        }
+        
+        // Créer le graphique de statut
+        function createStatusChart(stats) {
+            const canvas = document.getElementById('statusChart');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            
+            if (window.statusChartInstance) {
+                window.statusChartInstance.destroy();
+            }
+            
+            const data = {
+                labels: ['En cours', 'Terminées', 'En retard'],
+                datasets: [{
+                    data: [stats.pending_requests, stats.completed_requests, stats.overdue_requests],
+                    backgroundColor: [
+                        'rgba(52, 152, 219, 0.8)',
+                        'rgba(39, 174, 96, 0.8)',
+                        'rgba(231, 76, 60, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(52, 152, 219, 1)',
+                        'rgba(39, 174, 96, 1)',
+                        'rgba(231, 76, 60, 1)'
+                    ],
+                    borderWidth: 2
+                }]
+            };
+            
+            window.statusChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Créer le graphique mensuel
+        function createMonthlyChart(monthlyData) {
+            const canvas = document.getElementById('monthlyChart');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            
+            if (window.monthlyChartInstance) {
+                window.monthlyChartInstance.destroy();
+            }
+            
+            const sortedMonths = Object.keys(monthlyData).sort();
+            const data = {
+                labels: sortedMonths.map(month => {
+                    const [year, monthNum] = month.split('-');
+                    const date = new Date(year, monthNum - 1);
+                    return date.toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
+                }),
+                datasets: [{
+                    label: 'Demandes par mois',
+                    data: sortedMonths.map(month => monthlyData[month]),
+                    backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                    borderColor: 'rgba(52, 152, 219, 1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            };
+            
+            window.monthlyChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function filterRequests(status) {
+            document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            console.log('Filtrage par statut:', status);
+        }
+
+        function loadMoreRequests() {
+            showError('Chargement de plus de demandes en développement');
+        }
+        
+        // Créer le graphique des demandes
+        function createRequestsChart(stats) {
+            const canvas = document.getElementById('requestsChart');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            
+            // Détruire le graphique existant s'il y en a un
+            if (window.requestsChartInstance) {
+                window.requestsChartInstance.destroy();
+            }
+            
+            const data = {
+                labels: ['En cours', 'Terminées', 'En retard'],
+                datasets: [{
+                    data: [stats.pending_requests, stats.completed_requests, stats.overdue_requests],
+                    backgroundColor: [
+                        'rgba(231, 126, 34, 0.8)',   // Orange pour en cours
+                        'rgba(39, 174, 96, 0.8)',    // Vert pour terminées
+                        'rgba(231, 76, 60, 0.8)'     // Rouge pour en retard
+                    ],
+                    borderColor: [
+                        'rgba(231, 126, 34, 1)',
+                        'rgba(39, 174, 96, 1)',
+                        'rgba(231, 76, 60, 1)'
+                    ],
+                    borderWidth: 2
+                }]
+            };
+            
+            const config = {
+                type: 'doughnut',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true,
+                                font: {
+                                    family: 'Poppins',
+                                    size: 12,
+                                    weight: '600'
+                                }
+                            }
+                        }
+                    },
+                    cutout: '60%'
+                }
+            };
+            
+            window.requestsChartInstance = new Chart(ctx, config);
+        }
+        
+        // Charger le profil utilisateur
+        function loadUserProfile() {
+            const content = document.getElementById('content');
+            
+            // Vérifier si currentUser est défini, sinon utiliser des valeurs par défaut
+            const user = currentUser || {
+                name: 'Utilisateur',
+                email: 'utilisateur@sama-conai.sn',
+                isAdmin: false
+            };
+            
+            content.innerHTML = `
+                <div class="slide-in">
+                    <div class="profile-info">
+                        <div class="profile-avatar">
+                            ${user.name.charAt(0).toUpperCase()}
+                        </div>
+                        <div class="profile-name">${user.name}</div>
+                        <div class="profile-email">${user.email}</div>
+                        <div class="profile-role">
+                            ${user.isAdmin ? '🔑 Administrateur' : '👤 Utilisateur'}
+                        </div>
+                    </div>
+
+                    <div class="profile-section">
+                        <div class="profile-section-title">⚙️ Préférences</div>
+                        
+                        <div class="profile-option" onclick="navigateTo(3, 'Thèmes', loadThemeSettings)">
+                            <div class="profile-option-left">
+                                <div class="profile-option-icon">🎨</div>
+                                <div class="profile-option-text">Thèmes d'interface</div>
+                            </div>
+                            <div class="profile-option-arrow">→</div>
+                        </div>
+                        
+                        <div class="profile-option" onclick="navigateTo(3, 'Notifications', loadNotificationSettings)">
+                            <div class="profile-option-left">
+                                <div class="profile-option-icon">🔔</div>
+                                <div class="profile-option-text">Notifications</div>
+                            </div>
+                            <div class="profile-option-arrow">→</div>
+                        </div>
+                        
+                        <div class="profile-option" onclick="navigateTo(3, 'Langue', loadLanguageSettings)">
+                            <div class="profile-option-left">
+                                <div class="profile-option-icon">🌍</div>
+                                <div class="profile-option-text">Langue</div>
+                            </div>
+                            <div class="profile-option-arrow">→</div>
+                        </div>
+                    </div>
+
+                    <div class="profile-section">
+                        <div class="profile-section-title">📊 Mes Statistiques</div>
+                        
+                        <div class="profile-option" onclick="navigateTo(3, 'Statistiques Détaillées', loadDetailedStats)">
+                            <div class="profile-option-left">
+                                <div class="profile-option-icon">📈</div>
+                                <div class="profile-option-text">Statistiques détaillées</div>
+                            </div>
+                            <div class="profile-option-arrow">→</div>
+                        </div>
+                        
+                        <div class="profile-option" onclick="navigateTo(3, 'Historique', loadActivityHistory)">
+                            <div class="profile-option-left">
+                                <div class="profile-option-icon">📅</div>
+                                <div class="profile-option-text">Historique d'activité</div>
+                            </div>
+                            <div class="profile-option-arrow">→</div>
+                        </div>
+                    </div>
+
+                    ${currentUser.isAdmin ? `
+                    <div class="profile-section">
+                        <div class="profile-section-title">🔑 Administration</div>
+                        
+                        <div class="profile-option" onclick="openBackend()">
+                            <div class="profile-option-left">
+                                <div class="profile-option-icon">📊</div>
+                                <div class="profile-option-text">Backend Odoo</div>
+                            </div>
+                            <div class="profile-option-arrow">→</div>
+                        </div>
+                        
+                        <div class="profile-option" onclick="navigateTo(3, 'Gestion Utilisateurs', loadUserManagement)">
+                            <div class="profile-option-left">
+                                <div class="profile-option-icon">👥</div>
+                                <div class="profile-option-text">Gestion des utilisateurs</div>
+                            </div>
+                            <div class="profile-option-arrow">→</div>
+                        </div>
+                    </div>
+                    ` : ''}
+
+                    <div class="profile-section">
+                        <div class="profile-section-title">ℹ️ Informations</div>
+                        
+                        <div class="profile-option" onclick="navigateTo(3, 'Aide', loadHelp)">
+                            <div class="profile-option-left">
+                                <div class="profile-option-icon">❓</div>
+                                <div class="profile-option-text">Aide et support</div>
+                            </div>
+                            <div class="profile-option-arrow">→</div>
+                        </div>
+                        
+                        <div class="profile-option" onclick="navigateTo(3, 'À propos', loadAbout)">
+                            <div class="profile-option-left">
+                                <div class="profile-option-icon">ℹ️</div>
+                                <div class="profile-option-text">À propos de SAMA CONAI</div>
+                            </div>
+                            <div class="profile-option-arrow">→</div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="action-button secondary-button" onclick="logout()">
+                            🚪 Déconnexion
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Charger les paramètres de thème
+        function loadThemeSettings() {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="slide-in">
+                    <div class="detail-section">
+                        <div class="detail-title">🎨 Thèmes d'Interface</div>
+                        <p style="margin-bottom: 20px; opacity: 0.8; line-height: 1.5;">
+                            Choisissez le thème qui vous convient le mieux pour votre expérience SAMA CONAI.
+                        </p>
+                    </div>
+
+                    <div class="profile-section">
+                        <div class="profile-section-title">Thèmes Disponibles</div>
+                        
+                        <div class="profile-option ${currentTheme === 'institutionnel' ? 'active' : ''}" onclick="setTheme('institutionnel')">
+                            <div class="profile-option-left">
+                                <div class="profile-option-icon">🏛️</div>
+                                <div class="profile-option-text">
+                                    <div>Institutionnel</div>
+                                    <div style="font-size: 12px; opacity: 0.7;">Thème officiel et professionnel</div>
+                                </div>
+                            </div>
+                            <div class="profile-option-arrow">${currentTheme === 'institutionnel' ? '✓' : '→'}</div>
+                        </div>
+                        
+                        <div class="profile-option ${currentTheme === 'terre' ? 'active' : ''}" onclick="setTheme('terre')">
+                            <div class="profile-option-left">
+                                <div class="profile-option-icon">🌍</div>
+                                <div class="profile-option-text">
+                                    <div>Terre du Sénégal</div>
+                                    <div style="font-size: 12px; opacity: 0.7;">Couleurs chaudes et naturelles</div>
+                                </div>
+                            </div>
+                            <div class="profile-option-arrow">${currentTheme === 'terre' ? '✓' : '→'}</div>
+                        </div>
+                        
+                        <div class="profile-option ${currentTheme === 'moderne' ? 'active' : ''}" onclick="setTheme('moderne')">
+                            <div class="profile-option-left">
+                                <div class="profile-option-icon">🚀</div>
+                                <div class="profile-option-text">
+                                    <div>Moderne</div>
+                                    <div style="font-size: 12px; opacity: 0.7;">Design contemporain et épuré</div>
+                                </div>
+                            </div>
+                            <div class="profile-option-arrow">${currentTheme === 'moderne' ? '✓' : '→'}</div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-title">📝 Note</div>
+                        <div class="neumorphic-inset" style="line-height: 1.6;">
+                            Votre choix de thème est automatiquement sauvegardé et sera appliqué à toutes vos sessions futures.
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Fonctions stubs pour les autres sections du profil
+        function loadNotificationSettings() {
+            showError('Paramètres de notifications en développement');
+        }
+        
+        function loadLanguageSettings() {
+            showError('Paramètres de langue en développement');
+        }
+        
+        function loadDetailedStats() {
+            showError('Statistiques détaillées en développement');
+        }
+        
+        function loadActivityHistory() {
+            showError('Historique d\'activité en développement');
+        }
+        
+        function loadUserManagement() {
+            showError('Gestion des utilisateurs en développement');
+        }
+        
+        function loadHelp() {
+            showError('Aide et support en développement');
+        }
+        
+        function loadAbout() {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="slide-in">
+                    <div class="detail-section">
+                        <div class="detail-title">ℹ️ À propos de SAMA CONAI</div>
+                        <div class="neumorphic-inset" style="line-height: 1.6; text-align: center;">
+                            <div style="font-size: 24px; margin-bottom: 15px;">🇸🇳</div>
+                            <div style="font-size: 18px; font-weight: 700; color: var(--accent-action); margin-bottom: 10px;">SAMA CONAI</div>
+                            <div style="margin-bottom: 15px;">Système d'Accès aux Informations Publiques</div>
+                            <div style="font-size: 14px; opacity: 0.8;">Version 1.0.0</div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-title">🎯 Mission</div>
+                        <div class="neumorphic-inset" style="line-height: 1.6;">
+                            Faciliter l'accès à l'information publique au Sénégal et promouvoir la transparence gouvernementale.
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-title">🛠️ Technologies</div>
+                        <div class="neumorphic-inset" style="line-height: 1.6;">
+                            <div>• Interface neumorphique responsive</div>
+                            <div>• Backend Odoo intégré</div>
+                            <div>• Authentification sécurisée</div>
+                            <div>• Graphiques interactifs</div>
+                            <div>• Thèmes personnalisables</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Charger Mon Espace (portail utilisateur comme /my d'Odoo)
+        async function loadMyPortal() {
+            showLoading();
+            
+            try {
+                // Récupérer les données du dashboard pour les statistiques
+                const dashboardResponse = await fetch('/api/mobile/citizen/dashboard', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                const dashboardData = await dashboardResponse.json();
+                
+                // Récupérer les demandes récentes
+                const requestsResponse = await fetch('/api/mobile/citizen/requests?limit=5', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                const requestsData = await requestsResponse.json();
+                
+                if (dashboardData.success && requestsData.success) {
+                    renderMyPortal(dashboardData.data, requestsData.data);
+                } else {
+                    showError('Erreur lors du chargement de Mon Espace');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showError('Erreur de connexion au serveur');
+            }
+        }
+        
+        function renderMyPortal(dashboardData, requestsData) {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="slide-in">
+                    <!-- En-tête du portail -->
+                    <div class="portal-header">
+                        <div class="portal-title">🏠 Mon Espace SAMA CONAI</div>
+                        <div class="portal-subtitle">Bienvenue ${currentUser.name}, voici un aperçu de vos documents et demandes</div>
+                        
+                        <div class="portal-stats">
+                            <div class="portal-stat">
+                                <div class="portal-stat-number">${dashboardData.user_stats.total_requests}</div>
+                                <div class="portal-stat-label">Demandes</div>
+                            </div>
+                            <div class="portal-stat">
+                                <div class="portal-stat-number">${dashboardData.user_stats.pending_requests}</div>
+                                <div class="portal-stat-label">En cours</div>
+                            </div>
+                            <div class="portal-stat">
+                                <div class="portal-stat-number">${dashboardData.user_stats.completed_requests}</div>
+                                <div class="portal-stat-label">Terminées</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Actions rapides -->
+                    <div class="portal-quick-actions">
+                        <button class="portal-quick-action" onclick="navigateTo(3, 'Nouvelle Demande', loadNewRequestForm)">
+                            <span class="portal-quick-action-icon">📝</span>
+                            <span class="portal-quick-action-text">Nouvelle Demande</span>
+                        </button>
+                        <button class="portal-quick-action" onclick="navigateTo(3, 'Mes Demandes', loadRequestsList)">
+                            <span class="portal-quick-action-icon">📄</span>
+                            <span class="portal-quick-action-text">Mes Demandes</span>
+                        </button>
+                        <button class="portal-quick-action" onclick="navigateTo(3, 'Mon Profil', loadUserProfile)">
+                            <span class="portal-quick-action-icon">👤</span>
+                            <span class="portal-quick-action-text">Mon Profil</span>
+                        </button>
+                        <button class="portal-quick-action" onclick="navigateTo(3, 'Statistiques', loadGlobalStats)">
+                            <span class="portal-quick-action-icon">📊</span>
+                            <span class="portal-quick-action-text">Statistiques</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Demandes récentes -->
+                    <div class="portal-section">
+                        <div class="portal-section-header">
+                            <div class="portal-section-title">
+                                📄 Mes Demandes Récentes
+                            </div>
+                            <div class="portal-section-count">${requestsData.requests.length}</div>
+                        </div>
+                        
+                        ${requestsData.requests.length > 0 ? 
+                            requestsData.requests.map(request => `
+                                <div class="portal-item priority-${getPriorityLevel(request.state)}" onclick="navigateTo(3, 'Détail Demande', loadRequestDetail, ${request.id})">
+                                    <div class="portal-item-header">
+                                        <div class="portal-item-title">${request.name}</div>
+                                        <div class="portal-item-status status-${request.state}">${request.state_label}</div>
+                                    </div>
+                                    <div class="portal-item-description">${request.description.substring(0, 100)}${request.description.length > 100 ? '...' : ''}</div>
+                                    <div class="portal-item-footer">
+                                        <div class="portal-item-date">${new Date(request.request_date).toLocaleDateString('fr-FR')}</div>
+                                        <div class="portal-item-department">${request.department || 'En attente'}</div>
+                                    </div>
+                                </div>
+                            `).join('') 
+                            : 
+                            `<div class="portal-empty">
+                                <div class="portal-empty-icon">📄</div>
+                                <div class="portal-empty-text">Aucune demande pour le moment</div>
+                            </div>`
+                        }
+                        
+                        ${requestsData.requests.length > 0 ? `
+                        <div class="action-buttons">
+                            <button class="action-button primary-button" onclick="navigateTo(3, 'Toutes les Demandes', loadRequestsList)">
+                                Voir toutes mes demandes
+                            </button>
+                        </div>
+                        ` : ''}
+                    </div>
+                    
+                    <!-- Demandes prioritaires -->
+                    ${dashboardData.user_stats.overdue_requests > 0 ? `
+                    <div class="portal-section">
+                        <div class="portal-section-header">
+                            <div class="portal-section-title">
+                                ⚠️ Demandes Prioritaires
+                            </div>
+                            <div class="portal-section-count">${dashboardData.user_stats.overdue_requests}</div>
+                        </div>
+                        
+                        <div class="portal-item priority-high">
+                            <div class="portal-item-header">
+                                <div class="portal-item-title">Demandes en retard</div>
+                                <div class="portal-item-status" style="background: var(--accent-danger); color: white;">URGENT</div>
+                            </div>
+                            <div class="portal-item-description">Vous avez ${dashboardData.user_stats.overdue_requests} demande(s) en retard qui nécessite(nt) votre attention.</div>
+                            <div class="portal-item-footer">
+                                <div class="portal-item-date">Action requise</div>
+                                <div class="portal-item-department">Divers départements</div>
+                            </div>
+                        </div>
+                    </div>
+                    ` : ''}
+                    
+                    <!-- Informations du compte -->
+                    <div class="portal-section">
+                        <div class="portal-section-header">
+                            <div class="portal-section-title">
+                                👤 Informations du Compte
+                            </div>
+                        </div>
+                        
+                        <div class="detail-row">
+                            <div class="detail-label">Nom complet</div>
+                            <div class="detail-value">${currentUser.name}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Email</div>
+                            <div class="detail-value">${currentUser.email}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Type de compte</div>
+                            <div class="detail-value">${currentUser.isAdmin ? '🔑 Administrateur' : '👤 Utilisateur'}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Statut</div>
+                            <div class="detail-value" style="color: var(--accent-success); font-weight: 700;">✓ Actif</div>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <button class="action-button secondary-button" onclick="navigateTo(3, 'Mon Profil', loadUserProfile)">
+                                Modifier le profil
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Fonction utilitaire pour déterminer le niveau de priorité
+        function getPriorityLevel(state) {
+            switch(state) {
+                case 'overdue':
+                case 'refused':
+                    return 'high';
+                case 'in_progress':
+                case 'pending_validation':
+                    return 'medium';
+                case 'submitted':
+                case 'responded':
+                default:
+                    return 'low';
+            }
+        }
+    </script>
+</body>
+</html>

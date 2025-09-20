@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Démo minimale: 1 enregistrement whistleblowing.alert -->
+        <record id="demo_min_whistle_alert" model="whistleblowing.alert">
+            <field name="name">SA/DEMO/MIN/0001</field>
+            <field name="alert_date" eval="DateTime.now()"/>
+            <field name="is_anonymous" eval="True"/>
+            <field name="category">other</field>
+            <field name="description">Signalement de démonstration minimale.</field>
+            <field name="stage_id" ref="whistleblowing_stage_new"/>
+        </record>
+    </data>
+</odoo>

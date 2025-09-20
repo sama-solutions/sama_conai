@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ========================================= -->
+        <!-- DONNÉES DE DÉMONSTRATION -->
+        <!-- ========================================= -->
+        
+        <!-- Utilisateurs de démonstration -->
+        <record id="demo_user_info_manager" model="res.users">
+            <field name="name">Manager Information</field>
+            <field name="login">manager.info@sama-conai.sn</field>
+            <field name="email">manager.info@sama-conai.sn</field>
+            <field name="groups_id" eval="[(6, 0, [ref('group_info_request_manager')])]"/>
+        </record>
+        
+        <record id="demo_user_info_employee" model="res.users">
+            <field name="name">Employé Information</field>
+            <field name="login">employe.info@sama-conai.sn</field>
+            <field name="email">employe.info@sama-conai.sn</field>
+            <field name="groups_id" eval="[(6, 0, [ref('group_info_request_user')])]"/>
+        </record>
+        
+        <record id="demo_user_whistleblowing_manager" model="res.users">
+            <field name="name">Référent Alerte</field>
+            <field name="login">referent.alerte@sama-conai.sn</field>
+            <field name="email">referent.alerte@sama-conai.sn</field>
+            <field name="groups_id" eval="[(6, 0, [ref('group_whistleblowing_manager')])]"/>
+        </record>
+        
+        <!-- Départements de démonstration -->
+        <record id="demo_department_communication" model="hr.department">
+            <field name="name">Communication</field>
+        </record>
+        
+        <record id="demo_department_juridique" model="hr.department">
+            <field name="name">Affaires Juridiques</field>
+        </record>
+        
+        <record id="demo_department_finances" model="hr.department">
+            <field name="name">Finances</field>
+        </record>
+        
+        <!-- Demandes d'information de démonstration -->
+        <record id="demo_info_request_1" model="request.information">
+            <field name="name">DI/2024/0001</field>
+            <field name="partner_name">Amadou Diallo</field>
+            <field name="partner_email">amadou.diallo@email.sn</field>
+            <field name="partner_phone">+221 77 123 45 67</field>
+            <field name="requester_quality">journalist</field>
+            <field name="request_date" eval="(DateTime.now() - timedelta(days=15))"/>
+            <field name="description">Je souhaite obtenir les informations sur les budgets alloués aux projets d'infrastructure pour l'année 2024.</field>
+            <field name="stage_id" ref="stage_in_progress"/>
+            <field name="user_id" ref="demo_user_info_employee"/>
+            <field name="department_id" ref="demo_department_finances"/>
+            <field name="state">in_progress</field>
+        </record>
+        
+        <record id="demo_info_request_2" model="request.information">
+            <field name="name">DI/2024/0002</field>
+            <field name="partner_name">Fatou Seck</field>
+            <field name="partner_email">fatou.seck@email.sn</field>
+            <field name="requester_quality">citizen</field>
+            <field name="request_date" eval="(DateTime.now() - timedelta(days=5))"/>
+            <field name="description">Demande d'accès aux procès-verbaux des réunions du conseil municipal de Dakar pour le mois dernier.</field>
+            <field name="stage_id" ref="stage_pending_validation"/>
+            <field name="user_id" ref="demo_user_info_employee"/>
+            <field name="department_id" ref="demo_department_juridique"/>
+            <field name="state">pending_validation</field>
+            <field name="response_body">Voici les procès-verbaux demandés. Vous trouverez en pièce jointe les documents officiels.</field>
+        </record>
+        
+        <record id="demo_info_request_3" model="request.information">
+            <field name="name">DI/2024/0003</field>
+            <field name="partner_name">Moussa Ba</field>
+            <field name="partner_email">moussa.ba@email.sn</field>
+            <field name="requester_quality">researcher</field>
+            <field name="request_date" eval="(DateTime.now() - timedelta(days=35))"/>
+            <field name="description">Recherche sur les politiques publiques en matière d'éducation. Demande d'accès aux rapports d'évaluation des programmes éducatifs.</field>
+            <field name="stage_id" ref="stage_responded"/>
+            <field name="user_id" ref="demo_user_info_employee"/>
+            <field name="department_id" ref="demo_department_communication"/>
+            <field name="state">responded</field>
+            <field name="response_date" eval="(DateTime.now() - timedelta(days=2))"/>
+            <field name="response_body">Suite à votre demande, nous vous transmettons les rapports d'évaluation disponibles pour la période 2023-2024.</field>
+        </record>
+        
+        <record id="demo_info_request_4" model="request.information">
+            <field name="name">DI/2024/0004</field>
+            <field name="partner_name">Aïssatou Ndiaye</field>
+            <field name="partner_email">aissatou.ndiaye@email.sn</field>
+            <field name="requester_quality">ngo</field>
+            <field name="request_date" eval="(DateTime.now() - timedelta(days=25))"/>
+            <field name="description">Demande d'informations sur les contrats de marchés publics attribués en 2024 dans le secteur de la santé.</field>
+            <field name="stage_id" ref="stage_refused"/>
+            <field name="user_id" ref="demo_user_info_employee"/>
+            <field name="department_id" ref="demo_department_juridique"/>
+            <field name="state">refused</field>
+            <field name="response_date" eval="(DateTime.now() - timedelta(days=1))"/>
+            <field name="is_refusal" eval="True"/>
+            <field name="refusal_reason_id" ref="refusal_reason_ongoing_investigation"/>
+            <field name="refusal_motivation">Les informations demandées font l'objet d'une enquête administrative en cours. La divulgation de ces informations pourrait compromettre l'enquête.</field>
+        </record>
+        
+        <!-- Signalements d'alerte de démonstration -->
+        <record id="demo_whistleblowing_1" model="whistleblowing.alert">
+            <field name="name">SA/2024/0001</field>
+            <field name="alert_date" eval="(DateTime.now() - timedelta(days=10))"/>
+            <field name="is_anonymous" eval="True"/>
+            <field name="category">corruption</field>
+            <field name="description">Signalement de pratiques suspectes dans l'attribution de marchés publics. Des favoritismes ont été observés.</field>
+            <field name="stage_id" ref="whistleblowing_stage_assessment"/>
+            <field name="manager_id" ref="demo_user_whistleblowing_manager"/>
+            <field name="state">preliminary_assessment</field>
+            <field name="priority">high</field>
+        </record>
+        
+        <record id="demo_whistleblowing_2" model="whistleblowing.alert">
+            <field name="name">SA/2024/0002</field>
+            <field name="alert_date" eval="(DateTime.now() - timedelta(days=20))"/>
+            <field name="is_anonymous" eval="False"/>
+            <field name="reporter_name">Témoin Confidentiel</field>
+            <field name="reporter_email">temoin@email.sn</field>
+            <field name="category">harassment</field>
+            <field name="description">Signalement de harcèlement moral dans un service administratif. Plusieurs employés sont concernés.</field>
+            <field name="stage_id" ref="whistleblowing_stage_investigation"/>
+            <field name="manager_id" ref="demo_user_whistleblowing_manager"/>
+            <field name="state">investigation</field>
+            <field name="priority">urgent</field>
+            <field name="investigation_start_date" eval="(DateTime.now() - timedelta(days=15)).date()"/>
+            <field name="investigation_notes">Investigation en cours. Entretiens avec les témoins programmés.</field>
+        </record>
+        
+        <record id="demo_whistleblowing_3" model="whistleblowing.alert">
+            <field name="name">SA/2024/0003</field>
+            <field name="alert_date" eval="(DateTime.now() - timedelta(days=45))"/>
+            <field name="is_anonymous" eval="True"/>
+            <field name="category">fraud</field>
+            <field name="description">Détournement présumé de fonds publics dans la gestion des projets sociaux.</field>
+            <field name="stage_id" ref="whistleblowing_stage_resolved"/>
+            <field name="manager_id" ref="demo_user_whistleblowing_manager"/>
+            <field name="state">resolved</field>
+            <field name="priority">high</field>
+            <field name="investigation_start_date" eval="(DateTime.now() - timedelta(days=40)).date()"/>
+            <field name="investigation_end_date" eval="(DateTime.now() - timedelta(days=5)).date()"/>
+            <field name="resolution_date" eval="(DateTime.now() - timedelta(days=5)).date()"/>
+            <field name="resolution">Enquête terminée. Mesures correctives mises en place. Dossier transmis aux autorités compétentes.</field>
+        </record>
+        
+    </data>
+</odoo>

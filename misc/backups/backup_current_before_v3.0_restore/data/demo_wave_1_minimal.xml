@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        
+        <!-- ========================================= -->
+        <!-- VAGUE 1 : DONNÉES DE DÉMO MINIMALES     -->
+        <!-- ========================================= -->
+        
+        <!-- 1. DEMANDE D'INFORMATION DE TEST -->
+        <record id="demo_info_request_001" model="request.information">
+            <field name="name">REQ-2025-001</field>
+            <field name="partner_name">Amadou Diallo</field>
+            <field name="partner_email">amadou.diallo@example.sn</field>
+            <field name="partner_phone">+221 77 123 45 67</field>
+            <field name="requester_quality">citizen</field>
+            <field name="request_date" eval="(datetime.now() - timedelta(days=5)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="description">&lt;p&gt;Je souhaite obtenir des informations sur les budgets alloués aux projets d'infrastructure dans la région de Dakar pour l'année 2024.&lt;/p&gt;
+&lt;p&gt;Plus spécifiquement, je demande :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Le montant total du budget infrastructure 2024&lt;/li&gt;
+&lt;li&gt;La répartition par type de projet&lt;/li&gt;
+&lt;li&gt;L'état d'avancement des projets en cours&lt;/li&gt;
+&lt;/ul&gt;</field>
+            <field name="stage_id" ref="stage_in_progress"/>
+            <field name="state">in_progress</field>
+            <field name="user_id" ref="base.user_admin"/>
+        </record>
+
+        <!-- 2. SIGNALEMENT D'ALERTE DE TEST -->
+        <record id="demo_whistleblowing_001" model="whistleblowing.alert">
+            <field name="name">WB-2025-001</field>
+            <field name="alert_date" eval="(datetime.now() - timedelta(days=3)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="is_anonymous" eval="True"/>
+            <field name="description">&lt;p&gt;Je signale des irrégularités dans l'attribution d'un marché public.&lt;/p&gt;
+&lt;p&gt;Détails du signalement :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Marché : Construction d'une école primaire&lt;/li&gt;
+&lt;li&gt;Montant : 500 millions FCFA&lt;/li&gt;
+&lt;li&gt;Problème : Critères d'attribution non respectés&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Des documents justificatifs sont disponibles.&lt;/p&gt;</field>
+            <field name="category">corruption</field>
+            <field name="stage_id" ref="whistleblowing_stage_assessment"/>
+            <field name="state">preliminary_assessment</field>
+            <field name="priority">high</field>
+            <field name="manager_id" ref="base.user_admin"/>
+        </record>
+
+    </data>
+</odoo>

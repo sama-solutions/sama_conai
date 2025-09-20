@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- ========================================= -->
+        <!-- VUES POUR LA GESTION MOBILE -->
+        <!-- ========================================= -->
+        
+        <!-- Vue liste des devices mobiles -->
+        <record id="mobile_device_view_tree" model="ir.ui.view">
+            <field name="name">mobile.device.tree</field>
+            <field name="model">mobile.device</field>
+            <field name="arch" type="xml">
+                <tree string="Devices Mobiles">
+                    <field name="user_id"/>
+                    <field name="device_type"/>
+                    <field name="app_version"/>
+                    <field name="is_active"/>
+                    <field name="last_active"/>
+                    <field name="notification_count"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Vue formulaire des devices mobiles -->
+        <record id="mobile_device_view_form" model="ir.ui.view">
+            <field name="name">mobile.device.form</field>
+            <field name="model">mobile.device</field>
+            <field name="arch" type="xml">
+                <form string="Device Mobile">
+                    <header>
+                        <button name="action_activate" string="Activer" type="object" 
+                                class="btn-primary" attrs="{'invisible': [('is_active', '=', True)]}"/>
+                        <button name="action_deactivate" string="Désactiver" type="object" 
+                                class="btn-secondary" attrs="{'invisible': [('is_active', '=', False)]}"/>
+                        <field name="is_active" widget="boolean_toggle"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="user_id"/>
+                                <field name="device_type"/>
+                                <field name="device_token"/>
+                                <field name="app_version"/>
+                            </group>
+                            <group>
+                                <field name="os_version"/>
+                                <field name="device_model"/>
+                                <field name="timezone"/>
+                                <field name="language"/>
+                            </group>
+                        </group>
+                        <group string="Activité">
+                            <group>
+                                <field name="registration_date"/>
+                                <field name="last_active"/>
+                            </group>
+                            <group>
+                                <field name="notification_count"/>
+                                <field name="last_notification_date"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action pour les devices mobiles -->
+        <record id="mobile_device_action" model="ir.actions.act_window">
+            <field name="name">Devices Mobiles</field>
+            <field name="res_model">mobile.device</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Aucun device mobile enregistré
+                </p>
+                <p>
+                    Les devices mobiles s'enregistrent automatiquement lors de la première connexion à l'application.
+                </p>
+            </field>
+        </record>
+        
+        <!-- Vue liste des logs de notifications -->
+        <record id="mobile_notification_log_view_tree" model="ir.ui.view">
+            <field name="name">mobile.notification.log.tree</field>
+            <field name="model">mobile.notification.log</field>
+            <field name="arch" type="xml">
+                <tree string="Logs de Notifications">
+                    <field name="create_date"/>
+                    <field name="user_id"/>
+                    <field name="title"/>
+                    <field name="notification_type"/>
+                    <field name="priority"/>
+                    <field name="status"/>
+                    <field name="is_read"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Vue formulaire des logs de notifications -->
+        <record id="mobile_notification_log_view_form" model="ir.ui.view">
+            <field name="name">mobile.notification.log.form</field>
+            <field name="model">mobile.notification.log</field>
+            <field name="arch" type="xml">
+                <form string="Log de Notification">
+                    <header>
+                        <button name="action_retry_send" string="Réessayer" type="object" 
+                                class="btn-primary" attrs="{'invisible': [('status', '!=', 'failed')]}"/>
+                        <field name="status" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="user_id"/>
+                                <field name="device_id"/>
+                                <field name="title"/>
+                                <field name="notification_type"/>
+                                <field name="priority"/>
+                            </group>
+                            <group>
+                                <field name="sent_date"/>
+                                <field name="delivered_date"/>
+                                <field name="read_date"/>
+                                <field name="is_read"/>
+                                <field name="retry_count"/>
+                            </group>
+                        </group>
+                        <group string="Contenu">
+                            <field name="body" widget="html"/>
+                        </group>
+                        <group string="Données Techniques" attrs="{'invisible': [('data', '=', False)]}">
+                            <field name="data" widget="text"/>
+                            <field name="fcm_message_id"/>
+                            <field name="apns_message_id"/>
+                        </group>
+                        <group string="Erreurs" attrs="{'invisible': [('error_message', '=', False)]}">
+                            <field name="error_message" widget="text"/>
+                        </group>
+                        <group string="Objet Lié" attrs="{'invisible': [('related_model', '=', False)]}">
+                            <field name="related_model"/>
+                            <field name="related_record_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action pour les logs de notifications -->
+        <record id="mobile_notification_log_action" model="ir.actions.act_window">
+            <field name="name">Logs de Notifications</field>
+            <field name="res_model">mobile.notification.log</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_recent': 1}</field>
+        </record>
+        
+        <!-- Vue liste des préférences de notification -->
+        <record id="mobile_notification_preference_view_tree" model="ir.ui.view">
+            <field name="name">mobile.notification.preference.tree</field>
+            <field name="model">mobile.notification.preference</field>
+            <field name="arch" type="xml">
+                <tree string="Préférences de Notification">
+                    <field name="user_id"/>
+                    <field name="notifications_enabled"/>
+                    <field name="info_request_updates"/>
+                    <field name="alert_updates"/>
+                    <field name="deadline_reminders"/>
+                    <field name="last_updated"/>
+                </tree>
+            </field>
+        </record>
+        
+        <!-- Vue formulaire des préférences de notification -->
+        <record id="mobile_notification_preference_view_form" model="ir.ui.view">
+            <field name="name">mobile.notification.preference.form</field>
+            <field name="model">mobile.notification.preference</field>
+            <field name="arch" type="xml">
+                <form string="Préférences de Notification">
+                    <header>
+                        <button name="action_reset_to_defaults" string="Remettre par défaut" type="object" class="btn-secondary"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="user_id"/>
+                            <field name="notifications_enabled"/>
+                        </group>
+                        <group string="Types de Notifications">
+                            <field name="info_request_updates"/>
+                            <field name="alert_updates"/>
+                            <field name="deadline_reminders"/>
+                            <field name="assignment_notifications"/>
+                            <field name="system_notifications"/>
+                        </group>
+                        <group string="Heures Silencieuses">
+                            <field name="quiet_hours_enabled"/>
+                            <field name="quiet_start_time" widget="float_time" attrs="{'invisible': [('quiet_hours_enabled', '=', False)]}"/>
+                            <field name="quiet_end_time" widget="float_time" attrs="{'invisible': [('quiet_hours_enabled', '=', False)]}"/>
+                        </group>
+                        <group string="Priorités">
+                            <field name="urgent_notifications"/>
+                            <field name="high_priority_notifications"/>
+                            <field name="medium_priority_notifications"/>
+                            <field name="low_priority_notifications"/>
+                        </group>
+                        <group string="Résumés">
+                            <field name="digest_enabled"/>
+                            <field name="digest_time" widget="float_time" attrs="{'invisible': [('digest_enabled', '=', False)]}"/>
+                            <field name="weekly_summary"/>
+                        </group>
+                        <group>
+                            <field name="last_updated"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action pour les préférences de notification -->
+        <record id="mobile_notification_preference_action" model="ir.actions.act_window">
+            <field name="name">Préférences de Notification</field>
+            <field name="res_model">mobile.notification.preference</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        <!-- Vue formulaire du service de notification -->
+        <record id="mobile_notification_service_view_form" model="ir.ui.view">
+            <field name="name">mobile.notification.service.form</field>
+            <field name="model">mobile.notification.service</field>
+            <field name="arch" type="xml">
+                <form string="Service de Notifications Mobiles">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="is_production"/>
+                        </group>
+                        <group string="Configuration FCM (Android)">
+                            <field name="fcm_server_key" password="True"/>
+                            <field name="fcm_sender_id"/>
+                        </group>
+                        <group string="Configuration APNS (iOS)">
+                            <field name="apns_key_id"/>
+                            <field name="apns_team_id"/>
+                            <field name="apns_bundle_id"/>
+                            <field name="apns_private_key" widget="text"/>
+                        </group>
+                        <group string="Paramètres">
+                            <field name="max_retry_attempts"/>
+                            <field name="batch_size"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Action pour le service de notification -->
+        <record id="mobile_notification_service_action" model="ir.actions.act_window">
+            <field name="name">Configuration Notifications</field>
+            <field name="res_model">mobile.notification.service</field>
+            <field name="view_mode">form</field>
+            <field name="target">current</field>
+        </record>
+        
+    </data>
+</odoo>

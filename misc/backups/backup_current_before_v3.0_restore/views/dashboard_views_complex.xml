@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- ========================================= -->
+        <!-- DASHBOARD SAMA CONAI                     -->
+        <!-- ========================================= -->
+        
+        <!-- Action Dashboard Principal -->
+        <record id="action_sama_conai_dashboard" model="ir.actions.client">
+            <field name="name">Tableau de Bord SAMA CONAI</field>
+            <field name="tag">sama_conai_dashboard</field>
+        </record>
+        
+        <!-- Actions pour les graphiques du dashboard -->
+        
+        <!-- Graphique des demandes d'information par mois -->
+        <record id="action_info_requests_graph" model="ir.actions.act_window">
+            <field name="name">Évolution des Demandes</field>
+            <field name="res_model">request.information</field>
+            <field name="view_mode">graph</field>
+            <field name="view_id" ref="view_information_request_graph"/>
+            <field name="context">{'search_default_this_year': 1}</field>
+        </record>
+        
+        <!-- Graphique des signalements par catégorie -->
+        <record id="action_whistleblowing_by_category" model="ir.actions.act_window">
+            <field name="name">Signalements par Catégorie</field>
+            <field name="res_model">whistleblowing.alert</field>
+            <field name="view_mode">graph</field>
+            <field name="view_id" ref="view_whistleblowing_alert_graph_category"/>
+            <field name="context">{'search_default_this_year': 1}</field>
+        </record>
+        
+        <!-- Vue graphique pour signalements par catégorie -->
+        <record id="view_whistleblowing_alert_graph_category" model="ir.ui.view">
+            <field name="name">whistleblowing.alert.graph.category</field>
+            <field name="model">whistleblowing.alert</field>
+            <field name="arch" type="xml">
+                <graph string="Signalements par Catégorie" type="pie">
+                    <field name="category" type="row"/>
+                </graph>
+            </field>
+        </record>
+        
+        <!-- Vue graphique pour signalements par priorité -->
+        <record id="view_whistleblowing_alert_graph_priority" model="ir.ui.view">
+            <field name="name">whistleblowing.alert.graph.priority</field>
+            <field name="model">whistleblowing.alert</field>
+            <field name="arch" type="xml">
+                <graph string="Signalements par Priorité" type="bar">
+                    <field name="priority" type="row"/>
+                    <field name="alert_date" type="col" interval="month"/>
+                </graph>
+            </field>
+        </record>
+        
+        <!-- Actions pour les KPI -->
+        
+        <!-- KPI Demandes en retard -->
+        <record id="action_overdue_requests" model="ir.actions.act_window">
+            <field name="name">Demandes en Retard</field>
+            <field name="res_model">request.information</field>
+            <field name="view_mode">kanban,list,form</field>
+            <field name="domain">[('is_overdue', '=', True)]</field>
+            <field name="context">{'search_default_overdue': 1}</field>
+        </record>
+        
+        <!-- KPI Signalements urgents -->
+        <record id="action_urgent_alerts" model="ir.actions.act_window">
+            <field name="name">Signalements Urgents</field>
+            <field name="res_model">whistleblowing.alert</field>
+            <field name="view_mode">kanban,list,form</field>
+            <field name="domain">[('priority', '=', 'urgent')]</field>
+        </record>
+        
+        <!-- KPI Demandes du mois -->
+        <record id="action_monthly_requests" model="ir.actions.act_window">
+            <field name="name">Demandes du Mois</field>
+            <field name="res_model">request.information</field>
+            <field name="view_mode">kanban,list,graph</field>
+            <field name="context">{'search_default_this_month': 1}</field>
+        </record>
+        
+        <!-- Vue Pivot avancée pour les demandes d'information -->
+        <record id="view_information_request_pivot_advanced" model="ir.ui.view">
+            <field name="name">request.information.pivot.advanced</field>
+            <field name="model">request.information</field>
+            <field name="arch" type="xml">
+                <pivot string="Analyse Avancée des Demandes">
+                    <field name="request_date" type="row" interval="month"/>
+                    <field name="requester_quality" type="row"/>
+                    <field name="state" type="col"/>
+                    <field name="days_to_deadline" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+        
+        <!-- Action pour l'analyse avancée -->
+        <record id="action_info_requests_analysis" model="ir.actions.act_window">
+            <field name="name">Analyse Avancée</field>
+            <field name="res_model">request.information</field>
+            <field name="view_mode">pivot,graph</field>
+            <field name="view_id" ref="view_information_request_pivot_advanced"/>
+            <field name="context">{'search_default_this_year': 1}</field>
+        </record>
+        
+    </data>
+</odoo>

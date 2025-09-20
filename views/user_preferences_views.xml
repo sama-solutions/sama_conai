@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========================================= -->
+    <!-- SAMA CONAI - VUES PRÉFÉRENCES UTILISATEUR -->
+    <!-- ========================================= -->
+
+    <!-- Extension de la vue formulaire utilisateur pour ajouter les préférences de thème -->
+    <record id="res_users_form_sama_conai_theme" model="ir.ui.view">
+        <field name="name">res.users.form.sama_conai_theme</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='preferences']" position="inside">
+                <group string="Préférences SAMA CONAI" name="sama_conai_preferences">
+                    <field name="sama_conai_theme" widget="radio" options="{'horizontal': true}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vue spécifique pour la gestion des thèmes -->
+    <record id="view_sama_conai_theme_manager" model="ir.ui.view">
+        <field name="name">SAMA CONAI Theme Manager</field>
+        <field name="model">res.users</field>
+        <field name="arch" type="xml">
+            <form string="Gestionnaire de Thèmes SAMA CONAI" class="sama-conai-theme">
+                <header>
+                    <button name="apply_theme_default" string="Thème Institutionnel" type="object" class="neumorphic-button btn-action" data-theme-action="default"/>
+                    <button name="apply_theme_terre" string="Thème Terre" type="object" class="neumorphic-button btn-alert" data-theme-action="terre"/>
+                    <button name="apply_theme_moderne" string="Thème Moderne" type="object" class="neumorphic-button btn-success" data-theme-action="moderne"/>
+                </header>
+                <sheet class="neumorphic-card">
+                    <div class="oe_title">
+                        <h1>Personnalisation de l'Interface</h1>
+                        <p>Choisissez votre thème préféré pour personnaliser l'apparence de SAMA CONAI.</p>
+                    </div>
+                    
+                    <group>
+                        <group string="Thème Actuel">
+                            <field name="sama_conai_theme" readonly="1"/>
+                        </group>
+                        <group string="Informations">
+                            <field name="name" readonly="1"/>
+                            <field name="login" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <!-- Sélecteur de thème intégré -->
+                    <div class="theme-selector-section">
+                        <h3>Aperçu des Thèmes Disponibles</h3>
+                        <div class="theme-selector-grid">
+                            <!-- Thème Institutionnel -->
+                            <div class="neumorphic-card theme-choice-card" data-theme-name="default">
+                                <div class="theme-preview">
+                                    <div class="color-sample" style="background-color: #EFF2F5;"></div>
+                                    <div class="color-sample" style="background-color: #3498DB;"></div>
+                                    <div class="color-sample" style="background-color: #E67E22;"></div>
+                                    <div class="color-sample" style="background-color: #E74C3C;"></div>
+                                </div>
+                                <h4 class="theme-name">Thème Institutionnel</h4>
+                                <p class="theme-description">Couleurs officielles et professionnelles pour un usage institutionnel.</p>
+                            </div>
+
+                            <!-- Thème Terre du Sénégal -->
+                            <div class="neumorphic-card theme-choice-card" data-theme-name="terre">
+                                <div class="theme-preview">
+                                    <div class="color-sample" style="background-color: #F5F1E8;"></div>
+                                    <div class="color-sample" style="background-color: #D2691E;"></div>
+                                    <div class="color-sample" style="background-color: #CD853F;"></div>
+                                    <div class="color-sample" style="background-color: #A0522D;"></div>
+                                </div>
+                                <h4 class="theme-name">Thème Terre du Sénégal</h4>
+                                <p class="theme-description">Inspiré des couleurs chaudes de la terre sénégalaise.</p>
+                            </div>
+
+                            <!-- Thème Moderne -->
+                            <div class="neumorphic-card theme-choice-card" data-theme-name="moderne">
+                                <div class="theme-preview">
+                                    <div class="color-sample" style="background-color: #F8F9FA;"></div>
+                                    <div class="color-sample" style="background-color: #6C5CE7;"></div>
+                                    <div class="color-sample" style="background-color: #FDCB6E;"></div>
+                                    <div class="color-sample" style="background-color: #E17055;"></div>
+                                </div>
+                                <h4 class="theme-name">Thème Moderne</h4>
+                                <p class="theme-description">Design contemporain avec effets visuels avancés.</p>
+                            </div>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action pour ouvrir le gestionnaire de thèmes -->
+    <record id="action_sama_conai_theme_manager" model="ir.actions.act_window">
+        <field name="name">Gestionnaire de Thèmes SAMA CONAI</field>
+        <field name="res_model">res.users</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_sama_conai_theme_manager"/>
+        <field name="target">new</field>
+        <field name="context">{'default_id': uid}</field>
+    </record>
+
+    <!-- Vue principale du dashboard -->
+    <record id="view_sama_conai_dashboard_main" model="ir.ui.view">
+        <field name="name">SAMA CONAI Dashboard Main</field>
+        <field name="model">res.users</field>
+        <field name="arch" type="xml">
+            <form string="Dashboard SAMA CONAI" class="sama-conai-dashboard">
+                <header>
+                    <button name="refresh_dashboard" string="Actualiser" type="object" class="neumorphic-button btn-action"/>
+                    <button name="%(action_sama_conai_theme_manager)d" string="Changer de Thème" type="action" class="neumorphic-button btn-alert"/>
+                </header>
+                
+                <!-- Le contenu sera rendu par le template -->
+                <div class="dashboard-content">
+                    <p>Dashboard SAMA CONAI - Interface neumorphique</p>
+                    <p>Utilisez le menu principal pour accéder au dashboard complet.</p>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action pour le dashboard neumorphique (utilise l'action client) -->
+    <record id="action_sama_conai_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard SAMA CONAI</field>
+        <field name="res_model">res.users</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_sama_conai_dashboard_main"/>
+        <field name="target">main</field>
+    </record>
+
+    <!-- Menu pour accéder au gestionnaire de thèmes -->
+    <menuitem id="menu_sama_conai_theme_manager"
+              name="Gestionnaire de Thèmes"
+              parent="base.menu_users"
+              action="action_sama_conai_theme_manager"
+              sequence="50"/>
+
+    <!-- Menu pour le dashboard (sera ajouté au menu principal) -->
+    <menuitem id="menu_sama_conai_dashboard"
+              name="Dashboard Mobile"
+              parent="menu_analytics_dashboards"
+              action="action_sama_conai_dashboard"
+              sequence="5"/>
+</odoo>

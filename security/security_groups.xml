@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Catégorie principale -->
+        <record id="module_category_transparency" model="ir.module.category">
+            <field name="name">Transparence Sénégal</field>
+            <field name="description">Gestion de la transparence et des alertes</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <!-- ========================================= -->
+        <!-- GROUPES POUR L'ACCÈS À L'INFORMATION -->
+        <!-- ========================================= -->
+        
+        <!-- Groupe Employé - Accès à l'Information -->
+        <record id="group_info_request_user" model="res.groups">
+            <field name="name">Employé - Accès à l'Information</field>
+            <field name="category_id" ref="module_category_transparency"/>
+            <field name="comment">Peut voir les demandes de son département et traiter les réponses</field>
+        </record>
+
+        <!-- Groupe Manager - Accès à l'Information -->
+        <record id="group_info_request_manager" model="res.groups">
+            <field name="name">Manager - Accès à l'Information</field>
+            <field name="category_id" ref="module_category_transparency"/>
+            <field name="implied_ids" eval="[(4, ref('group_info_request_user'))]"/>
+            <field name="comment">Accès complet aux demandes d'information. Peut valider/refuser les réponses</field>
+        </record>
+
+        <!-- ========================================= -->
+        <!-- GROUPES POUR LES SIGNALEMENTS D'ALERTE -->
+        <!-- ========================================= -->
+        
+        <!-- Groupe Référent Alerte - ACCÈS ULTRA-RESTREINT -->
+        <record id="group_whistleblowing_manager" model="res.groups">
+            <field name="name">Référent Alerte</field>
+            <field name="category_id" ref="module_category_transparency"/>
+            <field name="comment">ACCÈS ULTRA-RESTREINT : Seul groupe autorisé à voir les signalements d'alerte</field>
+        </record>
+
+        <!-- ========================================= -->
+        <!-- GROUPES TECHNIQUES -->
+        <!-- ========================================= -->
+        
+        <!-- Groupe Administrateur Système -->
+        <record id="group_transparency_admin" model="res.groups">
+            <field name="name">Administrateur Transparence</field>
+            <field name="category_id" ref="module_category_transparency"/>
+            <field name="implied_ids" eval="[(4, ref('group_info_request_manager')), (4, ref('group_whistleblowing_manager'))]"/>
+            <field name="comment">Accès administrateur complet au module de transparence</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Action pour les utilisateurs SAMA CONAI -->
+        <record id="action_transparency_users" model="ir.actions.act_window">
+            <field name="name">Utilisateurs Transparence</field>
+            <field name="res_model">res.users</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[
+                '|', '|', '|',
+                ('groups_id', 'in', [ref('sama_conai.group_info_request_user')]),
+                ('groups_id', 'in', [ref('sama_conai.group_info_request_manager')]),
+                ('groups_id', 'in', [ref('sama_conai.group_whistleblowing_manager')]),
+                ('groups_id', 'in', [ref('sama_conai.group_transparency_admin')])
+            ]</field>
+            <field name="context">{'default_groups_id': [(4, ref('sama_conai.group_info_request_user'))]}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Gérer les utilisateurs du système de transparence
+                </p>
+                <p>
+                    Administrez les utilisateurs ayant accès aux fonctionnalités SAMA CONAI.
+                    Assignez les groupes appropriés selon leurs responsabilités.
+                </p>
+            </field>
+        </record>
+
+        <!-- Action pour les groupes SAMA CONAI -->
+        <record id="action_transparency_groups" model="ir.actions.act_window">
+            <field name="name">Groupes de Sécurité</field>
+            <field name="res_model">res.groups</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('category_id.name', '=', 'SAMA CONAI')]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Configurer les groupes de sécurité
+                </p>
+                <p>
+                    Gérez les permissions et accès aux différentes fonctionnalités du module SAMA CONAI.
+                </p>
+            </field>
+        </record>
+
+        <!-- Action pour la configuration système -->
+        <record id="action_transparency_config" model="ir.actions.act_window">
+            <field name="name">Configuration Système</field>
+            <field name="res_model">ir.config_parameter</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('key', 'ilike', 'sama_conai%')]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Paramètres de configuration système
+                </p>
+                <p>
+                    Configurez les paramètres globaux du module SAMA CONAI.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

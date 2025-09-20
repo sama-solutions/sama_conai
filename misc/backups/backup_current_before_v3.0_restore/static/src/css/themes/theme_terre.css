@@ -1,0 +1,59 @@
+/* ========================================= */
+/* SAMA CONAI - THÈME TERRE DU SÉNÉGAL      */
+/* ========================================= */
+
+body[data-theme="terre"] {
+  --background-color: #F5F1E8;
+  --text-color: #5D4037;
+  --shadow-dark: #E8DDD0;
+  --shadow-light: #FFFEF7;
+  --accent-action: #D2691E;
+  --accent-alert: #CD853F;
+  --accent-danger: #A0522D;
+  --accent-success: #8FBC8F;
+  --font-family: 'Poppins', sans-serif;
+}
+
+/* Styles spécifiques au thème terre */
+body[data-theme="terre"] .sama-conai-dashboard {
+  background: linear-gradient(135deg, #F5F1E8 0%, #F0EAD6 100%);
+}
+
+body[data-theme="terre"] .dashboard-header h1 {
+  background: linear-gradient(45deg, #5D4037, #D2691E);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body[data-theme="terre"] .metric-card.action .metric-icon {
+  background: linear-gradient(135deg, #D2691E, #B8860B);
+  color: white;
+}
+
+body[data-theme="terre"] .metric-card.danger .metric-icon {
+  background: linear-gradient(135deg, #A0522D, #8B4513);
+  color: white;
+}
+
+body[data-theme="terre"] .bottom-nav {
+  backdrop-filter: blur(10px);
+  background: rgba(245, 241, 232, 0.9);
+}
+
+/* Effets spéciaux pour le thème terre */
+body[data-theme="terre"] .neumorphic-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(210, 105, 30, 0.05) 50%, transparent 70%);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+body[data-theme="terre"] .theme-choice-card[data-theme-name="terre"] {
+  border: 2px solid var(--accent-action);
+}

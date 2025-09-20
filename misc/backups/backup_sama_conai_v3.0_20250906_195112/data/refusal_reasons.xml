@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Motifs de refus légaux selon la législation sénégalaise -->
+        
+        <record id="refusal_reason_national_security" model="request.refusal.reason">
+            <field name="name">Sécurité Nationale</field>
+            <field name="description">Information susceptible de porter atteinte à la sécurité nationale, à la défense ou aux relations internationales</field>
+            <field name="legal_reference">Article 15 de la Loi sur l'Accès à l'Information</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <record id="refusal_reason_personal_data" model="request.refusal.reason">
+            <field name="name">Données Personnelles</field>
+            <field name="description">Information contenant des données personnelles protégées par la loi</field>
+            <field name="legal_reference">Loi sur la Protection des Données Personnelles</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <record id="refusal_reason_commercial_secret" model="request.refusal.reason">
+            <field name="name">Secret Commercial</field>
+            <field name="description">Information constituant un secret commercial ou industriel</field>
+            <field name="legal_reference">Code du Commerce</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <record id="refusal_reason_ongoing_investigation" model="request.refusal.reason">
+            <field name="name">Enquête en Cours</field>
+            <field name="description">Information relative à une enquête judiciaire ou administrative en cours</field>
+            <field name="legal_reference">Code de Procédure Pénale</field>
+            <field name="sequence">40</field>
+        </record>
+
+        <record id="refusal_reason_deliberation_secret" model="request.refusal.reason">
+            <field name="name">Secret des Délibérations</field>
+            <field name="description">Information couverte par le secret des délibérations du gouvernement</field>
+            <field name="legal_reference">Constitution du Sénégal</field>
+            <field name="sequence">50</field>
+        </record>
+
+        <record id="refusal_reason_medical_secret" model="request.refusal.reason">
+            <field name="name">Secret Médical</field>
+            <field name="description">Information médicale protégée par le secret professionnel</field>
+            <field name="legal_reference">Code de Déontologie Médicale</field>
+            <field name="sequence">60</field>
+        </record>
+
+        <record id="refusal_reason_vague_request" model="request.refusal.reason">
+            <field name="name">Demande Imprécise</field>
+            <field name="description">Demande trop vague ou imprécise pour permettre l'identification des documents</field>
+            <field name="legal_reference">Article 12 de la Loi sur l'Accès à l'Information</field>
+            <field name="sequence">70</field>
+        </record>
+
+        <record id="refusal_reason_inexistent_document" model="request.refusal.reason">
+            <field name="name">Document Inexistant</field>
+            <field name="description">Le document ou l'information demandée n'existe pas</field>
+            <field name="legal_reference">Article 13 de la Loi sur l'Accès à l'Information</field>
+            <field name="sequence">80</field>
+        </record>
+
+        <record id="refusal_reason_excessive_cost" model="request.refusal.reason">
+            <field name="name">Coût Excessif</field>
+            <field name="description">Le coût de traitement de la demande est manifestement excessif</field>
+            <field name="legal_reference">Article 14 de la Loi sur l'Accès à l'Information</field>
+            <field name="sequence">90</field>
+        </record>
+
+        <record id="refusal_reason_not_competent" model="request.refusal.reason">
+            <field name="name">Organisme Non Compétent</field>
+            <field name="description">L'organisme n'est pas compétent pour détenir cette information</field>
+            <field name="legal_reference">Article 11 de la Loi sur l'Accès à l'Information</field>
+            <field name="sequence">100</field>
+        </record>
+
+    </data>
+</odoo>

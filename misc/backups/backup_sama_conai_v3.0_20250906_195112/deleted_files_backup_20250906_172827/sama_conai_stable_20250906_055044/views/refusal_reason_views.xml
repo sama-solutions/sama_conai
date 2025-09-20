@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Vue Liste pour les motifs de refus -->
+        <record id="view_refusal_reason_list" model="ir.ui.view">
+            <field name="name">request.refusal.reason.list</field>
+            <field name="model">request.refusal.reason</field>
+            <field name="arch" type="xml">
+                <list editable="bottom">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="legal_reference"/>
+                    <field name="usage_count"/>
+                    <field name="active"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Vue Formulaire pour les motifs de refus -->
+        <record id="view_refusal_reason_form" model="ir.ui.view">
+            <field name="name">request.refusal.reason.form</field>
+            <field name="model">request.refusal.reason</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" type="object" name="action_view_requests" icon="fa-ban">
+                                <field name="usage_count" widget="statinfo" string="Utilisations"/>
+                            </button>
+                        </div>
+                        
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="legal_reference"/>
+                                <field name="sequence"/>
+                            </group>
+                            <group>
+                                <field name="active"/>
+                            </group>
+                        </group>
+                        
+                        <group string="Description Détaillée">
+                            <field name="description" nolabel="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action pour les motifs de refus -->
+        <record id="action_refusal_reason" model="ir.actions.act_window">
+            <field name="name">Motifs de Refus</field>
+            <field name="res_model">request.refusal.reason</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Configurer les motifs de refus légaux
+                </p>
+                <p>
+                    Définissez les motifs de refus conformes à la législation sénégalaise.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

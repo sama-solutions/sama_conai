@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ========================================= -->
+        <!-- STAGES POUR DEMANDES D'INFORMATION       -->
+        <!-- ========================================= -->
+        
+        <record id="stage_new" model="request.information.stage">
+            <field name="name">📥 Nouvelle Demande</field>
+            <field name="sequence">10</field>
+            <field name="description">Demande reçue et en attente de traitement</field>
+            <field name="fold">False</field>
+        </record>
+        
+        <record id="stage_in_progress" model="request.information.stage">
+            <field name="name">⚙️ En Traitement</field>
+            <field name="sequence">20</field>
+            <field name="description">Demande en cours de traitement</field>
+            <field name="fold">False</field>
+        </record>
+        
+        <record id="stage_pending_validation" model="request.information.stage">
+            <field name="name">⏳ En Validation</field>
+            <field name="sequence">30</field>
+            <field name="description">Réponse en attente de validation</field>
+            <field name="fold">False</field>
+        </record>
+        
+        <record id="stage_responded" model="request.information.stage">
+            <field name="name">✅ Répondu</field>
+            <field name="sequence">40</field>
+            <field name="description">Réponse envoyée au demandeur</field>
+            <field name="fold">True</field>
+        </record>
+        
+        <record id="stage_refused" model="request.information.stage">
+            <field name="name">❌ Refusé</field>
+            <field name="sequence">50</field>
+            <field name="description">Demande refusée avec motivation</field>
+            <field name="fold">True</field>
+        </record>
+        
+        <!-- ========================================= -->
+        <!-- STAGES POUR ALERTES WHISTLEBLOWING       -->
+        <!-- ========================================= -->
+        
+        <record id="whistleblowing_stage_new" model="whistleblowing.alert.stage">
+            <field name="name">🆕 Nouveau Signalement</field>
+            <field name="sequence">10</field>
+            <field name="description">Signalement reçu et en attente d'évaluation</field>
+            <field name="fold">False</field>
+        </record>
+        
+        <record id="whistleblowing_stage_assessment" model="whistleblowing.alert.stage">
+            <field name="name">🔍 Évaluation Préliminaire</field>
+            <field name="sequence">20</field>
+            <field name="description">Évaluation de la recevabilité du signalement</field>
+            <field name="fold">False</field>
+        </record>
+        
+        <record id="whistleblowing_stage_investigation" model="whistleblowing.alert.stage">
+            <field name="name">🕵️ Enquête en Cours</field>
+            <field name="sequence">30</field>
+            <field name="description">Investigation approfondie en cours</field>
+            <field name="fold">False</field>
+        </record>
+        
+        <record id="whistleblowing_stage_resolved" model="whistleblowing.alert.stage">
+            <field name="name">✅ Résolu</field>
+            <field name="sequence">40</field>
+            <field name="description">Signalement traité et résolu</field>
+            <field name="fold">True</field>
+        </record>
+        
+        <record id="whistleblowing_stage_transmitted" model="whistleblowing.alert.stage">
+            <field name="name">📤 Transmis</field>
+            <field name="sequence">50</field>
+            <field name="description">Transmis aux autorités compétentes</field>
+            <field name="fold">True</field>
+        </record>
+        
+        <record id="whistleblowing_stage_closed" model="whistleblowing.alert.stage">
+            <field name="name">🔒 Clôturé</field>
+            <field name="sequence">60</field>
+            <field name="description">Dossier clôturé</field>
+            <field name="fold">True</field>
+        </record>
+        
+        <!-- ========================================= -->
+        <!-- MOTIFS DE REFUS                          -->
+        <!-- ========================================= -->
+        
+        <record id="refusal_reason_classified" model="request.refusal.reason">
+            <field name="name">Information Classifiée</field>
+            <field name="description">L'information demandée est classée confidentielle pour des raisons de sécurité nationale</field>
+            <field name="legal_basis">Article 15 de la Loi sur l'Accès à l'Information</field>
+        </record>
+        
+        <record id="refusal_reason_personal_data" model="request.refusal.reason">
+            <field name="name">Données Personnelles</field>
+            <field name="description">L'information contient des données personnelles protégées</field>
+            <field name="legal_basis">Loi sur la Protection des Données Personnelles</field>
+        </record>
+        
+        <record id="refusal_reason_ongoing_procedure" model="request.refusal.reason">
+            <field name="name">Procédure en Cours</field>
+            <field name="description">L'information concerne une procédure judiciaire ou administrative en cours</field>
+            <field name="legal_basis">Article 12 de la Loi sur l'Accès à l'Information</field>
+        </record>
+        
+        <record id="refusal_reason_not_exist" model="request.refusal.reason">
+            <field name="name">Information Inexistante</field>
+            <field name="description">L'information demandée n'existe pas dans nos archives</field>
+            <field name="legal_basis">Article 8 de la Loi sur l'Accès à l'Information</field>
+        </record>
+        
+        <!-- ========================================= -->
+        <!-- DEMANDES D'INFORMATION DE DÉMONSTRATION  -->
+        <!-- ========================================= -->
+        
+        <record id="demo_request_1" model="request.information">
+            <field name="name">REQ-2024-001</field>
+            <field name="partner_name">Amadou Diallo</field>
+            <field name="partner_email">amadou.diallo@email.sn</field>
+            <field name="partner_phone">+221 77 123 45 67</field>
+            <field name="requester_quality">journalist</field>
+            <field name="request_date">2024-01-15 09:30:00</field>
+            <field name="description">&lt;p&gt;Je souhaite obtenir les informations suivantes concernant les marchés publics de l'année 2023 :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Liste des marchés attribués supérieurs à 50 millions FCFA&lt;/li&gt;
+&lt;li&gt;Critères d'attribution utilisés&lt;/li&gt;
+&lt;li&gt;Composition des commissions d'évaluation&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Cette demande s'inscrit dans le cadre d'un article journalistique sur la transparence des marchés publics au Sénégal.&lt;/p&gt;</field>
+            <field name="stage_id" ref="stage_responded"/>
+            <field name="state">responded</field>
+            <field name="response_date">2024-02-10 14:20:00</field>
+            <field name="response_body">&lt;p&gt;Monsieur Diallo,&lt;/p&gt;
+&lt;p&gt;Suite à votre demande d'accès à l'information, nous avons l'honneur de vous communiquer les éléments suivants :&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Marchés publics 2023 &gt; 50M FCFA :&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Construction École Primaire Thiès : 75M FCFA&lt;/li&gt;
+&lt;li&gt;Réhabilitation Route Kaolack : 120M FCFA&lt;/li&gt;
+&lt;li&gt;Équipement Hôpital Régional : 85M FCFA&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Les documents détaillés sont disponibles en pièce jointe.&lt;/p&gt;
+&lt;p&gt;Cordialement,&lt;br/&gt;Service de l'Information Publique&lt;/p&gt;</field>
+        </record>
+        
+        <record id="demo_request_2" model="request.information">
+            <field name="name">REQ-2024-002</field>
+            <field name="partner_name">Fatou Seck</field>
+            <field name="partner_email">fatou.seck@univ.sn</field>
+            <field name="partner_phone">+221 76 987 65 43</field>
+            <field name="requester_quality">researcher</field>
+            <field name="request_date">2024-02-01 11:15:00</field>
+            <field name="description">&lt;p&gt;Dans le cadre de ma thèse de doctorat en sciences politiques sur "La gouvernance locale au Sénégal", je sollicite l'accès aux documents suivants :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Budgets des collectivités locales 2020-2023&lt;/li&gt;
+&lt;li&gt;Rapports d'audit des communes&lt;/li&gt;
+&lt;li&gt;Statistiques de participation citoyenne aux conseils municipaux&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Ces données sont essentielles pour l'analyse comparative que je mène.&lt;/p&gt;</field>
+            <field name="stage_id" ref="stage_in_progress"/>
+            <field name="state">in_progress</field>
+        </record>
+        
+        <record id="demo_request_3" model="request.information">
+            <field name="name">REQ-2024-003</field>
+            <field name="partner_name">Moussa Ba</field>
+            <field name="partner_email">moussa.ba@avocat.sn</field>
+            <field name="partner_phone">+221 77 555 44 33</field>
+            <field name="requester_quality">lawyer</field>
+            <field name="request_date">2024-02-20 16:45:00</field>
+            <field name="description">&lt;p&gt;Maître Moussa Ba, Avocat au Barreau de Dakar&lt;/p&gt;
+&lt;p&gt;Dans le cadre de la défense de mon client dans l'affaire n° 2024/CV/123, je demande communication des pièces suivantes :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Procès-verbaux de la commission d'enquête administrative&lt;/li&gt;
+&lt;li&gt;Correspondances entre les services concernés&lt;/li&gt;
+&lt;li&gt;Rapports d'expertise technique&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Cette demande est motivée par les droits de la défense.&lt;/p&gt;</field>
+            <field name="stage_id" ref="stage_refused"/>
+            <field name="state">refused</field>
+            <field name="is_refusal">True</field>
+            <field name="refusal_reason_id" ref="refusal_reason_ongoing_procedure"/>
+            <field name="refusal_motivation">Les documents demandés concernent une procédure judiciaire en cours. Conformément à l'article 12 de la Loi sur l'Accès à l'Information, ces éléments ne peuvent être communiqués tant que la procédure n'est pas définitivement close.</field>
+            <field name="response_date">2024-03-05 10:30:00</field>
+        </record>
+        
+        <record id="demo_request_4" model="request.information">
+            <field name="name">REQ-2024-004</field>
+            <field name="partner_name">Aïssatou Diop</field>
+            <field name="partner_email">aissatou.diop@ong.sn</field>
+            <field name="partner_phone">+221 78 111 22 33</field>
+            <field name="requester_quality">ngo</field>
+            <field name="request_date">2024-03-01 08:20:00</field>
+            <field name="description">&lt;p&gt;ONG "Transparence Citoyenne"&lt;/p&gt;
+&lt;p&gt;Nous sollicitons l'accès aux informations suivantes dans le cadre de notre mission de promotion de la transparence :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Déclarations de patrimoine des élus locaux&lt;/li&gt;
+&lt;li&gt;Registres des conflits d'intérêts&lt;/li&gt;
+&lt;li&gt;Procédures de contrôle interne&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Ces données permettront d'évaluer l'efficacité des mécanismes de prévention de la corruption.&lt;/p&gt;</field>
+            <field name="stage_id" ref="stage_pending_validation"/>
+            <field name="state">pending_validation</field>
+        </record>
+        
+        <record id="demo_request_5" model="request.information">
+            <field name="name">REQ-2024-005</field>
+            <field name="partner_name">Ibrahima Ndiaye</field>
+            <field name="partner_email">ibrahima.ndiaye@citoyen.sn</field>
+            <field name="partner_phone">+221 77 999 88 77</field>
+            <field name="requester_quality">citizen</field>
+            <field name="request_date">2024-03-10 14:10:00</field>
+            <field name="description">&lt;p&gt;Bonjour,&lt;/p&gt;
+&lt;p&gt;En tant que citoyen sénégalais, je souhaite connaître :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Le budget alloué aux infrastructures scolaires dans ma région (Kaolack)&lt;/li&gt;
+&lt;li&gt;Le nombre d'écoles construites/réhabilitées en 2023&lt;/li&gt;
+&lt;li&gt;Les projets prévus pour 2024&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Je m'implique dans l'association des parents d'élèves et ces informations nous aideront à mieux comprendre les investissements éducatifs.&lt;/p&gt;</field>
+            <field name="stage_id" ref="stage_new"/>
+            <field name="state">submitted</field>
+        </record>
+        
+        <!-- ========================================= -->
+        <!-- ALERTES WHISTLEBLOWING DE DÉMONSTRATION  -->
+        <!-- ========================================= -->
+        
+        <record id="demo_alert_1" model="whistleblowing.alert">
+            <field name="name">WB-2024-001</field>
+            <field name="alert_date">2024-01-20 10:30:00</field>
+            <field name="is_anonymous">True</field>
+            <field name="category">corruption</field>
+            <field name="priority">high</field>
+            <field name="description">&lt;p&gt;Je signale des pratiques suspectes dans l'attribution d'un marché public important.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Faits observés :&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Réunions privées entre un responsable et un soumissionnaire&lt;/li&gt;
+&lt;li&gt;Modification des critères après ouverture des plis&lt;/li&gt;
+&lt;li&gt;Exclusion arbitraire de candidats qualifiés&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Je dispose de documents et témoignages à l'appui.&lt;/p&gt;</field>
+            <field name="stage_id" ref="whistleblowing_stage_investigation"/>
+            <field name="state">investigation</field>
+            <field name="investigation_start_date">2024-01-25</field>
+            <field name="investigation_notes">&lt;p&gt;&lt;strong&gt;Enquête en cours :&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Audition des témoins programmée&lt;/li&gt;
+&lt;li&gt;Analyse des documents fournis&lt;/li&gt;
+&lt;li&gt;Vérification des procédures suivies&lt;/li&gt;
+&lt;/ul&gt;</field>
+        </record>
+        
+        <record id="demo_alert_2" model="whistleblowing.alert">
+            <field name="name">WB-2024-002</field>
+            <field name="alert_date">2024-02-05 15:45:00</field>
+            <field name="is_anonymous">False</field>
+            <field name="reporter_name">Agent X</field>
+            <field name="reporter_email">agent.x@confidentiel.sn</field>
+            <field name="category">harassment</field>
+            <field name="priority">urgent</field>
+            <field name="description">&lt;p&gt;Signalement de harcèlement moral répété de la part d'un supérieur hiérarchique.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Comportements signalés :&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Humiliations publiques répétées&lt;/li&gt;
+&lt;li&gt;Surcharge de travail discriminatoire&lt;/li&gt;
+&lt;li&gt;Menaces sur l'évolution de carrière&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Plusieurs collègues peuvent témoigner de ces faits.&lt;/p&gt;</field>
+            <field name="stage_id" ref="whistleblowing_stage_resolved"/>
+            <field name="state">resolved</field>
+            <field name="investigation_start_date">2024-02-06</field>
+            <field name="investigation_end_date">2024-02-28</field>
+            <field name="resolution_date">2024-02-28</field>
+            <field name="resolution">Après enquête approfondie, les faits de harcèlement ont été établis. Des mesures disciplinaires ont été prises à l'encontre du responsable concerné. Un accompagnement psychologique a été proposé à la victime. Des formations sur la prévention du harcèlement seront organisées pour l'ensemble du personnel.</field>
+        </record>
+        
+        <record id="demo_alert_3" model="whistleblowing.alert">
+            <field name="name">WB-2024-003</field>
+            <field name="alert_date">2024-02-15 09:20:00</field>
+            <field name="is_anonymous">True</field>
+            <field name="category">fraud</field>
+            <field name="priority">medium</field>
+            <field name="description">&lt;p&gt;Suspicion de fraude dans la gestion des stocks de fournitures.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Anomalies constatées :&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Écarts importants entre commandes et livraisons&lt;/li&gt;
+&lt;li&gt;Factures sans bons de réception correspondants&lt;/li&gt;
+&lt;li&gt;Disparition régulière de matériel informatique&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Je peux fournir des copies de documents comptables.&lt;/p&gt;</field>
+            <field name="stage_id" ref="whistleblowing_stage_assessment"/>
+            <field name="state">preliminary_assessment</field>
+        </record>
+        
+        <record id="demo_alert_4" model="whistleblowing.alert">
+            <field name="name">WB-2024-004</field>
+            <field name="alert_date">2024-03-01 11:30:00</field>
+            <field name="is_anonymous">True</field>
+            <field name="category">environmental</field>
+            <field name="priority">high</field>
+            <field name="description">&lt;p&gt;Violation grave des normes environnementales par une entreprise sous contrat public.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Violations observées :&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Déversement de déchets toxiques dans la rivière&lt;/li&gt;
+&lt;li&gt;Non-respect des mesures de protection&lt;/li&gt;
+&lt;li&gt;Falsification des rapports environnementaux&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;J'ai des photos et vidéos comme preuves.&lt;/p&gt;</field>
+            <field name="stage_id" ref="whistleblowing_stage_transmitted"/>
+            <field name="state">transmitted</field>
+            <field name="resolution">Dossier transmis au Ministère de l'Environnement et à l'Inspection des Installations Classées pour suite à donner. Enquête environnementale diligentée.</field>
+        </record>
+        
+        <record id="demo_alert_5" model="whistleblowing.alert">
+            <field name="name">WB-2024-005</field>
+            <field name="alert_date">2024-03-08 16:15:00</field>
+            <field name="is_anonymous">True</field>
+            <field name="category">abuse_of_power</field>
+            <field name="priority">medium</field>
+            <field name="description">&lt;p&gt;Abus de pouvoir dans l'attribution de logements sociaux.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Pratiques dénoncées :&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Attribution privilégiant les relations personnelles&lt;/li&gt;
+&lt;li&gt;Non-respect des critères sociaux officiels&lt;/li&gt;
+&lt;li&gt;Demandes de "gratifications" informelles&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Plusieurs familles nécessiteuses ont été écartées au profit de personnes non prioritaires.&lt;/p&gt;</field>
+            <field name="stage_id" ref="whistleblowing_stage_new"/>
+            <field name="state">new</field>
+        </record>
+        
+    </data>
+</odoo>

@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_request_information_user,request.information.user,model_request_information,sama_conai.group_info_request_user,1,1,1,0
+access_request_information_manager,request.information.manager,model_request_information,sama_conai.group_info_request_manager,1,1,1,1
+access_request_information_stage_user,request.information.stage.user,model_request_information_stage,sama_conai.group_info_request_user,1,0,0,0
+access_request_information_stage_manager,request.information.stage.manager,model_request_information_stage,sama_conai.group_info_request_manager,1,1,1,1
+access_request_refusal_reason_user,request.refusal.reason.user,model_request_refusal_reason,sama_conai.group_info_request_user,1,0,0,0
+access_request_refusal_reason_manager,request.refusal.reason.manager,model_request_refusal_reason,sama_conai.group_info_request_manager,1,1,1,1
+access_whistleblowing_alert_manager,whistleblowing.alert.manager,model_whistleblowing_alert,sama_conai.group_whistleblowing_manager,1,1,1,1
+access_whistleblowing_alert_stage_manager,whistleblowing.alert.stage.manager,model_whistleblowing_alert_stage,sama_conai.group_whistleblowing_manager,1,1,1,1

@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAMA CONAI - Interface Mobile Avancée</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ========================================= */
+        /* BASE STYLES - CSS VARIABLES SYSTEM       */
+        /* ========================================= */
+
+        :root {
+            /* Thème par défaut - Institutionnel */
+            --background-color: #EFF2F5;
+            --text-color: #2C3E50;
+            --shadow-dark: #d1d9e6;
+            --shadow-light: #ffffff;
+            --accent-action: #3498DB;
+            --accent-alert: #E67E22;
+            --accent-danger: #E74C3C;
+            --accent-success: #27AE60;
+            --font-family: 'Poppins', sans-serif;
+            --border-radius: 20px;
+            --shadow-neumorphic: 7px 7px 15px var(--shadow-dark), -7px -7px 15px var(--shadow-light);
+            --shadow-inset: inset 7px 7px 15px var(--shadow-dark), inset -7px -7px 15px var(--shadow-light);
+        }
+
+        /* Thème Terre */
+        body[data-theme="terre"] {
+            --background-color: #F5F1E8;
+            --text-color: #5D4037;
+            --shadow-dark: #E8DDD4;
+            --shadow-light: #FFFFFF;
+            --accent-action: #8D6E63;
+            --accent-alert: #FF8F00;
+            --accent-danger: #D84315;
+            --accent-success: #689F38;
+        }
+
+        /* Thème Moderne */
+        body[data-theme="moderne"] {
+            --background-color: #F8F9FA;
+            --text-color: #212529;
+            --shadow-dark: #E9ECEF;
+            --shadow-light: #FFFFFF;
+            --accent-action: #6C757D;
+            --accent-alert: #FFC107;
+            --accent-danger: #DC3545;
+            --accent-success: #28A745;
+        }
+
+        /* Thème Dark Mode */
+        body[data-theme="dark"] {
+            --background-color: #2C2C2E;
+            --text-color: #F2F2F7;
+            --shadow-dark: #1C1C1E;
+            --shadow-light: #3A3A3C;
+            --accent-action: #007AFF;
+            --accent-alert: #FF9F0A;
+            --accent-danger: #FF453A;
+            --accent-success: #30D158;
+        }
+
+        /* Thème Ocean */
+        body[data-theme="ocean"] {
+            --background-color: #E8F4F8;
+            --text-color: #1B4F72;
+            --shadow-dark: #D5E8ED;
+            --shadow-light: #FFFFFF;
+            --accent-action: #2E86AB;
+            --accent-alert: #F39C12;
+            --accent-danger: #E74C3C;
+            --accent-success: #16A085;
+        }
+
+        /* Thème Forest */
+        body[data-theme="forest"] {
+            --background-color: #F0F4F0;
+            --text-color: #2D5016;
+            --shadow-dark: #E1E8E1;
+            --shadow-light: #FFFFFF;
+            --accent-action: #27AE60;
+            --accent-alert: #F39C12;
+            --accent-danger: #E74C3C;
+            --accent-success: #229954;
+        }
+
+        /* Thème Sunset */
+        body[data-theme="sunset"] {
+            --background-color: #FDF2E9;
+            --text-color: #8B4513;
+            --shadow-dark: #F4E4D6;
+            --shadow-light: #FFFFFF;
+            --accent-action: #E67E22;
+            --accent-alert: #F39C12;
+            --accent-danger: #E74C3C;
+            --accent-success: #27AE60;
+        }
+
+        /* Thème Purple */
+        body[data-theme="purple"] {
+            --background-color: #F4F1F8;
+            --text-color: #4A148C;
+            --shadow-dark: #E8DDF0;
+            --shadow-light: #FFFFFF;
+            --accent-action: #8E24AA;
+            --accent-alert: #FF9800;
+            --accent-danger: #E91E63;
+            --accent-success: #4CAF50;
+        }
+
+        /* ========================================= */
+        /* RESET ET BASE                             */
+        /* ========================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* ========================================= */
+        /* CONTENEUR MOBILE STRICT                  */
+        /* ========================================= */
+
+        .sama-conai-mobile {
+            width: 100%;
+            max-width: 375px;
+            height: 100vh;
+            margin: 0 auto;
+            background: var(--background-color);
+            border-radius: 0;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (min-width: 400px) {
+            .sama-conai-mobile {
+                height: calc(100vh - 20px);
+                margin: 10px auto;
+                border-radius: 30px;
+                box-shadow: var(--shadow-neumorphic);
+            }
+        }
+
+        /* ========================================= */
+        /* STATUS BAR                                */
+        /* ========================================= */
+
+        .status-bar {
+            background: linear-gradient(135deg, var(--accent-action), var(--accent-alert));
+            color: white;
+            padding: 8px 20px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            height: 30px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .connection-status {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            opacity: 0.9;
+        }
+
+        /* ========================================= */
+        /* HEADER AVEC THEME SWITCHER               */
+        /* ========================================= */
+
+        .header {
+            background: var(--background-color);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-neumorphic);
+            margin: 10px;
+            border-radius: var(--border-radius);
+            height: 70px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 9;
+        }
+
+        .header-title {
+            flex: 1;
+            text-align: center;
+        }
+
+        .header-title h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent-action);
+            margin: 0;
+        }
+
+        .header-subtitle {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+
+        .theme-switcher {
+            background: var(--background-color);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            box-shadow: var(--shadow-neumorphic);
+            color: var(--accent-action);
+            font-size: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .theme-switcher:hover {
+            transform: scale(1.1);
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+
+        .theme-switcher:active {
+            box-shadow: var(--shadow-inset);
+            transform: scale(0.95);
+        }
+
+        .theme-menu {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: var(--background-color);
+            border-radius: 15px;
+            box-shadow: var(--shadow-neumorphic);
+            padding: 15px;
+            display: none;
+            z-index: 1000;
+            min-width: 200px;
+            white-space: nowrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .theme-menu.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .theme-option {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .theme-option:hover {
+            box-shadow: var(--shadow-inset);
+        }
+
+        .theme-option.active {
+            box-shadow: var(--shadow-inset);
+            color: var(--accent-action);
+            font-weight: 600;
+        }
+
+        .theme-icon {
+            margin-right: 12px;
+            font-size: 16px;
+        }
+
+        .back-button {
+            background: var(--background-color);
+            border: none;
+            color: var(--accent-action);
+            font-size: 18px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-neumorphic);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-button:hover {
+            box-shadow: var(--shadow-inset);
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .theme-toggle {
+            background: var(--background-color);
+            border: none;
+            color: var(--accent-action);
+            font-size: 16px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-neumorphic);
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-inset);
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.95);
+        }
+
+        /* ========================================= */
+        /* CONTENT AREA - STRICTEMENT CONTRAINT     */
+        /* ========================================= */
+
+        .content {
+            flex: 1;
+            margin: 0 10px 10px 10px;
+            background: var(--background-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-inset);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-inner {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        /* ========================================= */
+        /* NAVIGATION BREADCRUMB                     */
+        /* ========================================= */
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            background: var(--background-color);
+            border-radius: 15px;
+            box-shadow: var(--shadow-neumorphic);
+            font-size: 12px;
+            overflow-x: auto;
+        }
+
+        .breadcrumb-item {
+            color: var(--text-color);
+            opacity: 0.7;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .breadcrumb-item:hover {
+            opacity: 1;
+            color: var(--accent-action);
+        }
+
+        .breadcrumb-item.active {
+            color: var(--accent-action);
+            opacity: 1;
+            font-weight: 600;
+        }
+
+        .breadcrumb-separator {
+            margin: 0 8px;
+            opacity: 0.5;
+        }
+
+        /* ========================================= */
+        /* COMPOSANTS NEUMORPHIQUES                  */
+        /* ========================================= */
+
+        .neumorphic-card {
+            background: var(--background-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-neumorphic);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .neumorphic-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+
+        .neumorphic-card:active {
+            box-shadow: var(--shadow-inset);
+            transform: scale(0.98);
+        }
+
+        .neumorphic-button {
+            background: var(--background-color);
+            border: none;
+            border-radius: 15px;
+            padding: 15px 25px;
+            font-family: var(--font-family);
+            font-weight: 600;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-neumorphic);
+            font-size: 14px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .neumorphic-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+
+        .neumorphic-button:active {
+            box-shadow: var(--shadow-inset);
+            transform: scale(0.98);
+        }
+
+        .neumorphic-button.btn-primary {
+            color: var(--accent-action);
+        }
+
+        .neumorphic-button.btn-success {
+            color: var(--accent-success);
+        }
+
+        .neumorphic-button.btn-danger {
+            color: var(--accent-danger);
+        }
+
+        /* ========================================= */
+        /* DASHBOARD COMPONENTS                      */
+        /* ========================================= */
+
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--accent-action);
+            margin-bottom: 10px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            background: var(--background-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--accent-action);
+            box-shadow: var(--shadow-neumorphic);
+            margin-right: 15px;
+        }
+
+        .user-info h3 {
+            font-weight: 600;
+            color: var(--accent-action);
+            margin-bottom: 5px;
+        }
+
+        .user-info p {
+            opacity: 0.8;
+            font-size: 14px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: var(--background-color);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-inset);
+            cursor: pointer;
+        }
+
+        .metric-card:hover {
+            transform: scale(1.02);
+            box-shadow: var(--shadow-neumorphic);
+        }
+
+        .metric-number {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--accent-action);
+            margin-bottom: 8px;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: var(--text-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+        }
+
+        .metric-card.danger .metric-number {
+            color: var(--accent-danger);
+        }
+
+        .metric-card.success .metric-number {
+            color: var(--accent-success);
+        }
+
+        .metric-card.warning .metric-number {
+            color: var(--accent-alert);
+        }
+
+        /* ========================================= */
+        /* LISTE D'ÉLÉMENTS                         */
+        /* ========================================= */
+
+        .item-list {
+            margin-bottom: 20px;
+        }
+
+        .list-item {
+            background: var(--background-color);
+            border-radius: 15px;
+            box-shadow: var(--shadow-neumorphic);
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .list-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+
+        .status-indicator {
+            width: 4px;
+            height: 40px;
+            border-radius: 2px;
+            margin-right: 15px;
+        }
+
+        .status-indicator.new {
+            background: var(--accent-action);
+        }
+
+        .status-indicator.in-progress {
+            background: var(--accent-alert);
+        }
+
+        .status-indicator.completed {
+            background: var(--accent-success);
+        }
+
+        .status-indicator.overdue {
+            background: var(--accent-danger);
+        }
+
+        .item-content {
+            flex: 1;
+        }
+
+        .item-title {
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .item-subtitle {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-bottom: 3px;
+        }
+
+        .item-meta {
+            font-size: 11px;
+            opacity: 0.6;
+            display: flex;
+            gap: 10px;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .action-btn {
+            background: var(--background-color);
+            border: none;
+            border-radius: 8px;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-neumorphic);
+            color: var(--accent-action);
+            font-size: 12px;
+        }
+
+        .action-btn:hover {
+            box-shadow: var(--shadow-inset);
+        }
+
+        /* ========================================= */
+        /* BOTTOM NAVIGATION                         */
+        /* ========================================= */
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 375px;
+            background: var(--background-color);
+            box-shadow: var(--shadow-neumorphic);
+            border-radius: 25px 25px 0 0;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-around;
+            z-index: 100;
+        }
+
+        @media (min-width: 400px) {
+            .bottom-nav {
+                bottom: 10px;
+                border-radius: 25px;
+                margin: 0 10px;
+                width: calc(100% - 20px);
+                max-width: 355px;
+            }
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-color);
+            opacity: 0.6;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            opacity: 1;
+            color: var(--accent-action);
+            box-shadow: var(--shadow-inset);
+        }
+
+        .nav-item:hover {
+            opacity: 1;
+            transform: translateY(-2px);
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .nav-label {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ========================================= */
+        /* LOADING SPINNER                          */
+        /* ========================================= */
+
+        .loading-spinner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--shadow-dark);
+            border-top: 4px solid var(--accent-action);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* ========================================= */
+        /* ANIMATIONS                                */
+        /* ========================================= */
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        /* ========================================= */
+        /* NOTIFICATION THEME                        */
+        /* ========================================= */
+
+        .theme-notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--background-color);
+            color: var(--accent-action);
+            padding: 12px 20px;
+            border-radius: 25px;
+            box-shadow: var(--shadow-neumorphic);
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 2000;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .theme-notification.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(10px);
+        }
+
+        .theme-notification.hide {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-10px);
+        }
+
+        /* ========================================= */
+        /* RESPONSIVE                                */
+        /* ========================================= */
+
+        @media (max-width: 400px) {
+            .sama-conai-mobile {
+                border-radius: 0;
+                margin: 0;
+            }
+            
+            .header {
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .content {
+                margin: 0 0 0 0;
+                border-radius: 0;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body data-theme="default">
+    <div class="sama-conai-mobile">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <span>9:41</span>
+            <div class="connection-status">
+                <i class="fas fa-circle"></i> En ligne
+            </div>
+            <span>🔋 100%</span>
+        </div>
+        
+        <!-- Header avec Theme Switcher -->
+        <div class="header">
+            <button class="back-button" id="backButton" style="display: none;" onclick="navigateBack()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            
+            <div class="header-title">
+                <h1 id="headerTitle">🇸🇳 SAMA CONAI</h1>
+                <div class="header-subtitle" id="headerSubtitle">Tableau de Bord</div>
+            </div>
+            
+            <div class="header-controls">
+                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Basculer le thème">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+                <button class="theme-switcher" id="themeSwitcher" onclick="toggleThemeMenu(event)" title="Changer de thème">
+                    <i class="fas fa-palette"></i>
+                    <div class="theme-menu" id="themeMenu">
+                        <div class="theme-option" onclick="setAutoTheme(event)">
+                            <span class="theme-icon">🌌</span> Auto (Système)
+                        </div>
+                        <div style="border-top: 1px solid var(--shadow-dark); margin: 10px 0; opacity: 0.3;"></div>
+                        <div class="theme-option" onclick="changeTheme('default', event)">
+                            <span class="theme-icon">🏢</span> Institutionnel
+                        </div>
+                        <div class="theme-option" onclick="changeTheme('terre', event)">
+                            <span class="theme-icon">🌍</span> Terre
+                        </div>
+                        <div class="theme-option" onclick="changeTheme('moderne', event)">
+                            <span class="theme-icon">⚡</span> Moderne
+                        </div>
+                        <div class="theme-option" onclick="changeTheme('dark', event)">
+                            <span class="theme-icon">🌙</span> Dark Mode
+                        </div>
+                        <div class="theme-option" onclick="changeTheme('ocean', event)">
+                            <span class="theme-icon">🌊</span> Ocean
+                        </div>
+                        <div class="theme-option" onclick="changeTheme('forest', event)">
+                            <span class="theme-icon">🌲</span> Forest
+                        </div>
+                        <div class="theme-option" onclick="changeTheme('sunset', event)">
+                            <span class="theme-icon">🌅</span> Sunset
+                        </div>
+                        <div class="theme-option" onclick="changeTheme('purple', event)">
+                            <span class="theme-icon">🔮</span> Purple
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Content Area -->
+        <div class="content">
+            <div class="content-inner" id="contentInner">
+                <!-- Dashboard Content -->
+                <div class="fade-in" id="dashboardContent">
+                    <!-- Breadcrumb Navigation -->
+                    <div class="breadcrumb" id="breadcrumb">
+                        <span class="breadcrumb-item active">Accueil</span>
+                    </div>
+
+                    <div class="dashboard-header">
+                        <div class="user-profile">
+                            <div class="user-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="user-info">
+                                <h3 id="userName">Administrateur SAMA CONAI</h3>
+                                <p id="userEmail">admin@sama-conai.sn</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Metrics Cards -->
+                    <div class="metrics-grid">
+                        <div class="metric-card" onclick="navigateToLevel2('info-requests')">
+                            <div class="metric-number" id="infoRequestsCount">0</div>
+                            <div class="metric-label">Demandes d'Info</div>
+                        </div>
+                        <div class="metric-card warning" onclick="navigateToLevel2('alerts')">
+                            <div class="metric-number" id="alertsCount">0</div>
+                            <div class="metric-label">Alertes</div>
+                        </div>
+                        <div class="metric-card danger" onclick="navigateToLevel2('overdue')">
+                            <div class="metric-number" id="overdueCount">0</div>
+                            <div class="metric-label">En Retard</div>
+                        </div>
+                        <div class="metric-card success" onclick="navigateToLevel2('completed')">
+                            <div class="metric-number" id="completedCount">0</div>
+                            <div class="metric-label">Terminées</div>
+                        </div>
+                    </div>
+
+                    <!-- Actions rapides -->
+                    <div class="neumorphic-card">
+                        <h3 style="color: var(--accent-action); margin-bottom: 15px; text-align: center;">
+                            <i class="fas fa-bolt"></i> Actions Rapides
+                        </h3>
+                        <button class="neumorphic-button btn-primary" onclick="openOdooBackend('/web#action=sama_conai.action_information_request')">
+                            <i class="fas fa-file-alt"></i> Nouvelle Demande d'Information
+                        </button>
+                        <button class="neumorphic-button btn-danger" onclick="openOdooBackend('/web#action=sama_conai.action_whistleblowing_alert')">
+                            <i class="fas fa-exclamation-triangle"></i> Nouveau Signalement
+                        </button>
+                        <button class="neumorphic-button btn-success" onclick="openOdooBackend('/web#menu_id=sama_conai.menu_sama_conai_main')">
+                            <i class="fas fa-cog"></i> Administration Complète
+                        </button>
+                    </div>
+
+                    <!-- Activité récente -->
+                    <div class="neumorphic-card">
+                        <h3 style="color: var(--accent-action); margin-bottom: 15px; text-align: center;">
+                            <i class="fas fa-clock"></i> Activité Récente
+                        </h3>
+                        <div class="item-list" id="recentActivity">
+                            <div class="loading-spinner">
+                                <div class="spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <div class="nav-item active" onclick="navigateToHome()">
+                <div class="nav-icon"><i class="fas fa-home"></i></div>
+                <div class="nav-label">Accueil</div>
+            </div>
+            <div class="nav-item" onclick="navigateToLevel2('info-requests')">
+                <div class="nav-icon"><i class="fas fa-file-alt"></i></div>
+                <div class="nav-label">Demandes</div>
+            </div>
+            <div class="nav-item" onclick="navigateToLevel2('alerts')">
+                <div class="nav-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                <div class="nav-label">Alertes</div>
+            </div>
+            <div class="nav-item" onclick="openOdooBackend('/web')">
+                <div class="nav-icon"><i class="fas fa-external-link-alt"></i></div>
+                <div class="nav-label">Backend</div>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        // ========================================= //
+        // VARIABLES GLOBALES                        //
+        // ========================================= //
+        
+        let currentTheme = 'default';
+        let navigationStack = [];
+        let currentLevel = 'home';
+        let currentData = {};
+
+        // ========================================= //
+        // INITIALISATION                            //
+        // ========================================= //
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialiser le thème
+            initTheme();
+            
+            // Fermer le menu thème en cliquant ailleurs
+            document.addEventListener('click', function(event) {
+                const themeMenu = document.getElementById('themeMenu');
+                const themeSwitcher = document.getElementById('themeSwitcher');
+                if (!themeSwitcher.contains(event.target)) {
+                    themeMenu.classList.remove('show');
+                }
+            });
+
+            // Raccourci clavier pour basculer le thème (Ctrl+Shift+T)
+            document.addEventListener('keydown', function(event) {
+                if (event.ctrlKey && event.shiftKey && event.key === 'T') {
+                    event.preventDefault();
+                    toggleTheme();
+                }
+            });
+            
+            // Charger les données initiales
+            loadDashboardData();
+        });
+
+        // ========================================= //
+        // GESTION DES THÈMES                        //
+        // ========================================= //
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem('sama_conai_theme') || 'default';
+            currentTheme = savedTheme;
+            document.body.setAttribute('data-theme', currentTheme);
+            updateThemeMenu();
+            updateThemeIcon();
+        }
+
+        function toggleTheme() {
+            // Basculer entre le thème actuel et dark mode
+            if (currentTheme === 'dark') {
+                // Revenir au thème précédent ou default
+                const previousTheme = localStorage.getItem('sama_conai_previous_theme') || 'default';
+                changeTheme(previousTheme);
+            } else {
+                // Sauvegarder le thème actuel et passer en dark
+                localStorage.setItem('sama_conai_previous_theme', currentTheme);
+                changeTheme('dark');
+            }
+        }
+
+        function updateThemeIcon() {
+            const themeIcon = document.getElementById('themeIcon');
+            if (currentTheme === 'dark') {
+                themeIcon.className = 'fas fa-sun';
+                themeIcon.style.color = '#FFD700';
+            } else {
+                themeIcon.className = 'fas fa-moon';
+                themeIcon.style.color = 'var(--accent-action)';
+            }
+        }
+
+        function toggleThemeMenu(event) {
+            if (event) {
+                event.stopPropagation();
+            }
+            const themeMenu = document.getElementById('themeMenu');
+            themeMenu.classList.toggle('show');
+        }
+
+        function changeTheme(theme, event) {
+            if (event) {
+                event.stopPropagation();
+            }
+            
+            // Désactiver le mode auto si un thème est sélectionné manuellement
+            if (event) {
+                localStorage.setItem('sama_conai_auto_theme', 'false');
+            }
+            
+            currentTheme = theme;
+            document.body.setAttribute('data-theme', theme);
+            localStorage.setItem('sama_conai_theme', theme);
+            updateThemeMenu();
+            updateThemeIcon();
+            
+            // Fermer le menu
+            document.getElementById('themeMenu').classList.remove('show');
+            
+            // Animation de confirmation
+            const switcher = document.getElementById('themeSwitcher');
+            switcher.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+                switcher.style.transform = 'scale(1)';
+            }, 200);
+            
+            // Message de confirmation avec nom du thème
+            const themeNames = {
+                'default': 'Institutionnel',
+                'terre': 'Terre',
+                'moderne': 'Moderne',
+                'dark': 'Dark Mode',
+                'ocean': 'Ocean',
+                'forest': 'Forest',
+                'sunset': 'Sunset',
+                'purple': 'Purple'
+            };
+            
+            // Afficher une notification temporaire
+            if (event) {
+                showThemeNotification(`Thème changé : ${themeNames[theme]}`);
+            }
+            
+            console.log(`Thème changé vers: ${theme}`);
+        }
+
+        function updateThemeMenu() {
+            const options = document.querySelectorAll('.theme-option');
+            const isAutoTheme = localStorage.getItem('sama_conai_auto_theme') === 'true';
+            
+            options.forEach(option => {
+                option.classList.remove('active');
+                
+                // Vérifier si c'est l'option auto
+                if (option.getAttribute('onclick').includes('setAutoTheme') && isAutoTheme) {
+                    option.classList.add('active');
+                } else if (!isAutoTheme) {
+                    // Vérifier les thèmes manuels
+                    const themeMatch = option.getAttribute('onclick').match(/'([^']+)'/);
+                    if (themeMatch && themeMatch[1] === currentTheme) {
+                        option.classList.add('active');
+                    }
+                }
+            });
+        }
+
+        function setAutoTheme(event) {
+            if (event) {
+                event.stopPropagation();
+            }
+            
+            // Activer le mode auto
+            localStorage.setItem('sama_conai_auto_theme', 'true');
+            
+            // Détecter et appliquer le thème système
+            const systemTheme = detectSystemTheme();
+            currentTheme = systemTheme;
+            document.body.setAttribute('data-theme', systemTheme);
+            localStorage.setItem('sama_conai_theme', systemTheme);
+            
+            updateThemeMenu();
+            updateThemeIcon();
+            
+            // Fermer le menu
+            document.getElementById('themeMenu').classList.remove('show');
+            
+            // Notification
+            showThemeNotification('Mode automatique activé');
+            
+            console.log('Mode thème automatique activé');
+        }
+
+        // ========================================= //
+        // NAVIGATION 3 NIVEAUX                      //
+        // ========================================= //
+
+        function navigateToHome() {
+            currentLevel = 'home';
+            updateBreadcrumb(['Accueil']);
+            updateHeader('🇸🇳 SAMA CONAI', 'Tableau de Bord');
+            showBackButton(false);
+            updateBottomNav('home');
+            
+            // Recharger le dashboard
+            loadDashboardData();
+        }
+
+        function navigateToLevel2(section) {
+            currentLevel = 'level2';
+            navigationStack.push({
+                level: 'home',
+                section: 'dashboard'
+            });
+            
+            switch(section) {
+                case 'info-requests':
+                    updateBreadcrumb(['Accueil', 'Demandes d\'Information']);
+                    updateHeader('📄 Demandes d\'Information', 'Gestion des demandes');
+                    loadInfoRequests();
+                    break;
+                case 'alerts':
+                    updateBreadcrumb(['Accueil', 'Alertes']);
+                    updateHeader('🚨 Alertes', 'Signalements et alertes');
+                    loadAlerts();
+                    break;
+                case 'overdue':
+                    updateBreadcrumb(['Accueil', 'En Retard']);
+                    updateHeader('⏰ En Retard', 'Éléments en retard');
+                    loadOverdueItems();
+                    break;
+                case 'completed':
+                    updateBreadcrumb(['Accueil', 'Terminées']);
+                    updateHeader('✅ Terminées', 'Éléments terminés');
+                    loadCompletedItems();
+                    break;
+            }
+            
+            showBackButton(true);
+            updateBottomNav(section);
+        }
+
+        function navigateToLevel3(type, id) {
+            currentLevel = 'level3';
+            navigationStack.push({
+                level: 'level2',
+                section: type
+            });
+            
+            if (type === 'info-request') {
+                loadInfoRequestDetail(id);
+            } else if (type === 'alert') {
+                loadAlertDetail(id);
+            }
+            
+            showBackButton(true);
+        }
+
+        function navigateBack() {
+            if (navigationStack.length > 0) {
+                const previous = navigationStack.pop();
+                
+                if (previous.level === 'home') {
+                    navigateToHome();
+                } else if (previous.level === 'level2') {
+                    navigateToLevel2(previous.section);
+                }
+            }
+        }
+
+        function updateBreadcrumb(items) {
+            const breadcrumb = document.getElementById('breadcrumb');
+            breadcrumb.innerHTML = '';
+            
+            items.forEach((item, index) => {
+                const span = document.createElement('span');
+                span.className = 'breadcrumb-item';
+                span.textContent = item;
+                
+                if (index === items.length - 1) {
+                    span.classList.add('active');
+                } else {
+                    span.onclick = () => {
+                        if (index === 0) navigateToHome();
+                        // Ajouter d'autres navigations si nécessaire
+                    };
+                }
+                
+                breadcrumb.appendChild(span);
+                
+                if (index < items.length - 1) {
+                    const separator = document.createElement('span');
+                    separator.className = 'breadcrumb-separator';
+                    separator.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                    breadcrumb.appendChild(separator);
+                }
+            });
+        }
+
+        function updateHeader(title, subtitle) {
+            document.getElementById('headerTitle').textContent = title;
+            document.getElementById('headerSubtitle').textContent = subtitle;
+        }
+
+        function showBackButton(show) {
+            const backButton = document.getElementById('backButton');
+            backButton.style.display = show ? 'block' : 'none';
+        }
+
+        function updateBottomNav(activeSection) {
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            
+            // Activer l'élément approprié
+            if (activeSection === 'home') {
+                navItems[0].classList.add('active');
+            } else if (activeSection === 'info-requests') {
+                navItems[1].classList.add('active');
+            } else if (activeSection === 'alerts') {
+                navItems[2].classList.add('active');
+            }
+        }
+
+        // ========================================= //
+        // CHARGEMENT DES DONNÉES                    //
+        // ========================================= //
+
+        async function loadDashboardData() {
+            try {
+                // Simuler un appel API vers le backend Odoo
+                const response = await fetch('/api/mobile/dashboard', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + getAuthToken()
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    updateDashboardMetrics(data);
+                    loadRecentActivity();
+                } else {
+                    // Données de fallback si l'API n'est pas disponible
+                    updateDashboardMetrics({
+                        info_requests: 15,
+                        alerts: 8,
+                        overdue: 3,
+                        completed: 42
+                    });
+                    loadRecentActivityFallback();
+                }
+            } catch (error) {
+                console.log('Utilisation des données de fallback');
+                updateDashboardMetrics({
+                    info_requests: 15,
+                    alerts: 8,
+                    overdue: 3,
+                    completed: 42
+                });
+                loadRecentActivityFallback();
+            }
+        }
+
+        function updateDashboardMetrics(data) {
+            document.getElementById('infoRequestsCount').textContent = data.info_requests || 0;
+            document.getElementById('alertsCount').textContent = data.alerts || 0;
+            document.getElementById('overdueCount').textContent = data.overdue || 0;
+            document.getElementById('completedCount').textContent = data.completed || 0;
+        }
+
+        async function loadInfoRequests() {
+            const content = document.getElementById('contentInner');
+            content.innerHTML = `
+                <div class="breadcrumb" id="breadcrumb">
+                    <span class="breadcrumb-item" onclick="navigateToHome()">Accueil</span>
+                    <span class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></span>
+                    <span class="breadcrumb-item active">Demandes d'Information</span>
+                </div>
+                
+                <div class="neumorphic-card">
+                    <h3 style="color: var(--accent-action); margin-bottom: 15px; text-align: center;">
+                        <i class="fas fa-file-alt"></i> Demandes d'Information
+                    </h3>
+                    <button class="neumorphic-button btn-primary" onclick="openOdooBackend('/web#action=sama_conai.action_information_request&view_type=form')">
+                        <i class="fas fa-plus"></i> Nouvelle Demande
+                    </button>
+                </div>
+
+                <div class="item-list" id="infoRequestsList">
+                    <div class="loading-spinner">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            `;
+
+            // Charger les demandes
+            try {
+                const requests = await fetchInfoRequests();
+                displayInfoRequests(requests);
+            } catch (error) {
+                displayInfoRequestsFallback();
+            }
+        }
+
+        async function loadAlerts() {
+            const content = document.getElementById('contentInner');
+            content.innerHTML = `
+                <div class="breadcrumb" id="breadcrumb">
+                    <span class="breadcrumb-item" onclick="navigateToHome()">Accueil</span>
+                    <span class="breadcrumb-separator"><i class="fas fa-chevron-right"></i></span>
+                    <span class="breadcrumb-item active">Alertes</span>
+                </div>
+                
+                <div class="neumorphic-card">
+                    <h3 style="color: var(--accent-action); margin-bottom: 15px; text-align: center;">
+                        <i class="fas fa-exclamation-triangle"></i> Alertes et Signalements
+                    </h3>
+                    <button class="neumorphic-button btn-danger" onclick="openOdooBackend('/web#action=sama_conai.action_whistleblowing_alert&view_type=form')">
+                        <i class="fas fa-plus"></i> Nouveau Signalement
+                    </button>
+                </div>
+
+                <div class="item-list" id="alertsList">
+                    <div class="loading-spinner">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            `;
+
+            // Charger les alertes
+            try {
+                const alerts = await fetchAlerts();
+                displayAlerts(alerts);
+            } catch (error) {
+                displayAlertsFallback();
+            }
+        }
+
+        function displayInfoRequests(requests) {
+            const container = document.getElementById('infoRequestsList');
+            container.innerHTML = '';
+
+            requests.forEach(request => {
+                const item = document.createElement('div');
+                item.className = 'list-item';
+                item.onclick = () => navigateToLevel3('info-request', request.id);
+                
+                item.innerHTML = `
+                    <div class="status-indicator ${getStatusClass(request.state)}"></div>
+                    <div class="item-content">
+                        <div class="item-title">${request.name}</div>
+                        <div class="item-subtitle">${request.partner_name}</div>
+                        <div class="item-meta">
+                            <span><i class="fas fa-calendar"></i> ${formatDate(request.request_date)}</span>
+                            <span><i class="fas fa-tag"></i> ${getStateLabel(request.state)}</span>
+                        </div>
+                    </div>
+                    <div class="item-actions">
+                        <button class="action-btn" onclick="event.stopPropagation(); openOdooBackend('/web#id=${request.id}&model=request.information&view_type=form')">
+                            <i class="fas fa-external-link-alt"></i>
+                        </button>
+                    </div>
+                `;
+                
+                container.appendChild(item);
+            });
+        }
+
+        function displayAlerts(alerts) {
+            const container = document.getElementById('alertsList');
+            container.innerHTML = '';
+
+            alerts.forEach(alert => {
+                const item = document.createElement('div');
+                item.className = 'list-item';
+                item.onclick = () => navigateToLevel3('alert', alert.id);
+                
+                item.innerHTML = `
+                    <div class="status-indicator ${getAlertStatusClass(alert.state)}"></div>
+                    <div class="item-content">
+                        <div class="item-title">${alert.name}</div>
+                        <div class="item-subtitle">${getCategoryLabel(alert.category)}</div>
+                        <div class="item-meta">
+                            <span><i class="fas fa-calendar"></i> ${formatDate(alert.alert_date)}</span>
+                            <span><i class="fas fa-flag"></i> ${getPriorityLabel(alert.priority)}</span>
+                        </div>
+                    </div>
+                    <div class="item-actions">
+                        <button class="action-btn" onclick="event.stopPropagation(); openOdooBackend('/web#id=${alert.id}&model=whistleblowing.alert&view_type=form')">
+                            <i class="fas fa-external-link-alt"></i>
+                        </button>
+                    </div>
+                `;
+                
+                container.appendChild(item);
+            });
+        }
+
+        // ========================================= //
+        // DONNÉES DE FALLBACK                       //
+        // ========================================= //
+
+        function displayInfoRequestsFallback() {
+            const fallbackData = [
+                {
+                    id: 1,
+                    name: 'REQ-2025-001',
+                    partner_name: 'Amadou Diallo',
+                    request_date: '2025-01-15',
+                    state: 'submitted'
+                },
+                {
+                    id: 2,
+                    name: 'REQ-2025-002',
+                    partner_name: 'Fatou Sall',
+                    request_date: '2025-01-14',
+                    state: 'in_progress'
+                },
+                {
+                    id: 3,
+                    name: 'REQ-2025-003',
+                    partner_name: 'Moussa Ba',
+                    request_date: '2025-01-13',
+                    state: 'responded'
+                }
+            ];
+            
+            displayInfoRequests(fallbackData);
+        }
+
+        function displayAlertsFallback() {
+            const fallbackData = [
+                {
+                    id: 1,
+                    name: 'ALT-2025-001',
+                    category: 'corruption',
+                    alert_date: '2025-01-15',
+                    state: 'new',
+                    priority: 'high'
+                },
+                {
+                    id: 2,
+                    name: 'ALT-2025-002',
+                    category: 'fraud',
+                    alert_date: '2025-01-14',
+                    state: 'investigation',
+                    priority: 'medium'
+                }
+            ];
+            
+            displayAlerts(fallbackData);
+        }
+
+        function loadRecentActivityFallback() {
+            const container = document.getElementById('recentActivity');
+            container.innerHTML = `
+                <div class="list-item">
+                    <div class="status-indicator new"></div>
+                    <div class="item-content">
+                        <div class="item-title">Nouvelle demande d'information</div>
+                        <div class="item-subtitle">REQ-2025-001 - Amadou Diallo</div>
+                        <div class="item-meta">
+                            <span><i class="fas fa-clock"></i> Il y a 2 heures</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-item">
+                    <div class="status-indicator in-progress"></div>
+                    <div class="item-content">
+                        <div class="item-title">Alerte en cours de traitement</div>
+                        <div class="item-subtitle">ALT-2025-002 - Signalement de fraude</div>
+                        <div class="item-meta">
+                            <span><i class="fas fa-clock"></i> Il y a 4 heures</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-item">
+                    <div class="status-indicator completed"></div>
+                    <div class="item-content">
+                        <div class="item-title">Demande traitée</div>
+                        <div class="item-subtitle">REQ-2025-003 - Moussa Ba</div>
+                        <div class="item-meta">
+                            <span><i class="fas fa-clock"></i> Hier</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ========================================= //
+        // UTILITAIRES                               //
+        // ========================================= //
+
+        function getStatusClass(state) {
+            const statusMap = {
+                'draft': 'new',
+                'submitted': 'new',
+                'in_progress': 'in-progress',
+                'responded': 'completed',
+                'refused': 'completed',
+                'overdue': 'overdue'
+            };
+            return statusMap[state] || 'new';
+        }
+
+        function getAlertStatusClass(state) {
+            const statusMap = {
+                'new': 'new',
+                'preliminary_assessment': 'in-progress',
+                'investigation': 'in-progress',
+                'resolved': 'completed',
+                'closed': 'completed'
+            };
+            return statusMap[state] || 'new';
+        }
+
+        function getStateLabel(state) {
+            const labels = {
+                'draft': 'Brouillon',
+                'submitted': 'Soumise',
+                'in_progress': 'En traitement',
+                'responded': 'Répondu',
+                'refused': 'Refusé'
+            };
+            return labels[state] || state;
+        }
+
+        function getCategoryLabel(category) {
+            const labels = {
+                'corruption': 'Corruption',
+                'fraud': 'Fraude',
+                'abuse_of_power': 'Abus de pouvoir',
+                'discrimination': 'Discrimination',
+                'harassment': 'Harcèlement'
+            };
+            return labels[category] || category;
+        }
+
+        function getPriorityLabel(priority) {
+            const labels = {
+                'low': 'Faible',
+                'medium': 'Moyenne',
+                'high': 'Élevée',
+                'urgent': 'Urgente'
+            };
+            return labels[priority] || priority;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('fr-FR');
+        }
+
+        function getAuthToken() {
+            return localStorage.getItem('sama_conai_auth_token') || 'demo_token';
+        }
+
+        function openOdooBackend(path = '/web') {
+            const baseUrl = window.location.protocol + '//' + window.location.hostname + ':8077';
+            window.open(baseUrl + path, '_blank');
+        }
+
+        // ========================================= //
+        // API CALLS                                 //
+        // ========================================= //
+
+        async function fetchInfoRequests() {
+            const response = await fetch('/api/mobile/info-requests', {
+                headers: {
+                    'Authorization': 'Bearer ' + getAuthToken()
+                }
+            });
+            return response.json();
+        }
+
+        async function fetchAlerts() {
+            const response = await fetch('/api/mobile/alerts', {
+                headers: {
+                    'Authorization': 'Bearer ' + getAuthToken()
+                }
+            });
+            return response.json();
+        }
+
+        // ========================================= //
+        // NOTIFICATIONS THEME                       //
+        // ========================================= //
+
+        function showThemeNotification(message) {
+            // Créer ou récupérer l'élément de notification
+            let notification = document.getElementById('themeNotification');
+            if (!notification) {
+                notification = document.createElement('div');
+                notification.id = 'themeNotification';
+                notification.className = 'theme-notification';
+                document.body.appendChild(notification);
+            }
+
+            // Mettre à jour le message
+            notification.textContent = message;
+
+            // Afficher la notification
+            notification.classList.remove('hide');
+            notification.classList.add('show');
+
+            // Masquer après 2 secondes
+            setTimeout(() => {
+                notification.classList.remove('show');
+                notification.classList.add('hide');
+            }, 2000);
+        }
+
+        // Fonction pour détecter le thème système
+        function detectSystemTheme() {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                return 'dark';
+            }
+            return 'default';
+        }
+
+        // Écouter les changements de thème système
+        if (window.matchMedia) {
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+                if (localStorage.getItem('sama_conai_auto_theme') === 'true') {
+                    const systemTheme = e.matches ? 'dark' : 'default';
+                    changeTheme(systemTheme);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

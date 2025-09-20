@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========================================= -->
+    <!-- SAMA CONAI - DASHBOARD NEUMORPHIQUE      -->
+    <!-- ========================================= -->
+
+    <!-- Template principal du dashboard -->
+    <template id="dashboard_template" name="SAMA CONAI Dashboard">
+        <div class="sama-conai-dashboard">
+            <!-- Header du dashboard -->
+            <div class="dashboard-header">
+                <h1>Tableau de Bord</h1>
+                <div class="user-profile-icon" title="Profil utilisateur">
+                    <i class="fa fa-user"></i>
+                </div>
+            </div>
+
+            <!-- Grille des métriques -->
+            <div class="metrics-grid">
+                <!-- Carte 1: Demandes en cours -->
+                <div class="neumorphic-card metric-card action">
+                    <div class="metric-content">
+                        <div class="metric-title">Demandes en Cours</div>
+                        <div class="metric-value" t-esc="in_progress_count or 0"></div>
+                    </div>
+                    <div class="metric-icon action">
+                        <i class="fa fa-clock"></i>
+                    </div>
+                </div>
+
+                <!-- Carte 2: Dossiers en retard -->
+                <div class="neumorphic-card metric-card danger">
+                    <div class="metric-content">
+                        <div class="metric-title">Dossiers en Retard</div>
+                        <div class="metric-value" t-esc="overdue_count or 0"></div>
+                    </div>
+                    <div class="metric-icon danger">
+                        <i class="fa fa-exclamation-triangle"></i>
+                    </div>
+                </div>
+
+                <!-- Carte 3: Total des demandes -->
+                <div class="neumorphic-card metric-card action">
+                    <div class="metric-content">
+                        <div class="metric-title">Total Demandes</div>
+                        <div class="metric-value" t-esc="total_requests or 0"></div>
+                    </div>
+                    <div class="metric-icon action">
+                        <i class="fa fa-file-alt"></i>
+                    </div>
+                </div>
+
+                <!-- Carte 4: Alertes actives -->
+                <div class="neumorphic-card metric-card danger">
+                    <div class="metric-content">
+                        <div class="metric-title">Alertes Actives</div>
+                        <div class="metric-value" t-esc="active_alerts or 0"></div>
+                    </div>
+                    <div class="metric-icon danger">
+                        <i class="fa fa-bell"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conteneur du graphique principal -->
+            <div class="neumorphic-card chart-container">
+                <div class="chart-title">Répartition des Demandes</div>
+                <canvas id="main-chart" width="400" height="200"></canvas>
+            </div>
+
+            <!-- Liste des tâches prioritaires -->
+            <div class="priority-list">
+                <div class="list-title">Tâches Prioritaires</div>
+                
+                <t t-if="priority_tasks">
+                    <t t-foreach="priority_tasks" t-as="task">
+                        <div class="neumorphic-card list-item">
+                            <div class="status-bar" t-attf-style="background-color: #{task.get('urgency_color', '#3498DB')}"></div>
+                            <div class="item-content">
+                                <div class="item-id" t-esc="task.get('reference', 'N/A')"></div>
+                                <div class="item-title" t-esc="task.get('title', 'Tâche sans titre')"></div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+                <t t-else="">
+                    <div class="neumorphic-card list-item">
+                        <div class="status-bar" style="background-color: #27AE60"></div>
+                        <div class="item-content">
+                            <div class="item-id">INFO</div>
+                            <div class="item-title">Aucune tâche prioritaire en cours</div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+
+            <!-- Navigation inférieure -->
+            <nav class="bottom-nav neumorphic-nav">
+                <a href="#dashboard" class="nav-item active" title="Tableau de bord">
+                    <i class="fa fa-tachometer-alt"></i>
+                </a>
+                <a href="#requests" class="nav-item" title="Demandes">
+                    <i class="fa fa-file-alt"></i>
+                </a>
+                <a href="#alerts" class="nav-item" title="Alertes">
+                    <i class="fa fa-bell"></i>
+                </a>
+                <a href="#analytics" class="nav-item" title="Analyses">
+                    <i class="fa fa-chart-bar"></i>
+                </a>
+                <a href="#settings" class="nav-item" title="Paramètres">
+                    <i class="fa fa-cog"></i>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Script pour initialiser le graphique -->
+        <script type="text/javascript">
+            $(document).ready(function() {
+                // Initialiser le graphique principal
+                if (typeof Chart !== 'undefined') {
+                    var ctx = document.getElementById('main-chart');
+                    if (ctx) {
+                        var chartData = {
+                            labels: ['En cours', 'Terminées', 'En retard', 'Annulées'],
+                            datasets: [{
+                                data: [
+                                    <t t-esc="in_progress_count or 0"/>,
+                                    <t t-esc="completed_count or 0"/>,
+                                    <t t-esc="overdue_count or 0"/>,
+                                    <t t-esc="cancelled_count or 0"/>
+                                ],
+                                backgroundColor: [
+                                    'var(--accent-action)',
+                                    'var(--accent-success)',
+                                    'var(--accent-danger)',
+                                    'var(--shadow-dark)'
+                                ],
+                                borderWidth: 0
+                            }]
+                        };
+
+                        new Chart(ctx, {
+                            type: 'doughnut',
+                            data: chartData,
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom',
+                                        labels: {
+                                            color: 'var(--text-color)',
+                                            font: {
+                                                family: 'var(--font-family)'
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+
+                // Gérer la navigation
+                $('.bottom-nav .nav-item').on('click', function(e) {
+                    e.preventDefault();
+                    $('.bottom-nav .nav-item').removeClass('active');
+                    $(this).addClass('active');
+                    
+                    // Ici, vous pouvez ajouter la logique de navigation
+                    var target = $(this).attr('href');
+                    console.log('Navigation vers:', target);
+                });
+            });
+        </script>
+    </template>
+
+    <!-- Template pour le sélecteur de thème -->
+    <template id="theme_selector_template" name="SAMA CONAI Theme Selector">
+        <div class="sama-conai-dashboard">
+            <div class="dashboard-header">
+                <h1>Préférences d'Affichage</h1>
+                <div class="user-profile-icon" title="Retour au dashboard">
+                    <i class="fa fa-arrow-left"></i>
+                </div>
+            </div>
+
+            <div class="neumorphic-card">
+                <h2>Choisissez votre thème</h2>
+                <p>Personnalisez l'apparence de SAMA CONAI selon vos préférences.</p>
+                
+                <div class="theme-selector-grid">
+                    <!-- Thème Institutionnel -->
+                    <div class="neumorphic-card theme-choice-card" data-theme-name="default">
+                        <div class="theme-preview">
+                            <div class="color-sample" style="background-color: #EFF2F5;"></div>
+                            <div class="color-sample" style="background-color: #3498DB;"></div>
+                            <div class="color-sample" style="background-color: #E67E22;"></div>
+                            <div class="color-sample" style="background-color: #E74C3C;"></div>
+                        </div>
+                        <h4 class="theme-name">Thème Institutionnel</h4>
+                        <p>Couleurs officielles et professionnelles</p>
+                    </div>
+
+                    <!-- Thème Terre du Sénégal -->
+                    <div class="neumorphic-card theme-choice-card" data-theme-name="terre">
+                        <div class="theme-preview">
+                            <div class="color-sample" style="background-color: #F5F1E8;"></div>
+                            <div class="color-sample" style="background-color: #D2691E;"></div>
+                            <div class="color-sample" style="background-color: #CD853F;"></div>
+                            <div class="color-sample" style="background-color: #A0522D;"></div>
+                        </div>
+                        <h4 class="theme-name">Thème Terre du Sénégal</h4>
+                        <p>Inspiré des couleurs chaudes de la terre</p>
+                    </div>
+
+                    <!-- Thème Moderne -->
+                    <div class="neumorphic-card theme-choice-card" data-theme-name="moderne">
+                        <div class="theme-preview">
+                            <div class="color-sample" style="background-color: #F8F9FA;"></div>
+                            <div class="color-sample" style="background-color: #6C5CE7;"></div>
+                            <div class="color-sample" style="background-color: #FDCB6E;"></div>
+                            <div class="color-sample" style="background-color: #E17055;"></div>
+                        </div>
+                        <h4 class="theme-name">Thème Moderne</h4>
+                        <p>Design contemporain et élégant</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation inférieure -->
+            <nav class="bottom-nav neumorphic-nav">
+                <a href="#dashboard" class="nav-item" title="Tableau de bord">
+                    <i class="fa fa-tachometer-alt"></i>
+                </a>
+                <a href="#requests" class="nav-item" title="Demandes">
+                    <i class="fa fa-file-alt"></i>
+                </a>
+                <a href="#alerts" class="nav-item" title="Alertes">
+                    <i class="fa fa-bell"></i>
+                </a>
+                <a href="#analytics" class="nav-item" title="Analyses">
+                    <i class="fa fa-chart-bar"></i>
+                </a>
+                <a href="#settings" class="nav-item active" title="Paramètres">
+                    <i class="fa fa-cog"></i>
+                </a>
+            </nav>
+        </div>
+    </template>
+
+    <!-- Template pour une vue mobile simplifiée -->
+    <template id="mobile_dashboard_template" name="SAMA CONAI Mobile Dashboard">
+        <div class="sama-conai-dashboard mobile-optimized">
+            <!-- Header simplifié pour mobile -->
+            <div class="dashboard-header">
+                <h1>SAMA CONAI</h1>
+                <div class="user-profile-icon">
+                    <i class="fa fa-user"></i>
+                </div>
+            </div>
+
+            <!-- Métriques en grille mobile -->
+            <div class="metrics-grid mobile-grid">
+                <div class="neumorphic-card metric-card action">
+                    <div class="metric-content">
+                        <div class="metric-title">En Cours</div>
+                        <div class="metric-value" t-esc="in_progress_count or 0"></div>
+                    </div>
+                    <div class="metric-icon">
+                        <i class="fa fa-clock"></i>
+                    </div>
+                </div>
+
+                <div class="neumorphic-card metric-card danger">
+                    <div class="metric-content">
+                        <div class="metric-title">En Retard</div>
+                        <div class="metric-value" t-esc="overdue_count or 0"></div>
+                    </div>
+                    <div class="metric-icon">
+                        <i class="fa fa-exclamation-triangle"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions rapides -->
+            <div class="neumorphic-card quick-actions">
+                <h3>Actions Rapides</h3>
+                <div class="action-buttons">
+                    <button class="neumorphic-button btn-action">
+                        <i class="fa fa-plus"></i> Nouvelle Demande
+                    </button>
+                    <button class="neumorphic-button btn-alert">
+                        <i class="fa fa-bell"></i> Signaler
+                    </button>
+                </div>
+            </div>
+
+            <!-- Navigation inférieure fixe -->
+            <nav class="bottom-nav neumorphic-nav">
+                <a href="#dashboard" class="nav-item active">
+                    <i class="fa fa-home"></i>
+                </a>
+                <a href="#requests" class="nav-item">
+                    <i class="fa fa-file-alt"></i>
+                </a>
+                <a href="#alerts" class="nav-item">
+                    <i class="fa fa-bell"></i>
+                </a>
+                <a href="#profile" class="nav-item">
+                    <i class="fa fa-user"></i>
+                </a>
+            </nav>
+        </div>
+
+        <style>
+            .mobile-optimized .metrics-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+            
+            .mobile-optimized .metric-card {
+                min-height: 80px;
+            }
+            
+            .mobile-optimized .metric-value {
+                font-size: 1.8rem;
+            }
+            
+            .quick-actions {
+                margin: 1rem 0;
+                text-align: center;
+            }
+            
+            .action-buttons {
+                display: flex;
+                gap: 1rem;
+                justify-content: center;
+                margin-top: 1rem;
+            }
+            
+            .action-buttons .neumorphic-button {
+                flex: 1;
+                max-width: 150px;
+            }
+        </style>
+    </template>
+</odoo>

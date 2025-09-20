@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Vue Liste pour les étapes -->
+        <record id="view_information_request_stage_list" model="ir.ui.view">
+            <field name="name">request.information.stage.list</field>
+            <field name="model">request.information.stage</field>
+            <field name="arch" type="xml">
+                <list editable="bottom">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="is_closed"/>
+                    <field name="fold"/>
+                    <field name="color" widget="color_picker"/>
+                    <field name="request_count"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Vue Formulaire pour les étapes -->
+        <record id="view_information_request_stage_form" model="ir.ui.view">
+            <field name="name">request.information.stage.form</field>
+            <field name="model">request.information.stage</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" type="object" name="action_view_requests" icon="fa-tasks">
+                                <field name="request_count" widget="statinfo" string="Demandes"/>
+                            </button>
+                        </div>
+                        
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="sequence"/>
+                                <field name="color" widget="color_picker"/>
+                            </group>
+                            <group>
+                                <field name="is_closed"/>
+                                <field name="fold"/>
+                            </group>
+                        </group>
+                        
+                        <group string="Description">
+                            <field name="description" nolabel="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action pour les étapes -->
+        <record id="action_information_request_stage" model="ir.actions.act_window">
+            <field name="name">Étapes des Demandes</field>
+            <field name="res_model">request.information.stage</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Configurer les étapes du workflow
+                </p>
+                <p>
+                    Définissez les étapes par lesquelles passent les demandes d'information.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

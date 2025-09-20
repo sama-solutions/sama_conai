@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Action Dashboard Exécutif filtré pour les demandes d'information -->
+        <record id="action_executive_dashboard_requests" model="ir.actions.act_window">
+            <field name="name">Tableau de Bord - Demandes</field>
+            <field name="res_model">executive.dashboard</field>
+            <field name="view_mode">kanban,form,list</field>
+            <field name="context">{'default_focus_area': 'requests'}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Tableau de bord des demandes d'information
+                </p>
+                <p>
+                    Vue d'ensemble des KPI et métriques liés aux demandes d'accès à l'information.
+                </p>
+            </field>
+        </record>
+
+        <!-- Action Dashboard Exécutif filtré pour les signalements -->
+        <record id="action_executive_dashboard_alerts" model="ir.actions.act_window">
+            <field name="name">Tableau de Bord - Alertes</field>
+            <field name="res_model">executive.dashboard</field>
+            <field name="view_mode">kanban,form,list</field>
+            <field name="context">{'default_focus_area': 'alerts'}</field>
+            <field name="groups_id" eval="[(4, ref('sama_conai.group_whistleblowing_manager'))]"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Tableau de bord des signalements d'alerte
+                </p>
+                <p>
+                    Vue d'ensemble des KPI et métriques liés aux signalements d'alerte.
+                </p>
+            </field>
+        </record>
+
+        <!-- Action Générateur de Rapports filtré pour les demandes -->
+        <record id="action_auto_report_generator_requests" model="ir.actions.act_window">
+            <field name="name">Rapports - Demandes</field>
+            <field name="res_model">auto.report.generator</field>
+            <field name="view_mode">kanban,form,list</field>
+            <field name="domain">[('report_type', 'in', ['information_requests', 'combined'])]</field>
+            <field name="context">{'default_report_type': 'information_requests'}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Générateurs de rapports pour les demandes
+                </p>
+                <p>
+                    Automatisez la génération de rapports sur les demandes d'accès à l'information.
+                </p>
+            </field>
+        </record>
+
+        <!-- Action Générateur de Rapports filtré pour les alertes -->
+        <record id="action_auto_report_generator_alerts" model="ir.actions.act_window">
+            <field name="name">Rapports - Alertes</field>
+            <field name="res_model">auto.report.generator</field>
+            <field name="view_mode">kanban,form,list</field>
+            <field name="domain">[('report_type', 'in', ['whistleblowing_alerts', 'combined'])]</field>
+            <field name="context">{'default_report_type': 'whistleblowing_alerts'}</field>
+            <field name="groups_id" eval="[(4, ref('sama_conai.group_whistleblowing_manager'))]"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Générateurs de rapports pour les alertes
+                </p>
+                <p>
+                    Automatisez la génération de rapports sur les signalements d'alerte.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

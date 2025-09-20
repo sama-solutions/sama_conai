@@ -1,0 +1,2251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAMA CONAI - UX Révolutionnaire avec Données Réelles</title>
+    
+    <!-- Meta tags PWA -->
+    <meta name="description" content="SAMA CONAI - Application mobile avec UX révolutionnaire et données réelles">
+    <meta name="theme-color" content="#6366F1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles CSS Ultra-Modernes avec Inspiration UX -->
+    <style>
+        /* Variables CSS - Design System Révolutionnaire */
+        :root {
+            /* Palette de couleurs moderne inspirée des tendances UX 2025 */
+            --primary: #6366F1;
+            --primary-dark: #4F46E5;
+            --primary-light: #818CF8;
+            --secondary: #06B6D4;
+            --secondary-dark: #0891B2;
+            --accent: #F59E0B;
+            --accent-dark: #D97706;
+            
+            /* Couleurs sémantiques */
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --info: #3B82F6;
+            
+            /* Couleurs neutres avec sophistication */
+            --gray-50: #F8FAFC;
+            --gray-100: #F1F5F9;
+            --gray-200: #E2E8F0;
+            --gray-300: #CBD5E1;
+            --gray-400: #94A3B8;
+            --gray-500: #64748B;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1E293B;
+            --gray-900: #0F172A;
+            
+            /* Couleurs de fond avec profondeur */
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F8FAFC;
+            --bg-tertiary: #F1F5F9;
+            --bg-dark: #0F172A;
+            --bg-dark-secondary: #1E293B;
+            
+            /* Texte avec hiérarchie claire */
+            --text-primary: #0F172A;
+            --text-secondary: #475569;
+            --text-tertiary: #64748B;
+            --text-inverse: #FFFFFF;
+            
+            /* Système d'ombres sophistiqué */
+            --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            
+            /* Ombres colorées pour les éléments interactifs */
+            --shadow-primary: 0 10px 15px -3px rgba(99, 102, 241, 0.1), 0 4px 6px -4px rgba(99, 102, 241, 0.1);
+            --shadow-secondary: 0 10px 15px -3px rgba(6, 182, 212, 0.1), 0 4px 6px -4px rgba(6, 182, 212, 0.1);
+            
+            /* Système de bordures */
+            --border-width: 1px;
+            --border-color: #E2E8F0;
+            --border-color-dark: #334155;
+            
+            /* Rayons de bordure avec hiérarchie */
+            --radius-xs: 0.125rem;
+            --radius-sm: 0.25rem;
+            --radius-md: 0.375rem;
+            --radius-lg: 0.5rem;
+            --radius-xl: 0.75rem;
+            --radius-2xl: 1rem;
+            --radius-3xl: 1.5rem;
+            --radius-full: 9999px;
+            
+            /* Système d'espacement basé sur 4px */
+            --space-0: 0;
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            --space-24: 6rem;
+            
+            /* Système de transitions fluides */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Courbes d'animation avancées */
+            --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+            --ease-out: cubic-bezier(0, 0, 0.2, 1);
+            --ease-in: cubic-bezier(0.4, 0, 1, 1);
+            --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --ease-elastic: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            
+            /* Système typographique */
+            --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-family-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            
+            /* Tailles de police avec échelle harmonieuse */
+            --text-xs: 0.75rem;
+            --text-sm: 0.875rem;
+            --text-base: 1rem;
+            --text-lg: 1.125rem;
+            --text-xl: 1.25rem;
+            --text-2xl: 1.5rem;
+            --text-3xl: 1.875rem;
+            --text-4xl: 2.25rem;
+            --text-5xl: 3rem;
+            
+            /* Hauteurs de ligne */
+            --leading-tight: 1.25;
+            --leading-normal: 1.5;
+            --leading-relaxed: 1.625;
+            
+            /* Z-index système */
+            --z-dropdown: 1000;
+            --z-sticky: 1020;
+            --z-fixed: 1030;
+            --z-modal-backdrop: 1040;
+            --z-modal: 1050;
+            --z-popover: 1060;
+            --z-tooltip: 1070;
+            --z-toast: 1080;
+        }
+
+        /* Mode sombre avec sophistication */
+        [data-theme="dark"] {
+            --bg-primary: #0F172A;
+            --bg-secondary: #1E293B;
+            --bg-tertiary: #334155;
+            --text-primary: #F8FAFC;
+            --text-secondary: #CBD5E1;
+            --text-tertiary: #94A3B8;
+            --border-color: #334155;
+            --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.4);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Reset et base avec améliorations */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-family-primary);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: var(--leading-normal);
+            overflow-x: hidden;
+            transition: background-color var(--transition-normal), color var(--transition-normal);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Conteneur principal avec design moderne */
+        .app-container {
+            max-width: 430px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: var(--bg-primary);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-2xl);
+            border-radius: 0;
+        }
+
+        @media (min-width: 768px) {
+            .app-container {
+                border-radius: var(--radius-3xl);
+                margin: var(--space-8) auto;
+                min-height: calc(100vh - 4rem);
+            }
+        }
+
+        /* Header avec design révolutionnaire */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--text-inverse);
+            padding: var(--space-6) var(--space-4) var(--space-4);
+            position: relative;
+            overflow: hidden;
+            z-index: var(--z-sticky);
+        }
+
+        .app-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            backdrop-filter: blur(10px);
+            z-index: -1;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-title {
+            font-family: var(--font-family-display);
+            font-size: var(--text-2xl);
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .header-logo {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-xl);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: var(--space-2);
+            align-items: center;
+        }
+
+        /* Système de boutons révolutionnaire */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+            padding: var(--space-3) var(--space-4);
+            border: none;
+            border-radius: var(--radius-xl);
+            font-size: var(--text-sm);
+            font-weight: 600;
+            font-family: var(--font-family-primary);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+            min-height: 44px;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            transform: translateZ(0);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: currentColor;
+            opacity: 0;
+            transition: opacity var(--transition-fast);
+            border-radius: inherit;
+        }
+
+        .btn:hover::before {
+            opacity: 0.1;
+        }
+
+        .btn:active {
+            transform: scale(0.98) translateZ(0);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--text-inverse);
+            box-shadow: var(--shadow-primary);
+        }
+
+        .btn-primary:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px) translateZ(0);
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-tertiary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid transparent;
+        }
+
+        .btn-ghost:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .btn-icon {
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border-radius: var(--radius-full);
+        }
+
+        .btn-sm {
+            padding: var(--space-2) var(--space-3);
+            font-size: var(--text-xs);
+            min-height: 36px;
+        }
+
+        .btn-lg {
+            padding: var(--space-4) var(--space-6);
+            font-size: var(--text-lg);
+            min-height: 52px;
+        }
+
+        /* Navigation avec micro-interactions */
+        .nav-tabs {
+            display: flex;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-1);
+            margin: var(--space-4);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: var(--space-3) var(--space-4);
+            text-align: center;
+            font-size: var(--text-sm);
+            font-weight: 500;
+            color: var(--text-secondary);
+            background: transparent;
+            border: none;
+            border-radius: var(--radius-xl);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            position: relative;
+            z-index: 1;
+        }
+
+        .nav-tab.active {
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            box-shadow: var(--shadow-sm);
+            transform: scale(1.02);
+        }
+
+        .nav-tab:not(.active):hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Contenu principal avec animations fluides */
+        .main-content {
+            padding: var(--space-4);
+            min-height: calc(100vh - 200px);
+            position: relative;
+        }
+
+        /* Cards avec design sophistiqué */
+        .card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: var(--space-6);
+            overflow: hidden;
+            transition: all var(--transition-normal);
+            position: relative;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px) translateZ(0);
+        }
+
+        .card-header {
+            padding: var(--space-6) var(--space-6) var(--space-4);
+            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+        }
+
+        .card-title {
+            font-family: var(--font-family-display);
+            font-size: var(--text-xl);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-1);
+        }
+
+        .card-subtitle {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+
+        .card-body {
+            padding: var(--space-6);
+        }
+
+        .card-footer {
+            padding: var(--space-4) var(--space-6);
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Système de grille moderne */
+        .grid {
+            display: grid;
+            gap: var(--space-4);
+        }
+
+        .grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
+        .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+
+        @media (max-width: 640px) {
+            .grid-cols-2,
+            .grid-cols-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Statistiques avec animations */
+        .stat-card {
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-6);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-6px) scale(1.02) translateZ(0);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .stat-number {
+            font-family: var(--font-family-display);
+            font-size: var(--text-4xl);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--space-2);
+            line-height: var(--leading-tight);
+        }
+
+        .stat-label {
+            font-size: var(--text-sm);
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Formulaires avec design moderne */
+        .form-group {
+            margin-bottom: var(--space-6);
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--space-2);
+            font-size: var(--text-sm);
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: var(--space-4) var(--space-4);
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            font-size: var(--text-base);
+            color: var(--text-primary);
+            transition: all var(--transition-normal);
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        /* Listes avec interactions avancées */
+        .list-group {
+            border-radius: var(--radius-2xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .list-item {
+            padding: var(--space-4) var(--space-6);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .list-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.1), transparent);
+            transition: left var(--transition-normal);
+        }
+
+        .list-item:hover::before {
+            left: 100%;
+        }
+
+        .list-item:hover {
+            background: var(--bg-secondary);
+            transform: translateX(4px);
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .list-item.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--text-inverse);
+        }
+
+        /* Badges avec design moderne */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: var(--space-1) var(--space-3);
+            font-size: var(--text-xs);
+            font-weight: 600;
+            border-radius: var(--radius-full);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--text-inverse);
+        }
+
+        .badge-success {
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+            color: var(--text-inverse);
+        }
+
+        .badge-warning {
+            background: linear-gradient(135deg, var(--warning) 0%, var(--accent-dark) 100%);
+            color: var(--text-primary);
+        }
+
+        .badge-error {
+            background: linear-gradient(135deg, var(--error) 0%, #DC2626 100%);
+            color: var(--text-inverse);
+        }
+
+        .badge-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+        }
+
+        /* Écran de connexion révolutionnaire */
+        .login-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 120px);
+            padding: var(--space-8);
+            text-align: center;
+            position: relative;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+        }
+
+        .login-logo {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: var(--radius-3xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-5xl);
+            color: var(--text-inverse);
+            margin-bottom: var(--space-8);
+            box-shadow: var(--shadow-2xl);
+            animation: float 6s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-logo::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-10px) rotate(1deg); }
+            66% { transform: translateY(-5px) rotate(-1deg); }
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .login-title {
+            font-family: var(--font-family-display);
+            font-size: var(--text-4xl);
+            font-weight: 800;
+            margin-bottom: var(--space-2);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.025em;
+        }
+
+        .login-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-8);
+            font-size: var(--text-lg);
+            font-weight: 400;
+        }
+
+        /* Animations de chargement sophistiquées */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: var(--space-8);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--bg-tertiary);
+            border-top: 3px solid var(--primary);
+            border-radius: var(--radius-full);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .pulse-loader {
+            display: flex;
+            gap: var(--space-2);
+        }
+
+        .pulse-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: var(--radius-full);
+            animation: pulse 1.4s ease-in-out infinite both;
+        }
+
+        .pulse-dot:nth-child(1) { animation-delay: -0.32s; }
+        .pulse-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes pulse {
+            0%, 80%, 100% {
+                transform: scale(0);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Alertes avec design moderne */
+        .alert {
+            padding: var(--space-4) var(--space-6);
+            margin-bottom: var(--space-4);
+            border-radius: var(--radius-xl);
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .alert::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: currentColor;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.2);
+            color: var(--error);
+        }
+
+        .alert-info {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.2);
+            color: var(--info);
+        }
+
+        /* Navigation bottom avec design futuriste */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-around;
+            padding: var(--space-3) var(--space-2);
+            box-shadow: var(--shadow-xl);
+            z-index: var(--z-fixed);
+        }
+
+        [data-theme="dark"] .bottom-nav {
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-2);
+            color: var(--text-tertiary);
+            text-decoration: none;
+            font-size: var(--text-xs);
+            font-weight: 500;
+            transition: all var(--transition-normal);
+            border-radius: var(--radius-xl);
+            min-width: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            opacity: 0;
+            transition: opacity var(--transition-normal);
+            border-radius: inherit;
+        }
+
+        .nav-item.active::before {
+            opacity: 0.1;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .nav-item:hover {
+            color: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        .nav-icon {
+            font-size: var(--text-xl);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Bouton de retour */
+        .back-button {
+            position: absolute;
+            top: var(--space-4);
+            left: var(--space-4);
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-full);
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            color: var(--text-primary);
+        }
+
+        .back-button:hover {
+            background: var(--bg-primary);
+            transform: scale(1.1);
+        }
+
+        /* Détail d'un élément */
+        .detail-view {
+            padding: var(--space-6);
+        }
+
+        .detail-header {
+            margin-bottom: var(--space-6);
+        }
+
+        .detail-title {
+            font-family: var(--font-family-display);
+            font-size: var(--text-2xl);
+            font-weight: 700;
+            margin-bottom: var(--space-2);
+            color: var(--text-primary);
+        }
+
+        .detail-meta {
+            display: flex;
+            gap: var(--space-4);
+            margin-bottom: var(--space-4);
+            flex-wrap: wrap;
+        }
+
+        .detail-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-1);
+        }
+
+        .detail-meta-label {
+            font-size: var(--text-xs);
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .detail-meta-value {
+            font-size: var(--text-sm);
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .detail-content {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            margin-bottom: var(--space-6);
+        }
+
+        .detail-actions {
+            display: flex;
+            gap: var(--space-3);
+            flex-wrap: wrap;
+        }
+
+        /* Animations d'entrée sophistiquées */
+        .fade-in {
+            animation: fadeIn 0.6s var(--ease-out);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.5s var(--ease-out);
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .scale-in {
+            animation: scaleIn 0.4s var(--ease-bounce);
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Utilitaires */
+        .hidden { display: none !important; }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-2 { gap: var(--space-2); }
+        .gap-4 { gap: var(--space-4); }
+
+        .w-full { width: 100%; }
+        .h-full { height: 100%; }
+
+        .mb-2 { margin-bottom: var(--space-2); }
+        .mb-4 { margin-bottom: var(--space-4); }
+        .mb-6 { margin-bottom: var(--space-6); }
+        .mb-8 { margin-bottom: var(--space-8); }
+
+        .mt-2 { margin-top: var(--space-2); }
+        .mt-4 { margin-top: var(--space-4); }
+        .mt-6 { margin-top: var(--space-6); }
+        .mt-8 { margin-top: var(--space-8); }
+
+        .p-4 { padding: var(--space-4); }
+        .p-6 { padding: var(--space-6); }
+
+        /* Responsive design */
+        @media (max-width: 640px) {
+            .app-container {
+                margin: 0;
+                border-radius: 0;
+                min-height: 100vh;
+            }
+            
+            .main-content {
+                padding: var(--space-3);
+            }
+            
+            .card-body {
+                padding: var(--space-4);
+            }
+            
+            .login-screen {
+                padding: var(--space-6);
+            }
+        }
+
+        /* Scrollbar personnalisée */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: var(--radius-full);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Sélection de texte personnalisée */
+        ::selection {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--text-primary);
+        }
+
+        /* Focus visible pour l'accessibilité */
+        .btn:focus-visible,
+        .form-input:focus-visible,
+        .nav-item:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <div class="app-container">
+        <!-- Header révolutionnaire -->
+        <div class="app-header">
+            <div class="header-content">
+                <div class="header-title">
+                    <div class="header-logo">🇸🇳</div>
+                    <span id="headerTitle">SAMA CONAI</span>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-ghost btn-icon" id="themeToggle" title="Changer de thème">
+                        <span id="themeIcon">🌙</span>
+                    </button>
+                    <button class="btn btn-ghost btn-icon" id="menuBtn" title="Menu">
+                        <span>☰</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation par onglets -->
+        <div class="nav-tabs" id="navTabs">
+            <button class="nav-tab active" data-tab="dashboard">Dashboard</button>
+            <button class="nav-tab" data-tab="requests">Demandes</button>
+            <button class="nav-tab" data-tab="alerts">Alertes</button>
+        </div>
+
+        <!-- Contenu principal -->
+        <div class="main-content" id="mainContent">
+            <!-- Écran de connexion -->
+            <div class="login-screen fade-in" id="loginScreen">
+                <div class="login-logo">🇸🇳</div>
+                <h1 class="login-title">SAMA CONAI</h1>
+                <p class="login-subtitle">UX Révolutionnaire avec Données Réelles</p>
+                
+                <form id="loginForm" style="width: 100%; max-width: 320px;">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="loginEmail" placeholder="admin@sama-conai.sn" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Mot de passe</label>
+                        <input type="password" class="form-input" id="loginPassword" placeholder="••••••••" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" id="rememberMe">
+                            <label for="rememberMe" style="margin: 0; font-size: var(--text-sm);">Se souvenir de moi</label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-lg w-full" id="loginButton">
+                        Se connecter
+                    </button>
+                </form>
+                
+                <div class="card mt-8" style="max-width: 320px;">
+                    <div class="card-body">
+                        <div style="font-size: var(--text-sm); font-weight: 600; margin-bottom: var(--space-3);">🔑 Comptes de test</div>
+                        <div style="font-size: var(--text-xs); color: var(--text-secondary); line-height: 1.6;">
+                            <div><strong>Admin:</strong> admin@sama-conai.sn / admin123</div>
+                            <div><strong>Agent:</strong> agent@sama-conai.sn / agent123</div>
+                            <div><strong>Citoyen:</strong> citoyen@email.com / citoyen123</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard (caché par défaut) -->
+            <div class="dashboard hidden" id="dashboard">
+                <!-- Le contenu sera généré dynamiquement -->
+            </div>
+
+            <!-- Demandes (caché par défaut) -->
+            <div class="requests hidden" id="requests">
+                <!-- Le contenu sera généré dynamiquement -->
+            </div>
+
+            <!-- Détail d'une demande (caché par défaut) -->
+            <div class="request-detail hidden" id="requestDetail">
+                <!-- Le contenu sera généré dynamiquement -->
+            </div>
+
+            <!-- Alertes (caché par défaut) -->
+            <div class="alerts hidden" id="alerts">
+                <!-- Le contenu sera généré dynamiquement -->
+            </div>
+
+            <!-- Détail d'une alerte (caché par défaut) -->
+            <div class="alert-detail hidden" id="alertDetail">
+                <!-- Le contenu sera généré dynamiquement -->
+            </div>
+        </div>
+
+        <!-- Navigation bottom futuriste -->
+        <div class="bottom-nav hidden" id="bottomNav">
+            <a href="#" class="nav-item active" data-tab="dashboard">
+                <div class="nav-icon">📊</div>
+                <div>Dashboard</div>
+            </a>
+            <a href="#" class="nav-item" data-tab="requests">
+                <div class="nav-icon">📄</div>
+                <div>Demandes</div>
+            </a>
+            <a href="#" class="nav-item" data-tab="alerts">
+                <div class="nav-icon">🚨</div>
+                <div>Alertes</div>
+            </a>
+            <a href="#" class="nav-item" data-tab="profile">
+                <div class="nav-icon">👤</div>
+                <div>Profil</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- JavaScript avec UX révolutionnaire et données réelles -->
+    <script>
+        // Configuration avec intégration backend complète
+        const CONFIG = {
+            API_BASE: window.location.origin + '/api',
+            ANIMATION_DURATION: 300,
+            THEME_STORAGE_KEY: 'sama-conai-theme',
+            REFRESH_INTERVAL: 30000, // 30 secondes
+            MAX_RETRIES: 3
+        };
+
+        // Indicateur de source des données
+        let dataSource = 'unknown';
+        let lastUpdate = null;
+
+        // État global de l'application
+        const AppState = {
+            user: null,
+            token: null,
+            currentTab: 'dashboard',
+            currentView: 'dashboard',
+            theme: 'light',
+            isAuthenticated: false,
+            data: {
+                dashboard: null,
+                requests: [],
+                alerts: [],
+                currentRequest: null,
+                currentAlert: null
+            }
+        };
+
+        // Gestionnaire d'API avec données réelles
+        class ApiManager {
+            static async request(endpoint, options = {}) {
+                const url = `${CONFIG.API_BASE}${endpoint}`;
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...(AppState.token && { 'Authorization': `Bearer ${AppState.token}` })
+                    },
+                    ...options
+                };
+
+                if (config.body && typeof config.body === 'object') {
+                    config.body = JSON.stringify(config.body);
+                }
+
+                try {
+                    const response = await fetch(url, config);
+                    const data = await response.json();
+
+                    if (data.requireAuth) {
+                        AuthManager.logout();
+                        return null;
+                    }
+
+                    return data;
+                } catch (error) {
+                    console.error('Erreur API:', error);
+                    NotificationManager.show('Erreur de connexion au serveur', 'error');
+                    return null;
+                }
+            }
+
+            static async getDashboard() {
+                return await this.request('/dashboard');
+            }
+
+            static async getRequests(params = {}) {
+                const queryString = new URLSearchParams(params).toString();
+                return await this.request(`/requests?${queryString}`);
+            }
+
+            static async getRequest(id) {
+                return await this.request(`/requests/${id}`);
+            }
+
+            static async getAlerts(params = {}) {
+                const queryString = new URLSearchParams(params).toString();
+                return await this.request(`/alerts?${queryString}`);
+            }
+
+            static async getAlert(id) {
+                return await this.request(`/alerts/${id}`);
+            }
+        }
+
+        // Gestionnaire de thème révolutionnaire
+        class ThemeManager {
+            constructor() {
+                this.currentTheme = localStorage.getItem(CONFIG.THEME_STORAGE_KEY) || 'light';
+                this.init();
+            }
+
+            init() {
+                this.applyTheme(this.currentTheme);
+                this.setupEventListeners();
+            }
+
+            setupEventListeners() {
+                document.getElementById('themeToggle').addEventListener('click', () => {
+                    this.toggleTheme();
+                });
+            }
+
+            toggleTheme() {
+                const newTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+                this.setTheme(newTheme);
+            }
+
+            setTheme(theme) {
+                this.currentTheme = theme;
+                localStorage.setItem(CONFIG.THEME_STORAGE_KEY, theme);
+                this.applyTheme(theme);
+                
+                // Animation de transition fluide
+                document.body.style.transition = 'all 0.3s ease';
+                setTimeout(() => {
+                    document.body.style.transition = '';
+                }, 300);
+            }
+
+            applyTheme(theme) {
+                document.body.setAttribute('data-theme', theme);
+                AppState.theme = theme;
+                
+                const themeIcon = document.getElementById('themeIcon');
+                themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
+            }
+        }
+
+        // Gestionnaire de navigation avec drilldown
+        class NavigationManager {
+            constructor() {
+                this.currentTab = 'dashboard';
+                this.viewStack = [];
+                this.setupEventListeners();
+            }
+
+            setupEventListeners() {
+                // Navigation par onglets
+                document.querySelectorAll('.nav-tab').forEach(tab => {
+                    tab.addEventListener('click', (e) => {
+                        const tabName = e.target.dataset.tab;
+                        this.switchTab(tabName);
+                    });
+                });
+
+                // Navigation bottom
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const tabName = e.currentTarget.dataset.tab;
+                        if (tabName) {
+                            this.switchTab(tabName);
+                        }
+                    });
+                });
+            }
+
+            switchTab(tabName) {
+                if (this.currentTab === tabName && this.viewStack.length === 0) return;
+
+                // Réinitialiser la pile de navigation
+                this.viewStack = [];
+                this.currentTab = tabName;
+                AppState.currentTab = tabName;
+                AppState.currentView = tabName;
+
+                // Animer la transition
+                this.animateTabSwitch(tabName);
+
+                // Mettre à jour les indicateurs visuels
+                this.updateActiveStates(tabName);
+
+                // Charger le contenu
+                this.loadTabContent(tabName);
+            }
+
+            navigateToDetail(viewName, data) {
+                // Ajouter à la pile de navigation
+                this.viewStack.push({
+                    view: AppState.currentView,
+                    data: AppState.data
+                });
+
+                AppState.currentView = viewName;
+
+                // Animer la transition
+                this.animateDetailTransition(viewName);
+
+                // Charger le contenu détaillé
+                this.loadDetailContent(viewName, data);
+            }
+
+            goBack() {
+                if (this.viewStack.length > 0) {
+                    const previousView = this.viewStack.pop();
+                    AppState.currentView = previousView.view;
+                    
+                    // Animer le retour
+                    this.animateBackTransition(previousView.view);
+                    
+                    // Restaurer le contenu
+                    this.loadTabContent(AppState.currentTab);
+                }
+            }
+
+            animateTabSwitch(tabName) {
+                const currentContent = document.querySelector('.main-content > div:not(.hidden)');
+                const newContent = document.getElementById(tabName);
+
+                if (currentContent && newContent && currentContent !== newContent) {
+                    // Animation de sortie
+                    currentContent.style.transform = 'translateX(-100%)';
+                    currentContent.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        currentContent.classList.add('hidden');
+                        currentContent.style.transform = '';
+                        currentContent.style.opacity = '';
+                        
+                        // Animation d'entrée
+                        newContent.classList.remove('hidden');
+                        newContent.style.transform = 'translateX(100%)';
+                        newContent.style.opacity = '0';
+                        
+                        requestAnimationFrame(() => {
+                            newContent.style.transition = 'all 0.3s ease';
+                            newContent.style.transform = 'translateX(0)';
+                            newContent.style.opacity = '1';
+                            
+                            setTimeout(() => {
+                                newContent.style.transition = '';
+                                newContent.style.transform = '';
+                                newContent.style.opacity = '';
+                            }, 300);
+                        });
+                    }, 150);
+                }
+            }
+
+            animateDetailTransition(viewName) {
+                const currentContent = document.querySelector('.main-content > div:not(.hidden)');
+                const detailContent = document.getElementById(viewName);
+
+                if (currentContent && detailContent) {
+                    // Masquer le contenu actuel
+                    currentContent.classList.add('hidden');
+                    
+                    // Afficher le détail avec animation
+                    detailContent.classList.remove('hidden');
+                    detailContent.style.transform = 'translateX(100%)';
+                    detailContent.style.opacity = '0';
+                    
+                    requestAnimationFrame(() => {
+                        detailContent.style.transition = 'all 0.3s ease';
+                        detailContent.style.transform = 'translateX(0)';
+                        detailContent.style.opacity = '1';
+                        
+                        setTimeout(() => {
+                            detailContent.style.transition = '';
+                            detailContent.style.transform = '';
+                            detailContent.style.opacity = '';
+                        }, 300);
+                    });
+                }
+            }
+
+            animateBackTransition(viewName) {
+                const currentContent = document.querySelector('.main-content > div:not(.hidden)');
+                const previousContent = document.getElementById(viewName);
+
+                if (currentContent && previousContent) {
+                    // Animation de sortie du détail
+                    currentContent.style.transform = 'translateX(100%)';
+                    currentContent.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        currentContent.classList.add('hidden');
+                        currentContent.style.transform = '';
+                        currentContent.style.opacity = '';
+                        
+                        // Animation d'entrée du contenu précédent
+                        previousContent.classList.remove('hidden');
+                        previousContent.style.transform = 'translateX(-100%)';
+                        previousContent.style.opacity = '0';
+                        
+                        requestAnimationFrame(() => {
+                            previousContent.style.transition = 'all 0.3s ease';
+                            previousContent.style.transform = 'translateX(0)';
+                            previousContent.style.opacity = '1';
+                            
+                            setTimeout(() => {
+                                previousContent.style.transition = '';
+                                previousContent.style.transform = '';
+                                previousContent.style.opacity = '';
+                            }, 300);
+                        });
+                    }, 150);
+                }
+            }
+
+            updateActiveStates(tabName) {
+                // Mettre à jour les onglets
+                document.querySelectorAll('.nav-tab').forEach(tab => {
+                    tab.classList.toggle('active', tab.dataset.tab === tabName);
+                });
+
+                // Mettre à jour la navigation bottom
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.classList.toggle('active', item.dataset.tab === tabName);
+                });
+            }
+
+            async loadTabContent(tabName) {
+                switch (tabName) {
+                    case 'dashboard':
+                        await this.loadDashboard();
+                        break;
+                    case 'requests':
+                        await this.loadRequests();
+                        break;
+                    case 'alerts':
+                        await this.loadAlerts();
+                        break;
+                    case 'profile':
+                        this.loadProfile();
+                        break;
+                }
+            }
+
+            async loadDetailContent(viewName, data) {
+                switch (viewName) {
+                    case 'requestDetail':
+                        await this.loadRequestDetail(data.id);
+                        break;
+                    case 'alertDetail':
+                        await this.loadAlertDetail(data.id);
+                        break;
+                }
+            }
+
+            async loadDashboard() {
+                const dashboard = document.getElementById('dashboard');
+                dashboard.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+
+                const response = await ApiManager.getDashboard();
+                if (response && response.success) {
+                    AppState.data.dashboard = response.data;
+                    dataSource = response.source || 'unknown';
+                    lastUpdate = new Date();
+                    this.renderDashboard(response.data);
+                } else {
+                    dashboard.innerHTML = '<div class="alert alert-error">Erreur lors du chargement du dashboard</div>';
+                }
+            }
+
+            renderDashboard(data) {
+                const dashboard = document.getElementById('dashboard');
+                const stats = data.stats;
+                
+                const content = `
+                    <div class="fade-in">
+                        <div class="card scale-in">
+                            <div class="card-header">
+                                <div class="card-title">Bienvenue, ${AppState.user?.name || 'Utilisateur'}</div>
+                                <div class="card-subtitle">
+                                    ${dataSource === 'odoo' ? '✅ Données Odoo en temps réel' : '⚠️ Données simulées'}
+                                    ${lastUpdate ? ` • Mis à jour: ${lastUpdate.toLocaleTimeString('fr-FR')}` : ''}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 mb-6">
+                            <div class="stat-card" onclick="navigationManager.switchTab('requests')">
+                                <div class="stat-number">${stats.totalRequests}</div>
+                                <div class="stat-label">Total Demandes</div>
+                            </div>
+                            <div class="stat-card" onclick="navigationManager.switchTab('requests')">
+                                <div class="stat-number">${stats.pendingRequests}</div>
+                                <div class="stat-label">En attente</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">${stats.satisfactionRate}%</div>
+                                <div class="stat-label">Satisfaction</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">${stats.averageResponseTime}j</div>
+                                <div class="stat-label">Temps moyen</div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">📄 Demandes Récentes</div>
+                            </div>
+                            <div class="card-body">
+                                ${data.recentRequests && data.recentRequests.length > 0 ? 
+                                    '<div class="list-group">' +
+                                    data.recentRequests.map(req => `
+                                        <div class="list-item" onclick="navigationManager.navigateToDetail('requestDetail', {id: ${req.id}})">
+                                            <div>
+                                                <div style="font-weight: 600; margin-bottom: var(--space-1);">${req.name}</div>
+                                                <div style="font-size: var(--text-sm); color: var(--text-secondary);">${req.description}</div>
+                                            </div>
+                                            <span class="badge badge-${this.getStatusBadgeClass(req.status)}">${this.getStatusLabel(req.status)}</span>
+                                        </div>
+                                    `).join('') +
+                                    '</div>' : 
+                                    '<p class="text-center text-muted">Aucune demande récente</p>'
+                                }
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">🚀 Actions Rapides</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <button class="btn btn-primary" onclick="showCreateRequest()">
+                                        📝 Nouvelle Demande
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="showCreateAlert()">
+                                        🚨 Signaler
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="navigationManager.switchTab('requests')">
+                                        📊 Voir Demandes
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="navigationManager.switchTab('alerts')">
+                                        🔍 Voir Alertes
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                dashboard.innerHTML = content;
+            }
+
+            async loadRequests() {
+                const requests = document.getElementById('requests');
+                requests.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+
+                const response = await ApiManager.getRequests();
+                if (response && response.success) {
+                    AppState.data.requests = response.data.requests;
+                    this.renderRequests(response.data);
+                } else {
+                    requests.innerHTML = '<div class="alert alert-error">Erreur lors du chargement des demandes</div>';
+                }
+            }
+
+            renderRequests(data) {
+                const requests = document.getElementById('requests');
+                
+                const content = `
+                    <div class="fade-in">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">📄 Demandes d'Information</div>
+                                <div class="card-subtitle">${data.requests.length} demande(s) trouvée(s)</div>
+                            </div>
+                        </div>
+
+                        ${data.requests.length > 0 ? 
+                            '<div class="list-group">' +
+                            data.requests.map(request => `
+                                <div class="list-item" onclick="navigationManager.navigateToDetail('requestDetail', {id: ${request.id}})">
+                                    <div>
+                                        <div style="font-weight: 600; margin-bottom: var(--space-1);">${request.name}</div>
+                                        <div style="font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: var(--space-1);">${request.description}</div>
+                                        <div style="font-size: var(--text-xs); color: var(--text-tertiary);">
+                                            Par ${request.requester} • ${new Date(request.date).toLocaleDateString('fr-FR')}
+                                        </div>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <span class="badge badge-${this.getStatusBadgeClass(request.status)}">${this.getStatusLabel(request.status)}</span>
+                                        <div style="font-size: var(--text-xs); color: var(--text-tertiary); margin-top: var(--space-1);">
+                                            Échéance: ${new Date(request.deadline).toLocaleDateString('fr-FR')}
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('') +
+                            '</div>' :
+                            '<div class="card"><div class="card-body text-center"><p>Aucune demande trouvée</p></div></div>'
+                        }
+
+                        <div class="card mt-6">
+                            <div class="card-body text-center">
+                                <div style="font-size: var(--text-4xl); margin-bottom: var(--space-4);">📝</div>
+                                <div style="font-weight: 600; margin-bottom: var(--space-2);">Créer une nouvelle demande</div>
+                                <div style="color: var(--text-secondary); margin-bottom: var(--space-4);">
+                                    Accédez facilement aux informations publiques
+                                </div>
+                                <button class="btn btn-primary" onclick="showCreateRequest()">
+                                    Nouvelle Demande
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                requests.innerHTML = content;
+            }
+
+            async loadRequestDetail(id) {
+                const detailElement = document.getElementById('requestDetail');
+                detailElement.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+
+                // Trouver la demande dans les données locales ou faire un appel API
+                let request = AppState.data.requests.find(r => r.id === id);
+                
+                if (!request) {
+                    const response = await ApiManager.getRequest(id);
+                    if (response && response.success) {
+                        request = response.data;
+                    }
+                }
+
+                if (request) {
+                    AppState.data.currentRequest = request;
+                    this.renderRequestDetail(request);
+                } else {
+                    detailElement.innerHTML = '<div class="alert alert-error">Demande non trouvée</div>';
+                }
+            }
+
+            renderRequestDetail(request) {
+                const detailElement = document.getElementById('requestDetail');
+                
+                const content = `
+                    <div class="fade-in">
+                        <button class="back-button" onclick="navigationManager.goBack()">
+                            ←
+                        </button>
+                        
+                        <div class="detail-view">
+                            <div class="detail-header">
+                                <div class="detail-title">${request.name}</div>
+                                <div class="detail-meta">
+                                    <div class="detail-meta-item">
+                                        <div class="detail-meta-label">Statut</div>
+                                        <div class="detail-meta-value">
+                                            <span class="badge badge-${this.getStatusBadgeClass(request.status)}">${this.getStatusLabel(request.status)}</span>
+                                        </div>
+                                    </div>
+                                    <div class="detail-meta-item">
+                                        <div class="detail-meta-label">Demandeur</div>
+                                        <div class="detail-meta-value">${request.requester}</div>
+                                    </div>
+                                    <div class="detail-meta-item">
+                                        <div class="detail-meta-label">Date</div>
+                                        <div class="detail-meta-value">${new Date(request.date).toLocaleDateString('fr-FR')}</div>
+                                    </div>
+                                    <div class="detail-meta-item">
+                                        <div class="detail-meta-label">Échéance</div>
+                                        <div class="detail-meta-value">${new Date(request.deadline).toLocaleDateString('fr-FR')}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="detail-content">
+                                <h3 style="margin-bottom: var(--space-4); font-size: var(--text-lg); font-weight: 600;">Description de la demande</h3>
+                                <p style="line-height: 1.6; color: var(--text-secondary);">${request.description}</p>
+                            </div>
+                            
+                            <div class="detail-actions">
+                                <button class="btn btn-primary" onclick="showRequestActions(${request.id})">
+                                    ⚡ Actions
+                                </button>
+                                <button class="btn btn-secondary" onclick="showRequestHistory(${request.id})">
+                                    📋 Historique
+                                </button>
+                                <button class="btn btn-secondary" onclick="navigationManager.goBack()">
+                                    ← Retour
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                detailElement.innerHTML = content;
+            }
+
+            async loadAlerts() {
+                const alerts = document.getElementById('alerts');
+                alerts.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+
+                const response = await ApiManager.getAlerts();
+                if (response && response.success) {
+                    AppState.data.alerts = response.data.alerts;
+                    this.renderAlerts(response.data);
+                } else {
+                    alerts.innerHTML = '<div class="alert alert-error">Erreur lors du chargement des alertes</div>';
+                }
+            }
+
+            renderAlerts(data) {
+                const alerts = document.getElementById('alerts');
+                
+                const content = `
+                    <div class="fade-in">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">🚨 Alertes et Signalements</div>
+                                <div class="card-subtitle">${data.alerts.length} alerte(s) trouvée(s)</div>
+                            </div>
+                        </div>
+
+                        ${data.alerts.length > 0 ? 
+                            '<div class="list-group">' +
+                            data.alerts.map(alert => `
+                                <div class="list-item" onclick="navigationManager.navigateToDetail('alertDetail', {id: ${alert.id}})">
+                                    <div>
+                                        <div style="font-weight: 600; margin-bottom: var(--space-1);">${alert.name}</div>
+                                        <div style="font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: var(--space-1);">${alert.description}</div>
+                                        <div style="font-size: var(--text-xs); color: var(--text-tertiary);">
+                                            ${this.getCategoryLabel(alert.category)} • ${new Date(alert.date).toLocaleDateString('fr-FR')}
+                                        </div>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <span class="badge badge-${this.getPriorityBadgeClass(alert.priority)}">${this.getPriorityLabel(alert.priority)}</span>
+                                        <div style="font-size: var(--text-xs); color: var(--text-tertiary); margin-top: var(--space-1);">
+                                            ${this.getStatusLabel(alert.status)}
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('') +
+                            '</div>' :
+                            '<div class="card"><div class="card-body text-center"><p>Aucune alerte trouvée</p></div></div>'
+                        }
+
+                        <div class="card mt-6">
+                            <div class="card-body text-center">
+                                <div style="font-size: var(--text-4xl); margin-bottom: var(--space-4);">🛡️</div>
+                                <div style="font-weight: 600; margin-bottom: var(--space-2);">Signalement sécurisé</div>
+                                <div style="color: var(--text-secondary); margin-bottom: var(--space-4);">
+                                    Votre anonymat est protégé par la loi
+                                </div>
+                                <button class="btn btn-primary" onclick="showCreateAlert()">
+                                    Nouveau Signalement
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                alerts.innerHTML = content;
+            }
+
+            async loadAlertDetail(id) {
+                const detailElement = document.getElementById('alertDetail');
+                detailElement.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+
+                // Trouver l'alerte dans les données locales ou faire un appel API
+                let alert = AppState.data.alerts.find(a => a.id === id);
+                
+                if (!alert) {
+                    const response = await ApiManager.getAlert(id);
+                    if (response && response.success) {
+                        alert = response.data;
+                    }
+                }
+
+                if (alert) {
+                    AppState.data.currentAlert = alert;
+                    this.renderAlertDetail(alert);
+                } else {
+                    detailElement.innerHTML = '<div class="alert alert-error">Alerte non trouvée</div>';
+                }
+            }
+
+            renderAlertDetail(alert) {
+                const detailElement = document.getElementById('alertDetail');
+                
+                const content = `
+                    <div class="fade-in">
+                        <button class="back-button" onclick="navigationManager.goBack()">
+                            ←
+                        </button>
+                        
+                        <div class="detail-view">
+                            <div class="detail-header">
+                                <div class="detail-title">${alert.name}</div>
+                                <div class="detail-meta">
+                                    <div class="detail-meta-item">
+                                        <div class="detail-meta-label">Priorité</div>
+                                        <div class="detail-meta-value">
+                                            <span class="badge badge-${this.getPriorityBadgeClass(alert.priority)}">${this.getPriorityLabel(alert.priority)}</span>
+                                        </div>
+                                    </div>
+                                    <div class="detail-meta-item">
+                                        <div class="detail-meta-label">Catégorie</div>
+                                        <div class="detail-meta-value">${this.getCategoryLabel(alert.category)}</div>
+                                    </div>
+                                    <div class="detail-meta-item">
+                                        <div class="detail-meta-label">Statut</div>
+                                        <div class="detail-meta-value">${this.getStatusLabel(alert.status)}</div>
+                                    </div>
+                                    <div class="detail-meta-item">
+                                        <div class="detail-meta-label">Date</div>
+                                        <div class="detail-meta-value">${new Date(alert.date).toLocaleDateString('fr-FR')}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="detail-content">
+                                <h3 style="margin-bottom: var(--space-4); font-size: var(--text-lg); font-weight: 600;">Description du signalement</h3>
+                                <p style="line-height: 1.6; color: var(--text-secondary);">${alert.description}</p>
+                            </div>
+                            
+                            <div class="detail-actions">
+                                <button class="btn btn-primary" onclick="showAlertActions(${alert.id})">
+                                    ⚡ Actions
+                                </button>
+                                <button class="btn btn-secondary" onclick="showAlertHistory(${alert.id})">
+                                    📋 Suivi
+                                </button>
+                                <button class="btn btn-secondary" onclick="navigationManager.goBack()">
+                                    ← Retour
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                detailElement.innerHTML = content;
+            }
+
+            loadProfile() {
+                const profile = document.getElementById('profile') || this.createProfileTab();
+                profile.innerHTML = `
+                    <div class="fade-in">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">👤 Profil Utilisateur</div>
+                                <div class="card-subtitle">Gestion de votre compte</div>
+                            </div>
+                            <div class="card-body">
+                                <div style="text-align: center; margin-bottom: var(--space-6);">
+                                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); border-radius: var(--radius-full); display: flex; align-items: center; justify-content: center; font-size: var(--text-3xl); color: var(--text-inverse); margin: 0 auto var(--space-4);">
+                                        👤
+                                    </div>
+                                    <div style="font-weight: 600; margin-bottom: var(--space-1);">${AppState.user?.name || 'Utilisateur'}</div>
+                                    <div style="color: var(--text-secondary);">${AppState.user?.email || 'email@example.com'}</div>
+                                </div>
+                                
+                                <div class="list-group">
+                                    <div class="list-item">
+                                        <span>🎨 Thème</span>
+                                        <button class="btn btn-sm btn-secondary" onclick="themeManager.toggleTheme()">
+                                            ${AppState.theme === 'light' ? 'Sombre' : 'Clair'}
+                                        </button>
+                                    </div>
+                                    <div class="list-item">
+                                        <span>🔔 Notifications</span>
+                                        <span class="badge badge-success">Activées</span>
+                                    </div>
+                                    <div class="list-item">
+                                        <span>🌍 Langue</span>
+                                        <span>Français</span>
+                                    </div>
+                                </div>
+                                
+                                <button class="btn btn-secondary w-full mt-6" onclick="logout()">
+                                    Déconnexion
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            createProfileTab() {
+                const profile = document.createElement('div');
+                profile.id = 'profile';
+                profile.className = 'profile hidden';
+                document.getElementById('mainContent').appendChild(profile);
+                return profile;
+            }
+
+            // Méthodes utilitaires pour les badges et labels
+            getStatusBadgeClass(status) {
+                const classes = {
+                    'new': 'primary',
+                    'submitted': 'info',
+                    'in_progress': 'warning',
+                    'pending_validation': 'warning',
+                    'completed': 'success',
+                    'responded': 'success',
+                    'refused': 'error',
+                    'cancelled': 'secondary',
+                    'investigation': 'warning',
+                    'preliminary_assessment': 'info'
+                };
+                return classes[status] || 'secondary';
+            }
+
+            getStatusLabel(status) {
+                const labels = {
+                    'new': 'Nouvelle',
+                    'submitted': 'Soumise',
+                    'in_progress': 'En cours',
+                    'pending_validation': 'En validation',
+                    'completed': 'Terminée',
+                    'responded': 'Répondue',
+                    'refused': 'Refusée',
+                    'cancelled': 'Annulée',
+                    'investigation': 'En enquête',
+                    'preliminary_assessment': 'Évaluation'
+                };
+                return labels[status] || status;
+            }
+
+            getPriorityBadgeClass(priority) {
+                const classes = {
+                    'low': 'secondary',
+                    'medium': 'info',
+                    'high': 'warning',
+                    'urgent': 'error'
+                };
+                return classes[priority] || 'secondary';
+            }
+
+            getPriorityLabel(priority) {
+                const labels = {
+                    'low': 'Faible',
+                    'medium': 'Moyenne',
+                    'high': 'Élevée',
+                    'urgent': 'Urgente'
+                };
+                return labels[priority] || priority;
+            }
+
+            getCategoryLabel(category) {
+                const labels = {
+                    'corruption': 'Corruption',
+                    'fraud': 'Fraude',
+                    'abuse_of_power': 'Abus de pouvoir',
+                    'discrimination': 'Discrimination',
+                    'harassment': 'Harcèlement',
+                    'safety_violation': 'Violation sécurité',
+                    'environmental': 'Environnemental',
+                    'other': 'Autre'
+                };
+                return labels[category] || category;
+            }
+        }
+
+        // Gestionnaire d'authentification
+        class AuthManager {
+            static async login(email, password, rememberMe = false) {
+                try {
+                    const response = await fetch(`${CONFIG.API_BASE}/auth/login`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ email, password, rememberMe })
+                    });
+
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        AppState.token = data.data.token;
+                        AppState.user = data.data.user;
+                        
+                        if (rememberMe) {
+                            localStorage.setItem('sama-token', data.data.token);
+                        } else {
+                            sessionStorage.setItem('sama-token', data.data.token);
+                        }
+                        
+                        return { success: true, user: data.data.user };
+                    } else {
+                        return { success: false, error: data.error };
+                    }
+                } catch (error) {
+                    return { success: false, error: 'Erreur de connexion au serveur' };
+                }
+            }
+
+            static logout() {
+                AppState.user = null;
+                AppState.token = null;
+                AppState.isAuthenticated = false;
+                localStorage.removeItem('sama-token');
+                sessionStorage.removeItem('sama-token');
+                showLoginScreen();
+            }
+        }
+
+        // Gestionnaire de notifications
+        class NotificationManager {
+            static show(message, type = 'info', duration = 5000) {
+                const notification = document.createElement('div');
+                notification.className = `alert alert-${type}`;
+                notification.textContent = message;
+                notification.style.position = 'fixed';
+                notification.style.top = '20px';
+                notification.style.right = '20px';
+                notification.style.zIndex = 'var(--z-toast)';
+                notification.style.maxWidth = '300px';
+                notification.style.animation = 'slideInRight 0.3s ease-out';
+
+                document.body.appendChild(notification);
+
+                setTimeout(() => {
+                    notification.style.animation = 'slideInRight 0.3s ease-out reverse';
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 300);
+                }, duration);
+            }
+        }
+
+        // Instances globales
+        let themeManager, navigationManager;
+
+        // Fonctions utilitaires
+        function showLoginScreen() {
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('bottomNav').classList.add('hidden');
+            document.querySelectorAll('#mainContent > div:not(#loginScreen)').forEach(div => {
+                div.classList.add('hidden');
+            });
+        }
+
+        function showApp() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('bottomNav').classList.remove('hidden');
+            navigationManager.switchTab('dashboard');
+        }
+
+        function showCreateRequest() {
+            NotificationManager.show('Fonctionnalité de création de demande en développement', 'info');
+        }
+
+        function showCreateAlert() {
+            NotificationManager.show('Fonctionnalité de signalement en développement', 'info');
+        }
+
+        function showRequestActions(id) {
+            NotificationManager.show(`Actions pour la demande ${id} en développement`, 'info');
+        }
+
+        function showRequestHistory(id) {
+            NotificationManager.show(`Historique de la demande ${id} en développement`, 'info');
+        }
+
+        function showAlertActions(id) {
+            NotificationManager.show(`Actions pour l'alerte ${id} en développement`, 'info');
+        }
+
+        function showAlertHistory(id) {
+            NotificationManager.show(`Suivi de l'alerte ${id} en développement`, 'info');
+        }
+
+        function logout() {
+            AuthManager.logout();
+            NotificationManager.show('Déconnexion réussie', 'success');
+        }
+
+        // Initialisation de l'application
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 Initialisation SAMA CONAI UX Révolutionnaire avec Données Réelles');
+
+            // Initialiser les gestionnaires
+            themeManager = new ThemeManager();
+            navigationManager = new NavigationManager();
+
+            // Gestionnaire de formulaire de connexion
+            document.getElementById('loginForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                const rememberMe = document.getElementById('rememberMe').checked;
+                const button = document.getElementById('loginButton');
+                
+                // Animation de chargement
+                button.innerHTML = '<div class="pulse-loader"><div class="pulse-dot"></div><div class="pulse-dot"></div><div class="pulse-dot"></div></div>';
+                button.disabled = true;
+
+                try {
+                    const result = await AuthManager.login(email, password, rememberMe);
+                    
+                    if (result.success) {
+                        AppState.user = result.user;
+                        AppState.isAuthenticated = true;
+                        
+                        NotificationManager.show(`Bienvenue ${result.user.name} !`, 'success');
+                        
+                        // Animation de transition vers l'app
+                        setTimeout(() => {
+                            showApp();
+                        }, 500);
+                    } else {
+                        NotificationManager.show(result.error, 'error');
+                    }
+                } catch (error) {
+                    NotificationManager.show('Erreur de connexion au serveur', 'error');
+                } finally {
+                    button.innerHTML = 'Se connecter';
+                    button.disabled = false;
+                }
+            });
+
+            // Animation d'entrée
+            setTimeout(() => {
+                document.querySelector('.login-screen').classList.add('scale-in');
+            }, 100);
+
+            console.log('✅ Application UX révolutionnaire avec données réelles initialisée');
+        });
+
+        // Gestion des erreurs globales
+        window.addEventListener('error', (e) => {
+            console.error('❌ Erreur globale:', e.error);
+            NotificationManager.show('Une erreur inattendue s\'est produite', 'error');
+        });
+    </script>
+</body>
+</html>

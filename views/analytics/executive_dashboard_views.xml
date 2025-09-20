@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue Kanban pour Dashboard Exécutif -->
+    <record id="executive_dashboard_view_kanban" model="ir.ui.view">
+        <field name="name">executive.dashboard.kanban</field>
+        <field name="model">executive.dashboard</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_dashboard" create="false" edit="false">
+                <field name="name"/>
+                <field name="total_requests_month"/>
+                <field name="total_alerts_month"/>
+                <field name="response_rate"/>
+                <field name="overdue_requests"/>
+                <field name="critical_alerts"/>
+                <field name="management_alerts"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                            <div class="o_kanban_image_fill_left d-none d-md-block" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                <i class="fa fa-dashboard fa-3x text-white" style="margin: 20px;" title="Dashboard"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="name"/>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="o_field_widget">
+                                                <span class="fa fa-file-text-o" title="Demandes"/> 
+                                                <strong t-esc="record.total_requests_month.value"/> demandes ce mois
+                                            </div>
+                                            <div class="o_field_widget">
+                                                <span class="fa fa-exclamation-triangle" title="Alertes"/> 
+                                                <strong t-esc="record.total_alerts_month.value"/> alertes ce mois
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="o_field_widget">
+                                                <span class="fa fa-check-circle" title="Taux de réponse"/> 
+                                                <strong t-esc="Math.round(record.response_rate.value)"/>% de réponses
+                                            </div>
+                                            <div class="o_field_widget" t-if="record.overdue_requests.value > 0">
+                                                <span class="fa fa-clock-o text-danger" title="En retard"/> 
+                                                <strong t-esc="record.overdue_requests.value"/> en retard
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-2" t-if="record.management_alerts.value">
+                                        <div class="alert alert-warning p-2" role="alert">
+                                            <field name="management_alerts"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <button type="object" name="action_refresh_data" class="btn btn-primary btn-sm">
+                                            <i class="fa fa-refresh"/> Actualiser
+                                        </button>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <button type="object" name="action_export_report" class="btn btn-secondary btn-sm">
+                                            <i class="fa fa-download"/> Exporter
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Vue Formulaire pour Dashboard Exécutif -->
+    <record id="executive_dashboard_view_form" model="ir.ui.view">
+        <field name="name">executive.dashboard.form</field>
+        <field name="model">executive.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Tableau de Bord Exécutif">
+                <header>
+                    <button name="action_refresh_data" type="object" string="Actualiser les Données" class="btn-primary"/>
+                    <button name="action_export_report" type="object" string="Exporter le Rapport" class="btn-secondary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nom du tableau de bord"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="period_start"/>
+                            <field name="period_end"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="KPI Demandes d'Information" name="requests_kpi">
+                            <group>
+                                <group string="Volume">
+                                    <field name="total_requests_month" widget="statinfo" string="Demandes ce Mois"/>
+                                    <field name="total_requests_year" widget="statinfo" string="Demandes cette Année"/>
+                                    <field name="overdue_requests" widget="statinfo" string="Demandes en Retard"/>
+                                </group>
+                                <group string="Performance">
+                                    <field name="response_rate" widget="percentage" string="Taux de Réponse"/>
+                                    <field name="average_response_time" widget="float" string="Temps Moyen (jours)"/>
+                                </group>
+                            </group>
+                            
+                            <separator string="Données par Catégorie"/>
+                            <field name="requests_by_category" widget="text" readonly="1"/>
+                        </page>
+
+                        <page string="KPI Alertes" name="alerts_kpi">
+                            <group>
+                                <group string="Volume">
+                                    <field name="total_alerts_month" widget="statinfo" string="Alertes ce Mois"/>
+                                    <field name="total_alerts_year" widget="statinfo" string="Alertes cette Année"/>
+                                    <field name="critical_alerts" widget="statinfo" string="Alertes Critiques"/>
+                                </group>
+                                <group string="Performance">
+                                    <field name="resolution_rate" widget="percentage" string="Taux de Résolution"/>
+                                </group>
+                            </group>
+                            
+                            <separator string="Données par Priorité"/>
+                            <field name="alerts_by_priority" widget="text" readonly="1"/>
+                        </page>
+
+                        <page string="Tendances" name="trends">
+                            <group>
+                                <group string="Évolution des Demandes">
+                                    <field name="requests_trend" widget="text" readonly="1"/>
+                                </group>
+                                <group string="Évolution des Alertes">
+                                    <field name="alerts_trend" widget="text" readonly="1"/>
+                                </group>
+                            </group>
+                            
+                            <separator string="Évolution Mensuelle Combinée"/>
+                            <field name="monthly_evolution" widget="text" readonly="1"/>
+                        </page>
+
+                        <page string="Alertes Management" name="management">
+                            <field name="management_alerts" widget="html" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue Liste pour Dashboard Exécutif -->
+    <record id="executive_dashboard_view_list" model="ir.ui.view">
+        <field name="name">executive.dashboard.list</field>
+        <field name="model">executive.dashboard</field>
+        <field name="arch" type="xml">
+            <list string="Tableaux de Bord Exécutifs" multi_edit="1">
+                <field name="name"/>
+                <field name="period_start"/>
+                <field name="period_end"/>
+                <field name="total_requests_month" sum="Total Demandes"/>
+                <field name="total_alerts_month" sum="Total Alertes"/>
+                <field name="response_rate" widget="percentage"/>
+                <field name="overdue_requests" sum="Total en Retard"/>
+                <field name="critical_alerts" sum="Total Critiques"/>
+                <field name="create_date"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vue Graphique pour Dashboard Exécutif -->
+    <record id="executive_dashboard_view_graph" model="ir.ui.view">
+        <field name="name">executive.dashboard.graph</field>
+        <field name="model">executive.dashboard</field>
+        <field name="arch" type="xml">
+            <graph string="Analyse des KPI" type="bar" stacked="True">
+                <field name="name" type="row"/>
+                <field name="total_requests_month" type="measure"/>
+                <field name="total_alerts_month" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Vue Pivot pour Dashboard Exécutif -->
+    <record id="executive_dashboard_view_pivot" model="ir.ui.view">
+        <field name="name">executive.dashboard.pivot</field>
+        <field name="model">executive.dashboard</field>
+        <field name="arch" type="xml">
+            <pivot string="Analyse Croisée">
+                <field name="period_start" type="row" interval="month"/>
+                <field name="total_requests_month" type="measure"/>
+                <field name="total_alerts_month" type="measure"/>
+                <field name="response_rate" type="measure"/>
+                <field name="resolution_rate" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Action pour Dashboard Exécutif -->
+    <record id="action_executive_dashboard" model="ir.actions.act_window">
+        <field name="name">Tableau de Bord Exécutif</field>
+        <field name="res_model">executive.dashboard</field>
+        <field name="view_mode">kanban,form,list,graph,pivot</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer votre premier tableau de bord exécutif
+            </p>
+            <p>
+                Le tableau de bord exécutif vous donne une vue d'ensemble des KPI
+                de votre système SAMA CONAI avec des indicateurs en temps réel.
+            </p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAMA CONAI - Version Odoo Réelle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* ========================================= */
+        /* SAMA CONAI - VERSION ODOO RÉELLE         */
+        /* ========================================= */
+
+        :root {
+            /* Thème par défaut - Institutionnel */
+            --background-color: #EFF2F5;
+            --text-color: #2C3E50;
+            --shadow-dark: #d1d9e6;
+            --shadow-light: #ffffff;
+            --accent-action: #3498DB;
+            --accent-alert: #E67E22;
+            --accent-danger: #E74C3C;
+            --accent-success: #27AE60;
+            --accent-info: #17A2B8;
+            --accent-warning: #FFC107;
+            --font-family: 'Poppins', sans-serif;
+            --border-radius: 20px;
+            --shadow-neumorphic: 7px 7px 15px var(--shadow-dark), -7px -7px 15px var(--shadow-light);
+            --shadow-inset: inset 7px 7px 15px var(--shadow-dark), inset -7px -7px 15px var(--shadow-light);
+        }
+
+        /* Thèmes enrichis */
+        body[data-theme="terre"] {
+            --background-color: #F5F1E8;
+            --text-color: #4A3728;
+            --shadow-dark: #e6ddd0;
+            --shadow-light: #ffffff;
+            --accent-action: #D2691E;
+            --accent-alert: #CD853F;
+            --accent-danger: #A0522D;
+            --accent-success: #8FBC8F;
+        }
+
+        body[data-theme="dark"] {
+            --background-color: #2C2C2E;
+            --text-color: #F2F2F7;
+            --shadow-dark: #1C1C1E;
+            --shadow-light: #3A3A3C;
+            --accent-action: #007AFF;
+            --accent-alert: #FF9F0A;
+            --accent-danger: #FF453A;
+            --accent-success: #30D158;
+        }
+
+        body[data-theme="ocean"] {
+            --background-color: #E8F4F8;
+            --text-color: #1B4F72;
+            --shadow-dark: #D5E8ED;
+            --shadow-light: #FFFFFF;
+            --accent-action: #2E86AB;
+            --accent-alert: #F39C12;
+            --accent-danger: #E74C3C;
+            --accent-success: #16A085;
+        }
+
+        /* CONTRAINTES STRICTES POUR MOBILE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box !important;
+        }
+
+        html, body {
+            overflow-x: hidden !important;
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 10px 0;
+        }
+
+        /* CONTENEUR MOBILE CORRIGÉ */
+        .mobile-container {
+            width: 375px;
+            max-width: 375px;
+            min-height: calc(100vh - 20px);
+            max-height: calc(100vh - 20px);
+            background: var(--background-color);
+            border-radius: 30px;
+            box-shadow: var(--shadow-neumorphic);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+        }
+
+        .status-bar {
+            background: linear-gradient(135deg, var(--accent-action), var(--accent-alert));
+            color: white;
+            padding: 8px 20px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+
+        .header {
+            background: var(--background-color);
+            color: var(--text-color);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: var(--shadow-neumorphic);
+            margin: 10px;
+            border-radius: var(--border-radius);
+            flex-shrink: 0;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent-action);
+            text-align: center;
+            margin: 0;
+        }
+
+        .header-content {
+            text-align: center;
+            flex: 1;
+        }
+
+        .back-button {
+            background: var(--background-color);
+            border: none;
+            color: var(--accent-action);
+            font-size: 18px;
+            cursor: pointer;
+            padding: 12px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-neumorphic);
+            position: absolute;
+            left: 0;
+        }
+
+        .nav-indicator {
+            font-size: 12px;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        /* CONTENU CORRIGÉ - RESTE DANS LE TÉLÉPHONE */
+        .content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            position: relative;
+            z-index: 1;
+            /* IMPORTANT: Le contenu reste dans le conteneur */
+            max-height: calc(100vh - 200px);
+            min-height: 0;
+        }
+
+        /* INDICATEUR DE SOURCE DE DONNÉES */
+        .data-source-indicator {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 1000;
+            background: var(--background-color);
+            border-radius: 15px;
+            padding: 8px 12px;
+            box-shadow: var(--shadow-neumorphic);
+            font-size: 11px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .data-source-indicator.odoo {
+            color: var(--accent-success);
+        }
+
+        .data-source-indicator.fallback {
+            color: var(--accent-warning);
+        }
+
+        .data-source-indicator.development {
+            color: var(--accent-info);
+        }
+
+        /* THEME SWITCHER ENRICHI */
+        .theme-selector {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 1000;
+        }
+
+        .theme-toggle {
+            background: var(--background-color);
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            box-shadow: var(--shadow-neumorphic);
+            color: var(--accent-action);
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .theme-menu {
+            position: absolute;
+            top: 55px;
+            left: 0;
+            background: var(--background-color);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: var(--shadow-neumorphic);
+            min-width: 220px;
+            display: none;
+            z-index: 1001;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .theme-menu.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .theme-option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .theme-option:hover {
+            box-shadow: var(--shadow-inset);
+        }
+
+        .theme-option.active {
+            box-shadow: var(--shadow-inset);
+            color: var(--accent-action);
+        }
+
+        .theme-preview {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            margin-right: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            flex-shrink: 0;
+        }
+
+        .theme-name {
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* COMPOSANTS ENRICHIS */
+        .neumorphic-card {
+            background: var(--background-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-neumorphic);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .neumorphic-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+
+        /* KPI CARDS ENRICHIES AVEC INDICATEUR SOURCE */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .kpi-card {
+            background: var(--background-color);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-neumorphic);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-card:hover {
+            transform: scale(1.02);
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+
+        .kpi-source {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 8px;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .kpi-source.odoo {
+            background: var(--accent-success);
+            color: white;
+        }
+
+        .kpi-source.fallback {
+            background: var(--accent-warning);
+            color: white;
+        }
+
+        .kpi-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+
+        .kpi-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--accent-action);
+            margin-bottom: 5px;
+        }
+
+        .kpi-label {
+            font-size: 12px;
+            color: var(--text-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+        }
+
+        .kpi-trend {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 14px;
+        }
+
+        .trend-up { color: var(--accent-success); }
+        .trend-down { color: var(--accent-danger); }
+        .trend-stable { color: var(--accent-warning); }
+
+        .kpi-progress {
+            width: 100%;
+            height: 4px;
+            background: var(--shadow-dark);
+            border-radius: 2px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .kpi-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-action), var(--accent-success));
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
+
+        /* GRAPHIQUES ENRICHIS */
+        .chart-container {
+            background: var(--background-color);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-neumorphic);
+        }
+
+        .chart-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .chart-canvas {
+            max-width: 100% !important;
+            height: 200px !important;
+        }
+
+        /* ÉCRAN DE LOGIN ENRICHI */
+        .login-container {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .login-logo {
+            width: 100px;
+            height: 100px;
+            background: var(--background-color);
+            border-radius: 30px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: var(--accent-action);
+            box-shadow: var(--shadow-neumorphic);
+            transition: all 0.3s ease;
+        }
+
+        .login-logo:hover {
+            transform: scale(1.05);
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+
+        .login-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--accent-action);
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .login-subtitle {
+            color: var(--text-color);
+            margin-bottom: 40px;
+            font-size: 16px;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 18px 25px;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-family: var(--font-family);
+            background: var(--background-color);
+            color: var(--text-color);
+            box-shadow: var(--shadow-inset);
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-input:focus {
+            outline: none;
+            box-shadow: var(--shadow-inset), 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 20px;
+            background: var(--background-color);
+            color: var(--accent-action);
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-neumorphic);
+            margin-bottom: 20px;
+            font-family: var(--font-family);
+            box-sizing: border-box;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+
+        .login-button:active {
+            box-shadow: var(--shadow-inset);
+            transform: scale(0.98);
+        }
+
+        .secure-access {
+            background: var(--background-color);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            box-shadow: var(--shadow-inset);
+            border-left: 4px solid var(--accent-action);
+        }
+
+        /* ANIMATIONS ENRICHIES */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        .slide-in { animation: slideIn 0.3s ease-out; }
+        .bounce-in { animation: bounceIn 0.6s ease; }
+
+        /* RESPONSIVE ENRICHI */
+        @media (max-width: 400px) {
+            body {
+                padding: 0;
+            }
+            
+            .mobile-container {
+                margin: 0;
+                border-radius: 0;
+                min-height: 100vh;
+                max-height: 100vh;
+                width: 100vw;
+                max-width: 100vw;
+            }
+            
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .theme-selector {
+                top: 10px;
+                left: 10px;
+            }
+
+            .theme-menu {
+                max-width: calc(100vw - 40px);
+            }
+        }
+
+        /* MESSAGES ENRICHIS */
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: var(--text-color);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--shadow-dark);
+            border-top: 4px solid var(--accent-action);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message, .success-message {
+            background: var(--background-color);
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: var(--shadow-neumorphic);
+            word-wrap: break-word;
+        }
+
+        .error-message {
+            color: var(--accent-danger);
+            border-left: 4px solid var(--accent-danger);
+        }
+
+        .success-message {
+            color: var(--accent-success);
+            border-left: 4px solid var(--accent-success);
+        }
+
+        /* STYLES POUR NIVEAUX 2 ET 3 */
+        .list-item {
+            background: var(--background-color);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-neumorphic);
+            overflow: hidden;
+        }
+
+        .list-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+
+        .status-chip {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            flex-shrink: 0;
+        }
+
+        .status-submitted { background: linear-gradient(135deg, var(--accent-alert), #e67e22); }
+        .status-in_progress { background: linear-gradient(135deg, var(--accent-action), #2980b9); }
+        .status-responded { background: linear-gradient(135deg, var(--accent-success), #229954); }
+        .status-refused { background: linear-gradient(135deg, var(--accent-danger), #c0392b); }
+        .status-pending_validation { background: linear-gradient(135deg, var(--accent-warning), #f39c12); }
+        .status-new { background: linear-gradient(135deg, var(--accent-info), #3498db); }
+        .status-investigation { background: linear-gradient(135deg, var(--accent-warning), #e67e22); }
+        .status-resolved { background: linear-gradient(135deg, var(--accent-success), #27ae60); }
+        .status-transmitted { background: linear-gradient(135deg, var(--accent-info), #8e44ad); }
+        .status-closed { background: linear-gradient(135deg, #95a5a6, #7f8c8d); }
+    </style>
+</head>
+<body data-theme="default">
+    <div class="mobile-container">
+        <!-- Indicateur de source de données -->
+        <div class="data-source-indicator" id="dataSourceIndicator">
+            <i class="fas fa-database"></i>
+            <span id="dataSourceText">Chargement...</span>
+        </div>
+
+        <!-- Sélecteur de thème enrichi -->
+        <div class="theme-selector">
+            <button class="theme-toggle" onclick="toggleThemeMenu()">
+                <i class="fas fa-palette"></i>
+            </button>
+            <div class="theme-menu" id="themeMenu">
+                <div class="theme-option active" onclick="changeTheme('default')">
+                    <div class="theme-preview" style="background: linear-gradient(45deg, #3498DB, #E67E22);"></div>
+                    <span class="theme-name">Institutionnel</span>
+                </div>
+                <div class="theme-option" onclick="changeTheme('terre')">
+                    <div class="theme-preview" style="background: linear-gradient(45deg, #D2691E, #CD853F);"></div>
+                    <span class="theme-name">Terre du Sénégal</span>
+                </div>
+                <div class="theme-option" onclick="changeTheme('dark')">
+                    <div class="theme-preview" style="background: linear-gradient(45deg, #2C2C2E, #007AFF);"></div>
+                    <span class="theme-name">🌙 Dark Mode</span>
+                </div>
+                <div class="theme-option" onclick="changeTheme('ocean')">
+                    <div class="theme-preview" style="background: linear-gradient(45deg, #2E86AB, #16A085);"></div>
+                    <span class="theme-name">🌊 Ocean</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <span>9:41</span>
+            <span>🔋 100%</span>
+        </div>
+        
+        <div class="header">
+            <button class="back-button" id="backButton" style="display: none;" onclick="navigateBack()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="header-content">
+                <h1 id="headerTitle">🇸🇳 SAMA CONAI</h1>
+                <div class="nav-indicator" id="navIndicator">Version Odoo Réelle</div>
+            </div>
+        </div>
+        
+        <div class="content" id="content">
+            <!-- Écran de login enrichi par défaut -->
+            <div class="login-container bounce-in">
+                <div class="login-logo">🇸🇳</div>
+                <h2 class="login-title">SAMA CONAI</h2>
+                <p class="login-subtitle">Version avec Données Odoo Réelles</p>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label">Email / Nom d'utilisateur</label>
+                        <input type="text" class="form-input" id="loginEmail" placeholder="admin" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Mot de passe</label>
+                        <input type="password" class="form-input" id="loginPassword" placeholder="admin" required>
+                    </div>
+                    
+                    <button type="submit" class="login-button" id="loginButton">
+                        <i class="fas fa-sign-in-alt"></i> Se connecter
+                    </button>
+                </form>
+                
+                <div class="secure-access">
+                    <div style="font-weight: 700; color: var(--accent-action); margin-bottom: 15px; font-size: 14px;">
+                        🔗 Connexion Odoo Réelle
+                    </div>
+                    <div style="color: var(--text-color); font-size: 13px; margin-bottom: 15px; opacity: 0.8;">
+                        Cette version se connecte progressivement aux vraies données d'Odoo. Développement niveau par niveau avec indicateurs de source.
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                        <button onclick="testOdooConnection()" style="background: var(--background-color); border: none; border-radius: 10px; padding: 10px 15px; font-family: var(--font-family); font-weight: 600; color: var(--accent-action); cursor: pointer; transition: all 0.3s ease; box-shadow: var(--shadow-neumorphic); font-size: 12px; flex: 1;">
+                            <i class="fas fa-plug"></i> Test Odoo
+                        </button>
+                        <button onclick="openComparison()" style="background: var(--background-color); border: none; border-radius: 10px; padding: 10px 15px; font-family: var(--font-family); font-weight: 600; color: var(--accent-info); cursor: pointer; transition: all 0.3s ease; box-shadow: var(--shadow-neumorphic); font-size: 12px; flex: 1;">
+                            <i class="fas fa-exchange-alt"></i> Comparer
+                        </button>
+                    </div>
+                    <button class="neumorphic-button btn-action" onclick="openOdooBackend()" style="background: var(--background-color); border: none; border-radius: 15px; padding: 15px 25px; font-family: var(--font-family); font-weight: 600; color: var(--accent-action); cursor: pointer; transition: all 0.3s ease; box-shadow: var(--shadow-neumorphic); font-size: 14px; width: 100%; margin-bottom: 10px; box-sizing: border-box;">
+                        <i class="fas fa-external-link-alt"></i> Accès SAMA CONAI
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // État de l'application Odoo réelle
+        let navigationStack = [];
+        let currentLevel = 1;
+        let currentData = null;
+        let authToken = null;
+        let currentUser = null;
+        let currentTheme = 'default';
+        let charts = {};
+        let notifications = [];
+        let odooConnected = false;
+        let dataSource = 'unknown';
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Charger le thème sauvegardé
+            const savedTheme = localStorage.getItem('sama_conai_theme') || 'default';
+            changeTheme(savedTheme);
+            
+            // Vérifier si l'utilisateur est déjà connecté
+            const savedToken = localStorage.getItem('sama_conai_odoo_token');
+            if (savedToken) {
+                authToken = savedToken;
+                loadOdooDashboard();
+            }
+            
+            // Gestionnaire de formulaire de login
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+
+            // Fermer le menu thème en cliquant ailleurs
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.theme-selector')) {
+                    document.getElementById('themeMenu').classList.remove('active');
+                }
+            });
+
+            // Test initial de connexion Odoo
+            testOdooConnection();
+        });
+
+        // ========================================= //
+        // GESTION DES THÈMES                        //
+        // ========================================= //
+
+        function toggleThemeMenu() {
+            const menu = document.getElementById('themeMenu');
+            menu.classList.toggle('active');
+        }
+
+        function changeTheme(themeName) {
+            currentTheme = themeName;
+            document.body.setAttribute('data-theme', themeName);
+            localStorage.setItem('sama_conai_theme', themeName);
+            
+            // Mettre à jour l'option active
+            document.querySelectorAll('.theme-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            
+            const themeOptions = document.querySelectorAll('.theme-option');
+            themeOptions.forEach(option => {
+                const onclick = option.getAttribute('onclick');
+                if (onclick && onclick.includes(`'${themeName}'`)) {
+                    option.classList.add('active');
+                }
+            });
+            
+            document.getElementById('themeMenu').classList.remove('active');
+            updateChartsTheme();
+            
+            console.log(`Thème changé vers: ${themeName}`);
+        }
+
+        // ========================================= //
+        // GESTION DE LA CONNEXION ODOO              //
+        // ========================================= //
+
+        async function testOdooConnection() {
+            try {
+                updateDataSourceIndicator('testing', 'Test connexion...');
+                
+                const response = await fetch('/api/odoo/test');
+                const data = await response.json();
+                
+                if (data.success && data.data.success) {
+                    odooConnected = true;
+                    updateDataSourceIndicator('odoo', 'Odoo Connecté');
+                    console.log('✅ Connexion Odoo réussie:', data.data);
+                } else {
+                    odooConnected = false;
+                    updateDataSourceIndicator('fallback', 'Odoo Indisponible');
+                    console.log('❌ Connexion Odoo échouée:', data.data?.error);
+                }
+            } catch (error) {
+                odooConnected = false;
+                updateDataSourceIndicator('fallback', 'Erreur Connexion');
+                console.error('❌ Erreur test connexion:', error);
+            }
+        }
+
+        function updateDataSourceIndicator(type, text) {
+            const indicator = document.getElementById('dataSourceIndicator');
+            const textElement = document.getElementById('dataSourceText');
+            
+            indicator.className = `data-source-indicator ${type}`;
+            textElement.textContent = text;
+            
+            const icons = {
+                'odoo': 'fas fa-check-circle',
+                'fallback': 'fas fa-exclamation-triangle',
+                'testing': 'fas fa-spinner fa-spin',
+                'development': 'fas fa-code'
+            };
+            
+            const icon = indicator.querySelector('i');
+            icon.className = icons[type] || 'fas fa-database';
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const loginButton = document.getElementById('loginButton');
+            
+            if (!email || !password) {
+                showError('Veuillez remplir tous les champs');
+                return;
+            }
+            
+            loginButton.disabled = true;
+            loginButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connexion...';
+            
+            try {
+                const response = await fetch('/api/mobile/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    authToken = data.data.token;
+                    currentUser = data.data.user;
+                    odooConnected = data.data.odoo_connected;
+                    
+                    localStorage.setItem('sama_conai_odoo_token', authToken);
+                    
+                    if (odooConnected) {
+                        showSuccess('Connexion réussie ! Données Odoo disponibles.');
+                        updateDataSourceIndicator('odoo', 'Odoo Connecté');
+                    } else {
+                        showSuccess('Connexion réussie ! Mode fallback activé.');
+                        updateDataSourceIndicator('fallback', 'Mode Fallback');
+                    }
+                    
+                    setTimeout(() => {
+                        loadOdooDashboard();
+                    }, 1000);
+                } else {
+                    showError(data.error || 'Erreur de connexion');
+                }
+            } catch (error) {
+                console.error('Erreur login:', error);
+                showError('Erreur de connexion au serveur');
+            } finally {
+                loginButton.disabled = false;
+                loginButton.innerHTML = '<i class="fas fa-sign-in-alt"></i> Se connecter';
+            }
+        }
+
+        // ========================================= //
+        // DASHBOARD ODOO RÉEL (PHASE 1)             //
+        // ========================================= //
+
+        async function loadOdooDashboard() {
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/mobile/level1/dashboard', {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    dataSource = data.data.data_source;
+                    odooConnected = data.data.odoo_connected;
+                    
+                    updateDataSourceIndicator(
+                        dataSource, 
+                        dataSource === 'odoo' ? 'Données Odoo' : 'Données Simulées'
+                    );
+                    
+                    renderOdooDashboard(data.data);
+                } else {
+                    showError('Erreur lors du chargement du dashboard');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showError('Erreur de connexion au serveur');
+            }
+        }
+
+        function renderOdooDashboard(dashboard) {
+            document.getElementById('headerTitle').textContent = '🇸🇳 SAMA CONAI';
+            document.getElementById('navIndicator').textContent = 'Dashboard Odoo Réel';
+            document.getElementById('backButton').style.display = 'none';
+            
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="fade-in">
+                    <!-- En-tête utilisateur avec indicateur source -->
+                    <div class="neumorphic-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <div>
+                                <div style="font-size: 24px; font-weight: 800; color: var(--accent-action); margin-bottom: 5px;">
+                                    ${dashboard.user_info.avatar} ${dashboard.user_info.name}
+                                </div>
+                                <div style="opacity: 0.8; font-size: 14px;">${dashboard.user_info.department}</div>
+                                <div style="font-size: 11px; color: var(--accent-${dataSource === 'odoo' ? 'success' : 'warning'}); font-weight: 600; margin-top: 5px;">
+                                    📊 Source: ${dataSource === 'odoo' ? 'Données Odoo Réelles' : 'Données Simulées'}
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 10px;">
+                                <button onclick="testOdooConnection()" style="background: var(--background-color); border: none; color: var(--accent-info); padding: 10px; border-radius: 10px; cursor: pointer; box-shadow: var(--shadow-neumorphic);">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                                <button onclick="openComparison()" style="background: var(--background-color); border: none; color: var(--accent-warning); padding: 10px; border-radius: 10px; cursor: pointer; box-shadow: var(--shadow-neumorphic);">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </button>
+                                <button onclick="logout()" style="background: var(--background-color); border: none; color: var(--accent-danger); padding: 10px; border-radius: 10px; cursor: pointer; box-shadow: var(--shadow-neumorphic);">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KPIs avec indicateurs de source -->
+                    <div class="neumorphic-card">
+                        <div style="font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--text-color);">
+                            📊 Indicateurs Clés (${dataSource === 'odoo' ? 'Données Réelles' : 'Données Simulées'})
+                        </div>
+                        <div class="kpi-grid">
+                            ${dashboard.kpis.map(kpi => `
+                                <div class="kpi-card">
+                                    <div class="kpi-source ${kpi.source || dataSource}">${kpi.source || dataSource}</div>
+                                    <div class="kpi-trend trend-${kpi.trend}">
+                                        <i class="fas fa-arrow-${kpi.trend === 'up' ? 'up' : kpi.trend === 'down' ? 'down' : 'right'}"></i>
+                                    </div>
+                                    <div class="kpi-icon">${kpi.icon}</div>
+                                    <div class="kpi-value">${kpi.value}${kpi.unit || ''}</div>
+                                    <div class="kpi-label">${kpi.name}</div>
+                                    <div class="kpi-progress">
+                                        <div class="kpi-progress-bar" style="width: ${kpi.percentage}%"></div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Graphiques -->
+                    <div class="chart-container">
+                        <div class="chart-title">📈 Tendances (${dataSource === 'odoo' ? 'Réelles' : 'Simulées'})</div>
+                        <canvas id="trendsChart" class="chart-canvas"></canvas>
+                    </div>
+
+                    <!-- Navigation avec indicateurs de développement -->
+                    <div class="neumorphic-card" onclick="navigateToLevel2('requests')">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <div style="font-size: 18px; font-weight: 700; color: var(--text-color);">
+                                <i class="fas fa-file-alt"></i> Demandes d'Information
+                                <div style="font-size: 11px; color: var(--accent-info); font-weight: 500; margin-top: 2px;">Phase 2 - Données ${dataSource === 'odoo' ? 'Odoo' : 'Simulées'}</div>
+                            </div>
+                            <span style="color: var(--accent-action); font-size: 20px;"><i class="fas fa-chevron-right"></i></span>
+                        </div>
+                        <div class="kpi-grid">
+                            <div style="text-align: center;">
+                                <div style="font-size: 24px; font-weight: 800; color: var(--accent-action);">${dashboard.global_stats.total_requests}</div>
+                                <div style="font-size: 12px; opacity: 0.8;">Total</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 24px; font-weight: 800; color: var(--accent-alert);">${dashboard.global_stats.pending_requests}</div>
+                                <div style="font-size: 12px; opacity: 0.8;">En cours</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="neumorphic-card" onclick="navigateToLevel2('alerts')">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <div style="font-size: 18px; font-weight: 700; color: var(--text-color);">
+                                <i class="fas fa-exclamation-triangle"></i> Alertes et Signalements
+                                <div style="font-size: 11px; color: var(--accent-info); font-weight: 500; margin-top: 2px;">Phase 2 - Données ${dataSource === 'odoo' ? 'Odoo' : 'Simulées'}</div>
+                            </div>
+                            <span style="color: var(--accent-action); font-size: 20px;"><i class="fas fa-chevron-right"></i></span>
+                        </div>
+                        <div class="kpi-grid">
+                            <div style="text-align: center;">
+                                <div style="font-size: 24px; font-weight: 800; color: var(--accent-action);">${dashboard.global_stats.total_alerts}</div>
+                                <div style="font-size: 12px; opacity: 0.8;">Total</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 24px; font-weight: 800; color: var(--accent-danger);">${dashboard.global_stats.urgent_alerts}</div>
+                                <div style="font-size: 12px; opacity: 0.8;">Urgentes</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Backend Odoo -->
+                    <div class="neumorphic-card" onclick="openOdooBackend('/web#menu_id=sama_conai.menu_sama_conai_main')">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div style="font-size: 18px; font-weight: 700; color: var(--text-color); margin-bottom: 5px;">
+                                    <i class="fas fa-cogs"></i> Accès SAMA CONAI
+                                </div>
+                                <div style="font-size: 14px; opacity: 0.8;">Accès SAMA CONAI</div>
+                            </div>
+                            <span style="color: var(--accent-action); font-size: 20px;"><i class="fas fa-external-link-alt"></i></span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Initialiser les graphiques
+            setTimeout(() => {
+                initializeCharts(dashboard.trends);
+            }, 100);
+        }
+
+        // ========================================= //
+        // NAVIGATION NIVEAU 2 (PHASE 2)             //
+        // ========================================= //
+
+        function navigateToLevel2(type) {
+            if (type === 'requests') {
+                navigateTo(2, 'Demandes d\'Information', loadLevel2Requests);
+            } else if (type === 'alerts') {
+                navigateTo(2, 'Alertes et Signalements', loadLevel2Alerts);
+            }
+        }
+
+        async function loadLevel2Requests() {
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/mobile/level2/requests', {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    renderLevel2Requests(data.data);
+                } else {
+                    showError(data.error || 'Erreur lors du chargement des demandes');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showError('Erreur de connexion au serveur');
+            }
+        }
+
+        function renderLevel2Requests(data) {
+            const content = document.getElementById('content');
+            
+            if (data.requests.length === 0) {
+                content.innerHTML = `
+                    <div class="fade-in">
+                        <div class="neumorphic-card">
+                            <div style="text-align: center; padding: 40px;">
+                                <div style="font-size: 48px; margin-bottom: 20px;">📄</div>
+                                <div style="font-size: 18px; font-weight: 700; margin-bottom: 10px; color: var(--text-color);">
+                                    Aucune demande trouvée
+                                </div>
+                                <div style="font-size: 14px; opacity: 0.8; margin-bottom: 20px;">
+                                    ${data.data_source === 'odoo' ? 'Aucune demande dans Odoo' : 'Erreur connexion Odoo'}
+                                </div>
+                                <div style="font-size: 11px; color: var(--accent-${data.data_source === 'odoo' ? 'success' : 'warning'}); font-weight: 600;">
+                                    Source: ${data.data_source === 'odoo' ? 'Données Odoo' : 'Mode Fallback'}
+                                </div>
+                                ${data.error ? `<div style="font-size: 11px; color: var(--accent-danger); margin-top: 10px;">Erreur: ${data.error}</div>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            content.innerHTML = `
+                <div class="fade-in">
+                    <!-- Filtres avec indicateur source -->
+                    <div class="neumorphic-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <div style="font-size: 18px; font-weight: 700; color: var(--text-color);">
+                                📋 Filtres Avancés
+                            </div>
+                            <div style="font-size: 11px; color: var(--accent-${data.data_source === 'odoo' ? 'success' : 'warning'}); font-weight: 600;">
+                                ${data.data_source === 'odoo' ? 'Données Odoo' : 'Mode Fallback'}
+                            </div>
+                        </div>
+                        <div class="kpi-grid">
+                            <button class="kpi-card" onclick="filterRequests('all')" style="cursor: pointer; border: none; background: var(--background-color);">
+                                <div class="kpi-value">${data.filters.all}</div>
+                                <div class="kpi-label">Toutes</div>
+                            </button>
+                            <button class="kpi-card" onclick="filterRequests('submitted')" style="cursor: pointer; border: none; background: var(--background-color);">
+                                <div class="kpi-value">${data.filters.submitted}</div>
+                                <div class="kpi-label">Soumises</div>
+                            </button>
+                            <button class="kpi-card" onclick="filterRequests('in_progress')" style="cursor: pointer; border: none; background: var(--background-color);">
+                                <div class="kpi-value">${data.filters.in_progress}</div>
+                                <div class="kpi-label">En cours</div>
+                            </button>
+                            <button class="kpi-card" onclick="filterRequests('responded')" style="cursor: pointer; border: none; background: var(--background-color);">
+                                <div class="kpi-value">${data.filters.responded}</div>
+                                <div class="kpi-label">Répondues</div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Liste des demandes -->
+                    <div class="neumorphic-card">
+                        <div style="font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--text-color);">
+                            📄 Demandes d'Information (${data.requests.length})
+                        </div>
+                        
+                        ${data.requests.map(request => `
+                            <div class="list-item" onclick="navigateToLevel3('request', ${request.id})">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                                    <div style="font-weight: 700; color: var(--accent-action); font-size: 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; margin-right: 10px;">${request.name}</div>
+                                    <span class="status-chip status-${request.state}">${request.state_label}</span>
+                                </div>
+                                <div style="font-size: 14px; color: var(--text-color); margin-bottom: 12px; line-height: 1.5; opacity: 0.9;">
+                                    <strong>👤 ${request.requester_name}</strong> (${request.requester_quality})<br>
+                                    📧 ${request.requester_email}<br>
+                                    📝 ${request.description ? request.description.substring(0, 100) + '...' : 'Pas de description'}
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-color); font-weight: 500; opacity: 0.7;">
+                                    <span>📅 ${formatDate(request.request_date || request.create_date)}</span>
+                                    <span>🏢 ${request.department || 'Non assigné'}</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        async function loadLevel2Alerts() {
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/mobile/level2/alerts', {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    renderLevel2Alerts(data.data);
+                } else {
+                    showError(data.error || 'Erreur lors du chargement des alertes');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showError('Erreur de connexion au serveur');
+            }
+        }
+
+        function renderLevel2Alerts(data) {
+            const content = document.getElementById('content');
+            
+            if (data.alerts.length === 0) {
+                content.innerHTML = `
+                    <div class="fade-in">
+                        <div class="neumorphic-card">
+                            <div style="text-align: center; padding: 40px;">
+                                <div style="font-size: 48px; margin-bottom: 20px;">🚨</div>
+                                <div style="font-size: 18px; font-weight: 700; margin-bottom: 10px; color: var(--text-color);">
+                                    Aucune alerte trouvée
+                                </div>
+                                <div style="font-size: 14px; opacity: 0.8; margin-bottom: 20px;">
+                                    ${data.data_source === 'odoo' ? 'Aucune alerte dans Odoo' : 'Erreur connexion Odoo'}
+                                </div>
+                                <div style="font-size: 11px; color: var(--accent-${data.data_source === 'odoo' ? 'success' : 'warning'}); font-weight: 600;">
+                                    Source: ${data.data_source === 'odoo' ? 'Données Odoo' : 'Mode Fallback'}
+                                </div>
+                                ${data.error ? `<div style="font-size: 11px; color: var(--accent-danger); margin-top: 10px;">Erreur: ${data.error}</div>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            content.innerHTML = `
+                <div class="fade-in">
+                    <!-- Filtres alertes -->
+                    <div class="neumorphic-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <div style="font-size: 18px; font-weight: 700; color: var(--text-color);">
+                                🚨 Filtres Alertes
+                            </div>
+                            <div style="font-size: 11px; color: var(--accent-${data.data_source === 'odoo' ? 'success' : 'warning'}); font-weight: 600;">
+                                ${data.data_source === 'odoo' ? 'Données Odoo' : 'Mode Fallback'}
+                            </div>
+                        </div>
+                        <div class="kpi-grid">
+                            <button class="kpi-card" onclick="filterAlerts('all')" style="cursor: pointer; border: none; background: var(--background-color);">
+                                <div class="kpi-value">${data.filters.all}</div>
+                                <div class="kpi-label">Toutes</div>
+                            </button>
+                            <button class="kpi-card" onclick="filterAlerts('new')" style="cursor: pointer; border: none; background: var(--background-color);">
+                                <div class="kpi-value">${data.filters.new}</div>
+                                <div class="kpi-label">Nouvelles</div>
+                            </button>
+                            <button class="kpi-card" onclick="filterAlerts('investigation')" style="cursor: pointer; border: none; background: var(--background-color);">
+                                <div class="kpi-value">${data.filters.investigation}</div>
+                                <div class="kpi-label">Enquête</div>
+                            </button>
+                            <button class="kpi-card" onclick="filterAlerts('resolved')" style="cursor: pointer; border: none; background: var(--background-color);">
+                                <div class="kpi-value">${data.filters.resolved}</div>
+                                <div class="kpi-label">Résolues</div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Liste des alertes -->
+                    <div class="neumorphic-card">
+                        <div style="font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--text-color);">
+                            🔔 Alertes et Signalements (${data.alerts.length})
+                        </div>
+                        
+                        ${data.alerts.map(alert => `
+                            <div class="list-item" onclick="navigateToLevel3('alert', ${alert.id})">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                                    <div style="font-weight: 700; color: var(--accent-action); font-size: 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; margin-right: 10px;">${alert.name}</div>
+                                    <span class="status-chip status-${alert.state}">${alert.state_label}</span>
+                                </div>
+                                <div style="font-size: 14px; color: var(--text-color); margin-bottom: 12px; line-height: 1.5; opacity: 0.9;">
+                                    <strong>📂 ${alert.category_label || alert.category}</strong> - Priorité: ${alert.priority_label || alert.priority}<br>
+                                    👤 ${alert.reporter_name}<br>
+                                    📝 ${alert.description ? alert.description.substring(0, 100) + '...' : 'Pas de description'}
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-color); font-weight: 500; opacity: 0.7;">
+                                    <span>📅 ${formatDate(alert.alert_date || alert.create_date)}</span>
+                                    <span>👨‍💼 ${alert.manager || 'Non assigné'}</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // ========================================= //
+        // NAVIGATION NIVEAU 3 (PHASE 3)             //
+        // ========================================= //
+
+        function navigateToLevel3(type, id) {
+            showError(`Niveau 3 (${type} ${id}) - En cours de développement (Phase 3)`);
+        }
+
+        // ========================================= //
+        // FONCTIONS UTILITAIRES                     //
+        // ========================================= //
+
+        function openComparison() {
+            window.open('http://localhost:3007/enriched', '_blank');
+        }
+
+        function openOdooBackend(path = '/web') {
+            const odooUrl = 'http://localhost:8077' + path;
+            window.open(odooUrl, '_blank');
+        }
+
+        function navigateTo(level, title, loadFunction, data = null) {
+            navigationStack.push({
+                level: currentLevel,
+                title: document.getElementById('headerTitle').textContent,
+                content: document.getElementById('content').innerHTML,
+                data: currentData
+            });
+
+            currentLevel = level;
+            currentData = data;
+            
+            document.getElementById('headerTitle').textContent = '🇸🇳 SAMA CONAI';
+            document.getElementById('navIndicator').textContent = title;
+            document.getElementById('backButton').style.display = level > 1 ? 'block' : 'none';
+            
+            loadFunction(data);
+        }
+
+        function navigateBack() {
+            if (navigationStack.length > 0) {
+                const previous = navigationStack.pop();
+                currentLevel = previous.level;
+                currentData = previous.data;
+                
+                document.getElementById('headerTitle').textContent = '🇸🇳 SAMA CONAI';
+                document.getElementById('navIndicator').textContent = previous.title.replace('🇸🇳 SAMA CONAI', 'Dashboard Odoo Réel');
+                document.getElementById('backButton').style.display = previous.level > 1 ? 'block' : 'none';
+                document.getElementById('content').innerHTML = previous.content;
+                
+                if (previous.level === 1) {
+                    setTimeout(() => {
+                        loadOdooDashboard();
+                    }, 100);
+                }
+            }
+        }
+
+        function initializeCharts(trends) {
+            const trendsCtx = document.getElementById('trendsChart');
+            if (trendsCtx) {
+                charts.trends = new Chart(trendsCtx, {
+                    type: 'line',
+                    data: {
+                        labels: trends.months,
+                        datasets: [{
+                            label: 'Demandes',
+                            data: trends.requests,
+                            borderColor: getComputedStyle(document.documentElement).getPropertyValue('--accent-action'),
+                            backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--accent-action') + '20',
+                            tension: 0.4
+                        }, {
+                            label: 'Alertes',
+                            data: trends.alerts,
+                            borderColor: getComputedStyle(document.documentElement).getPropertyValue('--accent-danger'),
+                            backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--accent-danger') + '20',
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function updateChartsTheme() {
+            Object.values(charts).forEach(chart => {
+                if (chart) {
+                    chart.update();
+                }
+            });
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'Date inconnue';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('fr-FR', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function filterRequests(filter) {
+            loadLevel2Requests();
+        }
+
+        function filterAlerts(filter) {
+            loadLevel2Alerts();
+        }
+
+        function logout() {
+            authToken = null;
+            currentUser = null;
+            localStorage.removeItem('sama_conai_odoo_token');
+            
+            Object.values(charts).forEach(chart => {
+                if (chart) {
+                    chart.destroy();
+                }
+            });
+            charts = {};
+            
+            location.reload();
+        }
+
+        function showLoading() {
+            document.getElementById('content').innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Chargement des données Odoo...</p>
+                </div>
+            `;
+        }
+
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${message}`;
+            
+            const content = document.getElementById('content');
+            content.insertBefore(errorDiv, content.firstChild);
+            
+            setTimeout(() => {
+                if (errorDiv.parentNode) {
+                    errorDiv.parentNode.removeChild(errorDiv);
+                }
+            }, 5000);
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success-message';
+            successDiv.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+            
+            const content = document.getElementById('content');
+            content.insertBefore(successDiv, content.firstChild);
+            
+            setTimeout(() => {
+                if (successDiv.parentNode) {
+                    successDiv.parentNode.removeChild(successDiv);
+                }
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========================================= -->
+    <!-- SAMA CONAI - ASSETS CSS ET JS            -->
+    <!-- ========================================= -->
+
+    <!-- Assets pour le backend -->
+    <template id="assets_backend" inherit_id="web.assets_backend">
+        <!-- CSS de base neumorphique -->
+        <link rel="stylesheet" type="text/css" href="/sama_conai/static/src/css/base_styles.css"/>
+        
+        <!-- Thèmes CSS -->
+        <link rel="stylesheet" type="text/css" href="/sama_conai/static/src/css/themes/theme_institutionnel.css"/>
+        <link rel="stylesheet" type="text/css" href="/sama_conai/static/src/css/themes/theme_terre.css"/>
+        <link rel="stylesheet" type="text/css" href="/sama_conai/static/src/css/themes/theme_moderne.css"/>
+        
+        <!-- CSS backend existant -->
+        <link rel="stylesheet" type="text/css" href="/sama_conai/static/src/css/backend.css"/>
+        
+        <!-- CSS pour le dashboard client action -->
+        <link rel="stylesheet" type="text/css" href="/sama_conai/static/src/css/dashboard_client_action.css"/>
+        
+        <!-- JavaScript pour le changement de thème -->
+        <script type="text/javascript" src="/sama_conai/static/src/js/theme_switcher.js"/>
+        
+        <!-- JavaScript pour le dashboard client action -->
+        <script type="text/javascript" src="/sama_conai/static/src/js/dashboard_client_action.js"/>
+    </template>
+
+    <!-- Assets pour le frontend/portal -->
+    <template id="assets_frontend" inherit_id="web.assets_frontend">
+        <!-- CSS de base neumorphique -->
+        <link rel="stylesheet" type="text/css" href="/sama_conai/static/src/css/base_styles.css"/>
+        
+        <!-- Thèmes CSS -->
+        <link rel="stylesheet" type="text/css" href="/sama_conai/static/src/css/themes/theme_institutionnel.css"/>
+        <link rel="stylesheet" type="text/css" href="/sama_conai/static/src/css/themes/theme_terre.css"/>
+        <link rel="stylesheet" type="text/css" href="/sama_conai/static/src/css/themes/theme_moderne.css"/>
+        
+        <!-- CSS portal existant -->
+        <link rel="stylesheet" type="text/css" href="/sama_conai/static/src/css/portal.css"/>
+        
+        <!-- JavaScript pour le changement de thème (version simplifiée) -->
+        <script type="text/javascript" src="/sama_conai/static/src/js/theme_switcher.js"/>
+    </template>
+
+    <!-- Assets spécifiques pour Chart.js (si nécessaire) -->
+    <template id="assets_chart_js" inherit_id="web.assets_backend">
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"/>
+    </template>
+
+    <!-- Assets pour les icônes Font Awesome (si pas déjà inclus) -->
+    <template id="assets_fontawesome" inherit_id="web.assets_backend">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    </template>
+
+    <!-- Assets pour les icônes Font Awesome frontend -->
+    <template id="assets_fontawesome_frontend" inherit_id="web.assets_frontend">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    </template>
+</odoo>

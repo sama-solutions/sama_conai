@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        
+        <!-- ========================================= -->
+        <!-- VAGUE 2 : DONNÉES DE DÉMO ÉTENDUES      -->
+        <!-- ========================================= -->
+        
+        <!-- DEMANDES D'INFORMATION VARIÉES -->
+        
+        <!-- Demande de journaliste -->
+        <record id="demo_info_request_002" model="request.information">
+            <field name="name">REQ-2025-002</field>
+            <field name="partner_name">Fatou Sall</field>
+            <field name="partner_email">fatou.sall@senpress.sn</field>
+            <field name="partner_phone">+221 76 987 65 43</field>
+            <field name="requester_quality">journalist</field>
+            <field name="request_date" eval="(datetime.now() - timedelta(days=12)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="description">&lt;p&gt;Dans le cadre d'une enquête journalistique sur la transparence budgétaire, je sollicite l'accès aux documents suivants :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Rapport d'exécution budgétaire 2024 - Ministère de l'Éducation&lt;/li&gt;
+&lt;li&gt;Liste des marchés publics attribués (montant &gt; 100M FCFA)&lt;/li&gt;
+&lt;li&gt;Procès-verbaux des commissions d'attribution&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Ces informations sont nécessaires pour un article sur l'utilisation des fonds publics dans l'éducation.&lt;/p&gt;</field>
+            <field name="stage_id" ref="stage_pending_validation"/>
+            <field name="state">pending_validation</field>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="response_body">&lt;p&gt;Madame Sall,&lt;/p&gt;
+&lt;p&gt;Suite à votre demande d'accès à l'information, nous avons le plaisir de vous communiquer les éléments suivants :&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Rapport d'exécution budgétaire 2024&lt;/strong&gt; : Document disponible en pièce jointe&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Marchés publics &gt; 100M FCFA&lt;/strong&gt; : Liste exhaustive fournie&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Procès-verbaux&lt;/strong&gt; : Versions anonymisées conformément à la protection des données&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Ces documents respectent les exigences de transparence tout en préservant les informations sensibles.&lt;/p&gt;
+&lt;p&gt;Cordialement,&lt;br/&gt;Service d'Accès à l'Information&lt;/p&gt;</field>
+        </record>
+
+        <!-- Demande de chercheur -->
+        <record id="demo_info_request_003" model="request.information">
+            <field name="name">REQ-2025-003</field>
+            <field name="partner_name">Dr. Moussa Diop</field>
+            <field name="partner_email">m.diop@ucad.edu.sn</field>
+            <field name="partner_phone">+221 77 456 78 90</field>
+            <field name="requester_quality">researcher</field>
+            <field name="request_date" eval="(datetime.now() - timedelta(days=8)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="description">&lt;p&gt;Bonjour,&lt;/p&gt;
+&lt;p&gt;Dans le cadre de mes recherches doctorales sur les politiques publiques de santé au Sénégal, je sollicite l'accès aux données suivantes :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Statistiques de mortalité infantile par région (2020-2024)&lt;/li&gt;
+&lt;li&gt;Budget alloué aux centres de santé communautaires&lt;/li&gt;
+&lt;li&gt;Indicateurs de performance des programmes de vaccination&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Ces données sont essentielles pour mon analyse comparative des politiques de santé publique.&lt;/p&gt;
+&lt;p&gt;Merci pour votre collaboration.&lt;/p&gt;</field>
+            <field name="stage_id" ref="stage_responded"/>
+            <field name="state">responded</field>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="response_date" eval="(datetime.now() - timedelta(days=2)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="response_body">&lt;p&gt;Docteur Diop,&lt;/p&gt;
+&lt;p&gt;Nous accusons réception de votre demande d'accès aux données de santé publique.&lt;/p&gt;
+&lt;p&gt;Après examen, nous pouvons vous fournir :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;✅ Statistiques de mortalité infantile (données agrégées par région)&lt;/li&gt;
+&lt;li&gt;✅ Budgets des centres de santé (montants globaux)&lt;/li&gt;
+&lt;li&gt;✅ Indicateurs de vaccination (taux de couverture)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Les données détaillées nominatives ne peuvent être communiquées conformément à la loi sur la protection des données personnelles.&lt;/p&gt;
+&lt;p&gt;Cordialement,&lt;br/&gt;Direction des Statistiques Sanitaires&lt;/p&gt;</field>
+        </record>
+
+        <!-- Demande refusée -->
+        <record id="demo_info_request_004" model="request.information">
+            <field name="name">REQ-2025-004</field>
+            <field name="partner_name">Ibrahima Kane</field>
+            <field name="partner_email">i.kane@example.sn</field>
+            <field name="partner_phone">+221 78 123 45 67</field>
+            <field name="requester_quality">citizen</field>
+            <field name="request_date" eval="(datetime.now() - timedelta(days=15)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="description">&lt;p&gt;Je demande l'accès aux informations suivantes concernant l'enquête en cours sur l'affaire de détournement de fonds publics :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Noms des personnes impliquées&lt;/li&gt;
+&lt;li&gt;Montants détournés&lt;/li&gt;
+&lt;li&gt;Procès-verbaux d'interrogatoire&lt;/li&gt;
+&lt;li&gt;Preuves collectées&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;En tant que citoyen, j'ai le droit de connaître l'utilisation des fonds publics.&lt;/p&gt;</field>
+            <field name="stage_id" ref="stage_refused"/>
+            <field name="state">refused</field>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="response_date" eval="(datetime.now() - timedelta(days=5)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="is_refusal" eval="True"/>
+            <field name="refusal_reason_id" ref="refusal_reason_ongoing_investigation"/>
+            <field name="refusal_motivation">Monsieur Kane,
+
+Nous accusons réception de votre demande d'accès à l'information.
+
+Après examen, nous ne pouvons donner suite à votre demande pour les motifs suivants :
+
+Les informations demandées concernent une enquête judiciaire en cours. Conformément à l'article 15 de la loi sur l'accès à l'information et au Code de procédure pénale, ces informations sont couvertes par le secret de l'instruction.
+
+La communication de ces éléments pourrait :
+- Compromettre le bon déroulement de l'enquête
+- Porter atteinte aux droits de la défense
+- Violer la présomption d'innocence
+
+Nous vous invitons à renouveler votre demande une fois la procédure judiciaire terminée.
+
+Cordialement,
+Commission d'Accès aux Documents Administratifs</field>
+        </record>
+
+        <!-- SIGNALEMENTS D'ALERTE VARIÉS -->
+        
+        <!-- Signalement de fraude -->
+        <record id="demo_whistleblowing_002" model="whistleblowing.alert">
+            <field name="name">WB-2025-002</field>
+            <field name="alert_date" eval="(datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="is_anonymous" eval="False"/>
+            <field name="reporter_name">Aïssatou Ndiaye</field>
+            <field name="reporter_email">a.ndiaye@ministry.gov.sn</field>
+            <field name="reporter_phone">+221 77 234 56 78</field>
+            <field name="description">&lt;p&gt;Je signale des irrégularités dans la gestion des bourses d'études supérieures.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Faits observés :&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Attribution de bourses à des étudiants fictifs&lt;/li&gt;
+&lt;li&gt;Détournement des fonds vers des comptes personnels&lt;/li&gt;
+&lt;li&gt;Falsification de documents d'inscription&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Preuves disponibles :&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Copies des virements bancaires&lt;/li&gt;
+&lt;li&gt;Listes d'étudiants avec incohérences&lt;/li&gt;
+&lt;li&gt;Témoignages de collègues&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Montant estimé du préjudice : 150 millions FCFA&lt;/p&gt;</field>
+            <field name="category">fraud</field>
+            <field name="stage_id" ref="whistleblowing_stage_investigation"/>
+            <field name="state">investigation</field>
+            <field name="priority">urgent</field>
+            <field name="manager_id" ref="base.user_admin"/>
+            <field name="investigation_start_date" eval="(datetime.now() - timedelta(days=3)).strftime('%Y-%m-%d')"/>
+            <field name="investigation_notes">&lt;p&gt;&lt;strong&gt;Enquête en cours - Confidentiel&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Actions menées :&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Vérification des listes d'étudiants bénéficiaires&lt;/li&gt;
+&lt;li&gt;Audit des comptes bancaires concernés&lt;/li&gt;
+&lt;li&gt;Entretiens avec les témoins&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;Constats préliminaires :&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Confirmation de 23 dossiers d'étudiants fictifs&lt;/li&gt;
+&lt;li&gt;Virements suspects vers 3 comptes personnels&lt;/li&gt;
+&lt;li&gt;Montant détourné confirmé : 127 millions FCFA&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Prochaines étapes :&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Finalisation de l'audit comptable&lt;/li&gt;
+&lt;li&gt;Transmission du dossier au Procureur&lt;/li&gt;
+&lt;li&gt;Mise en place de mesures correctives&lt;/li&gt;
+&lt;/ul&gt;</field>
+        </record>
+
+        <!-- Signalement d'abus de pouvoir -->
+        <record id="demo_whistleblowing_003" model="whistleblowing.alert">
+            <field name="name">WB-2025-003</field>
+            <field name="alert_date" eval="(datetime.now() - timedelta(days=10)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="is_anonymous" eval="True"/>
+            <field name="description">&lt;p&gt;Signalement d'abus de pouvoir dans l'attribution des permis de construire.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Situation dénoncée :&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Accélération des procédures contre paiement informel&lt;/li&gt;
+&lt;li&gt;Refus de traiter les dossiers sans "facilitation"&lt;/li&gt;
+&lt;li&gt;Favoritisme envers certains promoteurs immobiliers&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Impact :&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Inégalité de traitement des citoyens&lt;/li&gt;
+&lt;li&gt;Retards injustifiés dans les projets&lt;/li&gt;
+&lt;li&gt;Corruption systémique&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Des témoignages et documents sont disponibles pour étayer ces accusations.&lt;/p&gt;</field>
+            <field name="category">abuse_of_power</field>
+            <field name="stage_id" ref="whistleblowing_stage_resolved"/>
+            <field name="state">resolved</field>
+            <field name="priority">medium</field>
+            <field name="manager_id" ref="base.user_admin"/>
+            <field name="investigation_start_date" eval="(datetime.now() - timedelta(days=8)).strftime('%Y-%m-%d')"/>
+            <field name="investigation_end_date" eval="(datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')"/>
+            <field name="resolution_date" eval="(datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')"/>
+            <field name="resolution">Suite à l'enquête menée, les faits dénoncés ont été confirmés.
+
+MESURES PRISES :
+1. Sanctions disciplinaires contre 2 agents responsables
+2. Révision complète des procédures d'attribution
+3. Mise en place d'un système de suivi numérique
+4. Formation du personnel sur l'éthique administrative
+
+RÉSULTATS :
+- Réduction de 80% des délais de traitement
+- Mise en place d'un guichet unique transparent
+- Système de réclamation en ligne opérationnel
+- Audit trimestriel des procédures
+
+Le signalement a permis d'améliorer significativement le service public et de restaurer la confiance des citoyens.</field>
+        </record>
+
+        <!-- Signalement de harcèlement -->
+        <record id="demo_whistleblowing_004" model="whistleblowing.alert">
+            <field name="name">WB-2025-004</field>
+            <field name="alert_date" eval="(datetime.now() - timedelta(days=2)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="is_anonymous" eval="True"/>
+            <field name="description">&lt;p&gt;Signalement de harcèlement moral et sexuel dans un service administratif.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Comportements dénoncés :&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Remarques déplacées répétées&lt;/li&gt;
+&lt;li&gt;Chantage à l'avancement professionnel&lt;/li&gt;
+&lt;li&gt;Création d'un environnement de travail hostile&lt;/li&gt;
+&lt;li&gt;Intimidation des témoins potentiels&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Victimes :&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Plusieurs femmes du service (agents et stagiaires)&lt;/li&gt;
+&lt;li&gt;Situation perdure depuis plus d'un an&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Une intervention urgente est nécessaire pour protéger les victimes et rétablir un environnement de travail sain.&lt;/p&gt;</field>
+            <field name="category">harassment</field>
+            <field name="stage_id" ref="whistleblowing_stage_new"/>
+            <field name="state">new</field>
+            <field name="priority">urgent</field>
+        </record>
+
+    </data>
+</odoo>

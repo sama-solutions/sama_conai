@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAMA CONAI - Intégration Odoo Seamless</title>
+    
+    <!-- Meta tags -->
+    <meta name="description" content="Application mobile SAMA CONAI avec intégration Odoo complète - 3 niveaux de navigation">
+    <meta name="theme-color" content="#875A7B">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Styles CSS - Style Odoo avec améliorations mobiles -->
+    <style>
+        /* Variables CSS inspirées d'Odoo */
+        :root {
+            /* Couleurs Odoo */
+            --odoo-primary: #875A7B;
+            --odoo-primary-dark: #6B4C63;
+            --odoo-primary-light: #A06B8A;
+            --odoo-secondary: #17A2B8;
+            --odoo-success: #28A745;
+            --odoo-warning: #FFC107;
+            --odoo-danger: #DC3545;
+            --odoo-info: #17A2B8;
+            
+            /* Couleurs de fond */
+            --odoo-bg-primary: #FFFFFF;
+            --odoo-bg-secondary: #F8F9FA;
+            --odoo-bg-dark: #343A40;
+            --odoo-bg-light: #E9ECEF;
+            
+            /* Texte */
+            --odoo-text-primary: #212529;
+            --odoo-text-secondary: #6C757D;
+            --odoo-text-muted: #ADB5BD;
+            --odoo-text-white: #FFFFFF;
+            
+            /* Bordures */
+            --odoo-border: #DEE2E6;
+            --odoo-border-dark: #ADB5BD;
+            
+            /* Ombres */
+            --odoo-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            --odoo-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            --odoo-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+            
+            /* Transitions */
+            --transition-fast: 0.15s ease-in-out;
+            --transition-normal: 0.3s ease-in-out;
+            
+            /* Espacements */
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 3rem;
+            
+            /* Rayons */
+            --radius-sm: 0.25rem;
+            --radius: 0.375rem;
+            --radius-lg: 0.5rem;
+            --radius-xl: 0.75rem;
+        }
+
+        /* Reset et base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 14px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--odoo-bg-secondary);
+            color: var(--odoo-text-primary);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* Conteneur principal mobile */
+        .mobile-container {
+            max-width: 430px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: var(--odoo-bg-primary);
+            position: relative;
+            box-shadow: var(--odoo-shadow-lg);
+        }
+
+        /* Header style Odoo */
+        .odoo-header {
+            background: var(--odoo-primary);
+            color: var(--odoo-text-white);
+            padding: var(--space-md);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--odoo-shadow);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .odoo-logo {
+            width: 24px;
+            height: 24px;
+            background: var(--odoo-text-white);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--odoo-primary);
+            font-size: 0.875rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: var(--space-sm);
+            align-items: center;
+        }
+
+        /* Navigation breadcrumb style Odoo */
+        .breadcrumb-nav {
+            background: var(--odoo-bg-light);
+            padding: var(--space-sm) var(--space-md);
+            border-bottom: 1px solid var(--odoo-border);
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-size: 0.875rem;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .breadcrumb-item {
+            color: var(--odoo-text-secondary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        .breadcrumb-item:hover {
+            color: var(--odoo-primary);
+        }
+
+        .breadcrumb-item.active {
+            color: var(--odoo-text-primary);
+            font-weight: 500;
+        }
+
+        .breadcrumb-separator {
+            color: var(--odoo-text-muted);
+        }
+
+        /* Boutons style Odoo */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-xs);
+            padding: var(--space-sm) var(--space-md);
+            border: 1px solid transparent;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            min-height: 38px;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn-primary {
+            background: var(--odoo-primary);
+            border-color: var(--odoo-primary);
+            color: var(--odoo-text-white);
+        }
+
+        .btn-primary:hover {
+            background: var(--odoo-primary-dark);
+            border-color: var(--odoo-primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--odoo-bg-secondary);
+            border-color: var(--odoo-border);
+            color: var(--odoo-text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--odoo-bg-light);
+        }
+
+        .btn-success {
+            background: var(--odoo-success);
+            border-color: var(--odoo-success);
+            color: var(--odoo-text-white);
+        }
+
+        .btn-warning {
+            background: var(--odoo-warning);
+            border-color: var(--odoo-warning);
+            color: var(--odoo-text-primary);
+        }
+
+        .btn-danger {
+            background: var(--odoo-danger);
+            border-color: var(--odoo-danger);
+            color: var(--odoo-text-white);
+        }
+
+        .btn-sm {
+            padding: var(--space-xs) var(--space-sm);
+            font-size: 0.75rem;
+            min-height: 32px;
+        }
+
+        .btn-icon {
+            width: 38px;
+            height: 38px;
+            padding: 0;
+            border-radius: var(--radius-lg);
+        }
+
+        /* Contenu principal */
+        .content {
+            padding: var(--space-md);
+            min-height: calc(100vh - 120px);
+        }
+
+        /* Écran de connexion style Odoo */
+        .login-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 80px);
+            padding: var(--space-xl);
+            text-align: center;
+        }
+
+        .login-logo {
+            width: 120px;
+            height: 120px;
+            background: var(--odoo-primary);
+            border-radius: var(--radius-xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--odoo-text-white);
+            margin-bottom: var(--space-xl);
+            box-shadow: var(--odoo-shadow-lg);
+        }
+
+        .login-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: var(--space-sm);
+            color: var(--odoo-primary);
+        }
+
+        .login-subtitle {
+            color: var(--odoo-text-secondary);
+            margin-bottom: var(--space-xl);
+            font-size: 1rem;
+        }
+
+        /* Formulaires style Odoo */
+        .form-group {
+            margin-bottom: var(--space-md);
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--space-xs);
+            font-weight: 500;
+            color: var(--odoo-text-primary);
+            font-size: 0.875rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: var(--space-sm) var(--space-md);
+            border: 1px solid var(--odoo-border);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            color: var(--odoo-text-primary);
+            background: var(--odoo-bg-primary);
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+            min-height: 38px;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--odoo-primary);
+            box-shadow: 0 0 0 0.2rem rgba(135, 90, 123, 0.25);
+        }
+
+        .form-control::placeholder {
+            color: var(--odoo-text-muted);
+        }
+
+        /* Cards style Odoo */
+        .card {
+            background: var(--odoo-bg-primary);
+            border: 1px solid var(--odoo-border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--odoo-shadow-sm);
+            margin-bottom: var(--space-md);
+            overflow: hidden;
+            transition: box-shadow var(--transition-normal);
+        }
+
+        .card:hover {
+            box-shadow: var(--odoo-shadow);
+        }
+
+        .card-header {
+            background: var(--odoo-bg-light);
+            border-bottom: 1px solid var(--odoo-border);
+            padding: var(--space-md);
+            font-weight: 600;
+            color: var(--odoo-text-primary);
+        }
+
+        .card-body {
+            padding: var(--space-md);
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: var(--space-sm);
+            color: var(--odoo-text-primary);
+        }
+
+        .card-text {
+            color: var(--odoo-text-secondary);
+            margin-bottom: var(--space-md);
+        }
+
+        /* Listes style Odoo */
+        .list-group {
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--odoo-shadow-sm);
+        }
+
+        .list-group-item {
+            background: var(--odoo-bg-primary);
+            border: 1px solid var(--odoo-border);
+            border-top: none;
+            padding: var(--space-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color var(--transition-fast);
+        }
+
+        .list-group-item:first-child {
+            border-top: 1px solid var(--odoo-border);
+        }
+
+        .list-group-item:hover {
+            background: var(--odoo-bg-secondary);
+        }
+
+        .list-group-item.active {
+            background: var(--odoo-primary);
+            border-color: var(--odoo-primary);
+            color: var(--odoo-text-white);
+        }
+
+        /* Badges style Odoo */
+        .badge {
+            display: inline-block;
+            padding: 0.25em 0.5em;
+            font-size: 0.75rem;
+            font-weight: 600;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: var(--radius);
+        }
+
+        .badge-primary {
+            background: var(--odoo-primary);
+            color: var(--odoo-text-white);
+        }
+
+        .badge-success {
+            background: var(--odoo-success);
+            color: var(--odoo-text-white);
+        }
+
+        .badge-warning {
+            background: var(--odoo-warning);
+            color: var(--odoo-text-primary);
+        }
+
+        .badge-danger {
+            background: var(--odoo-danger);
+            color: var(--odoo-text-white);
+        }
+
+        .badge-info {
+            background: var(--odoo-info);
+            color: var(--odoo-text-white);
+        }
+
+        .badge-secondary {
+            background: var(--odoo-text-secondary);
+            color: var(--odoo-text-white);
+        }
+
+        /* Statistiques dashboard */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+
+        .stat-card {
+            background: var(--odoo-bg-primary);
+            border: 1px solid var(--odoo-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-md);
+            text-align: center;
+            box-shadow: var(--odoo-shadow-sm);
+            transition: transform var(--transition-normal);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--odoo-shadow);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--odoo-primary);
+            margin-bottom: var(--space-xs);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--odoo-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Filtres et recherche */
+        .filters-bar {
+            background: var(--odoo-bg-light);
+            border: 1px solid var(--odoo-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-md);
+            margin-bottom: var(--space-md);
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .filter-select {
+            min-width: 120px;
+        }
+
+        /* Pagination style Odoo */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: var(--space-sm);
+            margin-top: var(--space-lg);
+        }
+
+        .pagination-btn {
+            padding: var(--space-sm);
+            border: 1px solid var(--odoo-border);
+            background: var(--odoo-bg-primary);
+            color: var(--odoo-text-primary);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            min-width: 38px;
+            text-align: center;
+        }
+
+        .pagination-btn:hover {
+            background: var(--odoo-bg-light);
+        }
+
+        .pagination-btn.active {
+            background: var(--odoo-primary);
+            border-color: var(--odoo-primary);
+            color: var(--odoo-text-white);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Loading spinner style Odoo */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: var(--space-xl);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--odoo-bg-light);
+            border-top: 3px solid var(--odoo-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Alertes style Odoo */
+        .alert {
+            padding: var(--space-md);
+            margin-bottom: var(--space-md);
+            border: 1px solid transparent;
+            border-radius: var(--radius);
+            position: relative;
+        }
+
+        .alert-success {
+            background: rgba(40, 167, 69, 0.1);
+            border-color: var(--odoo-success);
+            color: var(--odoo-success);
+        }
+
+        .alert-warning {
+            background: rgba(255, 193, 7, 0.1);
+            border-color: var(--odoo-warning);
+            color: #856404;
+        }
+
+        .alert-danger {
+            background: rgba(220, 53, 69, 0.1);
+            border-color: var(--odoo-danger);
+            color: var(--odoo-danger);
+        }
+
+        .alert-info {
+            background: rgba(23, 162, 184, 0.1);
+            border-color: var(--odoo-info);
+            color: var(--odoo-info);
+        }
+
+        /* Navigation bottom style Odoo */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            background: var(--odoo-bg-primary);
+            border-top: 1px solid var(--odoo-border);
+            display: flex;
+            justify-content: space-around;
+            padding: var(--space-sm) 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-xs);
+            padding: var(--space-xs);
+            color: var(--odoo-text-secondary);
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: color var(--transition-fast);
+            min-width: 60px;
+        }
+
+        .nav-item.active {
+            color: var(--odoo-primary);
+        }
+
+        .nav-item:hover {
+            color: var(--odoo-primary);
+        }
+
+        .nav-icon {
+            font-size: 1.25rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .mobile-container {
+                max-width: 100%;
+                margin: 0;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filters-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-input,
+            .filter-select {
+                min-width: auto;
+            }
+        }
+
+        /* Utilitaires */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .text-muted {
+            color: var(--odoo-text-muted);
+        }
+
+        .text-primary {
+            color: var(--odoo-primary);
+        }
+
+        .text-success {
+            color: var(--odoo-success);
+        }
+
+        .text-warning {
+            color: #856404;
+        }
+
+        .text-danger {
+            color: var(--odoo-danger);
+        }
+
+        .mb-0 { margin-bottom: 0; }
+        .mb-1 { margin-bottom: var(--space-xs); }
+        .mb-2 { margin-bottom: var(--space-sm); }
+        .mb-3 { margin-bottom: var(--space-md); }
+        .mb-4 { margin-bottom: var(--space-lg); }
+
+        .mt-0 { margin-top: 0; }
+        .mt-1 { margin-top: var(--space-xs); }
+        .mt-2 { margin-top: var(--space-sm); }
+        .mt-3 { margin-top: var(--space-md); }
+        .mt-4 { margin-top: var(--space-lg); }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .justify-content-between {
+            justify-content: space-between;
+        }
+
+        .align-items-center {
+            align-items: center;
+        }
+
+        .gap-2 {
+            gap: var(--space-sm);
+        }
+
+        .w-100 {
+            width: 100%;
+        }
+
+        /* Animations d'entrée */
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <!-- Header style Odoo -->
+        <div class="odoo-header">
+            <div class="header-content">
+                <div class="header-title">
+                    <div class="odoo-logo">O</div>
+                    <span id="headerTitle">SAMA CONAI</span>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary btn-sm" id="menuBtn">☰</button>
+                    <button class="btn btn-secondary btn-sm" id="userBtn">👤</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation breadcrumb -->
+        <div class="breadcrumb-nav" id="breadcrumbNav">
+            <a href="#" class="breadcrumb-item" onclick="navigateTo('dashboard')">Tableau de bord</a>
+        </div>
+
+        <!-- Contenu principal -->
+        <div class="content" id="mainContent">
+            <!-- Écran de connexion -->
+            <div class="login-screen fade-in" id="loginScreen">
+                <div class="login-logo">🇸🇳</div>
+                <h2 class="login-title">SAMA CONAI</h2>
+                <p class="login-subtitle">Intégration Odoo Seamless</p>
+                
+                <form id="loginForm" style="width: 100%; max-width: 320px;">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" id="loginEmail" placeholder="admin@sama-conai.sn" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Mot de passe</label>
+                        <input type="password" class="form-control" id="loginPassword" placeholder="••••••••" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="d-flex align-items-center gap-2">
+                            <input type="checkbox" id="rememberMe">
+                            <label for="rememberMe" style="margin: 0; font-size: 0.875rem;">Se souvenir de moi</label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100" id="loginButton">
+                        Se connecter
+                    </button>
+                </form>
+                
+                <div class="card mt-4" style="max-width: 320px;">
+                    <div class="card-body">
+                        <div style="font-size: 0.875rem; font-weight: 600; margin-bottom: var(--space-sm);">🔑 Comptes de test</div>
+                        <div style="font-size: 0.75rem; color: var(--odoo-text-secondary); line-height: 1.6;">
+                            <div><strong>Admin:</strong> admin@sama-conai.sn / admin123</div>
+                            <div><strong>Agent:</strong> agent@sama-conai.sn / agent123</div>
+                            <div><strong>Citoyen:</strong> citoyen@email.com / citoyen123</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard (caché par défaut) -->
+            <div class="dashboard hidden" id="dashboard">
+                <!-- Le contenu sera généré dynamiquement -->
+            </div>
+
+            <!-- Liste des demandes (NIVEAU 1) -->
+            <div class="requests-list hidden" id="requestsList">
+                <!-- Le contenu sera généré dynamiquement -->
+            </div>
+
+            <!-- Détail d'une demande (NIVEAU 2) -->
+            <div class="request-detail hidden" id="requestDetail">
+                <!-- Le contenu sera généré dynamiquement -->
+            </div>
+
+            <!-- Formulaire d'édition (NIVEAU 3) -->
+            <div class="request-form hidden" id="requestForm">
+                <!-- Le contenu sera généré dynamiquement -->
+            </div>
+
+            <!-- Liste des alertes (NIVEAU 1) -->
+            <div class="alerts-list hidden" id="alertsList">
+                <!-- Le contenu sera généré dynamiquement -->
+            </div>
+
+            <!-- Détail d'une alerte (NIVEAU 2) -->
+            <div class="alert-detail hidden" id="alertDetail">
+                <!-- Le contenu sera généré dynamiquement -->
+            </div>
+        </div>
+
+        <!-- Navigation bottom -->
+        <div class="bottom-nav" id="bottomNav" style="display: none;">
+            <a href="#" class="nav-item active" onclick="navigateTo('dashboard')">
+                <div class="nav-icon">📊</div>
+                <div>Dashboard</div>
+            </a>
+            <a href="#" class="nav-item" onclick="navigateTo('requests')">
+                <div class="nav-icon">📄</div>
+                <div>Demandes</div>
+            </a>
+            <a href="#" class="nav-item" onclick="navigateTo('alerts')">
+                <div class="nav-icon">🚨</div>
+                <div>Alertes</div>
+            </a>
+            <a href="#" class="nav-item" onclick="navigateTo('profile')">
+                <div class="nav-icon">👤</div>
+                <div>Profil</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- JavaScript pour la navigation 3 niveaux -->
+    <script>
+        // Configuration
+        const CONFIG = {
+            API_BASE: window.location.origin + '/api',
+            ANIMATION_DURATION: 300
+        };
+
+        // État global
+        const AppState = {
+            user: null,
+            token: null,
+            currentView: 'login',
+            currentLevel: 1,
+            navigationStack: [],
+            data: {
+                requests: [],
+                alerts: [],
+                stats: null
+            }
+        };
+
+        // Gestionnaire d'authentification
+        class AuthManager {
+            static async login(email, password, rememberMe = false) {
+                try {
+                    const response = await fetch(`${CONFIG.API_BASE}/auth/login`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ email, password, rememberMe })
+                    });
+
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        AppState.token = data.data.token;
+                        AppState.user = data.data.user;
+                        
+                        if (rememberMe) {
+                            localStorage.setItem('sama-token', data.data.token);
+                        } else {
+                            sessionStorage.setItem('sama-token', data.data.token);
+                        }
+                        
+                        return { success: true, user: data.data.user };
+                    } else {
+                        return { success: false, error: data.error };
+                    }
+                } catch (error) {
+                    return { success: false, error: 'Erreur de connexion au serveur' };
+                }
+            }
+
+            static logout() {
+                AppState.token = null;
+                AppState.user = null;
+                localStorage.removeItem('sama-token');
+                sessionStorage.removeItem('sama-token');
+                navigateTo('login');
+            }
+
+            static checkStoredAuth() {
+                const token = localStorage.getItem('sama-token') || sessionStorage.getItem('sama-token');
+                if (token) {
+                    AppState.token = token;
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        // Gestionnaire d'API
+        class ApiManager {
+            static async request(endpoint, options = {}) {
+                const url = `${CONFIG.API_BASE}${endpoint}`;
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...(AppState.token && { 'Authorization': `Bearer ${AppState.token}` })
+                    },
+                    ...options
+                };
+
+                if (config.body && typeof config.body === 'object') {
+                    config.body = JSON.stringify(config.body);
+                }
+
+                try {
+                    const response = await fetch(url, config);
+                    const data = await response.json();
+
+                    if (data.requireAuth) {
+                        AuthManager.logout();
+                        return null;
+                    }
+
+                    return data;
+                } catch (error) {
+                    console.error('Erreur API:', error);
+                    showAlert('Erreur de connexion au serveur', 'danger');
+                    return null;
+                }
+            }
+
+            static async getDashboard() {
+                return await this.request('/dashboard');
+            }
+
+            static async getRequests(params = {}) {
+                const queryString = new URLSearchParams(params).toString();
+                return await this.request(`/requests?${queryString}`);
+            }
+
+            static async getRequest(id) {
+                return await this.request(`/requests/${id}`);
+            }
+
+            static async updateRequest(id, data) {
+                return await this.request(`/requests/${id}`, {
+                    method: 'PUT',
+                    body: data
+                });
+            }
+
+            static async createRequest(data) {
+                return await this.request('/requests', {
+                    method: 'POST',
+                    body: data
+                });
+            }
+
+            static async getAlerts(params = {}) {
+                const queryString = new URLSearchParams(params).toString();
+                return await this.request(`/alerts?${queryString}`);
+            }
+
+            static async getAlert(id) {
+                return await this.request(`/alerts/${id}`);
+            }
+
+            static async testOdoo() {
+                return await this.request('/test-odoo');
+            }
+        }
+
+        // Gestionnaire de navigation 3 niveaux
+        class NavigationManager {
+            static navigateTo(view, data = null, level = 1) {
+                // Masquer toutes les vues
+                document.querySelectorAll('.content > div').forEach(div => {
+                    div.classList.add('hidden');
+                });
+
+                // Gérer la pile de navigation
+                if (level === 1) {
+                    AppState.navigationStack = [{ view, data, level }];
+                } else {
+                    // Ajouter à la pile ou remplacer le niveau actuel
+                    AppState.navigationStack = AppState.navigationStack.slice(0, level - 1);
+                    AppState.navigationStack.push({ view, data, level });
+                }
+
+                AppState.currentView = view;
+                AppState.currentLevel = level;
+
+                // Mettre à jour le breadcrumb
+                this.updateBreadcrumb();
+
+                // Afficher la vue appropriée
+                const viewElement = document.getElementById(view);
+                if (viewElement) {
+                    viewElement.classList.remove('hidden');
+                    viewElement.classList.add('fade-in');
+                }
+
+                // Mettre à jour la navigation bottom
+                this.updateBottomNav();
+
+                // Charger les données si nécessaire
+                this.loadViewData(view, data);
+            }
+
+            static updateBreadcrumb() {
+                const breadcrumb = document.getElementById('breadcrumbNav');
+                let html = '';
+
+                AppState.navigationStack.forEach((item, index) => {
+                    if (index > 0) {
+                        html += '<span class="breadcrumb-separator">›</span>';
+                    }
+
+                    const isActive = index === AppState.navigationStack.length - 1;
+                    const className = isActive ? 'breadcrumb-item active' : 'breadcrumb-item';
+                    
+                    let title = this.getViewTitle(item.view, item.data);
+                    
+                    if (isActive) {
+                        html += `<span class="${className}">${title}</span>`;
+                    } else {
+                        html += `<a href="#" class="${className}" onclick="NavigationManager.navigateToLevel(${index + 1})">${title}</a>`;
+                    }
+                });
+
+                breadcrumb.innerHTML = html;
+            }
+
+            static getViewTitle(view, data) {
+                const titles = {
+                    'dashboard': 'Tableau de bord',
+                    'requests': 'Demandes d\'information',
+                    'requestsList': 'Demandes d\'information',
+                    'requestDetail': data ? `Demande ${data.name || data.id}` : 'Détail demande',
+                    'requestForm': 'Édition demande',
+                    'alerts': 'Alertes',
+                    'alertsList': 'Alertes',
+                    'alertDetail': data ? `Alerte ${data.name || data.id}` : 'Détail alerte',
+                    'profile': 'Profil'
+                };
+                return titles[view] || view;
+            }
+
+            static navigateToLevel(level) {
+                if (level <= AppState.navigationStack.length) {
+                    const targetItem = AppState.navigationStack[level - 1];
+                    this.navigateTo(targetItem.view, targetItem.data, level);
+                }
+            }
+
+            static goBack() {
+                if (AppState.navigationStack.length > 1) {
+                    AppState.navigationStack.pop();
+                    const previousItem = AppState.navigationStack[AppState.navigationStack.length - 1];
+                    this.navigateTo(previousItem.view, previousItem.data, previousItem.level);
+                }
+            }
+
+            static updateBottomNav() {
+                const bottomNav = document.getElementById('bottomNav');
+                const navItems = bottomNav.querySelectorAll('.nav-item');
+                
+                navItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                // Activer l'élément correspondant au niveau 1 de la navigation
+                const rootView = AppState.navigationStack[0]?.view || AppState.currentView;
+                const activeSelector = {
+                    'dashboard': 0,
+                    'requests': 1,
+                    'requestsList': 1,
+                    'alerts': 2,
+                    'alertsList': 2,
+                    'profile': 3
+                };
+
+                const activeIndex = activeSelector[rootView];
+                if (activeIndex !== undefined && navItems[activeIndex]) {
+                    navItems[activeIndex].classList.add('active');
+                }
+            }
+
+            static async loadViewData(view, data) {
+                switch (view) {
+                    case 'dashboard':
+                        await this.loadDashboard();
+                        break;
+                    case 'requests':
+                    case 'requestsList':
+                        await this.loadRequestsList();
+                        break;
+                    case 'requestDetail':
+                        if (data && data.id) {
+                            await this.loadRequestDetail(data.id);
+                        }
+                        break;
+                    case 'alerts':
+                    case 'alertsList':
+                        await this.loadAlertsList();
+                        break;
+                    case 'alertDetail':
+                        if (data && data.id) {
+                            await this.loadAlertDetail(data.id);
+                        }
+                        break;
+                }
+            }
+
+            static async loadDashboard() {
+                const dashboardElement = document.getElementById('dashboard');
+                dashboardElement.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+
+                const response = await ApiManager.getDashboard();
+                if (response && response.success) {
+                    AppState.data.stats = response.data;
+                    this.renderDashboard(response.data);
+                } else {
+                    dashboardElement.innerHTML = '<div class="alert alert-danger">Erreur lors du chargement du dashboard</div>';
+                }
+            }
+
+            static renderDashboard(data) {
+                const dashboardElement = document.getElementById('dashboard');
+                const user = data.user;
+                
+                let content = `
+                    <div class="fade-in">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>Bienvenue, ${user.name}</span>
+                                    <span class="badge badge-primary">${user.role}</span>
+                                </div>
+                            </div>
+                        </div>
+                `;
+
+                // Statistiques selon le rôle
+                if (user.role === 'admin' && data.admin) {
+                    content += `
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-number">${data.admin.totalRequests}</div>
+                                <div class="stat-label">Total Demandes</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">${data.admin.pendingRequests}</div>
+                                <div class="stat-label">En Attente</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">${data.admin.totalAlerts}</div>
+                                <div class="stat-label">Total Alertes</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">${data.admin.activeAlerts}</div>
+                                <div class="stat-label">Alertes Actives</div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">📊 Performance</div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Temps de réponse moyen:</span>
+                                    <span class="text-primary">${data.admin.performance.averageResponseTime} jours</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Taux de satisfaction:</span>
+                                    <span class="text-success">${data.admin.performance.satisfactionRate}%</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span>Indice de transparence:</span>
+                                    <span class="text-info">${data.admin.performance.transparencyIndex}/10</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else if (user.role === 'agent' && data.agent) {
+                    content += `
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-number">${data.agent.assignedRequests}</div>
+                                <div class="stat-label">Assignées</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">${data.agent.pendingRequests}</div>
+                                <div class="stat-label">En Attente</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">${data.agent.completedToday}</div>
+                                <div class="stat-label">Aujourd'hui</div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">📋 Mes Demandes Récentes</div>
+                            <div class="card-body">
+                                ${data.agent.recentRequests && data.agent.recentRequests.length > 0 ? 
+                                    data.agent.recentRequests.map(req => `
+                                        <div class="list-group-item" onclick="NavigationManager.navigateTo('requestDetail', {id: ${req.id}}, 2)">
+                                            <div>
+                                                <strong>${req.name}</strong><br>
+                                                <small class="text-muted">${req.partner_name}</small>
+                                            </div>
+                                            <span class="badge badge-${this.getStateBadgeClass(req.state)}">${this.getStateLabel(req.state)}</span>
+                                        </div>
+                                    `).join('') : 
+                                    '<p class="text-muted">Aucune demande récente</p>'
+                                }
+                            </div>
+                        </div>
+                    `;
+                } else if (user.role === 'citizen' && data.citizen) {
+                    content += `
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-number">${data.citizen.publicStats.totalRequests}</div>
+                                <div class="stat-label">Demandes Publiques</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">${data.citizen.publicStats.averageResponseTime}j</div>
+                                <div class="stat-label">Temps Moyen</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">${data.citizen.publicStats.satisfactionRate}%</div>
+                                <div class="stat-label">Satisfaction</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">${data.citizen.publicStats.transparencyIndex}</div>
+                                <div class="stat-label">Transparence</div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">⚡ Actions Rapides</div>
+                            <div class="card-body">
+                                <div class="d-flex gap-2 mb-3">
+                                    <button class="btn btn-primary" onclick="NavigationManager.navigateTo('requestForm', {action: 'create'}, 3)">
+                                        📝 Nouvelle Demande
+                                    </button>
+                                    <button class="btn btn-warning" onclick="NavigationManager.navigateTo('alertForm', {action: 'create'}, 3)">
+                                        🚨 Signaler
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Test de connexion Odoo
+                content += `
+                    <div class="card">
+                        <div class="card-header">🔗 Connexion Odoo</div>
+                        <div class="card-body">
+                            <button class="btn btn-secondary btn-sm" onclick="testOdooConnection()">
+                                Tester la connexion
+                            </button>
+                            <div id="odooStatus" class="mt-2"></div>
+                        </div>
+                    </div>
+                `;
+
+                content += '</div>';
+                dashboardElement.innerHTML = content;
+            }
+
+            static async loadRequestsList() {
+                const requestsElement = document.getElementById('requestsList');
+                requestsElement.innerHTML = `
+                    <div class="fade-in">
+                        <div class="filters-bar">
+                            <input type="text" class="form-control search-input" placeholder="Rechercher..." id="searchRequests">
+                            <select class="form-control filter-select" id="filterState">
+                                <option value="all">Tous les états</option>
+                                <option value="submitted">Soumises</option>
+                                <option value="in_progress">En cours</option>
+                                <option value="responded">Répondues</option>
+                                <option value="refused">Refusées</option>
+                            </select>
+                            <button class="btn btn-primary btn-sm" onclick="loadRequests()">🔍</button>
+                        </div>
+                        <div class="loading"><div class="spinner"></div></div>
+                    </div>
+                `;
+
+                await loadRequests();
+            }
+
+            static async loadRequestDetail(id) {
+                const detailElement = document.getElementById('requestDetail');
+                detailElement.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+
+                const response = await ApiManager.getRequest(id);
+                if (response && response.success) {
+                    this.renderRequestDetail(response.data);
+                } else {
+                    detailElement.innerHTML = '<div class="alert alert-danger">Erreur lors du chargement de la demande</div>';
+                }
+            }
+
+            static renderRequestDetail(request) {
+                const detailElement = document.getElementById('requestDetail');
+                
+                const content = `
+                    <div class="fade-in">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>${request.name}</span>
+                                    <span class="badge badge-${this.getStateBadgeClass(request.state)}">${this.getStateLabel(request.state)}</span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <strong>Demandeur:</strong> ${request.partner_name}<br>
+                                    <strong>Email:</strong> ${request.partner_email}<br>
+                                    <strong>Qualité:</strong> ${this.getRequesterQualityLabel(request.requester_quality)}<br>
+                                    <strong>Date:</strong> ${new Date(request.request_date).toLocaleDateString('fr-FR')}
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <strong>Description:</strong>
+                                    <div class="mt-2" style="background: var(--odoo-bg-light); padding: var(--space-md); border-radius: var(--radius);">
+                                        ${request.description}
+                                    </div>
+                                </div>
+
+                                ${request.response_body ? `
+                                    <div class="mb-3">
+                                        <strong>Réponse:</strong>
+                                        <div class="mt-2" style="background: var(--odoo-bg-light); padding: var(--space-md); border-radius: var(--radius);">
+                                            ${request.response_body}
+                                        </div>
+                                    </div>
+                                ` : ''}
+
+                                ${request.is_refusal && request.refusal_motivation ? `
+                                    <div class="mb-3">
+                                        <strong>Motif de refus:</strong>
+                                        <div class="mt-2" style="background: #fff3cd; padding: var(--space-md); border-radius: var(--radius); border-left: 4px solid var(--odoo-warning);">
+                                            ${request.refusal_motivation}
+                                        </div>
+                                    </div>
+                                ` : ''}
+
+                                <div class="d-flex gap-2 mt-4">
+                                    ${AppState.user.permissions.includes('all') || AppState.user.permissions.includes('update_requests') ? `
+                                        <button class="btn btn-primary btn-sm" onclick="NavigationManager.navigateTo('requestForm', {id: ${request.id}, action: 'edit'}, 3)">
+                                            ✏️ Modifier
+                                        </button>
+                                    ` : ''}
+                                    <button class="btn btn-secondary btn-sm" onclick="NavigationManager.goBack()">
+                                        ← Retour
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                detailElement.innerHTML = content;
+            }
+
+            static async loadAlertsList() {
+                const alertsElement = document.getElementById('alertsList');
+                alertsElement.innerHTML = `
+                    <div class="fade-in">
+                        <div class="filters-bar">
+                            <select class="form-control filter-select" id="filterAlertState">
+                                <option value="all">Tous les états</option>
+                                <option value="new">Nouvelles</option>
+                                <option value="investigation">En enquête</option>
+                                <option value="resolved">Résolues</option>
+                            </select>
+                            <select class="form-control filter-select" id="filterCategory">
+                                <option value="all">Toutes catégories</option>
+                                <option value="corruption">Corruption</option>
+                                <option value="fraud">Fraude</option>
+                                <option value="abuse_of_power">Abus de pouvoir</option>
+                            </select>
+                            <button class="btn btn-primary btn-sm" onclick="loadAlerts()">🔍</button>
+                        </div>
+                        <div class="loading"><div class="spinner"></div></div>
+                    </div>
+                `;
+
+                await loadAlerts();
+            }
+
+            static getStateBadgeClass(state) {
+                const classes = {
+                    'draft': 'secondary',
+                    'submitted': 'info',
+                    'in_progress': 'warning',
+                    'pending_validation': 'warning',
+                    'responded': 'success',
+                    'refused': 'danger',
+                    'cancelled': 'secondary'
+                };
+                return classes[state] || 'secondary';
+            }
+
+            static getStateLabel(state) {
+                const labels = {
+                    'draft': 'Brouillon',
+                    'submitted': 'Soumise',
+                    'in_progress': 'En cours',
+                    'pending_validation': 'En validation',
+                    'responded': 'Répondue',
+                    'refused': 'Refusée',
+                    'cancelled': 'Annulée'
+                };
+                return labels[state] || state;
+            }
+
+            static getRequesterQualityLabel(quality) {
+                const labels = {
+                    'citizen': 'Citoyen',
+                    'journalist': 'Journaliste',
+                    'researcher': 'Chercheur',
+                    'lawyer': 'Avocat',
+                    'ngo': 'ONG',
+                    'other': 'Autre'
+                };
+                return labels[quality] || quality;
+            }
+        }
+
+        // Fonctions globales
+        function navigateTo(view, data = null, level = 1) {
+            NavigationManager.navigateTo(view, data, level);
+        }
+
+        async function loadRequests() {
+            const search = document.getElementById('searchRequests')?.value || '';
+            const state = document.getElementById('filterState')?.value || 'all';
+            
+            const params = {};
+            if (search) params.search = search;
+            if (state !== 'all') params.state = state;
+
+            const response = await ApiManager.getRequests(params);
+            if (response && response.success) {
+                renderRequestsList(response.data);
+            }
+        }
+
+        function renderRequestsList(data) {
+            const requestsElement = document.getElementById('requestsList');
+            const listContainer = requestsElement.querySelector('.fade-in');
+            
+            let content = listContainer.innerHTML.split('<div class="loading">')[0];
+            
+            if (data.requests.length > 0) {
+                content += '<div class="list-group">';
+                data.requests.forEach(request => {
+                    content += `
+                        <div class="list-group-item" onclick="NavigationManager.navigateTo('requestDetail', {id: ${request.id}}, 2)">
+                            <div>
+                                <strong>${request.name}</strong><br>
+                                <small class="text-muted">${request.partner_name} - ${new Date(request.request_date).toLocaleDateString('fr-FR')}</small>
+                            </div>
+                            <span class="badge badge-${NavigationManager.getStateBadgeClass(request.state)}">${NavigationManager.getStateLabel(request.state)}</span>
+                        </div>
+                    `;
+                });
+                content += '</div>';
+
+                // Pagination
+                if (data.pagination.pages > 1) {
+                    content += '<div class="pagination">';
+                    for (let i = 1; i <= data.pagination.pages; i++) {
+                        const activeClass = i === data.pagination.page ? 'active' : '';
+                        content += `<button class="pagination-btn ${activeClass}" onclick="loadRequestsPage(${i})">${i}</button>`;
+                    }
+                    content += '</div>';
+                }
+            } else {
+                content += '<div class="alert alert-info">Aucune demande trouvée</div>';
+            }
+
+            listContainer.innerHTML = content;
+        }
+
+        async function loadAlerts() {
+            const state = document.getElementById('filterAlertState')?.value || 'all';
+            const category = document.getElementById('filterCategory')?.value || 'all';
+            
+            const params = {};
+            if (state !== 'all') params.state = state;
+            if (category !== 'all') params.category = category;
+
+            const response = await ApiManager.getAlerts(params);
+            if (response && response.success) {
+                renderAlertsList(response.data);
+            }
+        }
+
+        function renderAlertsList(data) {
+            const alertsElement = document.getElementById('alertsList');
+            const listContainer = alertsElement.querySelector('.fade-in');
+            
+            let content = listContainer.innerHTML.split('<div class="loading">')[0];
+            
+            if (data.alerts.length > 0) {
+                content += '<div class="list-group">';
+                data.alerts.forEach(alert => {
+                    content += `
+                        <div class="list-group-item" onclick="NavigationManager.navigateTo('alertDetail', {id: ${alert.id}}, 2)">
+                            <div>
+                                <strong>${alert.name}</strong><br>
+                                <small class="text-muted">${alert.category} - ${new Date(alert.alert_date).toLocaleDateString('fr-FR')}</small>
+                            </div>
+                            <span class="badge badge-${NavigationManager.getStateBadgeClass(alert.state)}">${NavigationManager.getStateLabel(alert.state)}</span>
+                        </div>
+                    `;
+                });
+                content += '</div>';
+            } else {
+                content += '<div class="alert alert-info">Aucune alerte trouvée</div>';
+            }
+
+            listContainer.innerHTML = content;
+        }
+
+        async function testOdooConnection() {
+            const statusElement = document.getElementById('odooStatus');
+            statusElement.innerHTML = '<div class="spinner" style="width: 20px; height: 20px;"></div>';
+
+            const response = await ApiManager.testOdoo();
+            if (response && response.success) {
+                statusElement.innerHTML = `
+                    <div class="alert alert-success">
+                        ✅ Connexion Odoo réussie<br>
+                        <small>URL: ${response.data.odoo_url}<br>
+                        DB: ${response.data.database}<br>
+                        User ID: ${response.data.user_id}</small>
+                    </div>
+                `;
+            } else {
+                statusElement.innerHTML = '<div class="alert alert-danger">❌ Échec connexion Odoo</div>';
+            }
+        }
+
+        function showAlert(message, type = 'info') {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+            
+            const content = document.getElementById('mainContent');
+            content.insertBefore(alertDiv, content.firstChild);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 Initialisation SAMA CONAI Odoo Integration');
+
+            // Gestionnaire de formulaire de connexion
+            document.getElementById('loginForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                const rememberMe = document.getElementById('rememberMe').checked;
+                const button = document.getElementById('loginButton');
+                
+                button.innerHTML = '<div class="spinner" style="width: 20px; height: 20px;"></div>';
+                button.disabled = true;
+
+                try {
+                    const result = await AuthManager.login(email, password, rememberMe);
+                    
+                    if (result.success) {
+                        showAlert(`Bienvenue ${result.user.name} !`, 'success');
+                        document.getElementById('bottomNav').style.display = 'flex';
+                        NavigationManager.navigateTo('dashboard');
+                    } else {
+                        showAlert(result.error, 'danger');
+                    }
+                } catch (error) {
+                    showAlert('Erreur de connexion au serveur', 'danger');
+                } finally {
+                    button.innerHTML = 'Se connecter';
+                    button.disabled = false;
+                }
+            });
+
+            // Vérifier l'authentification stockée
+            if (AuthManager.checkStoredAuth()) {
+                document.getElementById('bottomNav').style.display = 'flex';
+                NavigationManager.navigateTo('dashboard');
+            }
+
+            console.log('✅ Application initialisée avec succès');
+        });
+
+        // Gestion des erreurs globales
+        window.addEventListener('error', (e) => {
+            console.error('❌ Erreur globale:', e.error);
+            showAlert('Une erreur inattendue s\'est produite', 'danger');
+        });
+    </script>
+</body>
+</html>

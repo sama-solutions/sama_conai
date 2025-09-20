@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Dashboard Exécutif par défaut -->
+        <record id="demo_executive_dashboard" model="executive.dashboard">
+            <field name="name">Dashboard Exécutif - Démo</field>
+        </record>
+
+        <!-- Générateur de rapport mensuel -->
+        <record id="demo_monthly_report_generator" model="auto.report.generator">
+            <field name="name">Rapport Mensuel SAMA CONAI</field>
+            <field name="report_type">monthly</field>
+            <field name="active">True</field>
+            <field name="include_statistics">True</field>
+            <field name="include_trends">True</field>
+            <field name="include_recommendations">True</field>
+            <field name="include_charts">True</field>
+            <field name="anonymize_data">True</field>
+            <field name="auto_send">False</field>
+            <field name="send_frequency">monthly</field>
+            <field name="request_types">all</field>
+            <field name="report_format">pdf</field>
+        </record>
+
+        <!-- Générateur de rapport de conformité -->
+        <record id="demo_compliance_report_generator" model="auto.report.generator">
+            <field name="name">Rapport de Conformité Légale</field>
+            <field name="report_type">compliance</field>
+            <field name="active">True</field>
+            <field name="include_statistics">True</field>
+            <field name="include_trends">False</field>
+            <field name="include_recommendations">True</field>
+            <field name="include_charts">False</field>
+            <field name="anonymize_data">True</field>
+            <field name="auto_send">False</field>
+            <field name="send_frequency">quarterly</field>
+            <field name="request_types">information</field>
+            <field name="report_format">pdf</field>
+        </record>
+
+        <!-- Générateur de rapport de performance -->
+        <record id="demo_performance_report_generator" model="auto.report.generator">
+            <field name="name">Rapport de Performance</field>
+            <field name="report_type">performance</field>
+            <field name="active">True</field>
+            <field name="include_statistics">True</field>
+            <field name="include_trends">True</field>
+            <field name="include_recommendations">True</field>
+            <field name="include_charts">True</field>
+            <field name="anonymize_data">False</field>
+            <field name="auto_send">False</field>
+            <field name="send_frequency">weekly</field>
+            <field name="request_types">all</field>
+            <field name="report_format">html</field>
+        </record>
+
+    </data>
+</odoo>

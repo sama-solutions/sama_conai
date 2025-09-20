@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========================================= -->
+    <!-- SAMA CONAI - DASHBOARD NEUMORPHIQUE      -->
+    <!-- ========================================= -->
+
+    <!-- Action client pour le dashboard neumorphique -->
+    <record id="action_sama_conai_dashboard_neumorphic" model="ir.actions.client">
+        <field name="name">Dashboard SAMA CONAI</field>
+        <field name="tag">sama_conai.dashboard</field>
+        <field name="target">current</field>
+    </record>
+
+    <!-- Action pour ouvrir le dashboard en mode mobile -->
+    <record id="action_sama_conai_dashboard_mobile" model="ir.actions.act_url">
+        <field name="name">Dashboard Mobile SAMA CONAI</field>
+        <field name="url">/sama_conai/dashboard/mobile</field>
+        <field name="target">self</field>
+    </record>
+
+    <!-- Action pour le sélecteur de thème -->
+    <record id="action_sama_conai_theme_selector" model="ir.actions.act_url">
+        <field name="name">Sélecteur de Thème SAMA CONAI</field>
+        <field name="url">/sama_conai/theme_selector</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Vue formulaire pour les préférences utilisateur avec thème -->
+    <record id="view_res_users_theme_preferences" model="ir.ui.view">
+        <field name="name">res.users.theme.preferences</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='preferences']" position="inside">
+                <group string="Préférences d'Interface SAMA CONAI" name="sama_conai_interface">
+                    <field name="sama_conai_theme" widget="radio" options="{'horizontal': true}"/>
+                    <div class="mt16">
+                        <button name="%(action_sama_conai_theme_selector)d" 
+                                string="Aperçu des Thèmes" 
+                                type="action" 
+                                class="neumorphic-button btn-action"/>
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Menu principal pour le dashboard -->
+    <menuitem id="menu_sama_conai_dashboard_main"
+              name="Dashboard"
+              parent="menu_sama_conai_root"
+              action="action_sama_conai_dashboard_neumorphic"
+              sequence="1"/>
+
+    <!-- Menu pour le dashboard mobile -->
+    <menuitem id="menu_sama_conai_dashboard_mobile"
+              name="Dashboard Mobile"
+              parent="menu_sama_conai_dashboard_main"
+              action="action_sama_conai_dashboard_mobile"
+              sequence="10"/>
+
+    <!-- Menu pour les préférences de thème -->
+    <menuitem id="menu_sama_conai_theme_preferences"
+              name="Préférences de Thème"
+              parent="menu_sama_conai_configuration"
+              action="action_sama_conai_theme_selector"
+              sequence="50"/>
+
+    <!-- Vue Kanban personnalisée avec style neumorphique -->
+    <record id="view_information_request_kanban_neumorphic" model="ir.ui.view">
+        <field name="name">request.information.kanban.neumorphic</field>
+        <field name="model">request.information</field>
+        <field name="inherit_id" ref="sama_conai.view_information_request_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="attributes">
+                <attribute name="class">sama-conai-theme</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vue Liste personnalisée avec style neumorphique -->
+    <record id="view_information_request_tree_neumorphic" model="ir.ui.view">
+        <field name="name">request.information.tree.neumorphic</field>
+        <field name="model">request.information</field>
+        <field name="inherit_id" ref="sama_conai.view_information_request_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="class">sama-conai-theme</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vue Formulaire personnalisée avec style neumorphique -->
+    <record id="view_information_request_form_neumorphic" model="ir.ui.view">
+        <field name="name">request.information.form.neumorphic</field>
+        <field name="model">request.information</field>
+        <field name="inherit_id" ref="sama_conai.view_information_request_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="class">sama-conai-theme</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Action pour les demandes avec thème neumorphique -->
+    <record id="action_information_request_neumorphic" model="ir.actions.act_window">
+        <field name="name">Demandes d'Information</field>
+        <field name="res_model">request.information</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                                      (0, 0, {'view_mode': 'kanban', 'view_id': ref('view_information_request_kanban_neumorphic')}),
+                                      (0, 0, {'view_mode': 'tree', 'view_id': ref('view_information_request_tree_neumorphic')}),
+                                      (0, 0, {'view_mode': 'form', 'view_id': ref('view_information_request_form_neumorphic')})]"/>
+        <field name="context">{'search_default_my_requests': 1}</field>
+        <field name="help" type="html">
+            <div class="neumorphic-card empty-state">
+                <div class="empty-state-icon">
+                    <i class="fa fa-file-alt"></i>
+                </div>
+                <div class="empty-state-title">Aucune demande d'information</div>
+                <div class="empty-state-description">
+                    Créez votre première demande d'accès à l'information publique.
+                </div>
+            </div>
+        </field>
+    </record>
+
+    <!-- Vue Kanban pour les alertes avec style neumorphique -->
+    <record id="view_whistleblowing_alert_kanban_neumorphic" model="ir.ui.view">
+        <field name="name">whistleblowing.alert.kanban.neumorphic</field>
+        <field name="model">whistleblowing.alert</field>
+        <field name="inherit_id" ref="sama_conai.view_whistleblowing_alert_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="attributes">
+                <attribute name="class">sama-conai-theme</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Action pour les alertes avec thème neumorphique -->
+    <record id="action_whistleblowing_alert_neumorphic" model="ir.actions.act_window">
+        <field name="name">Alertes de Signalement</field>
+        <field name="res_model">whistleblowing.alert</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                                      (0, 0, {'view_mode': 'kanban', 'view_id': ref('view_whistleblowing_alert_kanban_neumorphic')})]"/>
+        <field name="context">{'search_default_my_alerts': 1}</field>
+        <field name="help" type="html">
+            <div class="neumorphic-card empty-state">
+                <div class="empty-state-icon">
+                    <i class="fa fa-bell"></i>
+                </div>
+                <div class="empty-state-title">Aucune alerte de signalement</div>
+                <div class="empty-state-description">
+                    Les alertes de signalement apparaîtront ici.
+                </div>
+            </div>
+        </field>
+    </record>
+
+    <!-- Mise à jour des menus pour utiliser les nouvelles actions -->
+    <record id="menu_information_requests" model="ir.ui.menu">
+        <field name="action" ref="action_information_request_neumorphic"/>
+    </record>
+
+    <record id="menu_whistleblowing_alerts" model="ir.ui.menu">
+        <field name="action" ref="action_whistleblowing_alert_neumorphic"/>
+    </record>
+</odoo>

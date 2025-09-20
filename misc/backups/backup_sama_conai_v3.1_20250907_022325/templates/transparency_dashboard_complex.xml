@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Template du Tableau de Bord Public de Transparence -->
+        <template id="transparency_dashboard_template" name="Tableau de Bord de la Transparence">
+            <t t-call="website.layout">
+                <div id="wrap" class="oe_structure">
+                    
+                    <!-- Header du Dashboard -->
+                    <div class="bg-primary text-white py-5">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <h1 class="display-4 mb-3">
+                                        <i class="fa fa-dashboard"/> Tableau de Bord de la Transparence
+                                    </h1>
+                                    <p class="lead mb-0">
+                                        Suivi en temps réel des performances de transparence et d'accès à l'information publique
+                                    </p>
+                                </div>
+                                <div class="col-lg-4 text-right">
+                                    <div class="card bg-light text-dark">
+                                        <div class="card-body">
+                                            <h6 class="card-title">Dernière mise à jour</h6>
+                                            <p class="card-text">
+                                                <t t-esc="last_update" t-options="{'widget': 'datetime'}"/>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="container my-5">
+                        
+                        <!-- Gestion des erreurs -->
+                        <t t-if="page_name == 'transparency_dashboard_error'">
+                            <div class="alert alert-warning text-center">
+                                <h4><i class="fa fa-exclamation-triangle"/> Données temporairement indisponibles</h4>
+                                <p>Les statistiques de transparence ne peuvent pas être affichées pour le moment.</p>
+                                <button onclick="location.reload()" class="btn btn-primary">
+                                    <i class="fa fa-refresh"/> Actualiser
+                                </button>
+                            </div>
+                        </t>
+                        
+                        <!-- Dashboard principal -->
+                        <t t-if="page_name == 'transparency_dashboard'">
+                            
+                            <!-- Statistiques principales -->
+                            <div class="row mb-5">
+                                <div class="col-12">
+                                    <h2 class="mb-4"><i class="fa fa-bar-chart"/> Statistiques Générales</h2>
+                                </div>
+                                
+                                <!-- Demandes d'information -->
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="card border-primary h-100">
+                                        <div class="card-body text-center">
+                                            <div class="text-primary mb-3">
+                                                <i class="fa fa-file-text fa-3x"/>
+                                            </div>
+                                            <h3 class="card-title text-primary">
+                                                <t t-esc="stats.get('total_requests', 0)"/>
+                                            </h3>
+                                            <p class="card-text">Demandes d'Information</p>
+                                            <small class="text-muted">Total depuis le lancement</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Taux de traitement -->
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="card border-success h-100">
+                                        <div class="card-body text-center">
+                                            <div class="text-success mb-3">
+                                                <i class="fa fa-check-circle fa-3x"/>
+                                            </div>
+                                            <h3 class="card-title text-success">
+                                                <t t-esc="stats.get('processing_rate', 0)"/>%
+                                            </h3>
+                                            <p class="card-text">Taux de Traitement</p>
+                                            <small class="text-muted">
+                                                <t t-esc="stats.get('processed_requests', 0)"/> sur 
+                                                <t t-esc="stats.get('total_requests', 0)"/> traitées
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Délai moyen -->
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="card border-info h-100">
+                                        <div class="card-body text-center">
+                                            <div class="text-info mb-3">
+                                                <i class="fa fa-clock-o fa-3x"/>
+                                            </div>
+                                            <h3 class="card-title text-info">
+                                                <t t-esc="stats.get('avg_processing_days', 0)"/>
+                                            </h3>
+                                            <p class="card-text">Jours en Moyenne</p>
+                                            <small class="text-muted">Délai de traitement</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Respect des délais -->
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="card border-warning h-100">
+                                        <div class="card-body text-center">
+                                            <div class="text-warning mb-3">
+                                                <i class="fa fa-calendar-check-o fa-3x"/>
+                                            </div>
+                                            <h3 class="card-title text-warning">
+                                                <t t-esc="stats.get('on_time_rate', 0)"/>%
+                                            </h3>
+                                            <p class="card-text">Dans les Délais</p>
+                                            <small class="text-muted">Respect du délai légal (30j)</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Signalements d'alerte -->
+                            <div class="row mb-5">
+                                <div class="col-12">
+                                    <h2 class="mb-4"><i class="fa fa-shield"/> Signalements d'Alerte</h2>
+                                </div>
+                                
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="card border-danger h-100">
+                                        <div class="card-body text-center">
+                                            <div class="text-danger mb-3">
+                                                <i class="fa fa-exclamation-triangle fa-3x"/>
+                                            </div>
+                                            <h3 class="card-title text-danger">
+                                                <t t-esc="stats.get('total_alerts', 0)"/>
+                                            </h3>
+                                            <p class="card-text">Signalements Reçus</p>
+                                            <small class="text-muted">Protection des lanceurs d'alerte</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="card border-success h-100">
+                                        <div class="card-body text-center">
+                                            <div class="text-success mb-3">
+                                                <i class="fa fa-check fa-3x"/>
+                                            </div>
+                                            <h3 class="card-title text-success">
+                                                <t t-esc="stats.get('resolved_alerts', 0)"/>
+                                            </h3>
+                                            <p class="card-text">Signalements Résolus</p>
+                                            <small class="text-muted">Traitement terminé</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="card border-info h-100">
+                                        <div class="card-body text-center">
+                                            <div class="text-info mb-3">
+                                                <i class="fa fa-hourglass-half fa-3x"/>
+                                            </div>
+                                            <h3 class="card-title text-info">
+                                                <t t-esc="stats.get('pending_alerts', 0)"/>
+                                            </h3>
+                                            <p class="card-text">En Cours de Traitement</p>
+                                            <small class="text-muted">Investigation en cours</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="card border-primary h-100">
+                                        <div class="card-body text-center">
+                                            <div class="text-primary mb-3">
+                                                <i class="fa fa-percent fa-3x"/>
+                                            </div>
+                                            <h3 class="card-title text-primary">
+                                                <t t-esc="stats.get('alert_resolution_rate', 0)"/>%
+                                            </h3>
+                                            <p class="card-text">Taux de Résolution</p>
+                                            <small class="text-muted">Efficacité du traitement</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Graphiques -->
+                            <div class="row mb-5">
+                                <div class="col-12">
+                                    <h2 class="mb-4"><i class="fa fa-line-chart"/> Tendances et Analyses</h2>
+                                </div>
+                                
+                                <!-- Évolution mensuelle -->
+                                <div class="col-lg-8 mb-4">
+                                    <div class="card h-100">
+                                        <div class="card-header">
+                                            <h5 class="mb-0"><i class="fa fa-line-chart"/> Évolution des Demandes (12 derniers mois)</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="text-muted text-center">Graphique d'évolution mensuelle</p>
+                                            <div class="text-center">
+                                                <small class="text-muted">Fonctionnalité en cours de développement</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Répartition par état -->
+                                <div class="col-lg-4 mb-4">
+                                    <div class="card h-100">
+                                        <div class="card-header">
+                                            <h5 class="mb-0"><i class="fa fa-pie-chart"/> État des Demandes</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="text-muted text-center">Répartition par état</p>
+                                            <div class="text-center">
+                                                <small class="text-muted">Fonctionnalité en cours de développement</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Accès rapide -->
+                            <div class="row mb-5">
+                                <div class="col-12">
+                                    <h2 class="mb-4"><i class="fa fa-rocket"/> Accès Rapide aux Services</h2>
+                                </div>
+                                
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="card border-primary h-100">
+                                        <div class="card-body text-center">
+                                            <div class="text-primary mb-3">
+                                                <i class="fa fa-file-text-o fa-3x"/>
+                                            </div>
+                                            <h5 class="card-title">Nouvelle Demande</h5>
+                                            <p class="card-text">Demander l'accès à une information publique</p>
+                                            <a href="/acces-information" class="btn btn-primary">
+                                                <i class="fa fa-plus"/> Commencer
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="card border-warning h-100">
+                                        <div class="card-body text-center">
+                                            <div class="text-warning mb-3">
+                                                <i class="fa fa-shield fa-3x"/>
+                                            </div>
+                                            <h5 class="card-title">Signalement Anonyme</h5>
+                                            <p class="card-text">Signaler une irrégularité en toute sécurité</p>
+                                            <a href="/signalement-anonyme" class="btn btn-warning">
+                                                <i class="fa fa-shield"/> Signaler
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="card border-info h-100">
+                                        <div class="card-body text-center">
+                                            <div class="text-info mb-3">
+                                                <i class="fa fa-search fa-3x"/>
+                                            </div>
+                                            <h5 class="card-title">Suivi de Demande</h5>
+                                            <p class="card-text">Suivre l'état d'une demande en cours</p>
+                                            <a href="/my/information-requests" class="btn btn-info">
+                                                <i class="fa fa-search"/> Suivre
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="card border-secondary h-100">
+                                        <div class="card-body text-center">
+                                            <div class="text-secondary mb-3">
+                                                <i class="fa fa-question-circle fa-3x"/>
+                                            </div>
+                                            <h5 class="card-title">Aide et Contact</h5>
+                                            <p class="card-text">Besoin d'assistance ou d'informations ?</p>
+                                            <a href="/contactus" class="btn btn-secondary">
+                                                <i class="fa fa-envelope"/> Contacter
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Informations légales -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card bg-light">
+                                        <div class="card-body">
+                                            <h5 class="card-title"><i class="fa fa-info-circle"/> À propos de ce tableau de bord</h5>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <p class="card-text">
+                                                        Ce tableau de bord présente les statistiques de transparence en temps réel, 
+                                                        conformément aux principes d'ouverture et de redevabilité de l'administration publique.
+                                                    </p>
+                                                    <ul class="list-unstyled">
+                                                        <li><i class="fa fa-check text-success"/> Données actualisées en temps réel</li>
+                                                        <li><i class="fa fa-check text-success"/> Respect de la confidentialité</li>
+                                                        <li><i class="fa fa-check text-success"/> Conformité légale garantie</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p class="card-text">
+                                                        <strong>Base légale :</strong> Loi sénégalaise sur l'accès à l'information publique 
+                                                        et protection des lanceurs d'alerte.
+                                                    </p>
+                                                    <p class="card-text">
+                                                        <strong>Délai légal :</strong> 30 jours pour répondre aux demandes d'information.
+                                                    </p>
+                                                    <button onclick="refreshDashboard()" class="btn btn-outline-primary btn-sm">
+                                                        <i class="fa fa-refresh"/> Actualiser les données
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </t>
+                    </div>
+                </div>
+                
+                <!-- Scripts pour les graphiques -->
+                <script>
+                    // Fonction d'actualisation
+                    function refreshDashboard() {
+                        location.reload();
+                    }
+                </script>
+            </t>
+        </template>
+        
+    </data>
+</odoo>

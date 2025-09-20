@@ -1,0 +1,876 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Template avancé du Tableau de Bord Public avec Actions Utilisateur -->
+        <template id="transparency_dashboard_template" name="Tableau de Bord de la Transparence">
+            <html>
+            <head>
+                <title>Tableau de Bord de la Transparence - SAMA CONAI</title>
+                <meta charset="utf-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+                <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <style>
+                    .metric-card {
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                    }
+                    .metric-card:hover {
+                        transform: translateY(-5px);
+                        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+                    }
+                    .chart-container {
+                        position: relative;
+                        height: 300px;
+                        margin: 20px 0;
+                    }
+                    .drill-down-section {
+                        display: none;
+                        margin-top: 20px;
+                    }
+                    .navigation-breadcrumb {
+                        background: #f8f9fa;
+                        padding: 10px 15px;
+                        border-radius: 5px;
+                        margin-bottom: 20px;
+                    }
+                    .loading-spinner {
+                        display: none;
+                        text-align: center;
+                        padding: 20px;
+                    }
+                    .user-info-card {
+                        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                        color: white;
+                        border-radius: 10px;
+                        padding: 15px;
+                        margin-bottom: 20px;
+                    }
+                    .action-card {
+                        transition: all 0.3s ease;
+                        border: 2px solid transparent;
+                    }
+                    .action-card:hover {
+                        border-color: #007bff;
+                        transform: translateY(-3px);
+                    }
+                    .real-data-badge {
+                        background: linear-gradient(45deg, #28a745, #20c997);
+                        color: white;
+                        padding: 5px 10px;
+                        border-radius: 15px;
+                        font-size: 0.8em;
+                        font-weight: bold;
+                    }
+                </style>
+            </head>
+            <body>
+                <div id="wrap">
+                    
+                    <!-- Navigation Breadcrumb -->
+                    <div class="navigation-breadcrumb">
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb mb-0">
+                                            <li class="breadcrumb-item">
+                                                <a href="/transparence-dashboard" onclick="showMainDashboard()">
+                                                    <i class="fa fa-home"/> Accueil
+                                                </a>
+                                            </li>
+                                            <li class="breadcrumb-item active" id="current-section">Tableau de Bord</li>
+                                        </ol>
+                                    </nav>
+                                </div>
+                                <div class="col-md-6 text-end">
+                                    <span class="real-data-badge">
+                                        <i class="fa fa-database"/> Données Réelles
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Header -->
+                    <div class="bg-primary text-white py-5">
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col-lg-8">
+                                    <h1 class="display-4 mb-3">
+                                        <i class="fa fa-dashboard"/> Tableau de Bord de la Transparence
+                                    </h1>
+                                    <p class="lead mb-0">
+                                        Suivi en temps réel des performances de transparence - Données 100% réelles
+                                    </p>
+                                </div>
+                                <div class="col-lg-4 text-end">
+                                    <div class="card bg-light text-dark">
+                                        <div class="card-body">
+                                            <h6 class="card-title mb-1">Dernière mise à jour</h6>
+                                            <p class="card-text mb-0">
+                                                <small><t t-esc="last_update" t-options="{'widget': 'datetime'}"/></small>
+                                            </p>
+                                            <button onclick="refreshDashboard()" class="btn btn-sm btn-outline-primary mt-2">
+                                                <i class="fa fa-refresh"/> Actualiser
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="container my-5">
+                        
+                        <!-- Informations utilisateur -->
+                        <t t-if="user_info.get('is_authenticated')">
+                            <div class="user-info-card">
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <h5 class="mb-1">
+                                            <i class="fa fa-user"/> Bienvenue, <t t-esc="user_info.get('name', '')"/>
+                                        </h5>
+                                        <p class="mb-0">
+                                            <i class="fa fa-envelope"/> <t t-esc="user_info.get('email', '')"/>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-4 text-end">
+                                        <span class="badge bg-success">
+                                            <i class="fa fa-check"/> Utilisateur connecté
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                        
+                        <!-- Loading Spinner -->
+                        <div class="loading-spinner" id="loading-spinner">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Chargement...</span>
+                            </div>
+                            <p class="mt-2">Chargement des données réelles...</p>
+                        </div>
+                        
+                        <!-- Main Dashboard -->
+                        <div id="main-dashboard">
+                            
+                            <!-- Statistiques principales avec drill down -->
+                            <div class="row mb-5">
+                                <div class="col-12">
+                                    <h2>
+                                        <i class="fa fa-bar-chart"/> Statistiques Générales 
+                                        <span class="real-data-badge">Backend Réel</span>
+                                    </h2>
+                                    <p class="text-muted">Cliquez sur une carte pour voir les détails • Données extraites directement de la base</p>
+                                </div>
+                                
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="card border-primary h-100 metric-card" onclick="drillDown('total_requests')">
+                                        <div class="card-body text-center">
+                                            <i class="fa fa-file-text fa-3x text-primary mb-3"/>
+                                            <h3 class="text-primary">
+                                                <span id="total-requests-value">
+                                                    <t t-esc="stats.get('total_requests', 0) if stats else 0"/>
+                                                </span>
+                                            </h3>
+                                            <p class="mb-2">Demandes d'Information</p>
+                                            <small class="text-muted">
+                                                <i class="fa fa-clock-o"/> 
+                                                <span id="recent-requests">
+                                                    <t t-esc="stats.get('recent_requests', 0) if stats else 0"/>
+                                                </span> ce mois
+                                            </small>
+                                            <div class="mt-2">
+                                                <i class="fa fa-chevron-right text-primary"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="card border-success h-100 metric-card" onclick="drillDown('processing_rate')">
+                                        <div class="card-body text-center">
+                                            <i class="fa fa-check-circle fa-3x text-success mb-3"/>
+                                            <h3 class="text-success">
+                                                <span id="processing-rate-value">
+                                                    <t t-esc="stats.get('processing_rate', 0) if stats else 0"/>
+                                                </span>%
+                                            </h3>
+                                            <p class="mb-2">Taux de Traitement</p>
+                                            <small class="text-muted">
+                                                <span id="processed-requests">
+                                                    <t t-esc="stats.get('processed_requests', 0) if stats else 0"/>
+                                                </span> sur 
+                                                <span id="total-requests-small">
+                                                    <t t-esc="stats.get('total_requests', 0) if stats else 0"/>
+                                                </span> traitées
+                                            </small>
+                                            <div class="mt-2">
+                                                <i class="fa fa-chevron-right text-success"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="card border-info h-100 metric-card" onclick="drillDown('avg_processing_days')">
+                                        <div class="card-body text-center">
+                                            <i class="fa fa-clock-o fa-3x text-info mb-3"/>
+                                            <h3 class="text-info">
+                                                <span id="avg-days-value">
+                                                    <t t-esc="stats.get('avg_processing_days', 0) if stats else 0"/>
+                                                </span>
+                                            </h3>
+                                            <p class="mb-2">Jours en Moyenne</p>
+                                            <small class="text-muted">
+                                                Délai réel calculé<br/>
+                                                <strong>Objectif: &lt; 30 jours</strong>
+                                            </small>
+                                            <div class="mt-2">
+                                                <i class="fa fa-chevron-right text-info"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="card border-warning h-100 metric-card" onclick="drillDown('on_time_rate')">
+                                        <div class="card-body text-center">
+                                            <i class="fa fa-calendar-check-o fa-3x text-warning mb-3"/>
+                                            <h3 class="text-warning">
+                                                <span id="on-time-rate-value">
+                                                    <t t-esc="stats.get('on_time_rate', 0) if stats else 0"/>
+                                                </span>%
+                                            </h3>
+                                            <p class="mb-2">Dans les Délais</p>
+                                            <small class="text-muted">
+                                                Calcul réel des délais<br/>
+                                                <strong>(30 jours légaux)</strong>
+                                            </small>
+                                            <div class="mt-2">
+                                                <i class="fa fa-chevron-right text-warning"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Graphiques interactifs -->
+                            <div class="row mb-5">
+                                <div class="col-12">
+                                    <h2>
+                                        <i class="fa fa-line-chart"/> Tendances et Analyses 
+                                        <span class="real-data-badge">Données Live</span>
+                                    </h2>
+                                </div>
+                                
+                                <!-- Évolution mensuelle -->
+                                <div class="col-lg-8 mb-4">
+                                    <div class="card h-100">
+                                        <div class="card-header d-flex justify-content-between align-items-center">
+                                            <h5 class="mb-0">
+                                                <i class="fa fa-line-chart"/> Évolution des Demandes (6 derniers mois)
+                                            </h5>
+                                            <div class="btn-group btn-group-sm" role="group">
+                                                <button type="button" class="btn btn-outline-primary active" onclick="switchChart('requests')">
+                                                    Demandes
+                                                </button>
+                                                <button type="button" class="btn btn-outline-warning" onclick="switchChart('alerts')">
+                                                    Signalements
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="chart-container">
+                                                <canvas id="monthlyChart"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Répartition par état -->
+                                <div class="col-lg-4 mb-4">
+                                    <div class="card h-100">
+                                        <div class="card-header">
+                                            <h5 class="mb-0">
+                                                <i class="fa fa-pie-chart"/> État des Demandes
+                                            </h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="chart-container">
+                                                <canvas id="statusChart"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Accès rapide aux services avec actions utilisateur -->
+                            <div class="row mb-5">
+                                <div class="col-12">
+                                    <h2><i class="fa fa-rocket"/> Accès Rapide aux Services</h2>
+                                    <t t-if="user_info.get('is_authenticated')">
+                                        <p class="text-success">
+                                            <i class="fa fa-check"/> Vous êtes connecté - Accès complet aux services
+                                        </p>
+                                    </t>
+                                    <t t-else="">
+                                        <p class="text-info">
+                                            <i class="fa fa-info-circle"/> 
+                                            <a href="/web/login?redirect=/transparence-dashboard">Connectez-vous</a> 
+                                            pour accéder aux services personnalisés
+                                        </p>
+                                    </t>
+                                </div>
+                                
+                                <!-- Nouvelle demande d'information -->
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="card border-primary h-100 action-card">
+                                        <div class="card-body text-center">
+                                            <i class="fa fa-file-text-o fa-3x text-primary mb-3"/>
+                                            <h5>Nouvelle Demande</h5>
+                                            <p>Demander l'accès à une information publique</p>
+                                            
+                                            <t t-if="user_info.get('is_authenticated')">
+                                                <a href="/transparence-dashboard/new-request" class="btn btn-primary">
+                                                    <i class="fa fa-plus"/> Créer dans Odoo
+                                                </a>
+                                                <br/>
+                                                <small class="text-muted mt-2 d-block">ou</small>
+                                                <a href="/acces-information" class="btn btn-outline-primary btn-sm mt-1">
+                                                    <i class="fa fa-globe"/> Formulaire public
+                                                </a>
+                                            </t>
+                                            <t t-else="">
+                                                <a href="/acces-information" class="btn btn-primary">
+                                                    <i class="fa fa-plus"/> Commencer
+                                                </a>
+                                                <br/>
+                                                <small class="text-muted mt-2 d-block">
+                                                    <a href="/web/login?redirect=/transparence-dashboard">Se connecter</a> 
+                                                    pour plus d'options
+                                                </small>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Mes demandes -->
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="card border-info h-100 action-card">
+                                        <div class="card-body text-center">
+                                            <i class="fa fa-search fa-3x text-info mb-3"/>
+                                            <h5>Mes Demandes</h5>
+                                            <p>Suivre l'état de mes demandes en cours</p>
+                                            
+                                            <t t-if="user_info.get('is_authenticated')">
+                                                <a href="/transparence-dashboard/my-requests" class="btn btn-info">
+                                                    <i class="fa fa-list"/> Voir dans Odoo
+                                                </a>
+                                                <br/>
+                                                <small class="text-muted mt-2 d-block">ou</small>
+                                                <a href="/my/information-requests" class="btn btn-outline-info btn-sm mt-1">
+                                                    <i class="fa fa-globe"/> Portail public
+                                                </a>
+                                            </t>
+                                            <t t-else="">
+                                                <a href="/my/information-requests" class="btn btn-info">
+                                                    <i class="fa fa-search"/> Suivre
+                                                </a>
+                                                <br/>
+                                                <small class="text-muted mt-2 d-block">
+                                                    <a href="/web/login?redirect=/transparence-dashboard">Se connecter</a> 
+                                                    pour plus d'options
+                                                </small>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Signalement anonyme -->
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="card border-warning h-100 action-card">
+                                        <div class="card-body text-center">
+                                            <i class="fa fa-shield fa-3x text-warning mb-3"/>
+                                            <h5>Signalement</h5>
+                                            <p>Signaler une irrégularité en toute sécurité</p>
+                                            
+                                            <t t-if="user_info.get('is_authenticated')">
+                                                <a href="/transparence-dashboard/new-alert" class="btn btn-warning">
+                                                    <i class="fa fa-shield"/> Créer dans Odoo
+                                                </a>
+                                                <br/>
+                                                <small class="text-muted mt-2 d-block">ou</small>
+                                                <a href="/signalement-anonyme" class="btn btn-outline-warning btn-sm mt-1">
+                                                    <i class="fa fa-user-secret"/> Anonyme
+                                                </a>
+                                            </t>
+                                            <t t-else="">
+                                                <a href="/signalement-anonyme" class="btn btn-warning">
+                                                    <i class="fa fa-shield"/> Signaler
+                                                </a>
+                                                <br/>
+                                                <small class="text-muted mt-2 d-block">
+                                                    <a href="/web/login?redirect=/transparence-dashboard">Se connecter</a> 
+                                                    pour plus d'options
+                                                </small>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Aide et contact -->
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="card border-secondary h-100 action-card">
+                                        <div class="card-body text-center">
+                                            <i class="fa fa-question-circle fa-3x text-secondary mb-3"/>
+                                            <h5>Aide et Contact</h5>
+                                            <p>Besoin d'assistance ou d'informations ?</p>
+                                            <a href="/transparence-dashboard/help" class="btn btn-secondary">
+                                                <i class="fa fa-envelope"/> Contacter
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Statistiques des signalements -->
+                            <div class="row mb-5">
+                                <div class="col-12">
+                                    <h2>
+                                        <i class="fa fa-shield"/> Signalements d'Alerte 
+                                        <span class="real-data-badge">Données Anonymisées</span>
+                                    </h2>
+                                </div>
+                                
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="card border-danger h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fa fa-exclamation-triangle fa-3x text-danger mb-3"/>
+                                            <h3 class="text-danger">
+                                                <t t-esc="stats.get('total_alerts', 0) if stats else 0"/>
+                                            </h3>
+                                            <p class="mb-2">Signalements Reçus</p>
+                                            <small class="text-muted">Protection des lanceurs d'alerte</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="card border-success h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fa fa-check fa-3x text-success mb-3"/>
+                                            <h3 class="text-success">
+                                                <t t-esc="stats.get('resolved_alerts', 0) if stats else 0"/>
+                                            </h3>
+                                            <p class="mb-2">Signalements Résolus</p>
+                                            <small class="text-muted">Traitement terminé</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="card border-info h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fa fa-hourglass-half fa-3x text-info mb-3"/>
+                                            <h3 class="text-info">
+                                                <t t-esc="stats.get('pending_alerts', 0) if stats else 0"/>
+                                            </h3>
+                                            <p class="mb-2">En Cours de Traitement</p>
+                                            <small class="text-muted">Investigation en cours</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-3 col-md-6 mb-4">
+                                    <div class="card border-primary h-100">
+                                        <div class="card-body text-center">
+                                            <i class="fa fa-percent fa-3x text-primary mb-3"/>
+                                            <h3 class="text-primary">
+                                                <t t-esc="stats.get('alert_resolution_rate', 0) if stats else 0"/>%
+                                            </h3>
+                                            <p class="mb-2">Taux de Résolution</p>
+                                            <small class="text-muted">Efficacité du traitement</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Section Drill Down (cachée par défaut) -->
+                        <div id="drill-down-section" class="drill-down-section">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-header d-flex justify-content-between align-items-center">
+                                            <h4 class="mb-0" id="drill-down-title">Détails</h4>
+                                            <button class="btn btn-outline-secondary" onclick="showMainDashboard()">
+                                                <i class="fa fa-arrow-left"/> Retour
+                                            </button>
+                                        </div>
+                                        <div class="card-body">
+                                            <div id="drill-down-content">
+                                                <!-- Contenu dynamique du drill down -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Informations légales -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h5><i class="fa fa-info-circle"/> À propos de ce tableau de bord</h5>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <p>
+                                                    Ce tableau de bord présente les statistiques de transparence en temps réel, 
+                                                    extraites directement de la base de données SAMA CONAI.
+                                                </p>
+                                                <ul class="list-unstyled">
+                                                    <li><i class="fa fa-check text-success"/> Données 100% réelles du backend</li>
+                                                    <li><i class="fa fa-check text-success"/> Navigation interactive avec drill down</li>
+                                                    <li><i class="fa fa-check text-success"/> Actions utilisateur intégrées</li>
+                                                    <li><i class="fa fa-check text-success"/> Respect de la confidentialité</li>
+                                                    <li><i class="fa fa-check text-success"/> Conformité légale garantie</li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <p><strong>Base légale :</strong> Loi sénégalaise sur l'accès à l'information publique</p>
+                                                <p><strong>Délai légal :</strong> 30 jours pour répondre aux demandes</p>
+                                                <p><strong>Source des données :</strong> Base SAMA CONAI en temps réel</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <!-- Scripts JavaScript pour l'interactivité -->
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+                <script>
+                    // Variables globales
+                    let chartsData = <t t-raw="json.dumps(charts_data) if charts_data else '{}'"/>;
+                    let drillDownData = <t t-raw="json.dumps(drill_down_data) if drill_down_data else '{}'"/>;
+                    let currentChart = 'requests';
+                    let charts = {};
+                    
+                    // Initialisation au chargement de la page
+                    document.addEventListener('DOMContentLoaded', function() {
+                        initializeCharts();
+                    });
+                    
+                    // Initialiser tous les graphiques
+                    function initializeCharts() {
+                        try {
+                            initMonthlyChart();
+                            initStatusChart();
+                        } catch (error) {
+                            console.error('Erreur lors de l\'initialisation des graphiques:', error);
+                        }
+                    }
+                    
+                    // Graphique d'évolution mensuelle
+                    function initMonthlyChart() {
+                        const ctx = document.getElementById('monthlyChart');
+                        if (!ctx) return;
+                        
+                        const data = chartsData.monthly_requests || [];
+                        
+                        charts.monthly = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: data.map(item => item.month_name || ''),
+                                datasets: [{
+                                    label: 'Demandes par mois',
+                                    data: data.map(item => item.count || 0),
+                                    borderColor: '#0d6efd',
+                                    backgroundColor: 'rgba(13, 110, 253, 0.1)',
+                                    tension: 0.4,
+                                    fill: true
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        display: false
+                                    }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    }
+                    
+                    // Graphique de répartition par état
+                    function initStatusChart() {
+                        const ctx = document.getElementById('statusChart');
+                        if (!ctx) return;
+                        
+                        const data = chartsData.requests_by_status || [];
+                        
+                        charts.status = new Chart(ctx, {
+                            type: 'doughnut',
+                            data: {
+                                labels: data.map(item => item.status || ''),
+                                datasets: [{
+                                    data: data.map(item => item.count || 0),
+                                    backgroundColor: [
+                                        '#198754', // Répondues - vert
+                                        '#0dcaf0', // En traitement - cyan
+                                        '#ffc107', // Soumises - jaune
+                                        '#fd7e14', // En validation - orange
+                                        '#dc3545'  // Refusées - rouge
+                                    ]
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom'
+                                    }
+                                }
+                            }
+                        });
+                    }
+                    
+                    // Fonction de drill down
+                    function drillDown(metric) {
+                        showLoading();
+                        
+                        // Simuler un délai de chargement
+                        setTimeout(() => {
+                            hideLoading();
+                            showDrillDownSection(metric);
+                        }, 500);
+                    }
+                    
+                    // Afficher la section drill down
+                    function showDrillDownSection(metric) {
+                        document.getElementById('main-dashboard').style.display = 'none';
+                        document.getElementById('drill-down-section').style.display = 'block';
+                        
+                        // Mettre à jour le breadcrumb
+                        const titles = {
+                            'total_requests': 'Détails des Demandes',
+                            'processing_rate': 'Taux de Traitement',
+                            'avg_processing_days': 'Délais de Traitement',
+                            'on_time_rate': 'Respect des Délais'
+                        };
+                        
+                        document.getElementById('current-section').textContent = titles[metric] || 'Détails';
+                        document.getElementById('drill-down-title').textContent = titles[metric] || 'Détails';
+                        
+                        // Charger le contenu spécifique
+                        loadDrillDownContent(metric);
+                    }
+                    
+                    // Charger le contenu du drill down
+                    function loadDrillDownContent(metric) {
+                        const content = document.getElementById('drill-down-content');
+                        
+                        let html = '';
+                        
+                        switch(metric) {
+                            case 'total_requests':
+                                html = generateRequestsDetails();
+                                break;
+                            case 'processing_rate':
+                                html = generateProcessingRateDetails();
+                                break;
+                            case 'avg_processing_days':
+                                html = generateProcessingTimeDetails();
+                                break;
+                            case 'on_time_rate':
+                                html = generateOnTimeDetails();
+                                break;
+                            default:
+                                html = '<p>Détails non disponibles pour cette métrique.</p>';
+                        }
+                        
+                        content.innerHTML = html;
+                    }
+                    
+                    // Générer les détails des demandes
+                    function generateRequestsDetails() {
+                        const data = chartsData.requests_by_status || [];
+                        let html = '<h5>Répartition détaillée des demandes par état (données réelles)</h5>';
+                        html += '<div class="row">';
+                        
+                        data.forEach(item => {
+                            html += `
+                                <div class="col-md-6 col-lg-4 mb-3">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <h4 class="text-primary">${item.count || 0}</h4>
+                                            <p class="mb-0">${item.status || ''}</p>
+                                            <small class="text-muted">Backend réel</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        
+                        html += '</div>';
+                        return html;
+                    }
+                    
+                    // Générer les détails du taux de traitement
+                    function generateProcessingRateDetails() {
+                        return `
+                            <h5>Évolution du taux de traitement (données réelles)</h5>
+                            <p>Le taux de traitement est calculé en temps réel à partir des données de la base SAMA CONAI.</p>
+                            <div class="alert alert-info">
+                                <strong>Calcul :</strong> (Demandes traitées / Total des demandes) × 100
+                            </div>
+                        `;
+                    }
+                    
+                    // Générer les détails des délais
+                    function generateProcessingTimeDetails() {
+                        return `
+                            <h5>Analyse des délais de traitement (données réelles)</h5>
+                            <p>Les délais sont calculés automatiquement à partir des dates réelles de traitement.</p>
+                            <div class="alert alert-success">
+                                <strong>Méthode :</strong> Différence entre date de réponse et date de demande pour chaque dossier traité
+                            </div>
+                        `;
+                    }
+                    
+                    // Générer les détails du respect des délais
+                    function generateOnTimeDetails() {
+                        return `
+                            <h5>Respect du délai légal de 30 jours (données réelles)</h5>
+                            <p>Pourcentage calculé en temps réel des demandes traitées dans le délai légal.</p>
+                            <div class="alert alert-warning">
+                                <strong>Calcul :</strong> Demandes traitées en ≤ 30 jours / Total des demandes traitées
+                            </div>
+                        `;
+                    }
+                    
+                    // Retour au dashboard principal
+                    function showMainDashboard() {
+                        document.getElementById('drill-down-section').style.display = 'none';
+                        document.getElementById('main-dashboard').style.display = 'block';
+                        document.getElementById('current-section').textContent = 'Tableau de Bord';
+                    }
+                    
+                    // Changer de graphique
+                    function switchChart(type) {
+                        currentChart = type;
+                        
+                        // Mettre à jour les boutons
+                        document.querySelectorAll('.btn-group .btn').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        event.target.classList.add('active');
+                        
+                        // Mettre à jour le graphique
+                        updateMonthlyChart(type);
+                    }
+                    
+                    // Mettre à jour le graphique mensuel
+                    function updateMonthlyChart(type) {
+                        if (!charts.monthly) return;
+                        
+                        const data = type === 'requests' ? 
+                            chartsData.monthly_requests || [] : 
+                            chartsData.monthly_alerts || [];
+                        
+                        charts.monthly.data.labels = data.map(item => item.month_name || '');
+                        charts.monthly.data.datasets[0].data = data.map(item => item.count || 0);
+                        charts.monthly.data.datasets[0].label = type === 'requests' ? 'Demandes par mois' : 'Signalements par mois';
+                        charts.monthly.data.datasets[0].borderColor = type === 'requests' ? '#0d6efd' : '#ffc107';
+                        charts.monthly.data.datasets[0].backgroundColor = type === 'requests' ? 'rgba(13, 110, 253, 0.1)' : 'rgba(255, 193, 7, 0.1)';
+                        
+                        charts.monthly.update();
+                    }
+                    
+                    // Afficher le spinner de chargement
+                    function showLoading() {
+                        document.getElementById('loading-spinner').style.display = 'block';
+                    }
+                    
+                    // Masquer le spinner de chargement
+                    function hideLoading() {
+                        document.getElementById('loading-spinner').style.display = 'none';
+                    }
+                    
+                    // Actualiser le dashboard
+                    function refreshDashboard() {
+                        showLoading();
+                        
+                        // Appel AJAX pour récupérer les nouvelles données
+                        fetch('/transparence-dashboard/api/data', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({})
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Mettre à jour les statistiques
+                                updateStatistics(data.stats);
+                                // Mettre à jour les graphiques
+                                updateCharts(data.charts_data);
+                            }
+                            hideLoading();
+                        })
+                        .catch(error => {
+                            console.error('Erreur lors de l\'actualisation:', error);
+                            hideLoading();
+                            // Fallback: recharger la page
+                            location.reload();
+                        });
+                    }
+                    
+                    // Mettre à jour les statistiques affichées
+                    function updateStatistics(stats) {
+                        document.getElementById('total-requests-value').textContent = stats.total_requests || 0;
+                        document.getElementById('processing-rate-value').textContent = stats.processing_rate || 0;
+                        document.getElementById('avg-days-value').textContent = stats.avg_processing_days || 0;
+                        document.getElementById('on-time-rate-value').textContent = stats.on_time_rate || 0;
+                        document.getElementById('recent-requests').textContent = stats.recent_requests || 0;
+                        document.getElementById('processed-requests').textContent = stats.processed_requests || 0;
+                        document.getElementById('total-requests-small').textContent = stats.total_requests || 0;
+                    }
+                    
+                    // Mettre à jour les graphiques
+                    function updateCharts(newChartsData) {
+                        chartsData = newChartsData;
+                        
+                        // Réinitialiser les graphiques avec les nouvelles données
+                        if (charts.monthly) {
+                            charts.monthly.destroy();
+                        }
+                        if (charts.status) {
+                            charts.status.destroy();
+                        }
+                        
+                        initializeCharts();
+                    }
+                </script>
+            </body>
+            </html>
+        </template>
+        
+    </data>
+</odoo>

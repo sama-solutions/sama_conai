@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        
+        <!-- ========================================= -->
+        <!-- VAGUE 3 : DONNÉES DE DÉMO AVANCÉES      -->
+        <!-- ========================================= -->
+        
+        <!-- DEMANDES D'INFORMATION COMPLEXES -->
+        
+        <!-- Demande d'avocat avec suivi juridique -->
+        <record id="demo_info_request_005" model="request.information">
+            <field name="name">REQ-2025-005</field>
+            <field name="partner_name">Maître Ousmane Seck</field>
+            <field name="partner_email">o.seck@cabinet-seck.sn</field>
+            <field name="partner_phone">+221 77 345 67 89</field>
+            <field name="requester_quality">lawyer</field>
+            <field name="request_date" eval="(datetime.now() - timedelta(days=20)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="description">&lt;p&gt;&lt;strong&gt;Demande d'accès aux documents administratifs&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Dans le cadre de la défense de mon client dans l'affaire n°2024/CR/123, je sollicite l'accès aux documents suivants :&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Dossier d'attribution du marché public&lt;/strong&gt;
+   &lt;ul&gt;
+   &lt;li&gt;Appel d'offres initial&lt;/li&gt;
+   &lt;li&gt;Critères d'évaluation&lt;/li&gt;
+   &lt;li&gt;Grilles de notation des soumissionnaires&lt;/li&gt;
+   &lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Procès-verbaux des commissions&lt;/strong&gt;
+   &lt;ul&gt;
+   &lt;li&gt;Commission d'ouverture des plis&lt;/li&gt;
+   &lt;li&gt;Commission d'évaluation technique&lt;/li&gt;
+   &lt;li&gt;Commission d'attribution&lt;/li&gt;
+   &lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Correspondances administratives&lt;/strong&gt;
+   &lt;ul&gt;
+   &lt;li&gt;Échanges avec l'autorité de régulation&lt;/li&gt;
+   &lt;li&gt;Avis de conformité&lt;/li&gt;
+   &lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;Fondement juridique :&lt;/strong&gt; Article 66 du Code de procédure pénale et Loi sur l'accès à l'information publique.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Urgence :&lt;/strong&gt; Audience prévue le 15 janvier 2025.&lt;/p&gt;</field>
+            <field name="stage_id" ref="stage_responded"/>
+            <field name="state">responded</field>
+            <field name="user_id" ref="base.user_admin"/>
+            <field name="response_date" eval="(datetime.now() - timedelta(days=8)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="response_body">&lt;p&gt;Maître Seck,&lt;/p&gt;
+&lt;p&gt;Suite à votre demande d'accès aux documents administratifs dans le cadre de l'affaire n°2024/CR/123, nous avons procédé à un examen approfondi de votre requête.&lt;/p&gt;
+
+&lt;h3&gt;📋 Documents communiqués&lt;/h3&gt;
+&lt;table border="1" style="border-collapse: collapse; width: 100%;"&gt;
+&lt;tr style="background-color: #f0f0f0;"&gt;
+&lt;th&gt;Document&lt;/th&gt;
+&lt;th&gt;Statut&lt;/th&gt;
+&lt;th&gt;Observations&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Appel d'offres initial&lt;/td&gt;
+&lt;td&gt;✅ Communiqué&lt;/td&gt;
+&lt;td&gt;Version intégrale&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Critères d'évaluation&lt;/td&gt;
+&lt;td&gt;✅ Communiqué&lt;/td&gt;
+&lt;td&gt;Grille officielle&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Grilles de notation&lt;/td&gt;
+&lt;td&gt;⚠️ Partiel&lt;/td&gt;
+&lt;td&gt;Données anonymisées&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;PV Commission ouverture&lt;/td&gt;
+&lt;td&gt;✅ Communiqué&lt;/td&gt;
+&lt;td&gt;Document signé&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;PV Commission évaluation&lt;/td&gt;
+&lt;td&gt;✅ Communiqué&lt;/td&gt;
+&lt;td&gt;Rapport technique&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;PV Commission attribution&lt;/td&gt;
+&lt;td&gt;✅ Communiqué&lt;/td&gt;
+&lt;td&gt;Décision motivée&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Correspondances ARMP&lt;/td&gt;
+&lt;td&gt;❌ Non communiqué&lt;/td&gt;
+&lt;td&gt;Procédure en cours&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Avis de conformité&lt;/td&gt;
+&lt;td&gt;✅ Communiqué&lt;/td&gt;
+&lt;td&gt;Version finale&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;h3&gt;⚖️ Considérations juridiques&lt;/h3&gt;
+&lt;p&gt;Conformément à l'article 15 de la Loi sur l'accès à l'information, certaines données ont été anonymisées pour protéger :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Les secrets commerciaux des soumissionnaires&lt;/li&gt;
+&lt;li&gt;Les informations personnelles des évaluateurs&lt;/li&gt;
+&lt;li&gt;Les éléments couverts par le secret de l'instruction&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;📎 Pièces jointes&lt;/h3&gt;
+&lt;p&gt;Les documents sont fournis en pièces jointes sous format PDF sécurisé. Chaque document porte un filigrane d'authentification.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Délai de conservation :&lt;/strong&gt; Ces documents sont à usage exclusif de la procédure judiciaire mentionnée et doivent être détruits à l'issue de celle-ci.&lt;/p&gt;
+
+&lt;p&gt;Cordialement,&lt;br/&gt;
+&lt;strong&gt;Commission d'Accès aux Documents Administratifs&lt;/strong&gt;&lt;br/&gt;
+Ministère de la Justice&lt;/p&gt;</field>
+        </record>
+
+        <!-- Demande d'ONG avec enjeux environnementaux -->
+        <record id="demo_info_request_006" model="request.information">
+            <field name="name">REQ-2025-006</field>
+            <field name="partner_name">Aminata Touré - Green Senegal ONG</field>
+            <field name="partner_email">a.toure@greensenegal.org</field>
+            <field name="partner_phone">+221 76 234 56 78</field>
+            <field name="requester_quality">ngo</field>
+            <field name="request_date" eval="(datetime.now() - timedelta(days=6)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="description">&lt;p&gt;&lt;strong&gt;Demande d'accès aux études d'impact environnemental&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Green Senegal ONG, organisation de défense de l'environnement agréée sous le n°ENV-2019-045, sollicite l'accès aux documents suivants concernant le projet d'extension portuaire de Dakar :&lt;/p&gt;
+
+&lt;h4&gt;🌍 Études environnementales&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Étude d'impact environnemental et social (EIES) complète&lt;/li&gt;
+&lt;li&gt;Plan de gestion environnementale et sociale (PGES)&lt;/li&gt;
+&lt;li&gt;Étude de la biodiversité marine&lt;/li&gt;
+&lt;li&gt;Analyse des risques de pollution&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4&gt;👥 Consultations publiques&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Rapports des consultations avec les communautés locales&lt;/li&gt;
+&lt;li&gt;Avis des organisations de pêcheurs&lt;/li&gt;
+&lt;li&gt;Recommandations des experts environnementaux&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4&gt;📊 Données scientifiques&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Mesures de la qualité de l'eau (2022-2024)&lt;/li&gt;
+&lt;li&gt;Inventaire de la faune et flore marines&lt;/li&gt;
+&lt;li&gt;Modélisations des courants marins&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Justification :&lt;/strong&gt; Ces informations sont nécessaires pour notre mission de veille environnementale et pour informer le public des enjeux écologiques du projet.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Cadre légal :&lt;/strong&gt; Convention d'Aarhus ratifiée par le Sénégal, Loi sur l'accès à l'information environnementale.&lt;/p&gt;</field>
+            <field name="stage_id" ref="stage_in_progress"/>
+            <field name="state">in_progress</field>
+            <field name="user_id" ref="base.user_admin"/>
+        </record>
+
+        <!-- SIGNALEMENTS D'ALERTE COMPLEXES -->
+        
+        <!-- Signalement de violation environnementale -->
+        <record id="demo_whistleblowing_005" model="whistleblowing.alert">
+            <field name="name">WB-2025-005</field>
+            <field name="alert_date" eval="(datetime.now() - timedelta(days=14)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="is_anonymous" eval="False"/>
+            <field name="reporter_name">Dr. Cheikh Anta Diop</field>
+            <field name="reporter_email">c.diop@environnement.gov.sn</field>
+            <field name="reporter_phone">+221 77 567 89 01</field>
+            <field name="description">&lt;p&gt;&lt;strong&gt;Signalement de violations environnementales graves&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;En tant qu'inspecteur de l'environnement, je signale des violations majeures des normes environnementales par l'entreprise INDUS-CHEM SA.&lt;/p&gt;
+
+&lt;h4&gt;🏭 Violations constatées&lt;/h4&gt;
+&lt;table border="1" style="border-collapse: collapse; width: 100%;"&gt;
+&lt;tr style="background-color: #ffebee;"&gt;
+&lt;th&gt;Type de violation&lt;/th&gt;
+&lt;th&gt;Gravité&lt;/th&gt;
+&lt;th&gt;Impact&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Rejets toxiques dans la rivière&lt;/td&gt;
+&lt;td&gt;🔴 Critique&lt;/td&gt;
+&lt;td&gt;Pollution de l'eau potable&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Émissions atmosphériques&lt;/td&gt;
+&lt;td&gt;🟠 Élevée&lt;/td&gt;
+&lt;td&gt;Qualité de l'air dégradée&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Stockage illégal de déchets&lt;/td&gt;
+&lt;td&gt;🟠 Élevée&lt;/td&gt;
+&lt;td&gt;Contamination des sols&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Non-respect des quotas&lt;/td&gt;
+&lt;td&gt;🟡 Moyenne&lt;/td&gt;
+&lt;td&gt;Dépassement autorisations&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;h4&gt;📍 Localisation et impact&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Site :&lt;/strong&gt; Zone industrielle de Mbao&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Population affectée :&lt;/strong&gt; ~15,000 habitants&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Écosystème :&lt;/strong&gt; Bassin versant de la Somone&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4&gt;🔬 Preuves scientifiques&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Analyses d'eau montrant des taux de métaux lourds 15x supérieurs aux normes&lt;/li&gt;
+&lt;li&gt;Mesures atmosphériques dépassant les seuils OMS&lt;/li&gt;
+&lt;li&gt;Photos et vidéos des rejets illégaux&lt;/li&gt;
+&lt;li&gt;Témoignages de riverains (problèmes de santé)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4&gt;⚠️ Urgence sanitaire&lt;/h4&gt;
+&lt;p&gt;Les analyses révèlent des concentrations dangereuses de :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Plomb : 0.8 mg/L (norme : 0.01 mg/L)&lt;/li&gt;
+&lt;li&gt;Mercure : 0.05 mg/L (norme : 0.001 mg/L)&lt;/li&gt;
+&lt;li&gt;Cadmium : 0.3 mg/L (norme : 0.005 mg/L)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Action immédiate requise :&lt;/strong&gt; Arrêt de la production et dépollution d'urgence.&lt;/p&gt;</field>
+            <field name="category">environmental</field>
+            <field name="stage_id" ref="whistleblowing_stage_investigation"/>
+            <field name="state">investigation</field>
+            <field name="priority">urgent</field>
+            <field name="manager_id" ref="base.user_admin"/>
+            <field name="investigation_start_date" eval="(datetime.now() - timedelta(days=10)).strftime('%Y-%m-%d')"/>
+            <field name="investigation_notes">&lt;p&gt;&lt;strong&gt;ENQUÊTE ENVIRONNEMENTALE - CONFIDENTIEL&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4&gt;🔍 Actions d'investigation menées&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Inspection surprise du site (J+1)&lt;/strong&gt;
+   &lt;ul&gt;
+   &lt;li&gt;Équipe : 3 inspecteurs + 1 expert chimiste&lt;/li&gt;
+   &lt;li&gt;Durée : 6 heures&lt;/li&gt;
+   &lt;li&gt;Résultat : Violations confirmées&lt;/li&gt;
+   &lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Prélèvements et analyses (J+2 à J+5)&lt;/strong&gt;
+   &lt;ul&gt;
+   &lt;li&gt;12 échantillons d'eau prélevés&lt;/li&gt;
+   &lt;li&gt;8 échantillons de sol&lt;/li&gt;
+   &lt;li&gt;Mesures atmosphériques continues&lt;/li&gt;
+   &lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Auditions (J+6 à J+8)&lt;/strong&gt;
+   &lt;ul&gt;
+   &lt;li&gt;Direction de l'entreprise&lt;/li&gt;
+   &lt;li&gt;Responsable environnement&lt;/li&gt;
+   &lt;li&gt;Témoins riverains&lt;/li&gt;
+   &lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4&gt;📊 Résultats d'analyse confirmés&lt;/h4&gt;
+&lt;table border="1" style="border-collapse: collapse; width: 100%;"&gt;
+&lt;tr style="background-color: #e8f5e8;"&gt;
+&lt;th&gt;Paramètre&lt;/th&gt;
+&lt;th&gt;Valeur mesurée&lt;/th&gt;
+&lt;th&gt;Norme légale&lt;/th&gt;
+&lt;th&gt;Dépassement&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Plomb (Pb)&lt;/td&gt;
+&lt;td&gt;0.82 mg/L&lt;/td&gt;
+&lt;td&gt;0.01 mg/L&lt;/td&gt;
+&lt;td&gt;x82&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Mercure (Hg)&lt;/td&gt;
+&lt;td&gt;0.048 mg/L&lt;/td&gt;
+&lt;td&gt;0.001 mg/L&lt;/td&gt;
+&lt;td&gt;x48&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Cadmium (Cd)&lt;/td&gt;
+&lt;td&gt;0.31 mg/L&lt;/td&gt;
+&lt;td&gt;0.005 mg/L&lt;/td&gt;
+&lt;td&gt;x62&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;pH&lt;/td&gt;
+&lt;td&gt;3.2&lt;/td&gt;
+&lt;td&gt;6.5-8.5&lt;/td&gt;
+&lt;td&gt;Hors norme&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;h4&gt;⚖️ Mesures prises&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;✅ Mise en demeure immédiate (J+3)&lt;/li&gt;
+&lt;li&gt;✅ Arrêt temporaire de production (J+5)&lt;/li&gt;
+&lt;li&gt;✅ Saisine du Procureur (J+7)&lt;/li&gt;
+&lt;li&gt;🔄 Plan de dépollution en cours d'élaboration&lt;/li&gt;
+&lt;li&gt;🔄 Évaluation des dommages environnementaux&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4&gt;👥 Impact sur la population&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Distribution d'eau potable d'urgence organisée&lt;/li&gt;
+&lt;li&gt;Suivi médical des riverains mis en place&lt;/li&gt;
+&lt;li&gt;Information transparente de la population&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4&gt;📅 Prochaines étapes&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;Finalisation du rapport d'expertise (J+15)&lt;/li&gt;
+&lt;li&gt;Transmission au Ministère de l'Environnement&lt;/li&gt;
+&lt;li&gt;Suivi de la mise en œuvre du plan de dépollution&lt;/li&gt;
+&lt;li&gt;Évaluation des sanctions administratives et pénales&lt;/li&gt;
+&lt;/ol&gt;</field>
+        </record>
+
+        <!-- Signalement de discrimination systémique -->
+        <record id="demo_whistleblowing_006" model="whistleblowing.alert">
+            <field name="name">WB-2025-006</field>
+            <field name="alert_date" eval="(datetime.now() - timedelta(days=4)).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="is_anonymous" eval="True"/>
+            <field name="description">&lt;p&gt;&lt;strong&gt;Signalement de discrimination systémique dans les recrutements&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Je signale des pratiques discriminatoires récurrentes dans les procédures de recrutement d'un ministère.&lt;/p&gt;
+
+&lt;h4&gt;🎯 Discriminations observées&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Origine géographique :&lt;/strong&gt; Favoritisme envers certaines régions&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Genre :&lt;/strong&gt; Sous-représentation des femmes aux postes de direction&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Âge :&lt;/strong&gt; Exclusion systématique des candidats de plus de 45 ans&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Réseau :&lt;/strong&gt; Privilège accordé aux relations personnelles&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4&gt;📊 Données statistiques (2022-2024)&lt;/h4&gt;
+&lt;table border="1" style="border-collapse: collapse; width: 100%;"&gt;
+&lt;tr style="background-color: #fff3e0;"&gt;
+&lt;th&gt;Critère&lt;/th&gt;
+&lt;th&gt;Population générale&lt;/th&gt;
+&lt;th&gt;Recrutements&lt;/th&gt;
+&lt;th&gt;Écart&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Femmes (postes direction)&lt;/td&gt;
+&lt;td&gt;52%&lt;/td&gt;
+&lt;td&gt;23%&lt;/td&gt;
+&lt;td&gt;-29%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Région de Dakar&lt;/td&gt;
+&lt;td&gt;25%&lt;/td&gt;
+&lt;td&gt;67%&lt;/td&gt;
+&lt;td&gt;+42%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Plus de 45 ans&lt;/td&gt;
+&lt;td&gt;35%&lt;/td&gt;
+&lt;td&gt;8%&lt;/td&gt;
+&lt;td&gt;-27%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;h4&gt;🔍 Preuves disponibles&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Statistiques détaillées des recrutements&lt;/li&gt;
+&lt;li&gt;Témoignages de candidats écartés&lt;/li&gt;
+&lt;li&gt;Enregistrements audio de remarques discriminatoires&lt;/li&gt;
+&lt;li&gt;Correspondances internes révélatrices&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4&gt;⚖️ Violations légales&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Constitution du Sénégal (égalité des citoyens)&lt;/li&gt;
+&lt;li&gt;Code du travail (non-discrimination)&lt;/li&gt;
+&lt;li&gt;Statut général de la fonction publique&lt;/li&gt;
+&lt;li&gt;Conventions internationales ratifiées&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Impact :&lt;/strong&gt; Ces pratiques portent atteinte au principe d'égalité et découragent les candidatures légitimes.&lt;/p&gt;</field>
+            <field name="category">discrimination</field>
+            <field name="stage_id" ref="whistleblowing_stage_assessment"/>
+            <field name="state">preliminary_assessment</field>
+            <field name="priority">high</field>
+            <field name="manager_id" ref="base.user_admin"/>
+        </record>
+
+    </data>
+</odoo>

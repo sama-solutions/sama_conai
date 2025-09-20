@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Template d'aide et contact -->
+        <template id="help_contact_template" name="Aide et Contact - SAMA CONAI">
+            <html>
+            <head>
+                <title>Aide et Contact - SAMA CONAI</title>
+                <meta charset="utf-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+                <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+            </head>
+            <body>
+                <div class="container my-5">
+                    
+                    <!-- Navigation -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="/transparence-dashboard">
+                                    <i class="fa fa-home"/> Tableau de Bord
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item active">Aide et Contact</li>
+                        </ol>
+                    </nav>
+                    
+                    <!-- Header -->
+                    <div class="row mb-5">
+                        <div class="col-12">
+                            <div class="card bg-primary text-white">
+                                <div class="card-body text-center py-5">
+                                    <h1 class="display-4 mb-3">
+                                        <i class="fa fa-question-circle"/> Aide et Contact
+                                    </h1>
+                                    <p class="lead mb-0">
+                                        Besoin d'assistance ? Nous sommes là pour vous aider
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Informations de contact -->
+                    <div class="row mb-5">
+                        <div class="col-12">
+                            <h2><i class="fa fa-envelope"/> Nous Contacter</h2>
+                        </div>
+                        
+                        <div class="col-lg-4 mb-4">
+                            <div class="card text-center h-100">
+                                <div class="card-body">
+                                    <i class="fa fa-envelope fa-3x text-primary mb-3"/>
+                                    <h5>Email</h5>
+                                    <p>contact@sama-conai.sn</p>
+                                    <p>info@sama-conai.sn</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-4 mb-4">
+                            <div class="card text-center h-100">
+                                <div class="card-body">
+                                    <i class="fa fa-phone fa-3x text-success mb-3"/>
+                                    <h5>Téléphone</h5>
+                                    <p>+221 33 XXX XX XX</p>
+                                    <p>Ligne d'urgence : +221 77 XXX XX XX</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-4 mb-4">
+                            <div class="card text-center h-100">
+                                <div class="card-body">
+                                    <i class="fa fa-map-marker fa-3x text-info mb-3"/>
+                                    <h5>Adresse</h5>
+                                    <p>Dakar, Sénégal</p>
+                                    <p>Bureau principal</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Liens utiles -->
+                    <div class="row mb-5">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">
+                                        <i class="fa fa-link"/> Liens Utiles
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h6>Services SAMA CONAI</h6>
+                                            <ul class="list-unstyled">
+                                                <li><a href="/transparence-dashboard"><i class="fa fa-dashboard"/> Tableau de Bord</a></li>
+                                                <li><a href="/acces-information"><i class="fa fa-file-text"/> Nouvelle Demande</a></li>
+                                                <li><a href="/signalement-anonyme"><i class="fa fa-shield"/> Signalement Anonyme</a></li>
+                                                <li><a href="/my/information-requests"><i class="fa fa-search"/> Mes Demandes</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h6>Informations</h6>
+                                            <ul class="list-unstyled">
+                                                <li><i class="fa fa-check text-success"/> Service gratuit</li>
+                                                <li><i class="fa fa-check text-success"/> Confidentialité garantie</li>
+                                                <li><i class="fa fa-check text-success"/> Protection légale</li>
+                                                <li><i class="fa fa-check text-success"/> Suivi en temps réel</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Retour au tableau de bord -->
+                    <div class="text-center">
+                        <a href="/transparence-dashboard" class="btn btn-primary btn-lg">
+                            <i class="fa fa-arrow-left"/> Retour au Tableau de Bord
+                        </a>
+                    </div>
+                    
+                </div>
+                
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+            </body>
+            </html>
+        </template>
+        
+    </data>
+</odoo>

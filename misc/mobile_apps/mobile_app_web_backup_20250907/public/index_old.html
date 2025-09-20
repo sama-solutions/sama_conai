@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAMA CONAI Mobile - Authentification</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #2c3e50;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .mobile-container {
+            max-width: 375px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            min-height: 667px;
+            position: relative;
+        }
+
+        .status-bar {
+            background: linear-gradient(90deg, #1a1a1a, #2d2d2d);
+            color: white;
+            padding: 8px 20px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 500;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 20px rgba(52, 152, 219, 0.3);
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .back-button {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateX(-2px);
+        }
+
+        .nav-indicator {
+            font-size: 12px;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .content {
+            padding: 25px;
+            max-height: 500px;
+            overflow-y: auto;
+            min-height: 400px;
+        }
+
+        .data-source {
+            position: absolute;
+            top: 8px;
+            right: 15px;
+            font-size: 10px;
+            background: rgba(255,255,255,0.25);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        /* LOGIN SCREEN */
+        .login-container {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .login-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 25px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(52, 152, 219, 0.4);
+        }
+
+        .login-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .login-subtitle {
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #34495e;
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #ecf0f1;
+            border-radius: 15px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #3498db;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(52, 152, 219, 0.4);
+        }
+
+        .login-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .demo-credentials {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border-left: 4px solid #3498db;
+        }
+
+        .demo-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .demo-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .demo-label {
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+
+        .demo-value {
+            color: #2c3e50;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* DASHBOARD MODERNE */
+        .user-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        }
+
+        .user-info {
+            position: relative;
+            z-index: 2;
+        }
+
+        .user-name {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .user-email {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .logout-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 3;
+        }
+
+        .logout-button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 45px rgba(0,0,0,0.15);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-arrow {
+            color: #3498db;
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .card-arrow {
+            transform: translateX(5px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: scale(1.05);
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 800;
+            color: #3498db;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #7f8c8d;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* LISTES MODERNES */
+        .list-item {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .list-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .item-title {
+            font-weight: 700;
+            color: #3498db;
+            font-size: 16px;
+        }
+
+        .status-chip {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-submitted { background: linear-gradient(135deg, #f39c12, #e67e22); }
+        .status-in-progress { background: linear-gradient(135deg, #3498db, #2980b9); }
+        .status-responded { background: linear-gradient(135deg, #27ae60, #229954); }
+        .status-refused { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        .status-overdue { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+
+        .item-description {
+            font-size: 14px;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .item-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+
+        /* DÉTAILS MODERNES */
+        .detail-section {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .detail-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #7f8c8d;
+            flex: 1;
+        }
+
+        .detail-value {
+            flex: 2;
+            color: #2c3e50;
+            text-align: right;
+            font-weight: 500;
+        }
+
+        /* TIMELINE MODERNE */
+        .timeline {
+            margin-top: 20px;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 50%;
+            margin-right: 20px;
+            margin-top: 5px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+        }
+
+        .timeline-event {
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .timeline-description {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+
+        .timeline-date {
+            font-size: 11px;
+            color: #95a5a6;
+            font-weight: 600;
+        }
+
+        /* NAVIGATION MODERNE */
+        .nav-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #7f8c8d;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        /* BOUTONS MODERNES */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .action-button {
+            flex: 1;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .primary-button {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+        }
+
+        .primary-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(52, 152, 219, 0.4);
+        }
+
+        .secondary-button {
+            background: white;
+            color: #3498db;
+            border: 2px solid #3498db;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .secondary-button:hover {
+            background: #3498db;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* FAB MODERNE */
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+            border: none;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(52, 152, 219, 0.5);
+        }
+
+        /* MESSAGES */
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #7f8c8d;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #ecf0f1;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 400px) {
+            .mobile-container {
+                margin: 0;
+                border-radius: 0;
+                min-height: 100vh;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ANIMATIONS */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <div class="status-bar">
+            <span>9:41</span>
+            <span>🔋 100%</span>
+        </div>
+        
+        <div class="header">
+            <button class="back-button" id="backButton" style="display: none;" onclick="navigateBack()">←</button>
+            <div>
+                <h1 id="headerTitle">🇸🇳 SAMA CONAI</h1>
+                <div class="nav-indicator" id="navIndicator">Connexion</div>
+            </div>
+            <div class="data-source" id="dataSource">DEMO</div>
+        </div>
+        
+        <div class="content" id="content">
+            <!-- Écran de login par défaut -->
+            <div class="login-container">
+                <div class="login-logo">🇸🇳</div>
+                <h2 class="login-title">SAMA CONAI</h2>
+                <p class="login-subtitle">Transparence Gouvernementale</p>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label">Email / Nom d'utilisateur</label>
+                        <input type="text" class="form-input" id="loginEmail" placeholder="admin" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Mot de passe</label>
+                        <input type="password" class="form-input" id="loginPassword" placeholder="admin" required>
+                    </div>
+                    
+                    <button type="submit" class="login-button" id="loginButton">
+                        Se connecter
+                    </button>
+                </form>
+                
+                <div class="demo-credentials">
+                    <div class="demo-title">🔑 Comptes de démonstration</div>
+                    <div class="demo-item">
+                        <span class="demo-label">Admin:</span>
+                        <span class="demo-value">admin / admin</span>
+                    </div>
+                    <div class="demo-item">
+                        <span class="demo-label">Démo:</span>
+                        <span class="demo-value">demo@sama-conai.sn / demo123</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // État de l'application
+        let navigationStack = [];
+        let currentLevel = 1;
+        let currentData = null;
+        let authToken = null;
+        let currentUser = null;
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Vérifier si l'utilisateur est déjà connecté
+            const savedToken = localStorage.getItem('sama_conai_token');
+            if (savedToken) {
+                authToken = savedToken;
+                loadDashboard();
+            }
+            
+            // Gestionnaire de formulaire de login
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+        });
+
+        // Gestion de la connexion
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const loginButton = document.getElementById('loginButton');
+            
+            if (!email || !password) {
+                showError('Veuillez remplir tous les champs');
+                return;
+            }
+            
+            // Désactiver le bouton et afficher le chargement
+            loginButton.disabled = true;
+            loginButton.textContent = 'Connexion...';
+            
+            try {
+                const response = await fetch('/api/mobile/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    authToken = data.data.token;
+                    currentUser = data.data.user;
+                    
+                    // Sauvegarder le token
+                    localStorage.setItem('sama_conai_token', authToken);
+                    
+                    // Rediriger vers le dashboard
+                    showSuccess('Connexion réussie !');
+                    setTimeout(() => {
+                        loadDashboard();
+                    }, 1000);
+                } else {
+                    showError(data.error || 'Erreur de connexion');
+                }
+            } catch (error) {
+                console.error('Erreur login:', error);
+                showError('Erreur de connexion au serveur');
+            } finally {
+                loginButton.disabled = false;
+                loginButton.textContent = 'Se connecter';
+            }
+        }
+
+        // Déconnexion
+        async function logout() {
+            try {
+                await fetch('/api/mobile/auth/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+            } catch (error) {
+                console.error('Erreur logout:', error);
+            }
+            
+            // Nettoyer les données locales
+            authToken = null;
+            currentUser = null;
+            localStorage.removeItem('sama_conai_token');
+            
+            // Retourner à l'écran de login
+            showLoginScreen();
+        }
+
+        // Afficher l'écran de login
+        function showLoginScreen() {
+            document.getElementById('headerTitle').textContent = '🇸🇳 SAMA CONAI';
+            document.getElementById('navIndicator').textContent = 'Connexion';
+            document.getElementById('backButton').style.display = 'none';
+            
+            document.getElementById('content').innerHTML = `
+                <div class="login-container fade-in">
+                    <div class="login-logo">🇸🇳</div>
+                    <h2 class="login-title">SAMA CONAI</h2>
+                    <p class="login-subtitle">Transparence Gouvernementale</p>
+                    
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label class="form-label">Email / Nom d'utilisateur</label>
+                            <input type="text" class="form-input" id="loginEmail" placeholder="admin" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Mot de passe</label>
+                            <input type="password" class="form-input" id="loginPassword" placeholder="admin" required>
+                        </div>
+                        
+                        <button type="submit" class="login-button" id="loginButton">
+                            Se connecter
+                        </button>
+                    </form>
+                    
+                    <div class="demo-credentials">
+                        <div class="demo-title">🔑 Comptes de démonstration</div>
+                        <div class="demo-item">
+                            <span class="demo-label">Admin:</span>
+                            <span class="demo-value">admin / admin</span>
+                        </div>
+                        <div class="demo-item">
+                            <span class="demo-label">Démo:</span>
+                            <span class="demo-value">demo@sama-conai.sn / demo123</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Réattacher le gestionnaire d'événement
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+        }
+
+        // Navigation
+        function navigateTo(level, title, loadFunction, data = null) {
+            navigationStack.push({
+                level: currentLevel,
+                title: document.getElementById('headerTitle').textContent,
+                content: document.getElementById('content').innerHTML,
+                data: currentData
+            });
+
+            currentLevel = level;
+            currentData = data;
+            
+            document.getElementById('headerTitle').textContent = title;
+            document.getElementById('navIndicator').textContent = `Niveau ${level} - ${title}`;
+            document.getElementById('backButton').style.display = level > 1 ? 'block' : 'none';
+            
+            loadFunction(data);
+        }
+
+        function navigateBack() {
+            if (navigationStack.length > 0) {
+                const previous = navigationStack.pop();
+                currentLevel = previous.level;
+                currentData = previous.data;
+                
+                document.getElementById('headerTitle').textContent = previous.title;
+                document.getElementById('navIndicator').textContent = `Niveau ${previous.level} - ${previous.title.replace('🇸🇳 ', '')}`;
+                document.getElementById('backButton').style.display = previous.level > 1 ? 'block' : 'none';
+                document.getElementById('content').innerHTML = previous.content;
+            }
+        }
+
+        // NIVEAU 1: Dashboard principal
+        async function loadDashboard() {
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/mobile/citizen/dashboard', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    if (data.requireAuth) {
+                        showLoginScreen();
+                        return;
+                    }
+                    
+                    renderDashboard(data.data);
+                    updateDataSource(data.source);
+                } else {
+                    if (data.requireAuth) {
+                        showLoginScreen();
+                        return;
+                    }
+                    showError('Erreur lors du chargement du dashboard');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showError('Erreur de connexion au serveur');
+            }
+        }
+
+        function renderDashboard(data) {
+            document.getElementById('headerTitle').textContent = 'Dashboard';
+            document.getElementById('navIndicator').textContent = 'Niveau 1 - Dashboard';
+            document.getElementById('backButton').style.display = 'none';
+            
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="fade-in">
+                    <div class="user-header">
+                        <button class="logout-button" onclick="logout()">Déconnexion</button>
+                        <div class="user-info">
+                            <div class="user-name">${data.user_info.name}</div>
+                            <div class="user-email">${data.user_info.email}</div>
+                        </div>
+                    </div>
+
+                    <div class="card" onclick="navigateTo(2, 'Mes Demandes', loadRequestsList)">
+                        <div class="card-title">
+                            Mes Statistiques
+                            <span class="card-arrow">→</span>
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-number">${data.user_stats.total_requests}</div>
+                                <div class="stat-label">Total</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: #f39c12">${data.user_stats.pending_requests}</div>
+                                <div class="stat-label">En cours</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: #27ae60">${data.user_stats.completed_requests}</div>
+                                <div class="stat-label">Terminées</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: #e74c3c">${data.user_stats.overdue_requests}</div>
+                                <div class="stat-label">En retard</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" onclick="navigateTo(2, 'Demandes Récentes', loadRecentRequests, data.recent_requests)">
+                        <div class="card-title">
+                            Demandes Récentes
+                            <span class="card-arrow">→</span>
+                        </div>
+                        <div style="font-size: 14px; color: #7f8c8d;">
+                            ${data.recent_requests.length} demande(s) récente(s)
+                        </div>
+                    </div>
+
+                    ${data.alert_stats ? `
+                    <div class="card" onclick="navigateTo(2, 'Alertes', loadAlertsList)">
+                        <div class="card-title">
+                            Signalements d'Alerte
+                            <span class="card-arrow">→</span>
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-number">${data.alert_stats.total_alerts}</div>
+                                <div class="stat-label">Total</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: #f39c12">${data.alert_stats.active_alerts}</div>
+                                <div class="stat-label">Actives</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: #e74c3c">${data.alert_stats.urgent_alerts}</div>
+                                <div class="stat-label">Urgentes</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: #3498db">${data.alert_stats.new_alerts}</div>
+                                <div class="stat-label">Nouvelles</div>
+                            </div>
+                        </div>
+                    </div>
+                    ` : ''}
+
+                    <div class="card" onclick="navigateTo(2, 'Statistiques Globales', loadGlobalStats)">
+                        <div class="card-title">
+                            Transparence Publique
+                            <span class="card-arrow">→</span>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Demandes totales</div>
+                            <div class="detail-value">${data.public_stats.total_public_requests}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Temps moyen</div>
+                            <div class="detail-value">${data.public_stats.avg_response_time} jours</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Taux de succès</div>
+                            <div class="detail-value">${data.public_stats.success_rate}%</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // NIVEAU 2: Liste des demandes
+        async function loadRequestsList() {
+            showLoading();
+            try {
+                const response = await fetch('/api/mobile/citizen/requests', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    renderRequestsList(data.data);
+                    updateDataSource(data.source);
+                } else {
+                    if (data.requireAuth) {
+                        showLoginScreen();
+                        return;
+                    }
+                    showError('Erreur lors du chargement des demandes');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showError('Erreur de connexion');
+            }
+        }
+
+        function renderRequestsList(data) {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="slide-in">
+                    <div class="nav-tabs">
+                        <button class="nav-tab active" onclick="filterRequests('all')">Toutes</button>
+                        <button class="nav-tab" onclick="filterRequests('in_progress')">En cours</button>
+                        <button class="nav-tab" onclick="filterRequests('responded')">Répondues</button>
+                    </div>
+
+                    <div id="requestsList">
+                        ${data.requests.map(request => `
+                            <div class="list-item" onclick="navigateTo(3, 'Détail Demande', loadRequestDetail, ${request.id})">
+                                <div class="list-header">
+                                    <div class="item-title">${request.name}</div>
+                                    <div class="status-chip status-${request.state}">${request.state_label}</div>
+                                </div>
+                                <div class="item-description">${request.description}</div>
+                                <div class="item-footer">
+                                    <span>Par: ${request.requester || 'Non spécifié'}</span>
+                                    <span>${new Date(request.request_date).toLocaleDateString('fr-FR')}</span>
+                                </div>
+                                ${request.is_overdue ? '<div style="color: #e74c3c; font-size: 12px; margin-top: 8px; font-weight: 600;">⚠️ En retard</div>' : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    ${data.pagination.has_more ? `
+                    <div class="action-buttons">
+                        <button class="action-button secondary-button" onclick="loadMoreRequests()">
+                            Charger plus
+                        </button>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        // NIVEAU 2: Demandes récentes
+        function loadRecentRequests(requests) {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="slide-in">
+                    <div style="margin-bottom: 25px;">
+                        <div style="font-size: 14px; color: #7f8c8d; margin-bottom: 20px; font-weight: 600;">
+                            ${requests.length} demande(s) récente(s)
+                        </div>
+                    </div>
+
+                    ${requests.map(request => `
+                        <div class="list-item" onclick="navigateTo(3, 'Détail Demande', loadRequestDetail, ${request.id})">
+                            <div class="list-header">
+                                <div class="item-title">${request.name}</div>
+                                <div class="status-chip status-${request.state}">${request.state_label}</div>
+                            </div>
+                            <div class="item-description">${request.description}</div>
+                            <div class="item-footer">
+                                <span>Département: ${request.department || 'Non assigné'}</span>
+                                <span>${request.days_to_deadline} jours restants</span>
+                            </div>
+                            ${request.is_overdue ? '<div style="color: #e74c3c; font-size: 12px; margin-top: 8px; font-weight: 600;">⚠️ En retard</div>' : ''}
+                        </div>
+                    `).join('')}
+
+                    <div class="action-buttons">
+                        <button class="action-button primary-button" onclick="navigateTo(2, 'Toutes les Demandes', loadRequestsList)">
+                            Voir toutes les demandes
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // NIVEAU 3: Détail d'une demande
+        async function loadRequestDetail(requestId) {
+            showLoading();
+            try {
+                const response = await fetch(`/api/mobile/citizen/requests/${requestId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    renderRequestDetail(data.data);
+                    updateDataSource(data.source);
+                } else {
+                    if (data.requireAuth) {
+                        showLoginScreen();
+                        return;
+                    }
+                    showError(data.error || 'Erreur lors du chargement du détail');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showError('Erreur de connexion');
+            }
+        }
+
+        function renderRequestDetail(request) {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="slide-in">
+                    <div class="detail-section">
+                        <div class="detail-title">Informations Générales</div>
+                        <div class="detail-row">
+                            <div class="detail-label">Numéro</div>
+                            <div class="detail-value">${request.name}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">État</div>
+                            <div class="detail-value">
+                                <span class="status-chip status-${request.state}">${request.state_label}</span>
+                            </div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Date de demande</div>
+                            <div class="detail-value">${new Date(request.request_date).toLocaleDateString('fr-FR')}</div>
+                        </div>
+                        ${request.deadline_date ? `
+                        <div class="detail-row">
+                            <div class="detail-label">Date limite</div>
+                            <div class="detail-value">${new Date(request.deadline_date).toLocaleDateString('fr-FR')}</div>
+                        </div>
+                        ` : ''}
+                        <div class="detail-row">
+                            <div class="detail-label">Délai restant</div>
+                            <div class="detail-value" style="color: ${request.is_overdue ? '#e74c3c' : '#27ae60'}; font-weight: 700;">
+                                ${request.is_overdue ? `En retard de ${Math.abs(request.days_to_deadline)} jours` : `${request.days_to_deadline} jours`}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-title">Demandeur</div>
+                        <div class="detail-row">
+                            <div class="detail-label">Nom</div>
+                            <div class="detail-value">${request.requester_name || 'Non spécifié'}</div>
+                        </div>
+                        ${request.requester_email ? `
+                        <div class="detail-row">
+                            <div class="detail-label">Email</div>
+                            <div class="detail-value">${request.requester_email}</div>
+                        </div>
+                        ` : ''}
+                        ${request.requester_quality ? `
+                        <div class="detail-row">
+                            <div class="detail-label">Qualité</div>
+                            <div class="detail-value">${request.requester_quality}</div>
+                        </div>
+                        ` : ''}
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-title">Description</div>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; line-height: 1.6;">
+                            ${request.description}
+                        </div>
+                    </div>
+
+                    ${request.response_body ? `
+                    <div class="detail-section">
+                        <div class="detail-title">${request.is_refusal ? 'Motif de Refus' : 'Réponse'}</div>
+                        <div style="background: ${request.is_refusal ? '#fdf2f2' : '#f0f9f0'}; padding: 20px; border-radius: 12px; line-height: 1.6; border-left: 4px solid ${request.is_refusal ? '#e74c3c' : '#27ae60'};">
+                            ${request.response_body}
+                        </div>
+                        ${request.refusal_motivation ? `
+                        <div style="margin-top: 15px; font-size: 14px; color: #7f8c8d; font-weight: 500;">
+                            <strong>Motivation:</strong> ${request.refusal_motivation}
+                        </div>
+                        ` : ''}
+                    </div>
+                    ` : ''}
+
+                    <div class="detail-section">
+                        <div class="detail-title">Traitement</div>
+                        <div class="detail-row">
+                            <div class="detail-label">Agent assigné</div>
+                            <div class="detail-value">${request.assigned_user || 'Non assigné'}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Département</div>
+                            <div class="detail-value">${request.department || 'Non assigné'}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Étape</div>
+                            <div class="detail-value">${request.stage_name || 'Non définie'}</div>
+                        </div>
+                    </div>
+
+                    ${request.timeline && request.timeline.length > 0 ? `
+                    <div class="detail-section">
+                        <div class="detail-title">Chronologie</div>
+                        <div class="timeline">
+                            ${request.timeline.map(item => `
+                                <div class="timeline-item">
+                                    <div class="timeline-dot"></div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-event">${item.event}</div>
+                                        <div class="timeline-description">${item.description}</div>
+                                        <div class="timeline-date">${new Date(item.date).toLocaleDateString('fr-FR')} à ${new Date(item.date).toLocaleTimeString('fr-FR', {hour: '2-digit', minute: '2-digit'})}</div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        // Fonctions utilitaires
+        function showLoading() {
+            document.getElementById('content').innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Chargement des données...</p>
+                </div>
+            `;
+        }
+
+        function showError(message) {
+            const content = document.getElementById('content');
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message fade-in';
+            errorDiv.textContent = message;
+            content.insertBefore(errorDiv, content.firstChild);
+            
+            setTimeout(() => {
+                if (errorDiv.parentNode) {
+                    errorDiv.parentNode.removeChild(errorDiv);
+                }
+            }, 5000);
+        }
+
+        function showSuccess(message) {
+            const content = document.getElementById('content');
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success-message fade-in';
+            successDiv.textContent = message;
+            content.insertBefore(successDiv, content.firstChild);
+            
+            setTimeout(() => {
+                if (successDiv.parentNode) {
+                    successDiv.parentNode.removeChild(successDiv);
+                }
+            }, 3000);
+        }
+
+        function updateDataSource(source) {
+            const sourceElement = document.getElementById('dataSource');
+            if (source === 'odoo_real_data') {
+                sourceElement.textContent = 'RÉEL';
+                sourceElement.style.background = 'rgba(39, 174, 96, 0.8)';
+            } else {
+                sourceElement.textContent = 'DEMO';
+                sourceElement.style.background = 'rgba(241, 196, 15, 0.8)';
+            }
+        }
+
+        // Fonctions de navigation (stubs pour les autres écrans)
+        async function loadAlertsList() {
+            showLoading();
+            // Implementation similaire aux demandes
+            setTimeout(() => {
+                showError('Fonctionnalité en développement');
+            }, 1000);
+        }
+
+        async function loadGlobalStats() {
+            showLoading();
+            // Implementation similaire
+            setTimeout(() => {
+                showError('Fonctionnalité en développement');
+            }, 1000);
+        }
+
+        function filterRequests(status) {
+            document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            console.log('Filtrage par statut:', status);
+        }
+
+        function loadMoreRequests() {
+            showError('Chargement de plus de demandes en développement');
+        }
+    </script>
+</body>
+</html>

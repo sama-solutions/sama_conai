@@ -1,0 +1,2137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAMA CONAI - Mode Offline avec Synchronisation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        /* ========================================= */
+        /* SAMA CONAI - STYLES NEUMORPHIQUES OFFLINE */
+        /* ========================================= */
+
+        :root {
+            /* Thème par défaut - Institutionnel */
+            --background-color: #EFF2F5;
+            --text-color: #2C3E50;
+            --shadow-dark: #d1d9e6;
+            --shadow-light: #ffffff;
+            --accent-action: #3498DB;
+            --accent-alert: #E67E22;
+            --accent-danger: #E74C3C;
+            --accent-success: #27AE60;
+            --font-family: 'Poppins', sans-serif;
+            --border-radius: 20px;
+            --shadow-neumorphic: 7px 7px 15px var(--shadow-dark), -7px -7px 15px var(--shadow-light);
+            --shadow-inset: inset 7px 7px 15px var(--shadow-dark), inset -7px -7px 15px var(--shadow-light);
+        }
+
+        /* Thème Dark Mode */
+        body[data-theme="dark"] {
+            --background-color: #2C2C2E;
+            --text-color: #F2F2F7;
+            --shadow-dark: #1C1C1E;
+            --shadow-light: #3A3A3C;
+            --accent-action: #007AFF;
+            --accent-alert: #FF9F0A;
+            --accent-danger: #FF453A;
+            --accent-success: #30D158;
+        }
+
+        /* Thème Océan */
+        body[data-theme="ocean"] {
+            --background-color: #E8F4F8;
+            --text-color: #1B4F72;
+            --shadow-dark: #D5E8ED;
+            --shadow-light: #FFFFFF;
+            --accent-action: #2E86AB;
+            --accent-alert: #F39C12;
+            --accent-danger: #E74C3C;
+            --accent-success: #27AE60;
+        }
+
+        /* Thème Forêt */
+        body[data-theme="forest"] {
+            --background-color: #F0F4F0;
+            --text-color: #2D5016;
+            --shadow-dark: #E1E8E1;
+            --shadow-light: #FFFFFF;
+            --accent-action: #4A7C59;
+            --accent-alert: #D68910;
+            --accent-danger: #C0392B;
+            --accent-success: #229954;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            max-height: 100vh;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ========================================= */
+        /* CONTENEUR MOBILE NEUMORPHIQUE            */
+        /* ========================================= */
+
+        .mobile-container {
+            max-width: 375px;
+            margin: 10px auto;
+            background: var(--background-color);
+            border-radius: 30px;
+            box-shadow: var(--shadow-neumorphic);
+            overflow: hidden;
+            height: calc(100vh - 20px);
+            max-height: calc(100vh - 20px);
+            position: relative;
+            z-index: 1;
+            isolation: isolate;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .status-bar {
+            background: linear-gradient(135deg, var(--accent-action), var(--accent-alert));
+            color: white;
+            padding: 8px 20px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 500;
+            position: relative;
+            z-index: 4;
+            height: 30px;
+            flex-shrink: 0;
+        }
+
+        .connection-status {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 10px;
+            opacity: 0.8;
+        }
+
+        .connection-status.connected {
+            color: #4CAF50;
+        }
+
+        .connection-status.disconnected {
+            color: #FF5722;
+        }
+
+        .connection-status.offline {
+            color: #FFC107;
+        }
+
+        .header {
+            background: var(--background-color);
+            color: var(--text-color);
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin: 10px;
+            box-shadow: var(--shadow-neumorphic);
+            border-radius: var(--border-radius);
+            z-index: 3;
+            height: 70px;
+            flex-shrink: 0;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent-action);
+            text-align: center;
+            margin: 0;
+            width: 100%;
+        }
+
+        .header-content {
+            text-align: center;
+            flex: 1;
+            width: 100%;
+        }
+
+        .back-button {
+            background: var(--background-color);
+            border: none;
+            color: var(--accent-action);
+            font-size: 18px;
+            cursor: pointer;
+            padding: 12px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-neumorphic);
+            position: absolute;
+            left: 0;
+        }
+
+        .back-button:hover {
+            box-shadow: var(--shadow-inset);
+        }
+
+        .nav-indicator {
+            font-size: 12px;
+            opacity: 0.8;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        /* ========================================= */
+        /* THEME SWITCHER                           */
+        /* ========================================= */
+
+        .theme-switcher {
+            position: absolute;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            background: var(--background-color);
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            box-shadow: var(--shadow-neumorphic);
+            color: var(--accent-action);
+            font-size: 14px;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .theme-switcher:hover {
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+
+        .theme-switcher:active {
+            box-shadow: var(--shadow-inset);
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .theme-menu {
+            position: absolute;
+            top: 45px;
+            left: 0;
+            background: var(--background-color);
+            border-radius: 15px;
+            box-shadow: var(--shadow-neumorphic);
+            padding: 10px;
+            display: none;
+            z-index: 1002;
+            min-width: 160px;
+            white-space: nowrap;
+        }
+
+        .theme-menu.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .theme-option {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .theme-option:hover {
+            background: var(--background-color);
+            box-shadow: var(--shadow-inset);
+        }
+
+        .theme-option.active {
+            background: var(--background-color);
+            box-shadow: var(--shadow-inset);
+            color: var(--accent-action);
+        }
+
+        .theme-icon {
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        .content {
+            padding: 15px;
+            flex: 1;
+            margin: 0 10px 10px 10px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            z-index: 2;
+            background: var(--background-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-inset);
+            min-height: 0;
+        }
+
+        /* ========================================= */
+        /* INDICATEURS OFFLINE/SYNC                  */
+        /* ========================================= */
+
+        .sync-status {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            background: var(--background-color);
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            box-shadow: var(--shadow-neumorphic);
+            color: var(--accent-action);
+            font-size: 14px;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .sync-status.syncing {
+            color: var(--accent-alert);
+            animation: spin 1s linear infinite;
+        }
+
+        .sync-status.offline {
+            color: var(--accent-danger);
+        }
+
+        .sync-status.online {
+            color: var(--accent-success);
+        }
+
+        .sync-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--accent-danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* ========================================= */
+        /* COMPOSANTS NEUMORPHIQUES                  */
+        /* ========================================= */
+
+        .neumorphic-card {
+            background: var(--background-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-neumorphic);
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+            contain: layout style;
+        }
+
+        .neumorphic-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+
+        .neumorphic-card:active {
+            box-shadow: var(--shadow-inset);
+            transform: scale(0.98);
+        }
+
+        .neumorphic-button {
+            background: var(--background-color);
+            border: none;
+            border-radius: 15px;
+            padding: 15px 25px;
+            font-family: var(--font-family);
+            font-weight: 600;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-neumorphic);
+            font-size: 14px;
+        }
+
+        .neumorphic-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+
+        .neumorphic-button:active {
+            box-shadow: var(--shadow-inset);
+            transform: scale(0.98);
+        }
+
+        .neumorphic-button.btn-action {
+            color: var(--accent-action);
+        }
+
+        .neumorphic-button.btn-success {
+            color: var(--accent-success);
+        }
+
+        .neumorphic-button.btn-danger {
+            color: var(--accent-danger);
+        }
+
+        /* ========================================= */
+        /* ÉCRAN DE CONNEXION SIMPLIFIÉ             */
+        /* ========================================= */
+
+        .login-container {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .login-logo {
+            width: 100px;
+            height: 100px;
+            background: var(--background-color);
+            border-radius: 30px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: var(--accent-action);
+            box-shadow: var(--shadow-neumorphic);
+            transition: all 0.3s ease;
+        }
+
+        .login-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--accent-action);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .login-subtitle {
+            color: var(--text-color);
+            margin-bottom: 40px;
+            font-size: 16px;
+            opacity: 0.8;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 18px 25px;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-family: var(--font-family);
+            background: var(--background-color);
+            color: var(--text-color);
+            box-shadow: var(--shadow-inset);
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            box-shadow: var(--shadow-inset), 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-color);
+            opacity: 0.6;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 20px;
+            background: var(--background-color);
+            color: var(--accent-action);
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-neumorphic);
+            margin-bottom: 20px;
+            font-family: var(--font-family);
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+
+        .login-button:active {
+            box-shadow: var(--shadow-inset);
+            transform: scale(0.98);
+        }
+
+        .login-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ========================================= */
+        /* DASHBOARD                                 */
+        /* ========================================= */
+
+        .user-header {
+            background: var(--background-color);
+            color: var(--text-color);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-neumorphic);
+        }
+
+        .user-name {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 5px;
+            color: var(--accent-action);
+            text-align: center;
+        }
+
+        .user-email {
+            opacity: 0.8;
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .stat-card {
+            background: var(--background-color);
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-inset);
+        }
+
+        .stat-card:hover {
+            transform: scale(1.02);
+            box-shadow: var(--shadow-neumorphic);
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--accent-action);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+        }
+
+        /* ========================================= */
+        /* NAVIGATION À 3 NIVEAUX                   */
+        /* ========================================= */
+
+        .navigation-level {
+            background: var(--background-color);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow-neumorphic);
+            flex-shrink: 0;
+        }
+
+        .level-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent-action);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .level-description {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .nav-option {
+            background: var(--background-color);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-neumorphic);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+
+        .nav-option:active {
+            box-shadow: var(--shadow-inset);
+            transform: scale(0.98);
+        }
+
+        .nav-option-content {
+            flex: 1;
+        }
+
+        .nav-option-title {
+            font-weight: 600;
+            color: var(--accent-action);
+            margin-bottom: 5px;
+        }
+
+        .nav-option-desc {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .nav-arrow {
+            color: var(--accent-action);
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-option:hover .nav-arrow {
+            transform: translateX(5px);
+        }
+
+        /* ========================================= */
+        /* FORMULAIRE DE DEMANDE                    */
+        /* ========================================= */
+
+        .form-container {
+            background: var(--background-color);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--shadow-neumorphic);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .form-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent-action);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-row.two-cols {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        textarea.form-input {
+            min-height: 100px;
+            resize: vertical;
+            font-family: var(--font-family);
+        }
+
+        select.form-input {
+            cursor: pointer;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23666" d="M2 0L0 2h4zm0 5L0 3h4z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 12px;
+            appearance: none;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            accent-color: var(--accent-action);
+        }
+
+        .checkbox-group label {
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        /* ========================================= */
+        /* MESSAGES ET ALERTES                      */
+        /* ========================================= */
+
+        .message {
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: var(--shadow-neumorphic);
+        }
+
+        .message.success {
+            background: var(--background-color);
+            color: var(--accent-success);
+            border-left: 4px solid var(--accent-success);
+        }
+
+        .message.error {
+            background: var(--background-color);
+            color: var(--accent-danger);
+            border-left: 4px solid var(--accent-danger);
+        }
+
+        .message.warning {
+            background: var(--background-color);
+            color: var(--accent-alert);
+            border-left: 4px solid var(--accent-alert);
+        }
+
+        .message.info {
+            background: var(--background-color);
+            color: var(--accent-action);
+            border-left: 4px solid var(--accent-action);
+        }
+
+        .offline-indicator {
+            background: linear-gradient(135deg, var(--accent-alert), #f39c12);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+        }
+
+        /* ========================================= */
+        /* CONTENEURS DE CONTENU                    */
+        /* ========================================= */
+
+        .content-wrapper {
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .scrollable-content {
+            padding-bottom: 20px;
+        }
+
+        /* ========================================= */
+        /* ANIMATIONS                                */
+        /* ========================================= */
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        .bounce-in {
+            animation: bounceIn 0.6s ease;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* ========================================= */
+        /* RESPONSIVE                                */
+        /* ========================================= */
+
+        /* Contrainte stricte pour le contenu */
+        .content-strict {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        @media (max-width: 400px) {
+            .mobile-container {
+                margin: 0;
+                border-radius: 0;
+                height: 100vh;
+                max-height: 100vh;
+            }
+            
+            .status-bar {
+                border-radius: 0;
+            }
+            
+            .header {
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .content {
+                margin: 0 0 0 0;
+                border-radius: 0;
+                padding: 10px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row.two-cols {
+                grid-template-columns: 1fr;
+            }
+
+            .neumorphic-card {
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+
+            .user-header {
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body data-theme="default">
+    <div class="mobile-container">
+        <div class="status-bar">
+            <span>9:41</span>
+            <div class="connection-status" id="connectionStatus">
+                <i class="fas fa-circle"></i> En ligne
+            </div>
+            <span>🔋 100%</span>
+        </div>
+        
+        <div class="header">
+            <button class="back-button" id="backButton" style="display: none;" onclick="navigateBack()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="header-content">
+                <h1 id="headerTitle">🇸🇳 SAMA CONAI</h1>
+                <div class="nav-indicator" id="navIndicator">Mode Offline avec Synchronisation</div>
+            </div>
+            <button class="theme-switcher" id="themeSwitcher" onclick="toggleThemeMenu(event)" title="Changer de thème">
+                <i class="fas fa-palette"></i>
+                <div class="theme-menu" id="themeMenu">
+                    <div class="theme-option" onclick="changeTheme('default', event)">
+                        <span class="theme-icon">🏢</span> Institutionnel
+                    </div>
+                    <div class="theme-option" onclick="changeTheme('dark', event)">
+                        <span class="theme-icon">🌙</span> Sombre
+                    </div>
+                    <div class="theme-option" onclick="changeTheme('ocean', event)">
+                        <span class="theme-icon">🌊</span> Océan
+                    </div>
+                    <div class="theme-option" onclick="changeTheme('forest', event)">
+                        <span class="theme-icon">🌲</span> Forêt
+                    </div>
+                </div>
+            </button>
+            <button class="sync-status" id="syncStatus" onclick="toggleSyncPanel()" title="Statut de synchronisation">
+                <i class="fas fa-sync-alt"></i>
+                <span class="sync-badge" id="syncBadge" style="display: none;">0</span>
+            </button>
+        </div>
+        
+        <div class="content" id="content">
+            <!-- Écran de login simplifié -->
+            <div class="login-container fade-in">
+                <div class="login-logo">🇸🇳</div>
+                <h2 class="login-title">SAMA CONAI</h2>
+                <p class="login-subtitle">Transparence Sénégal - Mode Offline</p>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label">Nom d'utilisateur</label>
+                        <input type="text" class="form-input" id="loginEmail" placeholder="admin" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Mot de passe</label>
+                        <input type="password" class="form-input" id="loginPassword" placeholder="admin" required>
+                    </div>
+                    
+                    <button type="submit" class="login-button" id="loginButton">
+                        <i class="fas fa-sign-in-alt"></i> Se connecter
+                    </button>
+                </form>
+                
+                <div class="neumorphic-card">
+                    <h3 style="color: var(--accent-action); margin-bottom: 15px; text-align: center;">🔄 Mode Offline</h3>
+                    <p style="text-align: center; opacity: 0.8; font-size: 14px;">
+                        Travaillez même sans connexion internet. Vos données seront synchronisées automatiquement lors de la reconnexion.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========================================= //
+        // VARIABLES GLOBALES                        //
+        // ========================================= //
+        
+        let socket = null;
+        let authToken = null;
+        let currentUser = null;
+        let isOnline = navigator.onLine;
+        let navigationStack = [];
+        let currentLevel = 1;
+        let currentData = null;
+        
+        // Système de stockage offline
+        let offlineData = {
+            requests: [],
+            drafts: [],
+            userStats: null,
+            publicStats: null,
+            pendingActions: []
+        };
+        
+        let syncQueue = [];
+        let lastSyncTime = null;
+        let currentTheme = 'default';
+        let realOdooData = null;
+
+        // ========================================= //
+        // INITIALISATION                            //
+        // ========================================= //
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialiser le thème
+            initTheme();
+            
+            // Initialiser le mode offline
+            initOfflineMode();
+            
+            // Écouter les changements de connexion
+            window.addEventListener('online', handleOnline);
+            window.addEventListener('offline', handleOffline);
+            
+            // Vérifier si l'utilisateur est déjà connecté
+            const savedToken = localStorage.getItem('sama_conai_offline_token');
+            if (savedToken) {
+                authToken = savedToken;
+                currentUser = JSON.parse(localStorage.getItem('sama_conai_offline_user') || '{}');
+                loadDashboard();
+            }
+            
+            // Gestionnaire de formulaire de login
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            
+            // Mettre à jour l'indicateur de connexion
+            updateConnectionStatus();
+            
+            // Synchronisation périodique
+            setInterval(attemptSync, 30000); // Toutes les 30 secondes
+            
+            // Fermer le menu thème en cliquant ailleurs
+            document.addEventListener('click', function(event) {
+                const themeMenu = document.getElementById('themeMenu');
+                const themeSwitcher = document.getElementById('themeSwitcher');
+                if (!themeSwitcher.contains(event.target)) {
+                    themeMenu.classList.remove('show');
+                }
+            });
+        });
+
+        // ========================================= //
+        // GESTION DU MODE OFFLINE                   //
+        // ========================================= //
+
+        function initOfflineMode() {
+            // Charger les données offline depuis localStorage
+            loadOfflineData();
+            
+            // Charger la queue de synchronisation
+            loadSyncQueue();
+            
+            // Charger la dernière heure de synchronisation
+            lastSyncTime = localStorage.getItem('sama_conai_last_sync');
+            
+            console.log('Mode offline initialisé', {
+                isOnline: isOnline,
+                offlineDataCount: offlineData.requests.length,
+                syncQueueLength: syncQueue.length,
+                lastSync: lastSyncTime
+            });
+        }
+
+        function loadOfflineData() {
+            try {
+                const savedData = localStorage.getItem('sama_conai_offline_data');
+                if (savedData) {
+                    offlineData = JSON.parse(savedData);
+                }
+            } catch (error) {
+                console.error('Erreur lors du chargement des données offline:', error);
+                offlineData = {
+                    requests: [],
+                    drafts: [],
+                    userStats: null,
+                    publicStats: null,
+                    pendingActions: []
+                };
+            }
+        }
+
+        function saveOfflineData() {
+            try {
+                localStorage.setItem('sama_conai_offline_data', JSON.stringify(offlineData));
+            } catch (error) {
+                console.error('Erreur lors de la sauvegarde des données offline:', error);
+            }
+        }
+
+        function loadSyncQueue() {
+            try {
+                const savedQueue = localStorage.getItem('sama_conai_sync_queue');
+                if (savedQueue) {
+                    syncQueue = JSON.parse(savedQueue);
+                }
+            } catch (error) {
+                console.error('Erreur lors du chargement de la queue de sync:', error);
+                syncQueue = [];
+            }
+        }
+
+        function saveSyncQueue() {
+            try {
+                localStorage.setItem('sama_conai_sync_queue', JSON.stringify(syncQueue));
+                updateSyncBadge();
+            } catch (error) {
+                console.error('Erreur lors de la sauvegarde de la queue de sync:', error);
+            }
+        }
+
+        function addToSyncQueue(action) {
+            const queueItem = {
+                id: Date.now() + Math.random(),
+                timestamp: new Date().toISOString(),
+                action: action.type,
+                data: action.data,
+                retryCount: 0
+            };
+            
+            syncQueue.push(queueItem);
+            saveSyncQueue();
+            
+            console.log('Action ajoutée à la queue de synchronisation:', queueItem);
+        }
+
+        function handleOnline() {
+            isOnline = true;
+            console.log('Connexion rétablie - Mode online');
+            updateConnectionStatus();
+            showMessage('🌐 Connexion rétablie ! Synchronisation en cours...', 'success');
+            
+            // Synchroniser les données
+            setTimeout(() => {
+                attemptSync();
+            }, 1000);
+        }
+
+        function handleOffline() {
+            isOnline = false;
+            console.log('Connexion perdue - Mode offline');
+            updateConnectionStatus();
+            showMessage('📵 Mode offline activé. Vos données seront synchronisées à la reconnexion.', 'warning');
+        }
+
+        function updateConnectionStatus() {
+            const status = document.getElementById('connectionStatus');
+            const syncStatus = document.getElementById('syncStatus');
+            
+            if (isOnline) {
+                status.innerHTML = '<i class="fas fa-circle"></i> En ligne';
+                status.className = 'connection-status connected';
+                syncStatus.className = 'sync-status online';
+                syncStatus.title = 'En ligne - Synchronisation active';
+            } else {
+                status.innerHTML = '<i class="fas fa-circle"></i> Hors ligne';
+                status.className = 'connection-status offline';
+                syncStatus.className = 'sync-status offline';
+                syncStatus.title = 'Hors ligne - Mode offline activé';
+            }
+        }
+
+        function updateSyncBadge() {
+            const badge = document.getElementById('syncBadge');
+            const pendingCount = syncQueue.length;
+            
+            if (pendingCount > 0) {
+                badge.textContent = pendingCount > 99 ? '99+' : pendingCount;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        async function attemptSync() {
+            if (!isOnline || syncQueue.length === 0) {
+                return;
+            }
+            
+            console.log(`Début de la synchronisation - ${syncQueue.length} action(s) en attente`);
+            
+            const syncStatus = document.getElementById('syncStatus');
+            syncStatus.className = 'sync-status syncing';
+            syncStatus.title = 'Synchronisation en cours...';
+            
+            const successfulSyncs = [];
+            const failedSyncs = [];
+            
+            for (const queueItem of syncQueue) {
+                try {
+                    const success = await syncQueueItem(queueItem);
+                    if (success) {
+                        successfulSyncs.push(queueItem.id);
+                    } else {
+                        failedSyncs.push(queueItem.id);
+                        queueItem.retryCount++;
+                    }
+                } catch (error) {
+                    console.error('Erreur lors de la synchronisation:', error);
+                    failedSyncs.push(queueItem.id);
+                    queueItem.retryCount++;
+                }
+            }
+            
+            // Supprimer les actions synchronisées avec succès
+            syncQueue = syncQueue.filter(item => !successfulSyncs.includes(item.id));
+            
+            // Supprimer les actions qui ont échoué trop de fois
+            syncQueue = syncQueue.filter(item => item.retryCount < 3);
+            
+            saveSyncQueue();
+            
+            // Mettre à jour l'heure de dernière synchronisation
+            lastSyncTime = new Date().toISOString();
+            localStorage.setItem('sama_conai_last_sync', lastSyncTime);
+            
+            updateConnectionStatus();
+            
+            console.log(`Synchronisation terminée - ${successfulSyncs.length} succès, ${failedSyncs.length} échecs`);
+            
+            if (successfulSyncs.length > 0) {
+                showMessage(`✅ ${successfulSyncs.length} action(s) synchronisée(s) avec succès`, 'success');
+            }
+            
+            if (failedSyncs.length > 0) {
+                showMessage(`⚠️ ${failedSyncs.length} action(s) n'ont pas pu être synchronisées`, 'warning');
+            }
+        }
+
+        async function syncQueueItem(queueItem) {
+            try {
+                switch (queueItem.action) {
+                    case 'CREATE_REQUEST':
+                        return await syncCreateRequest(queueItem.data);
+                    case 'UPDATE_REQUEST':
+                        return await syncUpdateRequest(queueItem.data);
+                    default:
+                        console.warn('Type d\'action non reconnu:', queueItem.action);
+                        return false;
+                }
+            } catch (error) {
+                console.error('Erreur lors de la synchronisation de l\'action:', queueItem.action, error);
+                return false;
+            }
+        }
+
+        async function syncCreateRequest(requestData) {
+            try {
+                const response = await fetch('/api/mobile/citizen/requests', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(requestData)
+                });
+                
+                const result = await response.json();
+                return result.success;
+            } catch (error) {
+                console.error('Erreur lors de la synchronisation de la demande:', error);
+                return false;
+            }
+        }
+
+        async function syncUpdateRequest(requestData) {
+            try {
+                const response = await fetch(`/api/mobile/citizen/requests/${requestData.id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(requestData)
+                });
+                
+                const result = await response.json();
+                return result.success;
+            } catch (error) {
+                console.error('Erreur lors de la synchronisation de la mise à jour:', error);
+                return false;
+            }
+        }
+
+        // ========================================= //
+        // GESTION DES THÈMES                        //
+        // ========================================= //
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem('sama_conai_theme') || 'default';
+            currentTheme = savedTheme;
+            document.body.setAttribute('data-theme', currentTheme);
+            updateThemeMenu();
+        }
+
+        function toggleThemeMenu(event) {
+            if (event) {
+                event.stopPropagation();
+            }
+            const themeMenu = document.getElementById('themeMenu');
+            themeMenu.classList.toggle('show');
+        }
+
+        function changeTheme(theme, event) {
+            if (event) {
+                event.stopPropagation();
+            }
+            
+            currentTheme = theme;
+            document.body.setAttribute('data-theme', theme);
+            localStorage.setItem('sama_conai_theme', theme);
+            updateThemeMenu();
+            
+            // Fermer le menu
+            document.getElementById('themeMenu').classList.remove('show');
+            
+            // Message de confirmation
+            const themeNames = {
+                'default': 'Institutionnel',
+                'dark': 'Sombre',
+                'ocean': 'Océan',
+                'forest': 'Forêt'
+            };
+            showMessage(`🎨 Thème changé : ${themeNames[theme]}`, 'info');
+        }
+
+        function updateThemeMenu() {
+            const options = document.querySelectorAll('.theme-option');
+            options.forEach(option => {
+                option.classList.remove('active');
+                const themeValue = option.getAttribute('onclick').match(/'([^']+)'/)[1];
+                if (themeValue === currentTheme) {
+                    option.classList.add('active');
+                }
+            });
+        }
+
+        // ========================================= //
+        // CONNEXION AUX DONNÉES ODOO               //
+        // ========================================= //
+
+        async function loadRealOdooData() {
+            if (!isOnline || !authToken) {
+                return null;
+            }
+            
+            try {
+                const response = await fetch('/api/mobile/citizen/dashboard', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success) {
+                        realOdooData = result.data;
+                        console.log('Données Odoo chargées:', realOdooData);
+                        return realOdooData;
+                    }
+                }
+            } catch (error) {
+                console.error('Erreur lors du chargement des données Odoo:', error);
+            }
+            
+            return null;
+        }
+
+        function getStatsData() {
+            if (realOdooData && realOdooData.user_stats) {
+                return realOdooData.user_stats;
+            }
+            
+            // Données par défaut si pas de connexion Odoo
+            return {
+                total_requests: offlineData.requests.length || 0,
+                pending_requests: offlineData.requests.filter(r => r.status === 'submitted').length || 0,
+                completed_requests: offlineData.requests.filter(r => r.status === 'completed').length || 0,
+                overdue_requests: offlineData.requests.filter(r => r.status === 'overdue').length || 0
+            };
+        }
+
+        // ========================================= //
+        // GESTION DE LA CONNEXION                   //
+        // ========================================= //
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const loginButton = document.getElementById('loginButton');
+            
+            if (!email || !password) {
+                showMessage('Veuillez remplir tous les champs', 'error');
+                return;
+            }
+            
+            // Authentification admin uniquement
+            if (email === 'admin' && password === 'admin') {
+                authToken = 'offline_admin_token_' + Date.now();
+                currentUser = {
+                    id: 'admin_001',
+                    name: 'Administrateur SAMA CONAI',
+                    email: 'admin@sama-conai.sn',
+                    role: 'admin'
+                };
+                
+                localStorage.setItem('sama_conai_offline_token', authToken);
+                localStorage.setItem('sama_conai_offline_user', JSON.stringify(currentUser));
+                
+                showMessage('Connexion réussie !', 'success');
+                setTimeout(() => {
+                    loadDashboard();
+                }, 1000);
+            } else {
+                showMessage('Identifiants incorrects. Utilisez admin/admin', 'error');
+            }
+        }
+
+        // ========================================= //
+        // DASHBOARD PRINCIPAL                       //
+        // ========================================= //
+
+        async function loadDashboard() {
+            document.getElementById('headerTitle').textContent = '🇸🇳 SAMA CONAI';
+            document.getElementById('navIndicator').textContent = 'Dashboard Principal';
+            document.getElementById('backButton').style.display = 'none';
+            
+            // Charger les données Odoo si en ligne
+            if (isOnline) {
+                await loadRealOdooData();
+            }
+            
+            const stats = getStatsData();
+            const dataSource = realOdooData ? 'Odoo' : 'Local';
+            
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="fade-in">
+                    ${!isOnline ? '<div class="offline-indicator">📵 Mode Offline - Vos données seront synchronisées à la reconnexion</div>' : ''}
+                    
+                    <div class="user-header">
+                        <div class="user-name">${currentUser.name}</div>
+                        <div class="user-email">${currentUser.email}</div>
+                        <div style="margin-top: 10px; font-size: 12px; opacity: 0.7; text-align: center;">
+                            <i class="fas fa-database"></i> Source: ${dataSource} | ${offlineData.requests.length} demande(s) en local
+                        </div>
+                    </div>
+
+                    <div class="neumorphic-card">
+                        <h3 style="color: var(--accent-action); margin-bottom: 20px; text-align: center;">📊 Mes Statistiques (Admin)</h3>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-number">${stats.total_requests}</div>
+                                <div class="stat-label">Total</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: var(--accent-alert)">${stats.pending_requests}</div>
+                                <div class="stat-label">En cours</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: var(--accent-success)">${stats.completed_requests}</div>
+                                <div class="stat-label">Terminées</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: var(--accent-danger)">${stats.overdue_requests}</div>
+                                <div class="stat-label">En retard</div>
+                            </div>
+                        </div>
+                        ${realOdooData ? '<div style="text-align: center; font-size: 12px; opacity: 0.6; margin-top: 10px;"><i class="fas fa-check-circle" style="color: var(--accent-success);"></i> Données Odoo en temps réel</div>' : '<div style="text-align: center; font-size: 12px; opacity: 0.6; margin-top: 10px;"><i class="fas fa-database"></i> Données locales</div>'}
+                    </div>
+
+                    <div class="neumorphic-card" onclick="navigateTo(2, 'Nouvelle Demande', showRequestForm)">
+                        <h3 style="color: var(--accent-action); margin-bottom: 15px; text-align: center;">
+                            <i class="fas fa-plus-circle"></i> Nouvelle Demande
+                        </h3>
+                        <p style="text-align: center; opacity: 0.8; font-size: 14px;">
+                            Créer une nouvelle demande d'accès à l'information
+                        </p>
+                        <div style="text-align: center; margin-top: 15px;">
+                            <i class="fas fa-arrow-right" style="color: var(--accent-action);"></i>
+                        </div>
+                    </div>
+
+                    <div class="neumorphic-card" onclick="navigateTo(2, 'Mes Demandes Admin', showAdminRequests)">
+                        <h3 style="color: var(--accent-action); margin-bottom: 15px; text-align: center;">
+                            <i class="fas fa-tasks"></i> Mes Demandes (Admin)
+                        </h3>
+                        <p style="text-align: center; opacity: 0.8; font-size: 14px;">
+                            Gérer les demandes assignées à l'administrateur
+                        </p>
+                        <div style="text-align: center; margin-top: 15px;">
+                            <i class="fas fa-arrow-right" style="color: var(--accent-action);"></i>
+                        </div>
+                    </div>
+
+                    <div class="neumorphic-card" onclick="navigateTo(2, 'Navigation Backend', showOdooNavigation)">
+                        <h3 style="color: var(--accent-action); margin-bottom: 15px; text-align: center;">
+                            <i class="fas fa-sitemap"></i> Navigation Backend
+                        </h3>
+                        <p style="text-align: center; opacity: 0.8; font-size: 14px;">
+                            Navigation à 3 niveaux vers le backend Odoo
+                        </p>
+                        <div style="text-align: center; margin-top: 15px;">
+                            <i class="fas fa-external-link-alt" style="color: var(--accent-action);"></i>
+                        </div>
+                    </div>
+
+                    <div class="neumorphic-card">
+                        <h3 style="color: var(--accent-action); margin-bottom: 15px; text-align: center;">🔄 Synchronisation</h3>
+                        <div style="text-align: center; font-size: 14px; opacity: 0.8; margin-bottom: 15px;">
+                            ${syncQueue.length} action(s) en attente de synchronisation
+                        </div>
+                        <button class="neumorphic-button btn-action" onclick="attemptSync()" style="width: 100%;">
+                            <i class="fas fa-sync-alt"></i> Synchroniser maintenant
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ========================================= //
+        // GESTION DES DEMANDES ADMIN                //
+        // ========================================= //
+
+        async function showAdminRequests() {
+            const content = document.getElementById('content');
+            
+            // Afficher le loading
+            content.innerHTML = `
+                <div class="fade-in" style="text-align: center; padding: 50px;">
+                    <div style="width: 40px; height: 40px; border: 4px solid var(--shadow-dark); border-top: 4px solid var(--accent-action); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
+                    <div>Chargement des demandes...</div>
+                </div>
+            `;
+            
+            try {
+                const response = await fetch('/api/mobile/admin/requests', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success) {
+                        displayAdminRequests(result.data.requests, result.source);
+                    } else {
+                        showMessage('Erreur lors du chargement des demandes', 'error');
+                    }
+                } else {
+                    showMessage('Erreur de connexion au serveur', 'error');
+                }
+            } catch (error) {
+                console.error('Erreur chargement demandes:', error);
+                showMessage('Erreur lors du chargement des demandes', 'error');
+                // Afficher les données par défaut en cas d'erreur
+                displayAdminRequests([], 'offline_fallback');
+            }
+        }
+
+        function displayAdminRequests(requests, source) {
+            const content = document.getElementById('content');
+            
+            const statusColors = {
+                'pending': 'var(--accent-alert)',
+                'in_progress': 'var(--accent-action)',
+                'completed': 'var(--accent-success)',
+                'overdue': 'var(--accent-danger)'
+            };
+            
+            const statusLabels = {
+                'pending': 'En attente',
+                'in_progress': 'En cours',
+                'completed': 'Terminée',
+                'overdue': 'En retard'
+            };
+            
+            content.innerHTML = `
+                <div class="fade-in">
+                    <div class="neumorphic-card">
+                        <h3 style="color: var(--accent-action); margin-bottom: 15px; text-align: center;">
+                            <i class="fas fa-tasks"></i> Demandes Assignées (Admin)
+                        </h3>
+                        <div style="text-align: center; font-size: 12px; opacity: 0.7; margin-bottom: 20px;">
+                            <i class="fas fa-database"></i> Source: ${source === 'odoo_real_data' ? 'Odoo' : 'Local'} | ${requests.length} demande(s)
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+                            <button class="neumorphic-button" onclick="filterRequests('all')" style="flex: 1; font-size: 12px;">
+                                Toutes
+                            </button>
+                            <button class="neumorphic-button" onclick="filterRequests('pending')" style="flex: 1; font-size: 12px;">
+                                En attente
+                            </button>
+                            <button class="neumorphic-button" onclick="filterRequests('in_progress')" style="flex: 1; font-size: 12px;">
+                                En cours
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="requestsList">
+                        ${requests.length > 0 ? requests.map(request => `
+                            <div class="neumorphic-card request-item" data-status="${request.status}">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                                    <div style="flex: 1;">
+                                        <div style="font-weight: 600; color: var(--accent-action); margin-bottom: 5px; font-size: 14px;">
+                                            ${request.title}
+                                        </div>
+                                        <div style="font-size: 12px; opacity: 0.8; margin-bottom: 5px;">
+                                            <i class="fas fa-user"></i> ${request.requester}
+                                        </div>
+                                        <div style="font-size: 12px; opacity: 0.8; margin-bottom: 5px;">
+                                            <i class="fas fa-envelope"></i> ${request.email}
+                                        </div>
+                                        <div style="font-size: 12px; opacity: 0.8;">
+                                            <i class="fas fa-building"></i> ${request.department}
+                                        </div>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <div style="background: ${statusColors[request.status]}; color: white; padding: 4px 8px; border-radius: 8px; font-size: 10px; font-weight: 600; margin-bottom: 5px;">
+                                            ${statusLabels[request.status]}
+                                        </div>
+                                        <div style="font-size: 10px; opacity: 0.6;">
+                                            ${request.created_date}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div style="display: flex; gap: 8px; margin-top: 15px;">
+                                    <button class="neumorphic-button btn-action" onclick="viewRequestDetails('${request.id}')" style="flex: 1; font-size: 12px; padding: 8px;">
+                                        <i class="fas fa-eye"></i> Détails
+                                    </button>
+                                    ${request.status === 'pending' ? `
+                                        <button class="neumorphic-button btn-success" onclick="updateRequestStatus('${request.id}', 'in_progress')" style="flex: 1; font-size: 12px; padding: 8px;">
+                                            <i class="fas fa-play"></i> Démarrer
+                                        </button>
+                                    ` : ''}
+                                    ${request.status === 'in_progress' ? `
+                                        <button class="neumorphic-button btn-success" onclick="updateRequestStatus('${request.id}', 'completed')" style="flex: 1; font-size: 12px; padding: 8px;">
+                                            <i class="fas fa-check"></i> Terminer
+                                        </button>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        `).join('') : `
+                            <div class="neumorphic-card" style="text-align: center; padding: 40px;">
+                                <div style="font-size: 48px; margin-bottom: 20px; opacity: 0.5;">
+                                    <i class="fas fa-inbox"></i>
+                                </div>
+                                <div style="opacity: 0.7;">Aucune demande assignée</div>
+                            </div>
+                        `}
+                    </div>
+                </div>
+            `;
+        }
+
+        function filterRequests(status) {
+            const requestItems = document.querySelectorAll('.request-item');
+            requestItems.forEach(item => {
+                if (status === 'all' || item.dataset.status === status) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function viewRequestDetails(requestId) {
+            showMessage(`📄 Affichage des détails de la demande ${requestId}`, 'info');
+            // Ici on pourrait ouvrir une modal ou naviguer vers une page de détails
+        }
+
+        async function updateRequestStatus(requestId, newStatus) {
+            try {
+                showMessage(`🔄 Mise à jour du statut...`, 'info');
+                
+                // Simuler la mise à jour
+                setTimeout(() => {
+                    const statusLabels = {
+                        'in_progress': 'en cours',
+                        'completed': 'terminée'
+                    };
+                    showMessage(`✅ Demande ${requestId} marquée comme ${statusLabels[newStatus]}`, 'success');
+                    
+                    // Recharger les demandes
+                    showAdminRequests();
+                }, 1000);
+                
+            } catch (error) {
+                console.error('Erreur mise à jour statut:', error);
+                showMessage('Erreur lors de la mise à jour', 'error');
+            }
+        }
+
+        // ========================================= //
+        // NAVIGATION À 3 NIVEAUX VERS ODOO         //
+        // ========================================= //
+
+        function showOdooNavigation() {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="fade-in">
+                    <div class="navigation-level">
+                        <div class="level-title">🏛️ Niveau 1 - Domaines d'Administration</div>
+                        <div class="level-description">Choisissez le domaine d'administration que vous souhaitez gérer</div>
+                        
+                        <div class="nav-option" onclick="navigateTo(3, 'Gestion des Demandes', showOdooLevel2, 'requests')">
+                            <div class="nav-option-content">
+                                <div class="nav-option-title"><i class="fas fa-file-alt"></i> Gestion des Demandes</div>
+                                <div class="nav-option-desc">Traitement et suivi des demandes d'accès à l'information</div>
+                            </div>
+                            <div class="nav-arrow"><i class="fas fa-chevron-right"></i></div>
+                        </div>
+                        
+                        <div class="nav-option" onclick="navigateTo(3, 'Administration Système', showOdooLevel2, 'system')">
+                            <div class="nav-option-content">
+                                <div class="nav-option-title"><i class="fas fa-cogs"></i> Administration Système</div>
+                                <div class="nav-option-desc">Configuration et gestion du système SAMA CONAI</div>
+                            </div>
+                            <div class="nav-arrow"><i class="fas fa-chevron-right"></i></div>
+                        </div>
+                        
+                        <div class="nav-option" onclick="navigateTo(3, 'Rapports et Analytics', showOdooLevel2, 'reports')">
+                            <div class="nav-option-content">
+                                <div class="nav-option-title"><i class="fas fa-chart-line"></i> Rapports et Analytics</div>
+                                <div class="nav-option-desc">Tableaux de bord et analyses des performances</div>
+                            </div>
+                            <div class="nav-arrow"><i class="fas fa-chevron-right"></i></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showOdooLevel2(domain) {
+            const content = document.getElementById('content');
+            
+            let options = [];
+            let title = '';
+            let description = '';
+            
+            switch(domain) {
+                case 'requests':
+                    title = '📋 Niveau 2 - Gestion des Demandes';
+                    description = 'Sélectionnez le module spécifique de gestion des demandes';
+                    options = [
+                        { id: 'request_list', title: 'Liste des Demandes', desc: 'Voir et gérer toutes les demandes', icon: 'fas fa-list' },
+                        { id: 'request_workflow', title: 'Workflow des Demandes', desc: 'Configuration des processus', icon: 'fas fa-project-diagram' },
+                        { id: 'request_reports', title: 'Rapports de Demandes', desc: 'Statistiques et analyses', icon: 'fas fa-chart-bar' }
+                    ];
+                    break;
+                case 'system':
+                    title = '⚙️ Niveau 2 - Administration Système';
+                    description = 'Choisissez le composant système à administrer';
+                    options = [
+                        { id: 'user_management', title: 'Gestion des Utilisateurs', desc: 'Comptes et permissions', icon: 'fas fa-users' },
+                        { id: 'system_config', title: 'Configuration Système', desc: 'Paramètres généraux', icon: 'fas fa-sliders-h' },
+                        { id: 'security', title: 'Sécurité et Accès', desc: 'Contrôle d\'accès et sécurité', icon: 'fas fa-shield-alt' }
+                    ];
+                    break;
+                case 'reports':
+                    title = '📊 Niveau 2 - Rapports et Analytics';
+                    description = 'Accédez aux différents types de rapports';
+                    options = [
+                        { id: 'dashboard', title: 'Tableaux de Bord', desc: 'Vues d\'ensemble et KPIs', icon: 'fas fa-tachometer-alt' },
+                        { id: 'analytics', title: 'Analytics Avancés', desc: 'Analyses détaillées', icon: 'fas fa-chart-pie' },
+                        { id: 'exports', title: 'Exports et Données', desc: 'Extraction de données', icon: 'fas fa-download' }
+                    ];
+                    break;
+            }
+            
+            content.innerHTML = `
+                <div class="fade-in">
+                    <div class="navigation-level">
+                        <div class="level-title">${title}</div>
+                        <div class="level-description">${description}</div>
+                        
+                        ${options.map(option => `
+                            <div class="nav-option" onclick="navigateTo(4, '${option.title}', showOdooLevel3, '${option.id}')">
+                                <div class="nav-option-content">
+                                    <div class="nav-option-title"><i class="${option.icon}"></i> ${option.title}</div>
+                                    <div class="nav-option-desc">${option.desc}</div>
+                                </div>
+                                <div class="nav-arrow"><i class="fas fa-chevron-right"></i></div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function showOdooLevel3(moduleId) {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="fade-in">
+                    <div class="navigation-level">
+                        <div class="level-title">🚀 Niveau 3 - Accès Backend Odoo</div>
+                        <div class="level-description">Vous êtes sur le point d'accéder au backend Odoo complet</div>
+                        
+                        <div class="neumorphic-card" style="text-align: center; margin-bottom: 20px;">
+                            <div style="font-size: 48px; margin-bottom: 20px; color: var(--accent-action);">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <h3 style="color: var(--accent-action); margin-bottom: 15px;">Backend SAMA CONAI</h3>
+                            <p style="opacity: 0.7; margin-bottom: 25px;">
+                                Interface d'administration complète du système SAMA CONAI basée sur Odoo.
+                            </p>
+                            
+                            <button class="neumorphic-button btn-action" onclick="openOdooBackend()" style="width: 100%; margin-bottom: 15px;">
+                                <i class="fas fa-external-link-alt"></i> Ouvrir Backend Odoo
+                            </button>
+                            
+                            <div style="font-size: 12px; opacity: 0.6;">
+                                <i class="fas fa-info-circle"></i> Le backend s'ouvrira dans un nouvel onglet
+                            </div>
+                        </div>
+                        
+                        <div class="neumorphic-card">
+                            <h4 style="color: var(--accent-action); margin-bottom: 15px; text-align: center;">
+                                <i class="fas fa-list-ul"></i> Fonctionnalités Disponibles
+                            </h4>
+                            <div style="font-size: 14px; line-height: 1.8;">
+                                <div style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--accent-success); margin-right: 8px;"></i> Gestion complète des demandes</div>
+                                <div style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--accent-success); margin-right: 8px;"></i> Administration des utilisateurs</div>
+                                <div style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--accent-success); margin-right: 8px;"></i> Rapports et statistiques</div>
+                                <div style="margin-bottom: 8px;"><i class="fas fa-check" style="color: var(--accent-success); margin-right: 8px;"></i> Configuration système</div>
+                                <div><i class="fas fa-check" style="color: var(--accent-success); margin-right: 8px;"></i> Outils d'analyse avancés</div>
+                            </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openOdooBackend() {
+            // URL du backend Odoo
+            const odooUrl = 'http://localhost:8077';
+            window.open(odooUrl, '_blank');
+            
+            showMessage('🌐 Backend Odoo ouvert dans un nouvel onglet', 'info');
+        }
+
+        // ========================================= //
+        // FORMULAIRE DE CRÉATION DE DEMANDE        //
+        // ========================================= //
+
+        function showRequestForm() {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="fade-in">
+                    <div class="form-container">
+                        <div class="form-title">
+                            <i class="fas fa-plus-circle"></i> Nouvelle Demande d'Information
+                        </div>
+                        
+                        <form id="requestForm">
+                            <div class="form-group">
+                                <label class="form-label">Titre de la demande *</label>
+                                <input type="text" class="form-input" id="requestTitle" placeholder="Ex: Accès aux données budgétaires 2024" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Description détaillée *</label>
+                                <textarea class="form-input" id="requestDescription" placeholder="Décrivez précisément les informations que vous souhaitez obtenir..." required></textarea>
+                            </div>
+                            
+                            <div class="form-row two-cols">
+                                <div class="form-group">
+                                    <label class="form-label">Votre nom complet *</label>
+                                    <input type="text" class="form-input" id="requesterName" placeholder="Prénom et nom" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Votre email *</label>
+                                    <input type="email" class="form-input" id="requesterEmail" placeholder="votre@email.com" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row two-cols">
+                                <div class="form-group">
+                                    <label class="form-label">Téléphone</label>
+                                    <input type="tel" class="form-input" id="requesterPhone" placeholder="+221 XX XXX XX XX">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Qualité du demandeur *</label>
+                                    <select class="form-input" id="requesterQuality" required>
+                                        <option value="">Sélectionnez...</option>
+                                        <option value="citoyen">Citoyen</option>
+                                        <option value="journaliste">Journaliste</option>
+                                        <option value="chercheur">Chercheur</option>
+                                        <option value="avocat">Avocat</option>
+                                        <option value="ong">ONG</option>
+                                        <option value="entreprise">Entreprise</option>
+                                        <option value="autre">Autre</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Ministère/Organisme concerné</label>
+                                <select class="form-input" id="requestDepartment">
+                                    <option value="">Sélectionnez...</option>
+                                    <option value="presidence">Présidence de la République</option>
+                                    <option value="primature">Primature</option>
+                                    <option value="finances">Ministère des Finances</option>
+                                    <option value="education">Ministère de l'Education</option>
+                                    <option value="sante">Ministère de la Santé</option>
+                                    <option value="justice">Ministère de la Justice</option>
+                                    <option value="interieur">Ministère de l'Intérieur</option>
+                                    <option value="infrastructures">Ministère des Infrastructures</option>
+                                    <option value="agriculture">Ministère de l'Agriculture</option>
+                                    <option value="environnement">Ministère de l'Environnement</option>
+                                    <option value="autre">Autre organisme</option>
+                                </select>
+                            </div>
+                            
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="isUrgent">
+                                <label for="isUrgent">Cette demande est urgente</label>
+                            </div>
+                            
+                            <div class="form-group" id="urgentJustificationGroup" style="display: none;">
+                                <label class="form-label">Justification de l'urgence</label>
+                                <textarea class="form-input" id="urgentJustification" placeholder="Expliquez pourquoi cette demande est urgente..."></textarea>
+                            </div>
+                            
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="isPublicInterest">
+                                <label for="isPublicInterest">Cette demande est d'intérêt public</label>
+                            </div>
+                            
+                            <div style="display: flex; gap: 15px; margin-top: 30px;">
+                                <button type="button" class="neumorphic-button" onclick="saveDraft()" style="flex: 1;">
+                                    <i class="fas fa-save"></i> Sauvegarder brouillon
+                                </button>
+                                <button type="submit" class="neumorphic-button btn-action" style="flex: 2;">
+                                    <i class="fas fa-paper-plane"></i> Soumettre la demande
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            // Gestionnaires d'événements pour le formulaire
+            document.getElementById('isUrgent').addEventListener('change', function() {
+                const justificationGroup = document.getElementById('urgentJustificationGroup');
+                justificationGroup.style.display = this.checked ? 'block' : 'none';
+            });
+            
+            document.getElementById('requestForm').addEventListener('submit', handleRequestSubmit);
+        }
+
+        async function handleRequestSubmit(event) {
+            event.preventDefault();
+            
+            const formData = {
+                title: document.getElementById('requestTitle').value,
+                description: document.getElementById('requestDescription').value,
+                requesterName: document.getElementById('requesterName').value,
+                requesterEmail: document.getElementById('requesterEmail').value,
+                requesterPhone: document.getElementById('requesterPhone').value,
+                requesterQuality: document.getElementById('requesterQuality').value,
+                department: document.getElementById('requestDepartment').value,
+                isUrgent: document.getElementById('isUrgent').checked,
+                urgentJustification: document.getElementById('urgentJustification').value,
+                isPublicInterest: document.getElementById('isPublicInterest').checked
+            };
+            
+            // Validation
+            if (!formData.title || !formData.description || !formData.requesterName || 
+                !formData.requesterEmail || !formData.requesterQuality) {
+                showMessage('Veuillez remplir tous les champs obligatoires (*)', 'error');
+                return;
+            }
+            
+            // Créer la demande (offline ou online)
+            const requestId = await createRequest(formData);
+            
+            if (requestId) {
+                showMessage('✅ Demande créée avec succès !', 'success');
+                setTimeout(() => {
+                    loadDashboard();
+                }, 2000);
+            } else {
+                showMessage('❌ Erreur lors de la création de la demande', 'error');
+            }
+        }
+
+        async function createRequest(formData) {
+            const requestId = 'REQ-' + Date.now();
+            const requestData = {
+                id: requestId,
+                ...formData,
+                status: 'submitted',
+                createdAt: new Date().toISOString(),
+                createdOffline: !isOnline
+            };
+            
+            // Ajouter à la base de données locale
+            offlineData.requests.unshift(requestData);
+            saveOfflineData();
+            
+            if (isOnline) {
+                // Essayer de synchroniser immédiatement
+                try {
+                    const response = await fetch('/api/mobile/citizen/requests', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${authToken}`
+                        },
+                        body: JSON.stringify(formData)
+                    });
+                    
+                    const result = await response.json();
+                    if (result.success) {
+                        console.log('Demande synchronisée immédiatement');
+                        return requestId;
+                    }
+                } catch (error) {
+                    console.error('Erreur lors de la synchronisation immédiate:', error);
+                }
+            }
+            
+            // Ajouter à la queue de synchronisation
+            addToSyncQueue({
+                type: 'CREATE_REQUEST',
+                data: formData
+            });
+            
+            return requestId;
+        }
+
+        function saveDraft() {
+            const formData = {
+                title: document.getElementById('requestTitle').value,
+                description: document.getElementById('requestDescription').value,
+                requesterName: document.getElementById('requesterName').value,
+                requesterEmail: document.getElementById('requesterEmail').value,
+                requesterPhone: document.getElementById('requesterPhone').value,
+                requesterQuality: document.getElementById('requesterQuality').value,
+                department: document.getElementById('requestDepartment').value,
+                isUrgent: document.getElementById('isUrgent').checked,
+                urgentJustification: document.getElementById('urgentJustification').value,
+                isPublicInterest: document.getElementById('isPublicInterest').checked
+            };
+            
+            const draftId = 'DRAFT-' + Date.now();
+            const draftData = {
+                id: draftId,
+                ...formData,
+                savedAt: new Date().toISOString()
+            };
+            
+            offlineData.drafts.unshift(draftData);
+            saveOfflineData();
+            
+            showMessage('💾 Brouillon sauvegardé avec succès', 'info');
+        }
+
+        // ========================================= //
+        // NAVIGATION                                //
+        // ========================================= //
+
+        function navigateTo(level, title, loadFunction, data = null) {
+            navigationStack.push({
+                level: currentLevel,
+                title: document.getElementById('headerTitle').textContent,
+                navIndicator: document.getElementById('navIndicator').textContent,
+                content: document.getElementById('content').innerHTML,
+                data: currentData
+            });
+
+            currentLevel = level;
+            currentData = data;
+            
+            document.getElementById('headerTitle').textContent = '🇸🇳 SAMA CONAI';
+            document.getElementById('navIndicator').textContent = title;
+            document.getElementById('backButton').style.display = level > 1 ? 'block' : 'none';
+            
+            loadFunction(data);
+        }
+
+        function navigateBack() {
+            if (navigationStack.length > 0) {
+                const previous = navigationStack.pop();
+                currentLevel = previous.level;
+                currentData = previous.data;
+                
+                document.getElementById('headerTitle').textContent = previous.title;
+                document.getElementById('navIndicator').textContent = previous.navIndicator;
+                document.getElementById('backButton').style.display = previous.level > 1 ? 'block' : 'none';
+                document.getElementById('content').innerHTML = previous.content;
+                
+                // Réattacher les gestionnaires d'événements si nécessaire
+                if (previous.level === 1) {
+                    // Réattacher les gestionnaires du dashboard
+                }
+            }
+        }
+
+        // ========================================= //
+        // UTILITAIRES                               //
+        // ========================================= //
+
+        function showMessage(message, type = 'info') {
+            const content = document.getElementById('content');
+            const existingMessage = content.querySelector('.message');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            messageDiv.innerHTML = message;
+            
+            content.insertBefore(messageDiv, content.firstChild);
+            
+            // Supprimer automatiquement après 5 secondes
+            setTimeout(() => {
+                if (messageDiv.parentNode) {
+                    messageDiv.remove();
+                }
+            }, 5000);
+        }
+
+        function toggleSyncPanel() {
+            if (syncQueue.length > 0) {
+                showMessage(`📋 ${syncQueue.length} action(s) en attente de synchronisation`, 'info');
+            } else {
+                showMessage('✅ Toutes les données sont synchronisées', 'success');
+            }
+        }
+
+        function showLoading() {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="fade-in" style="text-align: center; padding: 50px;">
+                    <div style="width: 40px; height: 40px; border: 4px solid var(--shadow-dark); border-top: 4px solid var(--accent-action); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
+                    <div>Chargement...</div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue Kanban pour Générateur de Rapports -->
+    <record id="auto_report_generator_view_kanban" model="ir.ui.view">
+        <field name="name">auto.report.generator.kanban</field>
+        <field name="model">auto.report.generator</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_dashboard" default_group_by="report_type">
+                <field name="name"/>
+                <field name="report_type"/>
+                <field name="active"/>
+                <field name="auto_send"/>
+                <field name="send_frequency"/>
+                <field name="generation_count"/>
+                <field name="next_send_date"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <i class="fa fa-file-text-o fa-2x" t-att-style="record.active.raw_value ? 'color: #00A09D;' : 'color: #cccccc;'" title="Générateur de rapport"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="name"/>
+                                        </strong>
+                                        <small class="o_kanban_record_subtitle text-muted">
+                                            <field name="report_type"/>
+                                        </small>
+                                    </div>
+                                    <div class="o_kanban_manage_button_section">
+                                        <a class="o_kanban_manage_toggle_button" href="#">
+                                            <i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <span class="fa fa-cogs" title="Mode"/> 
+                                            <t t-if="record.auto_send.raw_value">Automatique</t>
+                                            <t t-else="">Manuel</t>
+                                        </div>
+                                        <div class="col-6">
+                                            <span class="fa fa-clock-o" title="Fréquence"/> 
+                                            <field name="send_frequency"/>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col-12">
+                                            <span class="fa fa-bar-chart" title="Statistiques"/> 
+                                            <strong t-esc="record.generation_count.value"/> générations
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1" t-if="record.next_send_date.raw_value">
+                                        <div class="col-12">
+                                            <span class="fa fa-calendar"/> 
+                                            Prochaine: <field name="next_send_date" widget="date"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <button type="object" name="action_test_generation" class="btn btn-primary btn-sm">
+                                            <i class="fa fa-play"/> Générer
+                                        </button>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <field name="active" widget="boolean_toggle"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="o_kanban_manage_button_section o_kanban_manage_view">
+                                <a type="edit" class="o_kanban_manage_button_link">Éditer</a>
+                                <a type="delete" class="o_kanban_manage_button_link">Supprimer</a>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Vue Formulaire pour Générateur de Rapports -->
+    <record id="auto_report_generator_view_form" model="ir.ui.view">
+        <field name="name">auto.report.generator.form</field>
+        <field name="model">auto.report.generator</field>
+        <field name="arch" type="xml">
+            <form string="Générateur de Rapports Automatique">
+                <header>
+                    <button name="action_test_generation" type="object" string="Tester la Génération" class="btn-primary"/>
+                    <field name="active" widget="boolean_button" options="{'terminology': {'string_true': 'Actif', 'string_false': 'Inactif'}}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nom du générateur de rapports"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group string="Configuration de Base">
+                            <field name="report_type"/>
+                            <field name="report_format"/>
+                        </group>
+                        <group string="Automatisation">
+                            <field name="auto_send"/>
+                            <field name="send_frequency" invisible="auto_send == False"/>
+                            <field name="next_send_date" invisible="auto_send == False" readonly="1"/>
+                            <field name="last_generated" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Contenu du Rapport" name="content">
+                            <group>
+                                <group string="Éléments à Inclure">
+                                    <field name="include_statistics"/>
+                                    <field name="include_trends"/>
+                                    <field name="include_recommendations"/>
+                                    <field name="include_charts"/>
+                                    <field name="anonymize_data"/>
+                                </group>
+                                <group string="Filtres de Données">
+                                    <field name="date_from"/>
+                                    <field name="date_to"/>
+                                    <field name="request_types"/>
+                                    <field name="department_ids" widget="many2many_tags"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Distribution" name="distribution">
+                            <group>
+                                <group string="Destinataires Internes">
+                                    <field name="recipients" widget="many2many_tags"/>
+                                </group>
+                                <group string="Configuration Email">
+                                    <field name="template_id"/>
+                                </group>
+                            </group>
+                            <group string="Destinataires Externes">
+                                <field name="external_emails" placeholder="email1@example.com, email2@example.com"/>
+                            </group>
+                        </page>
+
+                        <page string="Aperçu des Données" name="preview">
+                            <field name="preview_data" widget="text" readonly="1"/>
+                        </page>
+
+                        <page string="Historique" name="history">
+                            <group>
+                                <field name="generation_count" readonly="1"/>
+                            </group>
+                            <field name="generated_reports" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="generated_date"/>
+                                    <field name="status"/>
+                                    <field name="sent_date"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue Liste pour Générateur de Rapports -->
+    <record id="auto_report_generator_view_list" model="ir.ui.view">
+        <field name="name">auto.report.generator.list</field>
+        <field name="model">auto.report.generator</field>
+        <field name="arch" type="xml">
+            <list string="Générateurs de Rapports" multi_edit="1">
+                <field name="name"/>
+                <field name="report_type"/>
+                <field name="active" widget="boolean_toggle"/>
+                <field name="auto_send" widget="boolean_toggle"/>
+                <field name="send_frequency"/>
+                <field name="generation_count"/>
+                <field name="next_send_date"/>
+                <field name="last_generated"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vue Graphique pour Générateur de Rapports -->
+    <record id="auto_report_generator_view_graph" model="ir.ui.view">
+        <field name="name">auto.report.generator.graph</field>
+        <field name="model">auto.report.generator</field>
+        <field name="arch" type="xml">
+            <graph string="Analyse des Générations" type="bar">
+                <field name="report_type" type="row"/>
+                <field name="generation_count" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Vue Pivot pour Générateur de Rapports -->
+    <record id="auto_report_generator_view_pivot" model="ir.ui.view">
+        <field name="name">auto.report.generator.pivot</field>
+        <field name="model">auto.report.generator</field>
+        <field name="arch" type="xml">
+            <pivot string="Analyse Croisée">
+                <field name="report_type" type="row"/>
+                <field name="send_frequency" type="col"/>
+                <field name="generation_count" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Action pour Générateur de Rapports -->
+    <record id="action_auto_report_generator" model="ir.actions.act_window">
+        <field name="name">Générateurs de Rapports</field>
+        <field name="res_model">auto.report.generator</field>
+        <field name="view_mode">kanban,form,list,graph,pivot</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer votre premier générateur de rapports automatique
+            </p>
+            <p>
+                Les générateurs de rapports vous permettent d'automatiser la création
+                et l'envoi de rapports périodiques sur l'activité de SAMA CONAI.
+            </p>
+        </field>
+    </record>
+
+    <!-- Vue Formulaire pour Instance de Rapport -->
+    <record id="auto_report_instance_view_form" model="ir.ui.view">
+        <field name="name">auto.report.instance.form</field>
+        <field name="model">auto.report.instance</field>
+        <field name="arch" type="xml">
+            <form string="Instance de Rapport" create="false" edit="false">
+                <header>
+                    <button name="send_report" type="object" string="Envoyer le Rapport" 
+                            class="btn-primary" invisible="status == 'sent'"/>
+                    <field name="status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="generator_id"/>
+                            <field name="generated_date"/>
+                        </group>
+                        <group>
+                            <field name="sent_date"/>
+                            <field name="error_message" invisible="status != 'error'"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Données du Rapport" name="data">
+                            <field name="report_data" widget="text" readonly="1"/>
+                        </page>
+                        <page string="Pièces Jointes" name="attachments">
+                            <field name="attachment_ids" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vue Liste pour Instance de Rapport -->
+    <record id="auto_report_instance_view_list" model="ir.ui.view">
+        <field name="name">auto.report.instance.list</field>
+        <field name="model">auto.report.instance</field>
+        <field name="arch" type="xml">
+            <list string="Instances de Rapports" create="false">
+                <field name="name"/>
+                <field name="generator_id"/>
+                <field name="generated_date"/>
+                <field name="status"/>
+                <field name="sent_date"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Action pour Instance de Rapport -->
+    <record id="action_auto_report_instance" model="ir.actions.act_window">
+        <field name="name">Instances de Rapports</field>
+        <field name="res_model">auto.report.instance</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{}</field>
+    </record>
+</odoo>

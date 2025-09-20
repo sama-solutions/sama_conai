@@ -1,0 +1,294 @@
+/* ========================================= */
+/* SAMA CONAI - DASHBOARD CLIENT ACTION CSS */
+/* ========================================= */
+
+/* Container principal */
+.sama-conai-dashboard-container {
+  height: 100vh;
+  overflow-y: auto;
+  background: var(--background-color);
+  font-family: var(--font-family);
+}
+
+/* Header avec actions */
+.dashboard-header .header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.refresh-dashboard {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  background: var(--background-color);
+  box-shadow: var(--neumorphic-shadow-extruded);
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.refresh-dashboard:hover {
+  transform: scale(1.05);
+}
+
+.refresh-dashboard.fa-spin {
+  animation: fa-spin 1s infinite linear;
+}
+
+/* Animations pour les interactions */
+.metric-card.clicked {
+  transform: scale(0.98);
+  box-shadow: var(--neumorphic-shadow-inset);
+  transition: all 0.1s ease;
+}
+
+.nav-item.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Styles pour les notifications personnalisées */
+.sama-conai-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  min-width: 300px;
+  padding: var(--spacing-md);
+  border-radius: var(--neumorphic-radius);
+  background: var(--background-color);
+  box-shadow: var(--neumorphic-shadow-extruded);
+  z-index: 9999;
+  font-family: var(--font-family);
+  color: var(--text-color);
+  border-left: 4px solid var(--accent-action);
+  animation: slideInRight 0.3s ease-out;
+}
+
+.sama-conai-notification.success {
+  border-left-color: var(--accent-success);
+}
+
+.sama-conai-notification.danger {
+  border-left-color: var(--accent-danger);
+}
+
+.sama-conai-notification.warning {
+  border-left-color: var(--accent-alert);
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive pour le client action */
+@media (max-width: 768px) {
+  .sama-conai-dashboard-container {
+    padding: var(--spacing-sm);
+  }
+  
+  .dashboard-header {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .header-actions {
+    order: -1;
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .sama-conai-notification {
+    left: var(--spacing-sm);
+    right: var(--spacing-sm);
+    min-width: auto;
+  }
+}
+
+/* Styles pour les états de chargement */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  border-radius: var(--neumorphic-radius);
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--shadow-dark);
+  border-top: 4px solid var(--accent-action);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Amélioration des transitions */
+.theme-transition * {
+  transition: all 0.3s ease !important;
+}
+
+/* Styles pour les graphiques */
+.chart-container canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Amélioration de l'accessibilité */
+.neumorphic-card:focus-within,
+.neumorphic-button:focus,
+.nav-item:focus {
+  outline: 2px solid var(--accent-action);
+  outline-offset: 2px;
+}
+
+/* Styles pour les tooltips */
+.tooltip-neumorphic {
+  background: var(--background-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: calc(var(--neumorphic-radius) / 2);
+  box-shadow: var(--neumorphic-shadow-extruded);
+  font-family: var(--font-family);
+  font-size: 0.875rem;
+  padding: var(--spacing-sm) var(--spacing-md);
+}
+
+/* Animation d'apparition pour les éléments */
+.fade-in-up {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Styles pour les badges de notification */
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: var(--accent-danger);
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Styles pour les actions rapides */
+.quick-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  margin: var(--spacing-lg) 0;
+  flex-wrap: wrap;
+}
+
+.quick-action-button {
+  flex: 1;
+  min-width: 120px;
+  padding: var(--spacing-md);
+  text-align: center;
+  background: var(--background-color);
+  border-radius: var(--neumorphic-radius);
+  box-shadow: var(--neumorphic-shadow-extruded);
+  border: none;
+  color: var(--text-color);
+  font-family: var(--font-family);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.quick-action-button:hover {
+  transform: translateY(-2px);
+  box-shadow: calc(var(--neumorphic-shadow-distance) + 2px) calc(var(--neumorphic-shadow-distance) + 2px) calc(var(--neumorphic-shadow-blur) + 5px) var(--shadow-dark), 
+              calc(-1 * var(--neumorphic-shadow-distance) - 2px) calc(-1 * var(--neumorphic-shadow-distance) - 2px) calc(var(--neumorphic-shadow-blur) + 5px) var(--shadow-light);
+}
+
+.quick-action-button:active {
+  transform: translateY(1px);
+  box-shadow: var(--neumorphic-shadow-inset);
+}
+
+/* Styles pour les indicateurs de statut */
+.status-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: var(--spacing-xs);
+}
+
+.status-indicator.online {
+  background: var(--accent-success);
+  box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.3);
+}
+
+.status-indicator.offline {
+  background: var(--accent-danger);
+  box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.3);
+}
+
+.status-indicator.pending {
+  background: var(--accent-alert);
+  box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.3);
+}
+
+/* Styles pour les messages d'état vide */
+.empty-state {
+  text-align: center;
+  padding: var(--spacing-xxl);
+  color: color-mix(in srgb, var(--text-color) 60%, transparent);
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: var(--spacing-lg);
+  opacity: 0.5;
+}
+
+.empty-state-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: var(--spacing-sm);
+}
+
+.empty-state-description {
+  font-size: 0.9rem;
+  line-height: 1.5;
+}

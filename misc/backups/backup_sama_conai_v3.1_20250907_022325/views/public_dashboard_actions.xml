@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Action pour ouvrir le tableau de bord public -->
+        <record id="action_public_transparency_dashboard" model="ir.actions.act_url">
+            <field name="name">Tableau de Bord Public de Transparence</field>
+            <field name="url">/transparence-dashboard</field>
+            <field name="target">new</field>
+        </record>
+        
+    </data>
+</odoo>

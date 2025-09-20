@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAMA CONAI Enhanced - Interface Neumorphique avec Notifications</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        /* ========================================= */
+        /* SAMA CONAI ENHANCED - STYLES NEUMORPHIQUES */
+        /* ========================================= */
+
+        :root {
+            /* Thème par défaut - Institutionnel */
+            --background-color: #EFF2F5;
+            --text-color: #2C3E50;
+            --shadow-dark: #d1d9e6;
+            --shadow-light: #ffffff;
+            --accent-action: #3498DB;
+            --accent-alert: #E67E22;
+            --accent-danger: #E74C3C;
+            --accent-success: #27AE60;
+            --font-family: 'Poppins', sans-serif;
+            --border-radius: 20px;
+            --shadow-neumorphic: 7px 7px 15px var(--shadow-dark), -7px -7px 15px var(--shadow-light);
+            --shadow-inset: inset 7px 7px 15px var(--shadow-dark), inset -7px -7px 15px var(--shadow-light);
+        }
+
+        /* Thème Dark Mode */
+        body[data-theme="dark"] {
+            --background-color: #2C2C2E;
+            --text-color: #F2F2F7;
+            --shadow-dark: #1C1C1E;
+            --shadow-light: #3A3A3C;
+            --accent-action: #007AFF;
+            --accent-alert: #FF9F0A;
+            --accent-danger: #FF453A;
+            --accent-success: #30D158;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        /* ========================================= */
+        /* CONTENEUR MOBILE NEUMORPHIQUE            */
+        /* ========================================= */
+
+        .mobile-container {
+            max-width: 375px;
+            margin: 10px auto;
+            background: var(--background-color);
+            border-radius: 30px;
+            box-shadow: var(--shadow-neumorphic);
+            overflow: hidden;
+            min-height: calc(100vh - 20px);
+            max-height: calc(100vh - 20px);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .status-bar {
+            background: linear-gradient(135deg, var(--accent-action), var(--accent-alert));
+            color: white;
+            padding: 8px 20px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .connection-status {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 10px;
+            opacity: 0.8;
+        }
+
+        .connection-status.connected {
+            color: #4CAF50;
+        }
+
+        .connection-status.disconnected {
+            color: #FF5722;
+        }
+
+        .header {
+            background: var(--background-color);
+            color: var(--text-color);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: var(--shadow-neumorphic);
+            margin: 10px;
+            border-radius: var(--border-radius);
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent-action);
+            text-align: center;
+            margin: 0;
+        }
+
+        .header-content {
+            text-align: center;
+            flex: 1;
+        }
+
+        .back-button {
+            background: var(--background-color);
+            border: none;
+            color: var(--accent-action);
+            font-size: 18px;
+            cursor: pointer;
+            padding: 12px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-neumorphic);
+            position: absolute;
+            left: 0;
+        }
+
+        .back-button:hover {
+            box-shadow: var(--shadow-inset);
+        }
+
+        .nav-indicator {
+            font-size: 12px;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .content {
+            padding: 20px;
+            max-height: calc(100vh - 300px);
+            overflow-y: auto;
+            min-height: 300px;
+            position: relative;
+            flex: 1;
+        }
+
+        /* ========================================= */
+        /* SYSTÈME DE NOTIFICATIONS                  */
+        /* ========================================= */
+
+        .notification-bell {
+            position: absolute;
+            top: 8px;
+            right: 15px;
+            background: var(--background-color);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            box-shadow: var(--shadow-neumorphic);
+            color: var(--accent-action);
+            font-size: 16px;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .notification-bell:hover {
+            transform: scale(1.1);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--accent-danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .notification-panel {
+            position: absolute;
+            top: 60px;
+            right: 15px;
+            background: var(--background-color);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: var(--shadow-neumorphic);
+            min-width: 280px;
+            max-width: 320px;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1000;
+        }
+
+        .notification-panel.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--shadow-dark);
+        }
+
+        .notification-title {
+            font-weight: 700;
+            color: var(--accent-action);
+            font-size: 16px;
+        }
+
+        .notification-clear {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            opacity: 0.6;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .notification-item {
+            background: var(--background-color);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            box-shadow: var(--shadow-inset);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--accent-action);
+        }
+
+        .notification-item:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-neumorphic);
+        }
+
+        .notification-item.unread {
+            border-left-color: var(--accent-danger);
+            background: linear-gradient(135deg, var(--background-color), rgba(52, 152, 219, 0.05));
+        }
+
+        .notification-item.success {
+            border-left-color: var(--accent-success);
+        }
+
+        .notification-item.warning {
+            border-left-color: var(--accent-alert);
+        }
+
+        .notification-item.danger {
+            border-left-color: var(--accent-danger);
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .notification-icon {
+            font-size: 18px;
+            margin-right: 10px;
+            margin-top: 2px;
+        }
+
+        .notification-text {
+            flex: 1;
+        }
+
+        .notification-text h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text-color);
+        }
+
+        .notification-text p {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-bottom: 4px;
+        }
+
+        .notification-time {
+            font-size: 10px;
+            opacity: 0.6;
+        }
+
+        /* ========================================= */
+        /* ASSISTANT IA                              */
+        /* ========================================= */
+
+        .ai-assistant-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--accent-action), var(--accent-success));
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+            color: white;
+            font-size: 24px;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .ai-assistant-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(52, 152, 219, 0.4);
+        }
+
+        .ai-chat-panel {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            background: var(--background-color);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: var(--shadow-neumorphic);
+            width: 300px;
+            height: 400px;
+            display: none;
+            flex-direction: column;
+            z-index: 999;
+        }
+
+        .ai-chat-panel.active {
+            display: flex;
+            animation: slideUp 0.3s ease;
+        }
+
+        .ai-chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--shadow-dark);
+        }
+
+        .ai-chat-title {
+            font-weight: 700;
+            color: var(--accent-action);
+            font-size: 16px;
+        }
+
+        .ai-chat-close {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            opacity: 0.6;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .ai-chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 15px;
+        }
+
+        .ai-message {
+            background: var(--background-color);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-shadow: var(--shadow-inset);
+            font-size: 14px;
+        }
+
+        .ai-message.user {
+            background: linear-gradient(135deg, var(--accent-action), rgba(52, 152, 219, 0.8));
+            color: white;
+            margin-left: 20px;
+        }
+
+        .ai-message.assistant {
+            background: var(--background-color);
+            box-shadow: var(--shadow-neumorphic);
+            margin-right: 20px;
+        }
+
+        .ai-chat-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .ai-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 15px;
+            background: var(--background-color);
+            color: var(--text-color);
+            box-shadow: var(--shadow-inset);
+            font-size: 14px;
+        }
+
+        .ai-send {
+            background: var(--accent-action);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .ai-send:hover {
+            transform: scale(1.1);
+        }
+
+        /* ========================================= */
+        /* COMPOSANTS NEUMORPHIQUES                  */
+        /* ========================================= */
+
+        .neumorphic-card {
+            background: var(--background-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-neumorphic);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .neumorphic-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+
+        .neumorphic-button {
+            background: var(--background-color);
+            border: none;
+            border-radius: 15px;
+            padding: 15px 25px;
+            font-family: var(--font-family);
+            font-weight: 600;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-neumorphic);
+            font-size: 14px;
+        }
+
+        .neumorphic-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+
+        .neumorphic-button.btn-action {
+            color: var(--accent-action);
+        }
+
+        /* ========================================= */
+        /* ÉCRAN DE CONNEXION                       */
+        /* ========================================= */
+
+        .login-container {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .login-logo {
+            width: 100px;
+            height: 100px;
+            background: var(--background-color);
+            border-radius: 30px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: var(--accent-action);
+            box-shadow: var(--shadow-neumorphic);
+            transition: all 0.3s ease;
+        }
+
+        .login-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--accent-action);
+            margin-bottom: 10px;
+        }
+
+        .login-subtitle {
+            color: var(--text-color);
+            margin-bottom: 40px;
+            font-size: 16px;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 18px 25px;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-family: var(--font-family);
+            background: var(--background-color);
+            color: var(--text-color);
+            box-shadow: var(--shadow-inset);
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            box-shadow: var(--shadow-inset), 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 20px;
+            background: var(--background-color);
+            color: var(--accent-action);
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-neumorphic);
+            margin-bottom: 20px;
+            font-family: var(--font-family);
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+
+        /* ========================================= */
+        /* DASHBOARD                                 */
+        /* ========================================= */
+
+        .user-header {
+            background: var(--background-color);
+            color: var(--text-color);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-neumorphic);
+        }
+
+        .user-name {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 5px;
+            color: var(--accent-action);
+        }
+
+        .user-email {
+            opacity: 0.8;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: var(--background-color);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-inset);
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--accent-action);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+        }
+
+        /* ========================================= */
+        /* ANIMATIONS                                */
+        /* ========================================= */
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* ========================================= */
+        /* RESPONSIVE                                */
+        /* ========================================= */
+
+        @media (max-width: 400px) {
+            .mobile-container {
+                margin: 0;
+                border-radius: 0;
+                min-height: 100vh;
+                max-height: 100vh;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 15px;
+                max-height: calc(100vh - 250px);
+            }
+
+            .notification-panel {
+                right: 10px;
+                min-width: 260px;
+            }
+
+            .ai-chat-panel {
+                right: 10px;
+                width: 280px;
+            }
+        }
+    </style>
+</head>
+<body data-theme="default">
+    <div class="mobile-container">
+        <div class="status-bar">
+            <span>9:41</span>
+            <div class="connection-status" id="connectionStatus">
+                <i class="fas fa-circle"></i> Connecté
+            </div>
+            <span>🔋 100%</span>
+        </div>
+        
+        <div class="header">
+            <button class="back-button" id="backButton" style="display: none;" onclick="navigateBack()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="header-content">
+                <h1 id="headerTitle">🇸🇳 SAMA CONAI</h1>
+                <div class="nav-indicator" id="navIndicator">Enhanced avec Notifications</div>
+            </div>
+            <button class="notification-bell" onclick="toggleNotifications()">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+            </button>
+        </div>
+
+        <!-- Panneau de notifications -->
+        <div class="notification-panel" id="notificationPanel">
+            <div class="notification-header">
+                <div class="notification-title">Notifications</div>
+                <button class="notification-clear" onclick="clearAllNotifications()">Tout effacer</button>
+            </div>
+            <div id="notificationsList">
+                <div style="text-align: center; opacity: 0.6; padding: 20px;">
+                    Aucune notification
+                </div>
+            </div>
+        </div>
+        
+        <div class="content" id="content">
+            <!-- Écran de login par défaut -->
+            <div class="login-container fade-in">
+                <div class="login-logo">🇸🇳</div>
+                <h2 class="login-title">SAMA CONAI</h2>
+                <p class="login-subtitle">Enhanced avec Notifications Temps Réel</p>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label">Email / Nom d'utilisateur</label>
+                        <input type="text" class="form-input" id="loginEmail" placeholder="admin" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Mot de passe</label>
+                        <input type="password" class="form-input" id="loginPassword" placeholder="admin" required>
+                    </div>
+                    
+                    <button type="submit" class="login-button" id="loginButton">
+                        <i class="fas fa-sign-in-alt"></i> Se connecter
+                    </button>
+                </form>
+                
+                <div class="neumorphic-card">
+                    <h3 style="color: var(--accent-action); margin-bottom: 15px;">🚀 Nouvelles Fonctionnalités</h3>
+                    <ul style="text-align: left; opacity: 0.8;">
+                        <li>🔔 Notifications temps réel</li>
+                        <li>🤖 Assistant IA intégré</li>
+                        <li>📊 Analytics en direct</li>
+                        <li>🔐 Authentification JWT</li>
+                        <li>🎨 Interface neumorphique améliorée</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assistant IA -->
+    <button class="ai-assistant-button" onclick="toggleAIChat()">
+        <i class="fas fa-robot"></i>
+    </button>
+
+    <div class="ai-chat-panel" id="aiChatPanel">
+        <div class="ai-chat-header">
+            <div class="ai-chat-title">🤖 Assistant SAMA CONAI</div>
+            <button class="ai-chat-close" onclick="toggleAIChat()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="ai-chat-messages" id="aiChatMessages">
+            <div class="ai-message assistant">
+                Bonjour ! Je suis votre assistant SAMA CONAI. Comment puis-je vous aider aujourd'hui ?
+            </div>
+        </div>
+        <div class="ai-chat-input">
+            <input type="text" class="ai-input" id="aiInput" placeholder="Tapez votre message...">
+            <button class="ai-send" onclick="sendAIMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let socket = null;
+        let authToken = null;
+        let currentUser = null;
+        let notifications = [];
+        let isNotificationPanelOpen = false;
+        let isAIChatOpen = false;
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Vérifier si l'utilisateur est déjà connecté
+            const savedToken = localStorage.getItem('sama_conai_enhanced_token');
+            if (savedToken) {
+                authToken = savedToken;
+                initializeWebSocket();
+                loadDashboard();
+            }
+            
+            // Gestionnaire de formulaire de login
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+
+            // Gestionnaire pour l'assistant IA
+            document.getElementById('aiInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendAIMessage();
+                }
+            });
+
+            // Fermer les panneaux en cliquant ailleurs
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.notification-bell') && !e.target.closest('.notification-panel')) {
+                    closeNotifications();
+                }
+                if (!e.target.closest('.ai-assistant-button') && !e.target.closest('.ai-chat-panel')) {
+                    closeAIChat();
+                }
+            });
+        });
+
+        // Initialisation WebSocket
+        function initializeWebSocket() {
+            socket = io();
+            
+            socket.on('connect', () => {
+                console.log('🔌 Connecté au serveur WebSocket');
+                updateConnectionStatus(true);
+                
+                // Authentification WebSocket
+                if (authToken) {
+                    socket.emit('authenticate', authToken);
+                }
+            });
+
+            socket.on('disconnect', () => {
+                console.log('🔌 Déconnecté du serveur WebSocket');
+                updateConnectionStatus(false);
+            });
+
+            socket.on('authenticated', (data) => {
+                console.log('✅ Authentifié via WebSocket:', data);
+                updateNotificationBadge(data.unreadNotifications);
+            });
+
+            socket.on('notification', (notification) => {
+                console.log('🔔 Nouvelle notification:', notification);
+                addNotification(notification);
+                updateNotificationBadge();
+                showNotificationToast(notification);
+            });
+
+            socket.on('ai_response', (response) => {
+                addAIMessage(response.content, 'assistant');
+            });
+
+            socket.on('auth_error', (error) => {
+                console.error('❌ Erreur authentification WebSocket:', error);
+                showLoginScreen();
+            });
+        }
+
+        // Gestion de la connexion
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const loginButton = document.getElementById('loginButton');
+            
+            if (!email || !password) {
+                showError('Veuillez remplir tous les champs');
+                return;
+            }
+            
+            loginButton.disabled = true;
+            loginButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connexion...';
+            
+            try {
+                const response = await fetch('/api/mobile/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    authToken = data.data.token;
+                    currentUser = data.data.user;
+                    
+                    localStorage.setItem('sama_conai_enhanced_token', authToken);
+                    localStorage.setItem('sama_conai_enhanced_session', data.data.sessionId);
+                    
+                    // Initialiser WebSocket
+                    initializeWebSocket();
+                    
+                    showSuccess('Connexion réussie !');
+                    setTimeout(() => {
+                        loadDashboard();
+                    }, 1000);
+                } else {
+                    showError(data.error || 'Erreur de connexion');
+                }
+            } catch (error) {
+                console.error('Erreur login:', error);
+                showError('Erreur de connexion au serveur');
+            } finally {
+                loginButton.disabled = false;
+                loginButton.innerHTML = '<i class="fas fa-sign-in-alt"></i> Se connecter';
+            }
+        }
+
+        // Charger le dashboard
+        async function loadDashboard() {
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/mobile/citizen/dashboard', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    renderDashboard(data.data);
+                } else {
+                    if (data.requireAuth) {
+                        showLoginScreen();
+                        return;
+                    }
+                    showError('Erreur lors du chargement du dashboard');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showError('Erreur de connexion au serveur');
+            }
+        }
+
+        function renderDashboard(data) {
+            document.getElementById('headerTitle').textContent = '🇸🇳 SAMA CONAI';
+            document.getElementById('navIndicator').textContent = 'Dashboard Enhanced';
+            document.getElementById('backButton').style.display = 'none';
+            
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="fade-in">
+                    <div class="user-header">
+                        <div class="user-name">${data.user_info.name}</div>
+                        <div class="user-email">${data.user_info.email}</div>
+                        <div style="margin-top: 10px; font-size: 12px; opacity: 0.7;">
+                            <i class="fas fa-users"></i> ${data.system_status.online_users} utilisateur(s) en ligne
+                        </div>
+                    </div>
+
+                    <div class="neumorphic-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <h3 style="color: var(--accent-action);">📊 Mes Statistiques</h3>
+                            <div style="font-size: 12px; opacity: 0.6;">
+                                Temps réel
+                            </div>
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-number">${data.user_stats.total_requests}</div>
+                                <div class="stat-label">Total</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: var(--accent-alert)">${data.user_stats.pending_requests}</div>
+                                <div class="stat-label">En cours</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: var(--accent-success)">${data.user_stats.completed_requests}</div>
+                                <div class="stat-label">Terminées</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: var(--accent-danger)">${data.user_stats.overdue_requests}</div>
+                                <div class="stat-label">En retard</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="neumorphic-card">
+                        <h3 style="color: var(--accent-action); margin-bottom: 15px;">🔔 Notifications Récentes</h3>
+                        <div style="font-size: 14px; opacity: 0.8;">
+                            ${data.notifications.unread} notification(s) non lue(s)
+                        </div>
+                        <button class="neumorphic-button btn-action" onclick="toggleNotifications()" style="width: 100%; margin-top: 15px;">
+                            Voir toutes les notifications
+                        </button>
+                    </div>
+
+                    <div class="neumorphic-card">
+                        <h3 style="color: var(--accent-action); margin-bottom: 15px;">🚀 Actions Rapides</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <button class="neumorphic-button btn-action" onclick="createNewRequest()">
+                                <i class="fas fa-plus"></i> Nouvelle Demande
+                            </button>
+                            <button class="neumorphic-button btn-action" onclick="toggleAIChat()">
+                                <i class="fas fa-robot"></i> Assistant IA
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="neumorphic-card">
+                        <h3 style="color: var(--accent-action); margin-bottom: 15px;">📈 Statistiques Publiques</h3>
+                        <div style="font-size: 14px; opacity: 0.8; line-height: 1.6;">
+                            • ${data.public_stats.total_public_requests} demandes publiques<br>
+                            • ${data.public_stats.avg_response_time} jours de délai moyen<br>
+                            • ${data.public_stats.success_rate}% de taux de succès
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Charger les notifications
+            loadNotifications();
+        }
+
+        // Gestion des notifications
+        async function loadNotifications() {
+            try {
+                const response = await fetch('/api/mobile/notifications', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    notifications = data.data.notifications;
+                    updateNotificationBadge(data.data.unreadCount);
+                    renderNotifications();
+                }
+            } catch (error) {
+                console.error('Erreur chargement notifications:', error);
+            }
+        }
+
+        function renderNotifications() {
+            const notificationsList = document.getElementById('notificationsList');
+            
+            if (notifications.length === 0) {
+                notificationsList.innerHTML = `
+                    <div style="text-align: center; opacity: 0.6; padding: 20px;">
+                        Aucune notification
+                    </div>
+                `;
+                return;
+            }
+
+            notificationsList.innerHTML = notifications.map(notification => `
+                <div class="notification-item ${notification.read ? '' : 'unread'} ${notification.color || 'info'}" 
+                     onclick="markNotificationAsRead('${notification.id}')">
+                    <div class="notification-content">
+                        <div class="notification-icon">${notification.icon || '📢'}</div>
+                        <div class="notification-text">
+                            <h4>${notification.title}</h4>
+                            <p>${notification.message}</p>
+                            <div class="notification-time">${formatTime(notification.timestamp)}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addNotification(notification) {
+            notifications.unshift(notification);
+            if (notifications.length > 50) {
+                notifications = notifications.slice(0, 50);
+            }
+            renderNotifications();
+        }
+
+        function updateNotificationBadge(count = null) {
+            const badge = document.getElementById('notificationBadge');
+            const unreadCount = count !== null ? count : notifications.filter(n => !n.read).length;
+            
+            if (unreadCount > 0) {
+                badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        function toggleNotifications() {
+            const panel = document.getElementById('notificationPanel');
+            isNotificationPanelOpen = !isNotificationPanelOpen;
+            
+            if (isNotificationPanelOpen) {
+                panel.classList.add('active');
+                loadNotifications();
+            } else {
+                panel.classList.remove('active');
+            }
+        }
+
+        function closeNotifications() {
+            const panel = document.getElementById('notificationPanel');
+            panel.classList.remove('active');
+            isNotificationPanelOpen = false;
+        }
+
+        async function markNotificationAsRead(notificationId) {
+            try {
+                const response = await fetch(`/api/mobile/notifications/${notificationId}/read`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const notification = notifications.find(n => n.id === notificationId);
+                    if (notification) {
+                        notification.read = true;
+                        renderNotifications();
+                        updateNotificationBadge();
+                    }
+                }
+            } catch (error) {
+                console.error('Erreur marquage notification:', error);
+            }
+        }
+
+        function clearAllNotifications() {
+            notifications.forEach(n => n.read = true);
+            renderNotifications();
+            updateNotificationBadge();
+        }
+
+        function showNotificationToast(notification) {
+            // Créer une notification toast temporaire
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: var(--background-color);
+                color: var(--text-color);
+                padding: 15px 20px;
+                border-radius: 15px;
+                box-shadow: var(--shadow-neumorphic);
+                z-index: 9999;
+                max-width: 300px;
+                text-align: center;
+                font-size: 14px;
+                animation: slideDown 0.3s ease;
+            `;
+            toast.innerHTML = `
+                <div style="font-weight: 600; margin-bottom: 5px;">
+                    ${notification.icon} ${notification.title}
+                </div>
+                <div style="opacity: 0.8; font-size: 12px;">
+                    ${notification.message}
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'fadeOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 300);
+            }, 3000);
+        }
+
+        // Assistant IA
+        function toggleAIChat() {
+            const panel = document.getElementById('aiChatPanel');
+            isAIChatOpen = !isAIChatOpen;
+            
+            if (isAIChatOpen) {
+                panel.classList.add('active');
+                document.getElementById('aiInput').focus();
+            } else {
+                panel.classList.remove('active');
+            }
+        }
+
+        function closeAIChat() {
+            const panel = document.getElementById('aiChatPanel');
+            panel.classList.remove('active');
+            isAIChatOpen = false;
+        }
+
+        async function sendAIMessage() {
+            const input = document.getElementById('aiInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Ajouter le message utilisateur
+            addAIMessage(message, 'user');
+            input.value = '';
+            
+            try {
+                const response = await fetch('/api/mobile/ai/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({ message })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    addAIMessage(data.data.content, 'assistant');
+                } else {
+                    addAIMessage('Désolé, je ne peux pas répondre pour le moment.', 'assistant');
+                }
+            } catch (error) {
+                console.error('Erreur assistant IA:', error);
+                addAIMessage('Erreur de connexion avec l\'assistant.', 'assistant');
+            }
+        }
+
+        function addAIMessage(message, sender) {
+            const messagesContainer = document.getElementById('aiChatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `ai-message ${sender}`;
+            messageDiv.textContent = message;
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Actions rapides
+        async function createNewRequest() {
+            // Simuler la création d'une demande
+            try {
+                const response = await fetch('/api/mobile/citizen/requests', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        title: 'Demande de test',
+                        description: 'Ceci est une demande de démonstration pour tester les notifications temps réel.',
+                        requesterName: currentUser.name,
+                        requesterEmail: currentUser.email,
+                        requesterQuality: 'admin',
+                        department: 'test'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showSuccess('Demande créée avec succès !');
+                } else {
+                    showError('Erreur lors de la création de la demande');
+                }
+            } catch (error) {
+                console.error('Erreur création demande:', error);
+                showError('Erreur de connexion');
+            }
+        }
+
+        // Utilitaires
+        function updateConnectionStatus(connected) {
+            const status = document.getElementById('connectionStatus');
+            if (connected) {
+                status.innerHTML = '<i class="fas fa-circle"></i> Connecté';
+                status.className = 'connection-status connected';
+            } else {
+                status.innerHTML = '<i class="fas fa-circle"></i> Déconnecté';
+                status.className = 'connection-status disconnected';
+            }
+        }
+
+        function formatTime(timestamp) {
+            const date = new Date(timestamp);
+            const now = new Date();
+            const diff = now - date;
+            
+            if (diff < 60000) return 'À l\'instant';
+            if (diff < 3600000) return `${Math.floor(diff / 60000)} min`;
+            if (diff < 86400000) return `${Math.floor(diff / 3600000)} h`;
+            return date.toLocaleDateString();
+        }
+
+        function showLoading() {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div style="text-align: center; padding: 50px;">
+                    <div style="width: 40px; height: 40px; border: 4px solid var(--shadow-dark); border-top: 4px solid var(--accent-action); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
+                    <div>Chargement...</div>
+                </div>
+            `;
+        }
+
+        function showError(message) {
+            console.error(message);
+            // Afficher une notification d'erreur
+            if (socket) {
+                addNotification({
+                    id: Date.now(),
+                    type: 'error',
+                    title: 'Erreur',
+                    message: message,
+                    icon: '❌',
+                    color: 'danger',
+                    timestamp: new Date(),
+                    read: false
+                });
+            }
+        }
+
+        function showSuccess(message) {
+            console.log(message);
+            // Afficher une notification de succès
+            if (socket) {
+                addNotification({
+                    id: Date.now(),
+                    type: 'success',
+                    title: 'Succès',
+                    message: message,
+                    icon: '✅',
+                    color: 'success',
+                    timestamp: new Date(),
+                    read: false
+                });
+            }
+        }
+
+        function showLoginScreen() {
+            document.getElementById('headerTitle').textContent = '🇸🇳 SAMA CONAI';
+            document.getElementById('navIndicator').textContent = 'Enhanced avec Notifications';
+            document.getElementById('backButton').style.display = 'none';
+            
+            document.getElementById('content').innerHTML = `
+                <div class="login-container fade-in">
+                    <div class="login-logo">🇸🇳</div>
+                    <h2 class="login-title">SAMA CONAI</h2>
+                    <p class="login-subtitle">Enhanced avec Notifications Temps Réel</p>
+                    
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label class="form-label">Email / Nom d'utilisateur</label>
+                            <input type="text" class="form-input" id="loginEmail" placeholder="admin" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Mot de passe</label>
+                            <input type="password" class="form-input" id="loginPassword" placeholder="admin" required>
+                        </div>
+                        
+                        <button type="submit" class="login-button" id="loginButton">
+                            <i class="fas fa-sign-in-alt"></i> Se connecter
+                        </button>
+                    </form>
+                    
+                    <div class="neumorphic-card">
+                        <h3 style="color: var(--accent-action); margin-bottom: 15px;">🚀 Nouvelles Fonctionnalités</h3>
+                        <ul style="text-align: left; opacity: 0.8;">
+                            <li>🔔 Notifications temps réel</li>
+                            <li>🤖 Assistant IA intégré</li>
+                            <li>📊 Analytics en direct</li>
+                            <li>🔐 Authentification JWT</li>
+                            <li>🎨 Interface neumorphique améliorée</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+        }
+    </script>
+</body>
+</html>

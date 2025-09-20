@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========================================= -->
+    <!-- SAMA CONAI - DASHBOARD CLIENT ACTION     -->
+    <!-- Template QWeb pour l'action client       -->
+    <!-- ========================================= -->
+    
+    <!-- Template principal pour l'action client -->
+    <template id="sama_conai.dashboard_client_action" name="SAMA CONAI Dashboard Client Action">
+        <div class="sama_conai_dashboard_wrapper">
+            <!-- Le contenu sera généré dynamiquement par JavaScript -->
+            <div class="loading-container" style="text-align: center; padding: 2rem;">
+                <i class="fa fa-spinner fa-spin fa-2x" style="color: var(--accent-action);"></i>
+                <div style="margin-top: 1rem; color: var(--text-color);">
+                    Chargement du tableau de bord...
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Template pour les métriques (utilisé par JS) -->
+    <template id="sama_conai.metric_card_template" name="SAMA CONAI Metric Card Template">
+        <div class="neumorphic-card metric-card" t-att-data-action="action">
+            <div class="metric-content">
+                <div class="metric-title" t-esc="title"></div>
+                <div class="metric-value" t-att-style="value_style" t-esc="value"></div>
+            </div>
+            <div class="metric-icon" t-att-style="icon_style">
+                <i t-att-class="icon_class"></i>
+            </div>
+        </div>
+    </template>
+
+    <!-- Template pour les tâches prioritaires (utilisé par JS) -->
+    <template id="sama_conai.priority_task_template" name="SAMA CONAI Priority Task Template">
+        <div class="neumorphic-card list-item" t-att-data-task-id="task_id" t-att-data-task-type="task_type">
+            <div class="status-bar" t-att-style="'background-color: ' + urgency_color"></div>
+            <div class="item-content">
+                <div class="item-id" t-esc="reference"></div>
+                <div class="item-title" t-esc="title"></div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Template pour le sélecteur de thème intégré -->
+    <template id="sama_conai.theme_selector_inline" name="SAMA CONAI Theme Selector Inline">
+        <div class="theme-selector-inline">
+            <div class="theme-options">
+                <div class="theme-option" data-theme="default" title="Thème Institutionnel">
+                    <div class="theme-preview-mini">
+                        <div class="color-dot" style="background: #EFF2F5;"></div>
+                        <div class="color-dot" style="background: #3498DB;"></div>
+                        <div class="color-dot" style="background: #E67E22;"></div>
+                    </div>
+                </div>
+                <div class="theme-option" data-theme="terre" title="Thème Terre du Sénégal">
+                    <div class="theme-preview-mini">
+                        <div class="color-dot" style="background: #F5F1E8;"></div>
+                        <div class="color-dot" style="background: #D2691E;"></div>
+                        <div class="color-dot" style="background: #CD853F;"></div>
+                    </div>
+                </div>
+                <div class="theme-option" data-theme="moderne" title="Thème Moderne">
+                    <div class="theme-preview-mini">
+                        <div class="color-dot" style="background: #F8F9FA;"></div>
+                        <div class="color-dot" style="background: #6C5CE7;"></div>
+                        <div class="color-dot" style="background: #FDCB6E;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>

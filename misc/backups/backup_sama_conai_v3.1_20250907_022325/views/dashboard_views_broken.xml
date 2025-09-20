@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- ========================================= -->
+        <!-- DASHBOARD SAMA CONAI                     -->
+        <!-- ========================================= -->
+        
+        <!-- Action Dashboard Principal -->
+        <record id="action_sama_conai_dashboard" model="ir.actions.client">
+            <field name="name">Tableau de Bord SAMA CONAI</field>
+            <field name="tag">sama_conai_dashboard</field>
+        </record>
+        
+        <!-- Actions pour les graphiques du dashboard -->
+        
+        <!-- Graphique des demandes d'information par mois -->
+        <record id="action_info_requests_graph" model="ir.actions.act_window">
+            <field name="name">Évolution des Demandes</field>
+            <field name="res_model">request.information</field>
+            <field name="view_mode">graph</field>
+            <field name="view_id" ref="view_information_request_graph"/>
+            <field name="context">{'search_default_this_year': 1}</field>
+        </record>
+        
+        <!-- Graphique des signalements par catégorie -->
+        <record id="action_whistleblowing_by_category" model="ir.actions.act_window">
+            <field name="name">Signalements par Catégorie</field>
+            <field name="res_model">whistleblowing.alert</field>
+            <field name="view_mode">graph</field>
+            <field name="context">{'search_default_this_year': 1}</field>
+        </record>
+        
+        <!-- Vue graphique pour signalements par catégorie -->
+        <record id="view_whistleblowing_alert_graph_category" model="ir.ui.view">
+            <field name="name">whistleblowing.alert.graph.category</field>
+            <field name="model">whistleblowing.alert</field>
+            <field name="arch" type="xml">
+                <graph string="Signalements par Catégorie" type="pie">
+                    <field name="category" type="row"/>
+                </graph>
+            </field>
+        </record>
+        
+        <!-- Vue graphique pour signalements par priorité -->
+        <record id="view_whistleblowing_alert_graph_priority" model="ir.ui.view">
+            <field name="name">whistleblowing.alert.graph.priority</field>
+            <field name="model">whistleblowing.alert</field>
+            <field name="arch" type="xml">
+                <graph string="Signalements par Priorité" type="bar">
+                    <field name="priority" type="row"/>
+                    <field name="alert_date" type="col" interval="month"/>
+                </graph>
+            </field>
+        </record>
+        
+        <!-- Actions pour les KPI -->
+        
+        <!-- KPI Demandes en retard -->
+        <record id="action_overdue_requests" model="ir.actions.act_window">
+            <field name="name">Demandes en Retard</field>
+            <field name="res_model">request.information</field>
+            <field name="view_mode">kanban,list,form</field>
+            <field name="domain">[('is_overdue', '=', True)]</field>
+            <field name="context">{'search_default_overdue': 1}</field>
+        </record>
+        
+        <!-- KPI Signalements urgents -->
+        <record id="action_urgent_alerts" model="ir.actions.act_window">
+            <field name="name">Signalements Urgents</field>
+            <field name="res_model">whistleblowing.alert</field>
+            <field name="view_mode">kanban,list,form</field>
+            <field name="domain">[('priority', '=', 'urgent')]</field>
+        </record>
+        
+        <!-- KPI Demandes du mois -->
+        <record id="action_monthly_requests" model="ir.actions.act_window">
+            <field name="name">Demandes du Mois</field>
+            <field name="res_model">request.information</field>
+            <field name="view_mode">kanban,list,graph</field>
+            <field name="context">{'search_default_this_month': 1}</field>
+        </record>
+        
+        <!-- Vue Pivot avancée pour les demandes d'information -->
+        <record id="view_information_request_pivot_advanced" model="ir.ui.view">
+            <field name="name">request.information.pivot.advanced</field>
+            <field name="model">request.information</field>
+            <field name="arch" type="xml">
+                <pivot string="Analyse Avancée des Demandes">
+                    <field name="request_date" type="row" interval="month"/>
+                    <field name="requester_quality" type="row"/>
+                    <field name="state" type="col"/>
+                    <field name="days_to_deadline" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+        
+        <!-- Action pour l'analyse avancée -->
+        <record id="action_info_requests_analysis" model="ir.actions.act_window">
+            <field name="name">Analyse Avancée</field>
+            <field name="res_model">request.information</field>
+            <field name="view_mode">pivot,graph</field>
+            <field name="view_id" ref="view_information_request_pivot_advanced"/>
+            <field name="context">{'search_default_this_year': 1}</field>
+        </record>
+        
+        <!-- Vue Recherche améliorée pour les demandes -->
+        <record id="view_information_request_search_enhanced" model="ir.ui.view">
+            <field name="name">request.information.search.enhanced</field>
+            <field name="model">request.information</field>
+            <field name="inherit_id" ref="view_information_request_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <!-- Filtres de performance -->
+                    <separator/>
+                    <filter string="Performance" name="performance_filters"/>
+                    <filter string="Traité dans les délais" name="on_time" 
+                            domain="[('response_date', '!=', False), ('response_date', '&lt;=', 'deadline_date')]"/>
+                    <filter string="Réponse rapide (&lt; 15 jours)" name="fast_response" 
+                            domain="[('response_date', '!=', False), ('response_date', '&lt;=', (request_date + timedelta(days=15)).strftime('%Y-%m-%d'))]"/>
+                    
+                    <!-- Filtres de qualité -->
+                    <separator/>
+                    <filter string="Qualité du Demandeur" name="quality_filters"/>
+                    <filter string="Journalistes" name="journalists" domain="[('requester_quality', '=', 'journalist')]"/>
+                    <filter string="Chercheurs" name="researchers" domain="[('requester_quality', '=', 'researcher')]"/>
+                    <filter string="Avocats" name="lawyers" domain="[('requester_quality', '=', 'lawyer')]"/>
+                    <filter string="ONG" name="ngos" domain="[('requester_quality', '=', 'ngo')]"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- Vue Recherche améliorée pour les signalements -->
+        <record id="view_whistleblowing_alert_search_enhanced" model="ir.ui.view">
+            <field name="name">whistleblowing.alert.search.enhanced</field>
+            <field name="model">whistleblowing.alert</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="description"/>
+                    <field name="category"/>
+                    <field name="manager_id"/>
+                    
+                    <!-- Filtres principaux -->
+                    <filter string="Mes Signalements" name="my_alerts" domain="[('manager_id', '=', uid)]"/>
+                    <filter string="Anonymes" name="anonymous" domain="[('is_anonymous', '=', True)]"/>
+                    <filter string="Non Anonymes" name="not_anonymous" domain="[('is_anonymous', '=', False)]"/>
+                    
+                    <!-- Filtres par priorité -->
+                    <separator/>
+                    <filter string="Urgents" name="urgent" domain="[('priority', '=', 'urgent')]"/>
+                    <filter string="Priorité Élevée" name="high" domain="[('priority', '=', 'high')]"/>
+                    <filter string="Priorité Moyenne" name="medium" domain="[('priority', '=', 'medium')]"/>
+                    <filter string="Priorité Faible" name="low" domain="[('priority', '=', 'low')]"/>
+                    
+                    <!-- Filtres par état -->
+                    <separator/>
+                    <filter string="Nouveaux" name="new" domain="[('state', '=', 'new')]"/>
+                    <filter string="En Évaluation" name="assessment" domain="[('state', '=', 'preliminary_assessment')]"/>
+                    <filter string="En Investigation" name="investigation" domain="[('state', '=', 'investigation')]"/>
+                    <filter string="Résolus" name="resolved" domain="[('state', '=', 'resolved')]"/>
+                    <filter string="Transmis" name="transmitted" domain="[('state', '=', 'transmitted')]"/>
+                    <filter string="Clôturés" name="closed" domain="[('state', '=', 'closed')]"/>
+                    
+                    <!-- Filtres par catégorie -->
+                    <separator/>
+                    <filter string="Corruption" name="corruption" domain="[('category', '=', 'corruption')]"/>
+                    <filter string="Fraude" name="fraud" domain="[('category', '=', 'fraud')]"/>
+                    <filter string="Abus de Pouvoir" name="abuse_power" domain="[('category', '=', 'abuse_of_power')]"/>
+                    <filter string="Harcèlement" name="harassment" domain="[('category', '=', 'harassment')]"/>
+                    
+                    <!-- Filtres temporels -->
+                    <separator/>
+                    <filter string="Cette Semaine" name="this_week" 
+                            domain="[('alert_date', '&gt;=', (context_today() - timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Ce Mois" name="this_month" 
+                            domain="[('alert_date', '&gt;=', (context_today() - timedelta(days=30)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="Cette Année" name="this_year" 
+                            domain="[('alert_date', '&gt;=', (context_today().replace(month=1, day=1)).strftime('%Y-%m-%d'))]"/>
+                    
+                    <!-- Groupements -->
+                    <group expand="0" string="Grouper par">
+                        <filter string="Étape" name="group_stage" context="{'group_by': 'stage_id'}"/>
+                        <filter string="Catégorie" name="group_category" context="{'group_by': 'category'}"/>
+                        <filter string="Priorité" name="group_priority" context="{'group_by': 'priority'}"/>
+                        <filter string="Responsable" name="group_manager" context="{'group_by': 'manager_id'}"/>
+                        <filter string="État" name="group_state" context="{'group_by': 'state'}"/>
+                        <filter string="Anonymat" name="group_anonymous" context="{'group_by': 'is_anonymous'}"/>
+                        <filter string="Date de Signalement" name="group_alert_date" context="{'group_by': 'alert_date:month'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

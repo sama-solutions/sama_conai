@@ -1,0 +1,99 @@
+### **PROMPT DE DÉVELOPPEMENT OPTIMISÉ : Module Odoo 18 "SAMA CONAI"**
+
+**Objectif Global :** Construire un module Odoo 18 CE nommé `l10n_sn_transparency` pour la conformité avec les lois sénégalaises sur l'accès à l'information et la protection des lanceurs d'alerte.
+
+**Structure Générale du Module :**
+*   **Nom Technique :** `l10n_sn_transparency`
+*   **Dépendances :** `web`, `mail`, `portal`, `hr`
+*   **Applications à créer :**
+    1.  `Accès à l'Information` (Application principale, large accès)
+    2.  `Signalement d'Alerte` (Application restreinte, haute sécurité)
+
+---
+
+### **Partie 1 : Application "Accès à l'Information"**
+
+#### **1.1. Groupes de Sécurité & Droits d'Accès**
+*   **`group_info_request_user` (Employé) :** Peut voir les demandes de son département.
+*   **`group_info_request_manager` (Manager/Validateur) :** Accès complet à toutes les demandes. Peut valider/refuser les réponses.
+
+#### **1.2. Modèles de Données (Models)**
+
+| Modèle | Description | Champs Clés |
+| :--- | :--- | :--- |
+| **`request.information`** | Objet central pour chaque demande d'info. | `name` (séquence `DI/%(year)s/%(seq)s`), `partner_name`, `partner_email`, `requester_quality` (Selection), `request_date`, `description` (Html), `stage_id` (M2O), `user_id` (M2O), `department_id` (M2O), `deadline_date` (Date, compute), `response_date` (Date), `response_body` (Html), `response_attachment_ids` (M2M), `is_refusal` (Boolean), `refusal_reason_id` (M2O), `refusal_motivation` (Text) |
+| **`request.information.stage`** | Étapes du pipeline Kanban. | `name`, `sequence`, `is_closed` (Boolean), `fold` (Boolean) |
+| **`request.refusal.reason`** | Motifs de refus légaux prédéfinis. | `name`, `description` |
+
+#### **1.3. Logique Métier & Workflows**
+*   **Calculs Automatiques :**
+    *   `deadline_date` : Doit être calculé à `request_date` + 30 jours.
+*   **Workflow d'Étapes :**
+    1.  **`Nouvelle` :** Création de la demande. Notification au groupe "Premier Contact".
+    2.  **`En Traitement` :** Assignée à un expert. L'expert prépare la réponse.
+    3.  **`En Attente de Validation` :** Soumis au `group_info_request_manager`.
+        *   **Action "Approuver" :** Change l'étape à `Répondu`, envoie l'email final au citoyen avec les pièces jointes, et enregistre `response_date`.
+        *   **Action "Refuser la Validation" :** Renvoie à l'étape `En Traitement` avec une note dans le chatter.
+    4.  **`Répondu` / `Refusé` / `Réorientée` :** États finaux et archivés.
+*   **Envoi d'Emails Automatisé :**
+    *   Utiliser des `mail.template` pour :
+        *   L'accusé de réception initial.
+        *   La réponse finale (positive ou refus motivé).
+
+#### **1.4. Vues & Interface Utilisateur**
+*   **Vue Kanban :** Vue par défaut, organisée par `stage_id`.
+*   **Vue Formulaire :**
+    *   Header avec `statusbar` pour le workflow et boutons d'action (`Approuver`, `Refuser`, etc.).
+    *   Visibilité conditionnelle : les champs `refusal_reason_id` et `refusal_motivation` sont visibles et requis **uniquement si** `is_refusal` est coché.
+*   **Vues Analyse :** Vues `graph` et `pivot` pour les statistiques (temps de réponse, motifs de refus...).
+
+#### **1.5. Intégration Portail Web**
+*   Créer un contrôleur (`http.route`) pour une page `/acces-information`.
+*   Le formulaire public doit créer un enregistrement `request.information`.
+*   La page de confirmation doit afficher le numéro de suivi (`name`).
+
+---
+
+### **Partie 2 : Application "Signalement d'Alerte"**
+
+#### **2.1. Groupes de Sécurité & Droits d'Accès (Priorité Haute)**
+*   **`group_whistleblowing_manager` (Référent Alerte) :** Seul groupe avec accès à cette application. Doit avoir des droits complets (CRUD) sur tous les objets liés.
+*   **Règle de Sécurité (`ir.rule`) :** Une règle globale qui empêche **toute personne** n'appartenant pas à `group_whistleblowing_manager` de lire le moindre enregistrement de `whistleblowing.alert`.
+
+#### **2.2. Modèles de Données (Models)**
+
+| Modèle | Description | Champs Clés & **Sécurité** |
+| :--- | :--- | :--- |
+| **`whistleblowing.alert`** | Objet central pour chaque signalement. | `name` (Char), `alert_date`, `is_anonymous` (Boolean), `description` (Html), `evidence_attachment_ids` (M2M), `stage_id` (M2O), `manager_id` (M2O), `investigation_notes` (Html), `access_token` (Char, pour suivi anonyme).<br>**CHAMPS ULTRA-SENSIBLES :** `reporter_name`, `reporter_email`. **Visibilité XML via `groups`** limitée à `group_whistleblowing_manager`. |
+| **`whistleblowing.alert.stage`** | Étapes du pipeline confidentiel. | `name`, `sequence` |
+
+#### **2.3. Logique Métier & Workflows**
+*   **Confidentialité Absolue :** Aucune notification par email ne doit être envoyée par défaut pour éviter les fuites. La communication se fait via le chatter sécurisé.
+*   **Workflow d'Étapes :**
+    1.  **`Nouveau Signalement` :** Création. Visible uniquement par les Référents.
+    2.  **`Évaluation Préliminaire` :** Le Référent accuse réception et analyse.
+    3.  **`Enquête Interne` :** Le Référent documente ses investigations dans `investigation_notes`.
+    4.  **`Résolu` / `Transmis` / `Clôturé` :** États finaux.
+*   **Suivi Anonyme :**
+    *   Lors de la création d'une alerte anonyme via le portail, générer un `access_token` unique et sécurisé.
+    *   Construire une URL de suivi (`/ws/follow/<access_token>`) que le lanceur d'alerte peut utiliser pour consulter l'état de son dossier et communiquer via un chatter de portail sans jamais s'identifier.
+
+#### **2.4. Vues & Interface Utilisateur**
+*   **Menu Principal :** Le menu de l'application "Signalement d'Alerte" doit avoir l'attribut `groups="group_whistleblowing_manager"` pour être invisible à tous les autres.
+*   **Vue Formulaire :**
+    *   Les champs `reporter_name` et `reporter_email` doivent être cachés via l'attribut `groups` dans le XML de la vue.
+    *   Mettre en évidence les champs `investigation_notes` pour le travail du référent.
+
+#### **2.5. Intégration Portail Web (Anonyme)**
+*   Créer un contrôleur pour une page `/signalement-anonyme`.
+*   Le formulaire ne doit contenir **aucun champ d'identification**.
+*   La page de confirmation doit afficher l'URL de suivi unique contenant l'`access_token`.
+
+---
+
+### **Partie 3 : Finalisation et Packaging**
+
+*   **Manifest :** Remplir `__manifest__.py` avec les informations du module, la version, et les dépendances.
+*   **Icônes :** Créer des icônes SVG distinctes pour chaque application.
+*   **Données de Démonstration :** Créer des données initiales (XML) pour les étapes (`.stage`) et les motifs de refus (`.reason`).
+*   **Tests :** Prévoir des tests pour valider les règles de sécurité et les workflows automatisés.

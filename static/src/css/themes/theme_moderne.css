@@ -1,0 +1,86 @@
+/* ========================================= */
+/* SAMA CONAI - THÈME MODERNE               */
+/* ========================================= */
+
+body[data-theme="moderne"] {
+  --background-color: #F8F9FA;
+  --text-color: #2D3436;
+  --shadow-dark: #E9ECEF;
+  --shadow-light: #FFFFFF;
+  --accent-action: #6C5CE7;
+  --accent-alert: #FDCB6E;
+  --accent-danger: #E17055;
+  --accent-success: #00B894;
+  --font-family: 'Poppins', sans-serif;
+}
+
+/* Styles spécifiques au thème moderne */
+body[data-theme="moderne"] .sama-conai-dashboard {
+  background: linear-gradient(135deg, #F8F9FA 0%, #F1F3F4 100%);
+}
+
+body[data-theme="moderne"] .dashboard-header h1 {
+  background: linear-gradient(45deg, #6C5CE7, #A29BFE);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body[data-theme="moderne"] .metric-card.action .metric-icon {
+  background: linear-gradient(135deg, #6C5CE7, #5F3DC4);
+  color: white;
+}
+
+body[data-theme="moderne"] .metric-card.danger .metric-icon {
+  background: linear-gradient(135deg, #E17055, #D63031);
+  color: white;
+}
+
+body[data-theme="moderne"] .bottom-nav {
+  backdrop-filter: blur(15px);
+  background: rgba(248, 249, 250, 0.8);
+  border: 1px solid rgba(108, 92, 231, 0.1);
+}
+
+/* Effets modernes avancés */
+body[data-theme="moderne"] .neumorphic-card {
+  position: relative;
+  overflow: hidden;
+}
+
+body[data-theme="moderne"] .neumorphic-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(108, 92, 231, 0.03), transparent);
+  transform: rotate(45deg);
+  pointer-events: none;
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+  100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+body[data-theme="moderne"] .metric-card:hover {
+  transform: translateY(-3px) scale(1.02);
+}
+
+body[data-theme="moderne"] .theme-choice-card[data-theme-name="moderne"] {
+  border: 2px solid var(--accent-action);
+  box-shadow: 0 0 20px rgba(108, 92, 231, 0.3);
+}
+
+/* Animations fluides pour le thème moderne */
+body[data-theme="moderne"] * {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body[data-theme="moderne"] .neumorphic-button:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(108, 92, 231, 0.2);
+}

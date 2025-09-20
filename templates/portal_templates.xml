@@ -1,0 +1,756 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- ========================================= -->
+        <!-- TEMPLATES POUR L'ACCÈS À L'INFORMATION -->
+        <!-- ========================================= -->
+        
+        <!-- Template du formulaire de demande d'information -->
+        <template id="information_request_form_template" name="Formulaire de Demande d'Information">
+            <html>
+            <head>
+                <title>Demande d'Information - SAMA CONAI</title>
+                <meta charset="utf-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+                <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+            </head>
+            <body>
+                <div id="wrap" class="oe_structure oe_empty">
+                    <div class="container">
+                        <!-- Navigation breadcrumb -->
+                        <div class="row mt-3 mb-3">
+                            <div class="col-12">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item">
+                                            <a href="/transparence-dashboard">
+                                                <i class="fa fa-home"/> Tableau de Bord
+                                            </a>
+                                        </li>
+                                        <li class="breadcrumb-item active">Nouvelle Demande d'Information</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-lg-8 offset-lg-2">
+                                <div class="card mt-4">
+                                    <div class="card-header bg-primary text-white">
+                                        <h3 class="mb-0">
+                                            <i class="fa fa-file-text-o"/> Demande d'Accès à l'Information
+                                        </h3>
+                                        <p class="mb-0">Conformément à la loi sénégalaise sur l'accès à l'information publique</p>
+                                    </div>
+                                    <div class="card-body">
+                                        
+                                        <!-- Affichage des erreurs -->
+                                        <t t-if="error_message">
+                                            <div class="alert alert-danger" role="alert">
+                                                <strong>Erreur :</strong> <t t-esc="error_message"/>
+                                            </div>
+                                        </t>
+                                        
+                                        <!-- Informations légales -->
+                                        <div class="alert alert-info">
+                                            <h5><i class="fa fa-info-circle"/> Informations importantes</h5>
+                                            <ul class="mb-0">
+                                                <li>Délai de réponse légal : <strong>30 jours</strong></li>
+                                                <li>Service gratuit pour les citoyens sénégalais</li>
+                                                <li>Vous recevrez un accusé de réception par email</li>
+                                                <li>Un numéro de suivi vous sera communiqué</li>
+                                            </ul>
+                                        </div>
+                                        
+                                        <!-- Formulaire -->
+                                        <form action="/acces-information/submit" method="post" class="needs-validation" novalidate="true">
+                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                            
+                                            <!-- Informations du demandeur -->
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="partner_name" class="required">Nom complet *</label>
+                                                        <input type="text" class="form-control" id="partner_name" name="partner_name" 
+                                                               t-att-value="form_data.get('partner_name', '')" required="true"/>
+                                                        <div class="invalid-feedback">
+                                                            Veuillez saisir votre nom complet.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="partner_email" class="required">Adresse email *</label>
+                                                        <input type="email" class="form-control" id="partner_email" name="partner_email" 
+                                                               t-att-value="form_data.get('partner_email', '')" required="true"/>
+                                                        <div class="invalid-feedback">
+                                                            Veuillez saisir une adresse email valide.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="partner_phone">Téléphone</label>
+                                                        <input type="tel" class="form-control" id="partner_phone" name="partner_phone" 
+                                                               t-att-value="form_data.get('partner_phone', '')" placeholder="+221 XX XXX XX XX"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="requester_quality" class="required">Qualité du demandeur *</label>
+                                                        <select class="form-control" id="requester_quality" name="requester_quality" required="true">
+                                                            <option value="">-- Sélectionnez --</option>
+                                                            <t t-foreach="requester_qualities" t-as="quality">
+                                                                <option t-att-value="quality[0]" 
+                                                                        t-att-selected="form_data.get('requester_quality') == quality[0] and 'selected' or None">
+                                                                    <t t-esc="quality[1]"/>
+                                                                </option>
+                                                            </t>
+                                                        </select>
+                                                        <div class="invalid-feedback">
+                                                            Veuillez sélectionner votre qualité.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Description de la demande -->
+                                            <div class="form-group">
+                                                <label for="description" class="required">Description détaillée de votre demande *</label>
+                                                <textarea class="form-control" id="description" name="description" rows="6" 
+                                                          placeholder="Décrivez précisément les informations que vous souhaitez obtenir..." 
+                                                          required="true"><t t-esc="form_data.get('description', '')"/></textarea>
+                                                <small class="form-text text-muted">
+                                                    Soyez le plus précis possible pour faciliter le traitement de votre demande.
+                                                </small>
+                                                <div class="invalid-feedback">
+                                                    Veuillez décrire votre demande.
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Acceptation des conditions -->
+                                            <div class="form-check mb-3">
+                                                <input class="form-check-input" type="checkbox" id="accept_conditions" required="true"/>
+                                                <label class="form-check-label" for="accept_conditions">
+                                                    J'accepte que mes données personnelles soient traitées dans le cadre de cette demande 
+                                                    conformément à la loi sur la protection des données personnelles. *
+                                                </label>
+                                                <div class="invalid-feedback">
+                                                    Vous devez accepter les conditions.
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Boutons -->
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-primary btn-lg">
+                                                    <i class="fa fa-paper-plane"/> Soumettre ma demande
+                                                </button>
+                                                <a href="/transparence-dashboard" class="btn btn-secondary btn-lg ml-2">
+                                                    <i class="fa fa-arrow-left"/> Retour au tableau de bord
+                                                </a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+            </body>
+            </html>
+        </template>
+        
+        <!-- Template de confirmation de demande d'information -->
+        <template id="information_request_confirmation_template" name="Confirmation de Demande d'Information">
+            <html>
+            <head>
+                <title>Confirmation - SAMA CONAI</title>
+                <meta charset="utf-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+                <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+            </head>
+            <body>
+                <div id="wrap" class="oe_structure oe_empty">
+                    <div class="container">
+                        <!-- Navigation breadcrumb -->
+                        <div class="row mt-3 mb-3">
+                            <div class="col-12">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item">
+                                            <a href="/transparence-dashboard">
+                                                <i class="fa fa-home"/> Tableau de Bord
+                                            </a>
+                                        </li>
+                                        <li class="breadcrumb-item">
+                                            <a href="/acces-information">
+                                                <i class="fa fa-file-text"/> Demande d'Information
+                                            </a>
+                                        </li>
+                                        <li class="breadcrumb-item active">Confirmation</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-lg-8 offset-lg-2">
+                                <div class="card mt-4">
+                                    <div class="card-header bg-success text-white">
+                                        <h3 class="mb-0">
+                                            <i class="fa fa-check-circle"/> Demande Enregistrée avec Succès
+                                        </h3>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <div class="alert alert-success">
+                                            <h4><i class="fa fa-thumbs-up"/> Votre demande a été enregistrée !</h4>
+                                            <p class="mb-0">Vous allez recevoir un accusé de réception par email.</p>
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="card bg-light">
+                                                    <div class="card-body">
+                                                        <h5><i class="fa fa-hashtag"/> Numéro de suivi</h5>
+                                                        <h3 class="text-primary"><t t-esc="info_request.name"/></h3>
+                                                        <p class="text-muted">Conservez ce numéro pour suivre votre demande</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="card bg-light">
+                                                    <div class="card-body">
+                                                        <h5><i class="fa fa-calendar"/> Date limite de réponse</h5>
+                                                        <h3 class="text-info">30 jours</h3>
+                                                        <p class="text-muted">Délai légal</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mt-4">
+                                            <h5>Prochaines étapes :</h5>
+                                            <ol class="text-left">
+                                                <li>Vous recevrez un accusé de réception par email</li>
+                                                <li>Votre demande sera assignée à un expert</li>
+                                                <li>La réponse sera préparée et validée</li>
+                                                <li>Vous recevrez la réponse finale par email</li>
+                                            </ol>
+                                        </div>
+                                        
+                                        <div class="mt-4">
+                                            <a href="/acces-information" class="btn btn-primary">
+                                                <i class="fa fa-plus"/> Nouvelle demande
+                                            </a>
+                                            <a href="/transparence-dashboard" class="btn btn-secondary ml-2">
+                                                <i class="fa fa-home"/> Retour au tableau de bord
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+            </body>
+            </html>
+        </template>
+        
+        <!-- ========================================= -->
+        <!-- TEMPLATES POUR LES SIGNALEMENTS D'ALERTE -->
+        <!-- ========================================= -->
+        
+        <!-- Template du formulaire de signalement anonyme -->
+        <template id="whistleblowing_form_template" name="Formulaire de Signalement Anonyme">
+            <html>
+            <head>
+                <title>Signalement Anonyme - SAMA CONAI</title>
+                <meta charset="utf-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+                <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+            </head>
+            <body>
+                <div id="wrap" class="oe_structure oe_empty">
+                    <div class="container">
+                        <!-- Navigation breadcrumb -->
+                        <div class="row mt-3 mb-3">
+                            <div class="col-12">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item">
+                                            <a href="/transparence-dashboard">
+                                                <i class="fa fa-home"/> Tableau de Bord
+                                            </a>
+                                        </li>
+                                        <li class="breadcrumb-item active">Nouveau Signalement Anonyme</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-lg-8 offset-lg-2">
+                                <div class="card mt-4">
+                                    <div class="card-header bg-warning text-dark">
+                                        <h3 class="mb-0">
+                                            <i class="fa fa-shield"/> Signalement Anonyme
+                                        </h3>
+                                        <p class="mb-0">Protection garantie des lanceurs d'alerte</p>
+                                    </div>
+                                    <div class="card-body">
+                                        
+                                        <!-- Affichage des erreurs -->
+                                        <t t-if="error_message">
+                                            <div class="alert alert-danger" role="alert">
+                                                <strong>Erreur :</strong> <t t-esc="error_message"/>
+                                            </div>
+                                        </t>
+                                        
+                                        <!-- Informations sur la confidentialité -->
+                                        <div class="alert alert-warning">
+                                            <h5><i class="fa fa-lock"/> Confidentialité Garantie</h5>
+                                            <ul class="mb-0">
+                                                <li>Votre identité ne sera jamais révélée</li>
+                                                <li>Aucune donnée personnelle n'est collectée</li>
+                                                <li>Protection légale des lanceurs d'alerte</li>
+                                                <li>Vous recevrez un lien de suivi anonyme</li>
+                                            </ul>
+                                        </div>
+                                        
+                                        <!-- Formulaire -->
+                                        <form action="/signalement-anonyme/submit" method="post" class="needs-validation" novalidate="true">
+                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                            
+                                            <!-- Type de signalement -->
+                                            <div class="form-group">
+                                                <label for="category" class="required">Type de signalement *</label>
+                                                <select class="form-control" id="category" name="category" required="true">
+                                                    <option value="">-- Sélectionnez le type --</option>
+                                                    <t t-foreach="categories" t-as="cat">
+                                                        <option t-att-value="cat[0]" 
+                                                                t-att-selected="form_data.get('category') == cat[0] and 'selected' or None">
+                                                            <t t-esc="cat[1]"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                                <div class="invalid-feedback">
+                                                    Veuillez sélectionner le type de signalement.
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Description du signalement -->
+                                            <div class="form-group">
+                                                <label for="description" class="required">Description détaillée du signalement *</label>
+                                                <textarea class="form-control" id="description" name="description" rows="8" 
+                                                          placeholder="Décrivez les faits de manière précise : qui, quoi, quand, où, comment..." 
+                                                          required="true"><t t-esc="form_data.get('description', '')"/></textarea>
+                                                <small class="form-text text-muted">
+                                                    Plus votre description sera précise, plus l'enquête sera efficace.
+                                                    Vous pouvez mentionner des dates, lieux, personnes impliquées, preuves disponibles, etc.
+                                                </small>
+                                                <div class="invalid-feedback">
+                                                    Veuillez décrire le signalement.
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Confirmation anonymat -->
+                                            <div class="form-check mb-3">
+                                                <input class="form-check-input" type="checkbox" id="confirm_anonymous" required="true"/>
+                                                <label class="form-check-label" for="confirm_anonymous">
+                                                    Je confirme vouloir effectuer ce signalement de manière anonyme et 
+                                                    j'accepte que seul le lien de suivi me permette d'accéder aux informations. *
+                                                </label>
+                                                <div class="invalid-feedback">
+                                                    Vous devez confirmer l'anonymat.
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Boutons -->
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-warning btn-lg">
+                                                    <i class="fa fa-shield"/> Soumettre le signalement
+                                                </button>
+                                                <a href="/transparence-dashboard" class="btn btn-secondary btn-lg ml-2">
+                                                    <i class="fa fa-arrow-left"/> Retour au tableau de bord
+                                                </a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+            </body>
+            </html>
+        </template>
+        
+        <!-- ========================================= -->
+        <!-- PORTAL: Mes demandes d'information -->
+        <!-- ========================================= -->
+        
+        <!-- Template pour la liste des demandes -->
+        <template id="portal_my_information_requests" name="Mes Demandes d'Information">
+            <html>
+            <head>
+                <title>Mes Demandes d'Information - SAMA CONAI</title>
+                <meta charset="utf-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+                <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+            </head>
+            <body>
+                <div class="container my-5">
+                    
+                    <!-- Header -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card bg-primary text-white">
+                                <div class="card-body">
+                                    <h1 class="display-5 mb-3">
+                                        <i class="fa fa-file-text"/> Mes Demandes d'Information
+                                    </h1>
+                                    <p class="lead mb-0">
+                                        Suivi de vos demandes d'accès à l'information publique
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Navigation -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="/transparence-dashboard">
+                                            <i class="fa fa-home"/> Tableau de Bord
+                                        </a>
+                                    </li>
+                                    <li class="breadcrumb-item active">Mes Demandes</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    
+                    <!-- Statistiques -->
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <h3 class="text-primary"><t t-esc="pager['total']"/></h3>
+                                    <p class="mb-0">Demandes Total</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <h3 class="text-success"><t t-esc="len(requests)"/></h3>
+                                    <p class="mb-0">Sur cette page</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <h3 class="text-info"><t t-esc="pager['page']"/>/<t t-esc="pager['total_pages']"/></h3>
+                                    <p class="mb-0">Page actuelle</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Liste des demandes -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">
+                                        <i class="fa fa-list"/> Liste de vos demandes
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    
+                                    <t t-if="not requests">
+                                        <div class="alert alert-info text-center">
+                                            <h5><i class="fa fa-info-circle"/> Aucune demande trouvée</h5>
+                                            <p class="mb-3">Vous n'avez pas encore soumis de demande d'information.</p>
+                                            <a href="/acces-information" class="btn btn-primary">
+                                                <i class="fa fa-plus"/> Créer une demande
+                                            </a>
+                                        </div>
+                                    </t>
+                                    
+                                    <t t-if="requests">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th><i class="fa fa-hashtag"/> Référence</th>
+                                                        <th><i class="fa fa-calendar"/> Date</th>
+                                                        <th><i class="fa fa-info-circle"/> Description</th>
+                                                        <th><i class="fa fa-flag"/> État</th>
+                                                        <th><i class="fa fa-cogs"/> Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <t t-foreach="requests" t-as="req">
+                                                        <tr>
+                                                            <td>
+                                                                <strong><t t-esc="req.name or 'N/A'"/></strong>
+                                                            </td>
+                                                            <td>
+                                                                <t t-esc="req.request_date" t-options="{'widget': 'date'}"/>
+                                                            </td>
+                                                            <td>
+                                                                <t t-esc="req.description[:100] + '...' if len(req.description or '') > 100 else (req.description or 'N/A')"/>
+                                                            </td>
+                                                            <td>
+                                                                <t t-if="req.state == 'submitted'">
+                                                                    <span class="badge bg-warning">Soumise</span>
+                                                                </t>
+                                                                <t t-elif="req.state == 'in_progress'">
+                                                                    <span class="badge bg-info">En traitement</span>
+                                                                </t>
+                                                                <t t-elif="req.state == 'responded'">
+                                                                    <span class="badge bg-success">Répondue</span>
+                                                                </t>
+                                                                <t t-elif="req.state == 'refused'">
+                                                                    <span class="badge bg-danger">Refusée</span>
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <span class="badge bg-secondary"><t t-esc="req.state or 'Inconnu'"/></span>
+                                                                </t>
+                                                            </td>
+                                                            <td>
+                                                                <a t-att-href="'/my/information-requests/%s' % req.id" class="btn btn-sm btn-primary">
+                                                                    <i class="fa fa-eye"/> Voir
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        
+                                        <!-- Pagination simple -->
+                                        <t t-if="pager['total_pages'] > 1">
+                                            <nav aria-label="Pagination">
+                                                <ul class="pagination justify-content-center">
+                                                    <t t-if="pager['has_previous']">
+                                                        <li class="page-item">
+                                                            <a class="page-link" t-att-href="'/my/information-requests/page/%s' % pager['previous_page']">
+                                                                <i class="fa fa-chevron-left"/> Précédent
+                                                            </a>
+                                                        </li>
+                                                    </t>
+                                                    
+                                                    <li class="page-item active">
+                                                        <span class="page-link">
+                                                            Page <t t-esc="pager['page']"/> sur <t t-esc="pager['total_pages']"/>
+                                                        </span>
+                                                    </li>
+                                                    
+                                                    <t t-if="pager['has_next']">
+                                                        <li class="page-item">
+                                                            <a class="page-link" t-att-href="'/my/information-requests/page/%s' % pager['next_page']">
+                                                                Suivant <i class="fa fa-chevron-right"/>
+                                                            </a>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </nav>
+                                        </t>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Actions -->
+                    <div class="row mt-4">
+                        <div class="col-12 text-center">
+                            <a href="/acces-information" class="btn btn-primary btn-lg">
+                                <i class="fa fa-plus"/> Nouvelle demande
+                            </a>
+                            <a href="/transparence-dashboard" class="btn btn-secondary btn-lg ml-2">
+                                <i class="fa fa-arrow-left"/> Retour au tableau de bord
+                            </a>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+            </body>
+            </html>
+        </template>
+        
+        <!-- Template pour le détail d'une demande -->
+        <template id="portal_information_request_detail" name="Détail Demande d'Information">
+            <html>
+            <head>
+                <title>Détail Demande - SAMA CONAI</title>
+                <meta charset="utf-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+                <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+            </head>
+            <body>
+                <div class="container my-5">
+                    
+                    <!-- Navigation -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a href="/transparence-dashboard">
+                                            <i class="fa fa-home"/> Tableau de Bord
+                                        </a>
+                                    </li>
+                                    <li class="breadcrumb-item">
+                                        <a href="/my/information-requests">
+                                            <i class="fa fa-list"/> Mes Demandes
+                                        </a>
+                                    </li>
+                                    <li class="breadcrumb-item active">Détail</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    
+                    <!-- Détail de la demande -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header bg-primary text-white">
+                                    <h3 class="mb-0">
+                                        <i class="fa fa-file-text"/> Demande d'Information
+                                    </h3>
+                                    <p class="mb-0">Référence: <strong><t t-esc="info_request.name or 'N/A'"/></strong></p>
+                                </div>
+                                <div class="card-body">
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h5><i class="fa fa-info-circle"/> Informations générales</h5>
+                                            <table class="table table-sm">
+                                                <tr>
+                                                    <td><strong>Date de demande:</strong></td>
+                                                    <td><t t-esc="info_request.request_date" t-options="{'widget': 'date'}"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>État:</strong></td>
+                                                    <td>
+                                                        <t t-if="info_request.state == 'submitted'">
+                                                            <span class="badge bg-warning">Soumise</span>
+                                                        </t>
+                                                        <t t-elif="info_request.state == 'in_progress'">
+                                                            <span class="badge bg-info">En traitement</span>
+                                                        </t>
+                                                        <t t-elif="info_request.state == 'responded'">
+                                                            <span class="badge bg-success">Répondue</span>
+                                                        </t>
+                                                        <t t-elif="info_request.state == 'refused'">
+                                                            <span class="badge bg-danger">Refusée</span>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <span class="badge bg-secondary"><t t-esc="info_request.state or 'Inconnu'"/></span>
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Demandeur:</strong></td>
+                                                    <td><t t-esc="info_request.partner_name or 'N/A'"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Email:</strong></td>
+                                                    <td><t t-esc="info_request.partner_email or 'N/A'"/></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5><i class="fa fa-clock-o"/> Chronologie</h5>
+                                            <div class="timeline">
+                                                <div class="alert alert-info">
+                                                    <strong>Délai légal:</strong> 30 jours maximum
+                                                </div>
+                                                <t t-if="info_request.response_date">
+                                                    <div class="alert alert-success">
+                                                        <strong>Réponse envoyée le:</strong> 
+                                                        <t t-esc="info_request.response_date" t-options="{'widget': 'date'}"/>
+                                                    </div>
+                                                </t>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <hr/>
+                                    
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h5><i class="fa fa-file-text-o"/> Description de la demande</h5>
+                                            <div class="card bg-light">
+                                                <div class="card-body">
+                                                    <pre style="white-space: pre-wrap; font-family: inherit;"><t t-esc="info_request.description or 'Aucune description'"/></pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <t t-if="info_request.state in ['responded', 'refused'] and info_request.response_body">
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h5><i class="fa fa-reply"/> Réponse officielle</h5>
+                                                <div class="card bg-light">
+                                                    <div class="card-body">
+                                                        <t t-raw="info_request.response_body or 'Aucune réponse'"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Actions -->
+                    <div class="row mt-4">
+                        <div class="col-12 text-center">
+                            <a href="/my/information-requests" class="btn btn-primary btn-lg">
+                                <i class="fa fa-arrow-left"/> Retour à la liste
+                            </a>
+                            <a href="/acces-information" class="btn btn-success btn-lg ml-2">
+                                <i class="fa fa-plus"/> Nouvelle demande
+                            </a>
+                            <a href="/transparence-dashboard" class="btn btn-secondary btn-lg ml-2">
+                                <i class="fa fa-home"/> Tableau de bord
+                            </a>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+            </body>
+            </html>
+        </template>
+        
+    </data>
+</odoo>

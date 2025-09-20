@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========================================= -->
+    <!-- SAMA CONAI - MENUS PRINCIPAUX            -->
+    <!-- ========================================= -->
+
+    <!-- Menu racine SAMA CONAI -->
+    <menuitem id="menu_sama_conai_root"
+              name="SAMA CONAI"
+              sequence="10"
+              web_icon="sama_conai,static/description/icon.png"/>
+
+    <!-- Menu Demandes d'Information -->
+    <menuitem id="menu_information_requests"
+              name="Demandes d'Information"
+              parent="menu_sama_conai_root"
+              action="action_information_request"
+              sequence="10"/>
+
+    <!-- Menu Alertes de Signalement -->
+    <menuitem id="menu_whistleblowing_alerts"
+              name="Alertes de Signalement"
+              parent="menu_sama_conai_root"
+              action="action_whistleblowing_alert"
+              sequence="20"/>
+
+    <!-- Menu Configuration -->
+    <menuitem id="menu_sama_conai_configuration"
+              name="Configuration"
+              parent="menu_sama_conai_root"
+              sequence="90"/>
+
+    <!-- Sous-menus Configuration -->
+    <menuitem id="menu_information_request_stages"
+              name="Étapes des Demandes"
+              parent="menu_sama_conai_configuration"
+              action="action_information_request_stage"
+              sequence="10"/>
+
+    <menuitem id="menu_whistleblowing_alert_stages"
+              name="Étapes des Alertes"
+              parent="menu_sama_conai_configuration"
+              action="action_whistleblowing_alert_stage"
+              sequence="20"/>
+
+    <!-- Menu Rapports -->
+    <menuitem id="menu_sama_conai_reports"
+              name="Rapports"
+              parent="menu_sama_conai_root"
+              sequence="80"/>
+</odoo>

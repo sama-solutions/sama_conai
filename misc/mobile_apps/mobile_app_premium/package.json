@@ -1,0 +1,81 @@
+{
+  "name": "sama-conai-premium-mobile",
+  "version": "4.0.0",
+  "description": "Application Mobile Premium SAMA CONAI - Transparence Gouvernementale Révolutionnaire",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "build": "npm run build:css && npm run build:js",
+    "build:css": "tailwindcss -i ./src/input.css -o ./public/css/styles.css --watch",
+    "build:js": "webpack --mode production",
+    "test": "jest",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.7.2",
+    "cors": "^2.8.5",
+    "axios": "^1.5.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "compression": "^1.7.4",
+    "helmet": "^7.0.0",
+    "rate-limiter-flexible": "^3.0.8",
+    "node-cron": "^3.0.2",
+    "nodemailer": "^6.9.4",
+    "qrcode": "^1.5.3",
+    "sharp": "^0.32.5",
+    "uuid": "^9.0.0",
+    "moment": "^2.29.4",
+    "lodash": "^4.17.21",
+    "validator": "^13.11.0",
+    "dotenv": "^16.3.1",
+    "winston": "^3.10.0",
+    "redis": "^4.6.8",
+    "mongodb": "^6.0.0",
+    "mongoose": "^7.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "jest": "^29.6.4",
+    "eslint": "^8.48.0",
+    "prettier": "^3.0.3",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "tailwindcss": "^3.3.3",
+    "@tailwindcss/forms": "^0.5.6",
+    "@tailwindcss/typography": "^0.5.10",
+    "autoprefixer": "^10.4.15",
+    "postcss": "^8.4.29"
+  },
+  "keywords": [
+    "sama-conai",
+    "transparence",
+    "gouvernement",
+    "senegal",
+    "mobile",
+    "premium",
+    "modern",
+    "glassmorphism",
+    "notifications",
+    "ai-assistant",
+    "gamification"
+  ],
+  "author": "SAMA CONAI Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sama-conai/mobile-premium"
+  },
+  "bugs": {
+    "url": "https://github.com/sama-conai/mobile-premium/issues"
+  },
+  "homepage": "https://sama-conai.sn"
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="0">
+    <!-- One-off demo records to populate current DB (sama_conai_test) -->
+
+    <!-- Minimal Information Request demo -->
+    <record id="oneoff_demo_info_request" model="request.information">
+      <field name="name">DI/ONEOFF/0001</field>
+      <field name="partner_name">Oneoff Demo</field>
+      <field name="partner_email">oneoff.demo@example.com</field>
+      <field name="requester_quality">citizen</field>
+      <field name="description">Enregistrement de démonstration (one-off) pour les tests.</field>
+      <field name="request_date" eval="DateTime.now()"/>
+      <field name="stage_id" ref="sama_conai.stage_new"/>
+      <field name="state">draft</field>
+    </record>
+
+    <!-- Minimal Whistleblowing Alert demo -->
+    <record id="oneoff_demo_whistle_alert" model="whistleblowing.alert">
+      <field name="name">SA/ONEOFF/0001</field>
+      <field name="alert_date" eval="DateTime.now()"/>
+      <field name="is_anonymous" eval="True"/>
+      <field name="category">other</field>
+      <field name="description">Signalement de démonstration (one-off) pour les tests.</field>
+      <field name="stage_id" ref="sama_conai.whistleblowing_stage_new"/>
+      <field name="state">new</field>
+      <field name="priority">medium</field>
+    </record>
+
+  </data>
+</odoo>

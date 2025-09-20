@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAMA CONAI Mobile - Interface Neumorphique</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ========================================= */
+        /* SAMA CONAI - STYLES NEUMORPHIQUES MOBILE */
+        /* ========================================= */
+
+        :root {
+            /* Thème par défaut - Institutionnel */
+            --background-color: #EFF2F5;
+            --text-color: #2C3E50;
+            --shadow-dark: #d1d9e6;
+            --shadow-light: #ffffff;
+            --accent-action: #3498DB;
+            --accent-alert: #E67E22;
+            --accent-danger: #E74C3C;
+            --accent-success: #27AE60;
+            --font-family: 'Poppins', sans-serif;
+            --border-radius: 20px;
+            --shadow-neumorphic: 7px 7px 15px var(--shadow-dark), -7px -7px 15px var(--shadow-light);
+            --shadow-inset: inset 7px 7px 15px var(--shadow-dark), inset -7px -7px 15px var(--shadow-light);
+        }
+
+        /* Thème Terre du Sénégal */
+        body[data-theme="terre"] {
+            --background-color: #F5F1E8;
+            --text-color: #4A3728;
+            --shadow-dark: #e6ddd0;
+            --shadow-light: #ffffff;
+            --accent-action: #D2691E;
+            --accent-alert: #CD853F;
+            --accent-danger: #A0522D;
+            --accent-success: #8FBC8F;
+        }
+
+        /* Thème Moderne */
+        body[data-theme="moderne"] {
+            --background-color: #F8F9FA;
+            --text-color: #2D3436;
+            --shadow-dark: #e9ecef;
+            --shadow-light: #ffffff;
+            --accent-action: #6C5CE7;
+            --accent-alert: #FDCB6E;
+            --accent-danger: #E17055;
+            --accent-success: #00B894;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        /* ========================================= */
+        /* CONTENEUR MOBILE NEUMORPHIQUE            */
+        /* ========================================= */
+
+        .mobile-container {
+            max-width: 375px;
+            margin: 10px auto;
+            background: var(--background-color);
+            border-radius: 30px;
+            box-shadow: var(--shadow-neumorphic);
+            overflow: hidden;
+            min-height: calc(100vh - 20px);
+            position: relative;
+        }
+
+        .status-bar {
+            background: linear-gradient(135deg, var(--accent-action), var(--accent-alert));
+            color: white;
+            padding: 8px 20px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 500;
+        }
+
+        .header {
+            background: var(--background-color);
+            color: var(--text-color);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-neumorphic);
+            margin: 10px;
+            border-radius: var(--border-radius);
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent-action);
+        }
+
+        .back-button {
+            background: var(--background-color);
+            border: none;
+            color: var(--accent-action);
+            font-size: 18px;
+            cursor: pointer;
+            padding: 12px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-neumorphic);
+        }
+
+        .back-button:hover {
+            box-shadow: var(--shadow-inset);
+        }
+
+        .back-button:active {
+            box-shadow: var(--shadow-inset);
+            transform: scale(0.98);
+        }
+
+        .nav-indicator {
+            font-size: 12px;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .content {
+            padding: 20px;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            min-height: 400px;
+        }
+
+        .data-source {
+            position: absolute;
+            top: 8px;
+            right: 15px;
+            font-size: 10px;
+            background: var(--accent-success);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        /* ========================================= */
+        /* COMPOSANTS NEUMORPHIQUES                  */
+        /* ========================================= */
+
+        .neumorphic-card {
+            background: var(--background-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-neumorphic);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .neumorphic-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+
+        .neumorphic-card:active {
+            box-shadow: var(--shadow-inset);
+            transform: scale(0.98);
+        }
+
+        .neumorphic-button {
+            background: var(--background-color);
+            border: none;
+            border-radius: 15px;
+            padding: 15px 25px;
+            font-family: var(--font-family);
+            font-weight: 600;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-neumorphic);
+            font-size: 14px;
+        }
+
+        .neumorphic-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+
+        .neumorphic-button:active {
+            box-shadow: var(--shadow-inset);
+            transform: scale(0.98);
+        }
+
+        .neumorphic-button.btn-action {
+            color: var(--accent-action);
+        }
+
+        .neumorphic-button.btn-danger {
+            color: var(--accent-danger);
+        }
+
+        .neumorphic-button.btn-success {
+            color: var(--accent-success);
+        }
+
+        /* ========================================= */
+        /* ÉCRAN DE CONNEXION NEUMORPHIQUE          */
+        /* ========================================= */
+
+        .login-container {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .login-logo {
+            width: 100px;
+            height: 100px;
+            background: var(--background-color);
+            border-radius: 30px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: var(--accent-action);
+            box-shadow: var(--shadow-neumorphic);
+            transition: all 0.3s ease;
+        }
+
+        .login-logo:hover {
+            transform: scale(1.05);
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+
+        .login-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--accent-action);
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .login-subtitle {
+            color: var(--text-color);
+            margin-bottom: 40px;
+            font-size: 16px;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 18px 25px;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-family: var(--font-family);
+            background: var(--background-color);
+            color: var(--text-color);
+            box-shadow: var(--shadow-inset);
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            box-shadow: var(--shadow-inset), 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-color);
+            opacity: 0.6;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 20px;
+            background: var(--background-color);
+            color: var(--accent-action);
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-neumorphic);
+            margin-bottom: 20px;
+            font-family: var(--font-family);
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+
+        .login-button:active {
+            box-shadow: var(--shadow-inset);
+            transform: scale(0.98);
+        }
+
+        .login-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .demo-credentials {
+            background: var(--background-color);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            box-shadow: var(--shadow-inset);
+            border-left: 4px solid var(--accent-action);
+        }
+
+        .demo-title {
+            font-weight: 700;
+            color: var(--accent-action);
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .demo-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+
+        .demo-label {
+            color: var(--text-color);
+            font-weight: 500;
+            opacity: 0.8;
+        }
+
+        .demo-value {
+            color: var(--accent-action);
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* ========================================= */
+        /* DASHBOARD NEUMORPHIQUE                    */
+        /* ========================================= */
+
+        .user-header {
+            background: var(--background-color);
+            color: var(--text-color);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-neumorphic);
+        }
+
+        .user-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--accent-action), var(--accent-alert));
+            opacity: 0.1;
+            border-radius: 50%;
+        }
+
+        .user-info {
+            position: relative;
+            z-index: 2;
+        }
+
+        .user-name {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 5px;
+            color: var(--accent-action);
+        }
+
+        .user-email {
+            opacity: 0.8;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .logout-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--background-color);
+            border: none;
+            color: var(--accent-danger);
+            padding: 10px 15px;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 3;
+            box-shadow: var(--shadow-neumorphic);
+            font-weight: 600;
+        }
+
+        .logout-button:hover {
+            box-shadow: var(--shadow-inset);
+        }
+
+        .card {
+            background: var(--background-color);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-neumorphic);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 12px 12px 25px var(--shadow-dark), -12px -12px 25px var(--shadow-light);
+        }
+
+        .card:active {
+            box-shadow: var(--shadow-inset);
+            transform: scale(0.98);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-arrow {
+            color: var(--accent-action);
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .card-arrow {
+            transform: translateX(5px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: var(--background-color);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-inset);
+        }
+
+        .stat-card:hover {
+            transform: scale(1.02);
+            box-shadow: var(--shadow-neumorphic);
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--accent-action);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+        }
+
+        /* ========================================= */
+        /* LISTES NEUMORPHIQUES                      */
+        /* ========================================= */
+
+        .list-item {
+            background: var(--background-color);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-neumorphic);
+        }
+
+        .list-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+
+        .list-item:active {
+            box-shadow: var(--shadow-inset);
+            transform: scale(0.98);
+        }
+
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .item-title {
+            font-weight: 700;
+            color: var(--accent-action);
+            font-size: 16px;
+        }
+
+        .status-chip {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .status-submitted { background: linear-gradient(135deg, var(--accent-alert), #e67e22); }
+        .status-in-progress { background: linear-gradient(135deg, var(--accent-action), #2980b9); }
+        .status-responded { background: linear-gradient(135deg, var(--accent-success), #229954); }
+        .status-refused { background: linear-gradient(135deg, var(--accent-danger), #c0392b); }
+        .status-overdue { background: linear-gradient(135deg, var(--accent-danger), #c0392b); }
+
+        .item-description {
+            font-size: 14px;
+            color: var(--text-color);
+            margin-bottom: 12px;
+            line-height: 1.5;
+            opacity: 0.9;
+        }
+
+        .item-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-color);
+            font-weight: 500;
+            opacity: 0.7;
+        }
+
+        /* ========================================= */
+        /* NAVIGATION NEUMORPHIQUE                   */
+        /* ========================================= */
+
+        .nav-tabs {
+            display: flex;
+            background: var(--background-color);
+            border-radius: 15px;
+            margin-bottom: 25px;
+            overflow: hidden;
+            box-shadow: var(--shadow-inset);
+            padding: 5px;
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            font-family: var(--font-family);
+        }
+
+        .nav-tab.active {
+            background: var(--background-color);
+            color: var(--accent-action);
+            box-shadow: var(--shadow-neumorphic);
+        }
+
+        /* ========================================= */
+        /* BOUTONS NEUMORPHIQUES                     */
+        /* ========================================= */
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .action-button {
+            flex: 1;
+            padding: 18px;
+            border-radius: 15px;
+            text-align: center;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-family: var(--font-family);
+        }
+
+        .primary-button {
+            background: var(--background-color);
+            color: var(--accent-action);
+            box-shadow: var(--shadow-neumorphic);
+        }
+
+        .primary-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+
+        .primary-button:active {
+            box-shadow: var(--shadow-inset);
+            transform: scale(0.98);
+        }
+
+        .secondary-button {
+            background: var(--background-color);
+            color: var(--text-color);
+            box-shadow: var(--shadow-inset);
+        }
+
+        .secondary-button:hover {
+            box-shadow: var(--shadow-neumorphic);
+            transform: translateY(-2px);
+        }
+
+        .secondary-button:active {
+            box-shadow: var(--shadow-inset);
+            transform: scale(0.98);
+        }
+
+        /* ========================================= */
+        /* DÉTAILS NEUMORPHIQUES                     */
+        /* ========================================= */
+
+        .detail-section {
+            background: var(--background-color);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-neumorphic);
+        }
+
+        .detail-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent-action);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--accent-action);
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--shadow-dark);
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: var(--text-color);
+            flex: 1;
+            opacity: 0.8;
+        }
+
+        .detail-value {
+            flex: 2;
+            color: var(--text-color);
+            text-align: right;
+            font-weight: 500;
+        }
+
+        /* ========================================= */
+        /* TIMELINE NEUMORPHIQUE                     */
+        /* ========================================= */
+
+        .timeline {
+            margin-top: 20px;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            background: var(--accent-action);
+            border-radius: 50%;
+            margin-right: 20px;
+            margin-top: 5px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: var(--background-color);
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-inset);
+        }
+
+        .timeline-event {
+            font-weight: 700;
+            color: var(--accent-action);
+            margin-bottom: 5px;
+        }
+
+        .timeline-description {
+            font-size: 13px;
+            color: var(--text-color);
+            margin-bottom: 5px;
+            opacity: 0.8;
+        }
+
+        .timeline-date {
+            font-size: 11px;
+            color: var(--text-color);
+            font-weight: 600;
+            opacity: 0.6;
+        }
+
+        /* ========================================= */
+        /* MESSAGES NEUMORPHIQUES                    */
+        /* ========================================= */
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: var(--text-color);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--shadow-dark);
+            border-top: 4px solid var(--accent-action);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background: var(--background-color);
+            color: var(--accent-danger);
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: var(--shadow-neumorphic);
+            border-left: 4px solid var(--accent-danger);
+        }
+
+        .success-message {
+            background: var(--background-color);
+            color: var(--accent-success);
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: var(--shadow-neumorphic);
+            border-left: 4px solid var(--accent-success);
+        }
+
+        /* ========================================= */
+        /* SÉLECTEUR DE THÈME                        */
+        /* ========================================= */
+
+        .theme-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .theme-toggle {
+            background: var(--background-color);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            box-shadow: var(--shadow-neumorphic);
+            color: var(--accent-action);
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 10px 10px 20px var(--shadow-dark), -10px -10px 20px var(--shadow-light);
+        }
+
+        .theme-toggle:active {
+            box-shadow: var(--shadow-inset);
+            transform: scale(0.95);
+        }
+
+        .theme-menu {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background: var(--background-color);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: var(--shadow-neumorphic);
+            min-width: 200px;
+            display: none;
+        }
+
+        .theme-menu.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .theme-option {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 5px;
+        }
+
+        .theme-option:hover {
+            box-shadow: var(--shadow-inset);
+        }
+
+        .theme-option.active {
+            box-shadow: var(--shadow-inset);
+            color: var(--accent-action);
+        }
+
+        .theme-preview {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* ========================================= */
+        /* RESPONSIVE                                 */
+        /* ========================================= */
+
+        @media (max-width: 400px) {
+            .mobile-container {
+                margin: 0;
+                border-radius: 0;
+                min-height: 100vh;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 15px;
+            }
+        }
+
+        /* ========================================= */
+        /* ANIMATIONS                                 */
+        /* ========================================= */
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        .bounce-in {
+            animation: bounceIn 0.6s ease;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body data-theme="default">
+    <!-- Sélecteur de thème -->
+    <div class="theme-selector">
+        <button class="theme-toggle" onclick="toggleThemeMenu()">
+            <i class="fas fa-palette"></i>
+        </button>
+        <div class="theme-menu" id="themeMenu">
+            <div class="theme-option active" onclick="changeTheme('default')">
+                <div class="theme-preview" style="background: linear-gradient(45deg, #3498DB, #E67E22);"></div>
+                <span>Institutionnel</span>
+            </div>
+            <div class="theme-option" onclick="changeTheme('terre')">
+                <div class="theme-preview" style="background: linear-gradient(45deg, #D2691E, #CD853F);"></div>
+                <span>Terre du Sénégal</span>
+            </div>
+            <div class="theme-option" onclick="changeTheme('moderne')">
+                <div class="theme-preview" style="background: linear-gradient(45deg, #6C5CE7, #FDCB6E);"></div>
+                <span>Moderne</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="mobile-container">
+        <div class="status-bar">
+            <span>9:41</span>
+            <span>🔋 100%</span>
+        </div>
+        
+        <div class="header">
+            <button class="back-button" id="backButton" style="display: none;" onclick="navigateBack()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div>
+                <h1 id="headerTitle">🇸🇳 SAMA CONAI</h1>
+                <div class="nav-indicator" id="navIndicator">Interface Neumorphique</div>
+            </div>
+            <div class="data-source" id="dataSource">NEURO</div>
+        </div>
+        
+        <div class="content" id="content">
+            <!-- Écran de login neumorphique par défaut -->
+            <div class="login-container bounce-in">
+                <div class="login-logo">🇸🇳</div>
+                <h2 class="login-title">SAMA CONAI</h2>
+                <p class="login-subtitle">Interface Neumorphique</p>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label">Email / Nom d'utilisateur</label>
+                        <input type="text" class="form-input" id="loginEmail" placeholder="admin" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Mot de passe</label>
+                        <input type="password" class="form-input" id="loginPassword" placeholder="admin" required>
+                    </div>
+                    
+                    <button type="submit" class="login-button" id="loginButton">
+                        <i class="fas fa-sign-in-alt"></i> Se connecter
+                    </button>
+                </form>
+                
+                <div class="demo-credentials">
+                    <div class="demo-title">🔑 Comptes de démonstration</div>
+                    <div class="demo-item">
+                        <span class="demo-label">Admin:</span>
+                        <span class="demo-value">admin / admin</span>
+                    </div>
+                    <div class="demo-item">
+                        <span class="demo-label">Démo:</span>
+                        <span class="demo-value">demo@sama-conai.sn / demo123</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // État de l'application
+        let navigationStack = [];
+        let currentLevel = 1;
+        let currentData = null;
+        let authToken = null;
+        let currentUser = null;
+        let currentTheme = 'default';
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Charger le thème sauvegardé
+            const savedTheme = localStorage.getItem('sama_conai_theme') || 'default';
+            changeTheme(savedTheme);
+
+            // Vérifier si l'utilisateur est déjà connecté
+            const savedToken = localStorage.getItem('sama_conai_token');
+            if (savedToken) {
+                authToken = savedToken;
+                loadDashboard();
+            }
+            
+            // Gestionnaire de formulaire de login
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+
+            // Fermer le menu thème en cliquant ailleurs
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.theme-selector')) {
+                    document.getElementById('themeMenu').classList.remove('active');
+                }
+            });
+        });
+
+        // Gestion des thèmes
+        function toggleThemeMenu() {
+            const menu = document.getElementById('themeMenu');
+            menu.classList.toggle('active');
+        }
+
+        function changeTheme(themeName) {
+            currentTheme = themeName;
+            document.body.setAttribute('data-theme', themeName);
+            localStorage.setItem('sama_conai_theme', themeName);
+            
+            // Mettre à jour l'option active
+            document.querySelectorAll('.theme-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            document.querySelector(`[onclick="changeTheme('${themeName}')"]`).classList.add('active');
+            
+            // Fermer le menu
+            document.getElementById('themeMenu').classList.remove('active');
+            
+            // Animation de changement de thème
+            document.body.style.transition = 'all 0.5s ease';
+            setTimeout(() => {
+                document.body.style.transition = '';
+            }, 500);
+        }
+
+        // Gestion de la connexion
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const loginButton = document.getElementById('loginButton');
+            
+            if (!email || !password) {
+                showError('Veuillez remplir tous les champs');
+                return;
+            }
+            
+            // Désactiver le bouton et afficher le chargement
+            loginButton.disabled = true;
+            loginButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connexion...';
+            
+            try {
+                const response = await fetch('/api/mobile/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    authToken = data.data.token;
+                    currentUser = data.data.user;
+                    
+                    // Sauvegarder le token
+                    localStorage.setItem('sama_conai_token', authToken);
+                    
+                    // Rediriger vers le dashboard
+                    showSuccess('Connexion réussie !');
+                    setTimeout(() => {
+                        loadDashboard();
+                    }, 1000);
+                } else {
+                    showError(data.error || 'Erreur de connexion');
+                }
+            } catch (error) {
+                console.error('Erreur login:', error);
+                showError('Erreur de connexion au serveur');
+            } finally {
+                loginButton.disabled = false;
+                loginButton.innerHTML = '<i class="fas fa-sign-in-alt"></i> Se connecter';
+            }
+        }
+
+        // Déconnexion
+        async function logout() {
+            try {
+                await fetch('/api/mobile/auth/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+            } catch (error) {
+                console.error('Erreur logout:', error);
+            }
+            
+            // Nettoyer les données locales
+            authToken = null;
+            currentUser = null;
+            localStorage.removeItem('sama_conai_token');
+            
+            // Retourner à l'écran de login
+            showLoginScreen();
+        }
+
+        // Afficher l'écran de login
+        function showLoginScreen() {
+            document.getElementById('headerTitle').textContent = '🇸🇳 SAMA CONAI';
+            document.getElementById('navIndicator').textContent = 'Interface Neumorphique';
+            document.getElementById('backButton').style.display = 'none';
+            
+            document.getElementById('content').innerHTML = `
+                <div class="login-container fade-in">
+                    <div class="login-logo">🇸🇳</div>
+                    <h2 class="login-title">SAMA CONAI</h2>
+                    <p class="login-subtitle">Interface Neumorphique</p>
+                    
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label class="form-label">Email / Nom d'utilisateur</label>
+                            <input type="text" class="form-input" id="loginEmail" placeholder="admin" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Mot de passe</label>
+                            <input type="password" class="form-input" id="loginPassword" placeholder="admin" required>
+                        </div>
+                        
+                        <button type="submit" class="login-button" id="loginButton">
+                            <i class="fas fa-sign-in-alt"></i> Se connecter
+                        </button>
+                    </form>
+                    
+                    <div class="demo-credentials">
+                        <div class="demo-title">🔑 Comptes de démonstration</div>
+                        <div class="demo-item">
+                            <span class="demo-label">Admin:</span>
+                            <span class="demo-value">admin / admin</span>
+                        </div>
+                        <div class="demo-item">
+                            <span class="demo-label">Démo:</span>
+                            <span class="demo-value">demo@sama-conai.sn / demo123</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Réattacher le gestionnaire d'événement
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+        }
+
+        // Navigation
+        function navigateTo(level, title, loadFunction, data = null) {
+            navigationStack.push({
+                level: currentLevel,
+                title: document.getElementById('headerTitle').textContent,
+                content: document.getElementById('content').innerHTML,
+                data: currentData
+            });
+
+            currentLevel = level;
+            currentData = data;
+            
+            document.getElementById('headerTitle').textContent = title;
+            document.getElementById('navIndicator').textContent = `Niveau ${level} - ${title}`;
+            document.getElementById('backButton').style.display = level > 1 ? 'block' : 'none';
+            
+            loadFunction(data);
+        }
+
+        function navigateBack() {
+            if (navigationStack.length > 0) {
+                const previous = navigationStack.pop();
+                currentLevel = previous.level;
+                currentData = previous.data;
+                
+                document.getElementById('headerTitle').textContent = previous.title;
+                document.getElementById('navIndicator').textContent = `Niveau ${previous.level} - ${previous.title.replace('🇸🇳 ', '')}`;
+                document.getElementById('backButton').style.display = previous.level > 1 ? 'block' : 'none';
+                document.getElementById('content').innerHTML = previous.content;
+            }
+        }
+
+        // NIVEAU 1: Dashboard principal neumorphique
+        async function loadDashboard() {
+            showLoading();
+            
+            try {
+                const response = await fetch('/api/mobile/citizen/dashboard', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    if (data.requireAuth) {
+                        showLoginScreen();
+                        return;
+                    }
+                    
+                    renderDashboard(data.data);
+                    updateDataSource(data.source);
+                } else {
+                    if (data.requireAuth) {
+                        showLoginScreen();
+                        return;
+                    }
+                    showError('Erreur lors du chargement du dashboard');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                showError('Erreur de connexion au serveur');
+            }
+        }
+
+        function renderDashboard(data) {
+            document.getElementById('headerTitle').textContent = 'Dashboard Neumorphique';
+            document.getElementById('navIndicator').textContent = 'Niveau 1 - Dashboard';
+            document.getElementById('backButton').style.display = 'none';
+            
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="fade-in">
+                    <div class="user-header">
+                        <button class="logout-button" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i> Déconnexion
+                        </button>
+                        <div class="user-info">
+                            <div class="user-name">${data.user_info.name}</div>
+                            <div class="user-email">${data.user_info.email}</div>
+                        </div>
+                    </div>
+
+                    <div class="neumorphic-card" onclick="navigateTo(2, 'Mes Demandes', loadRequestsList)">
+                        <div class="card-title">
+                            <i class="fas fa-chart-bar"></i> Mes Statistiques
+                            <span class="card-arrow"><i class="fas fa-chevron-right"></i></span>
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-number">${data.user_stats.total_requests}</div>
+                                <div class="stat-label">Total</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: var(--accent-alert)">${data.user_stats.pending_requests}</div>
+                                <div class="stat-label">En cours</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: var(--accent-success)">${data.user_stats.completed_requests}</div>
+                                <div class="stat-label">Terminées</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: var(--accent-danger)">${data.user_stats.overdue_requests}</div>
+                                <div class="stat-label">En retard</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="neumorphic-card" onclick="navigateTo(2, 'Demandes Récentes', loadRecentRequests, data.recent_requests)">
+                        <div class="card-title">
+                            <i class="fas fa-file-alt"></i> Demandes Récentes
+                            <span class="card-arrow"><i class="fas fa-chevron-right"></i></span>
+                        </div>
+                        <div style="font-size: 14px; color: var(--text-color); opacity: 0.8;">
+                            <i class="fas fa-clock"></i> ${data.recent_requests.length} demande(s) récente(s)
+                        </div>
+                    </div>
+
+                    ${data.alert_stats ? `
+                    <div class="neumorphic-card" onclick="navigateTo(2, 'Alertes', loadAlertsList)">
+                        <div class="card-title">
+                            <i class="fas fa-bell"></i> Signalements d'Alerte
+                            <span class="card-arrow"><i class="fas fa-chevron-right"></i></span>
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-number">${data.alert_stats.total_alerts}</div>
+                                <div class="stat-label">Total</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: var(--accent-alert)">${data.alert_stats.active_alerts}</div>
+                                <div class="stat-label">Actives</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: var(--accent-danger)">${data.alert_stats.urgent_alerts}</div>
+                                <div class="stat-label">Urgentes</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number" style="color: var(--accent-action)">${data.alert_stats.new_alerts}</div>
+                                <div class="stat-label">Nouvelles</div>
+                            </div>
+                        </div>
+                    </div>
+                    ` : ''}
+
+                    <div class="neumorphic-card" onclick="navigateTo(2, 'Statistiques Globales', loadGlobalStats)">
+                        <div class="card-title">
+                            <i class="fas fa-globe"></i> Transparence Publique
+                            <span class="card-arrow"><i class="fas fa-chevron-right"></i></span>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label"><i class="fas fa-list"></i> Demandes totales</div>
+                            <div class="detail-value">${data.public_stats.total_public_requests}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label"><i class="fas fa-clock"></i> Temps moyen</div>
+                            <div class="detail-value">${data.public_stats.avg_response_time} jours</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label"><i class="fas fa-check-circle"></i> Taux de succès</div>
+                            <div class="detail-value">${data.public_stats.success_rate}%</div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="neumorphic-button btn-action" onclick="navigateTo(2, 'Nouvelle Demande', showNewRequestForm)">
+                            <i class="fas fa-plus"></i> Nouvelle Demande
+                        </button>
+                        <button class="neumorphic-button btn-danger" onclick="navigateTo(2, 'Signaler', showNewAlertForm)">
+                            <i class="fas fa-exclamation-triangle"></i> Signaler
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Fonctions utilitaires neumorphiques
+        function showLoading() {
+            document.getElementById('content').innerHTML = `
+                <div class="loading bounce-in">
+                    <div class="loading-spinner"></div>
+                    <p>Chargement des données...</p>
+                </div>
+            `;
+        }
+
+        function showError(message) {
+            const content = document.getElementById('content');
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message fade-in';
+            errorDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+            content.insertBefore(errorDiv, content.firstChild);
+            
+            setTimeout(() => {
+                if (errorDiv.parentNode) {
+                    errorDiv.parentNode.removeChild(errorDiv);
+                }
+            }, 5000);
+        }
+
+        function showSuccess(message) {
+            const content = document.getElementById('content');
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success-message fade-in';
+            successDiv.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+            content.insertBefore(successDiv, content.firstChild);
+            
+            setTimeout(() => {
+                if (successDiv.parentNode) {
+                    successDiv.parentNode.removeChild(successDiv);
+                }
+            }, 3000);
+        }
+
+        function updateDataSource(source) {
+            const sourceElement = document.getElementById('dataSource');
+            if (source === 'odoo_real_data') {
+                sourceElement.textContent = 'RÉEL';
+                sourceElement.style.background = 'var(--accent-success)';
+            } else {
+                sourceElement.textContent = 'NEURO';
+                sourceElement.style.background = 'var(--accent-action)';
+            }
+        }
+
+        // Stubs pour les autres fonctions (à implémenter)
+        async function loadRequestsList() {
+            showLoading();
+            setTimeout(() => {
+                showError('Fonctionnalité en développement - Interface neumorphique');
+            }, 1000);
+        }
+
+        function loadRecentRequests(requests) {
+            showError('Fonctionnalité en développement - Interface neumorphique');
+        }
+
+        async function loadAlertsList() {
+            showLoading();
+            setTimeout(() => {
+                showError('Fonctionnalité en développement - Interface neumorphique');
+            }, 1000);
+        }
+
+        async function loadGlobalStats() {
+            showLoading();
+            setTimeout(() => {
+                showError('Fonctionnalité en développement - Interface neumorphique');
+            }, 1000);
+        }
+
+        function showNewRequestForm() {
+            showError('Formulaire de nouvelle demande en développement');
+        }
+
+        function showNewAlertForm() {
+            showError('Formulaire de signalement en développement');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:15
+    container_name: sama_conai_db
+    environment:
+      POSTGRES_DB: sama_conai
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo_password
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - sama_conai_db_data:/var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    networks:
+      - sama_conai_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U odoo -d sama_conai"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Odoo with SAMA CONAI
+  odoo:
+    build: .
+    container_name: sama_conai_odoo
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - HOST=db
+      - USER=odoo
+      - PASSWORD=odoo_password
+      - POSTGRES_DB=sama_conai
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=odoo_password
+    volumes:
+      - sama_conai_web_data:/var/lib/odoo
+      - sama_conai_logs:/var/log/odoo
+      - ./misc/config/odoo.conf:/etc/odoo/odoo.conf:ro
+    ports:
+      - "8069:8069"
+      - "8071:8071"
+      - "8072:8072"
+    networks:
+      - sama_conai_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8069/web/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    command: ["odoo", "--config=/etc/odoo/odoo.conf", "--database=sama_conai"]
+
+  # Redis for sessions and caching
+  redis:
+    image: redis:7-alpine
+    container_name: sama_conai_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - sama_conai_redis_data:/data
+    networks:
+      - sama_conai_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: sama_conai_nginx
+    depends_on:
+      - odoo
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - sama_conai_logs:/var/log/nginx
+    networks:
+      - sama_conai_network
+    restart: unless-stopped
+
+  # Mobile App Server (Node.js)
+  mobile_app:
+    build: ./misc/mobile_apps/mobile_app_web
+    container_name: sama_conai_mobile
+    depends_on:
+      - odoo
+    environment:
+      - ODOO_URL=http://odoo:8069
+      - NODE_ENV=production
+      - PORT=3000
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./misc/mobile_apps/mobile_app_web:/app
+    networks:
+      - sama_conai_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  sama_conai_db_data:
+    driver: local
+  sama_conai_web_data:
+    driver: local
+  sama_conai_redis_data:
+    driver: local
+  sama_conai_logs:
+    driver: local
+
+networks:
+  sama_conai_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

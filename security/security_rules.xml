@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        
+        <!-- ========================================= -->
+        <!-- RÈGLES DE SÉCURITÉ - ACCÈS À L'INFORMATION -->
+        <!-- ========================================= -->
+        
+        <!-- Règle pour les employés : voir seulement les demandes de leur département -->
+        <record id="rule_info_request_user_department" model="ir.rule">
+            <field name="name">Demandes d'Information - Employé Département</field>
+            <field name="model_id" ref="model_request_information"/>
+            <field name="groups" eval="[(4, ref('sama_conai.group_info_request_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+            <field name="domain_force">[
+                '|',
+                ('department_id', '=', False),
+                ('department_id', 'in', user.employee_id.department_id.ids)
+            ]</field>
+        </record>
+
+        <!-- Règle pour les managers : accès complet -->
+        <record id="rule_info_request_manager_all" model="ir.rule">
+            <field name="name">Demandes d'Information - Manager Complet</field>
+            <field name="model_id" ref="model_request_information"/>
+            <field name="groups" eval="[(4, ref('sama_conai.group_info_request_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+
+        <!-- ========================================= -->
+        <!-- RÈGLES DE SÉCURITÉ - SIGNALEMENTS D'ALERTE -->
+        <!-- ========================================= -->
+        
+        <!-- RÈGLE CRITIQUE : Seuls les référents d'alerte peuvent voir les signalements -->
+        <record id="rule_whistleblowing_alert_manager_only" model="ir.rule">
+            <field name="name">Signalements d'Alerte - RÉFÉRENTS UNIQUEMENT</field>
+            <field name="model_id" ref="model_whistleblowing_alert"/>
+            <field name="groups" eval="[(4, ref('sama_conai.group_whistleblowing_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+
+        <!-- SUPPRIMÉ: RÈGLE GLOBALE D'INTERDICTION TOTALE QUI BLOQUAIT AUSSI LES RÉFÉRENTS -->
+        <!-- L'accès est maintenant contrôlé par les groupes et les ACL dans ir.model.access.csv -->
+
+        <!-- ========================================= -->
+        <!-- RÈGLES POUR LES ÉTAPES ET MOTIFS -->
+        <!-- ========================================= -->
+        
+        <!-- Accès aux étapes d'information pour les utilisateurs -->
+        <record id="rule_info_stage_user" model="ir.rule">
+            <field name="name">Étapes Information - Utilisateurs</field>
+            <field name="model_id" ref="model_request_information_stage"/>
+            <field name="groups" eval="[(4, ref('group_info_request_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+
+        <!-- Accès aux motifs de refus pour les utilisateurs -->
+        <record id="rule_refusal_reason_user" model="ir.rule">
+            <field name="name">Motifs de Refus - Utilisateurs</field>
+            <field name="model_id" ref="model_request_refusal_reason"/>
+            <field name="groups" eval="[(4, ref('group_info_request_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+
+        <!-- Accès aux étapes d'alerte pour les référents uniquement -->
+        <record id="rule_whistleblowing_stage_manager" model="ir.rule">
+            <field name="name">Étapes Alerte - Référents Uniquement</field>
+            <field name="model_id" ref="model_whistleblowing_alert_stage"/>
+            <field name="groups" eval="[(4, ref('group_whistleblowing_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+
+    </data>
+</odoo>

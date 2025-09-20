@@ -1,0 +1,82 @@
+# SAMA CONAI - Production Dockerfile
+FROM odoo:18
+
+# Maintainer information
+LABEL maintainer="SAMA Solutions <contact@sama-solutions.com>"
+LABEL description="SAMA CONAI - Production Container"
+LABEL version="18.0.1.0.0"
+
+# Set environment variables for production
+ENV ODOO_RC=/etc/odoo/odoo.conf
+ENV ODOO_DATA_DIR=/var/lib/odoo
+ENV ADDONS_PATH=/mnt/extra-addons
+ENV PYTHONOPTIMIZE=1
+ENV PYTHONUNBUFFERED=1
+
+# Install additional system dependencies
+USER root
+
+# Install production dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    wget \
+    gnupg2 \
+    ca-certificates \
+    supervisor \
+    logrotate \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy and install Python dependencies for SAMA CONAI
+COPY ../requirements-docker.txt /tmp/requirements-docker.txt
+RUN pip3 install --no-cache-dir -r /tmp/requirements-docker.txt \
+    && pip3 install --no-cache-dir \
+    psycopg2-binary \
+    redis \
+    celery \
+    gunicorn
+
+# Install Node.js for mobile applications
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g pm2
+
+# Create directories
+RUN mkdir -p /mnt/extra-addons/sama_conai \
+    && mkdir -p /var/lib/odoo/filestore \
+    && mkdir -p /var/log/odoo \
+    && mkdir -p /var/log/supervisor \
+    && mkdir -p /etc/supervisor/conf.d
+
+# Copy the SAMA CONAI module
+COPY . /mnt/extra-addons/sama_conai/
+
+# Copy supervisor configuration
+COPY docker/supervisor.conf /etc/supervisor/conf.d/sama_conai.conf
+
+# Copy logrotate configuration
+COPY docker/logrotate.conf /etc/logrotate.d/sama_conai
+
+# Set proper permissions
+RUN chown -R odoo:odoo /mnt/extra-addons/sama_conai \
+    && chown -R odoo:odoo /var/lib/odoo \
+    && chown -R odoo:odoo /var/log/odoo \
+    && chmod +x /mnt/extra-addons/sama_conai/docker/entrypoint.sh
+
+# Create non-root user for security
+RUN useradd -r -s /bin/false sama_conai
+
+# Switch back to odoo user
+USER odoo
+
+# Expose ports
+EXPOSE 8069 8071 8072
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+    CMD curl -f http://localhost:8069/web/health || exit 1
+
+# Use custom entrypoint
+ENTRYPOINT ["/mnt/extra-addons/sama_conai/docker/entrypoint.sh"]
+
+# Default command
+CMD ["odoo"]

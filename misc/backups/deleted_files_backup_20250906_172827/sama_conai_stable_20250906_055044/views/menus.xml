@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- ========================================= -->
+        <!-- MENU PRINCIPAL - ACCÈS À L'INFORMATION -->
+        <!-- ========================================= -->
+        
+        <!-- Menu racine pour l'accès à l'information -->
+        <menuitem id="menu_information_access_root"
+                  name="Accès à l'Information"
+                  sequence="10"
+                  groups="sama_conai.group_info_request_user"
+                  web_icon="sama_conai,static/description/icon_information.png"/>
+
+        <!-- Sous-menus pour l'accès à l'information -->
+        <menuitem id="menu_information_requests"
+                  name="Demandes d'Information"
+                  parent="menu_information_access_root"
+                  action="action_information_request"
+                  sequence="10"/>
+
+        <menuitem id="menu_information_reports"
+                  name="Rapports"
+                  parent="menu_information_access_root"
+                  sequence="20"/>
+
+        <menuitem id="menu_information_requests_analysis"
+                  name="Analyse des Demandes"
+                  parent="menu_information_reports"
+                  action="action_information_request"
+                  sequence="10"/>
+
+        <!-- Configuration pour l'accès à l'information -->
+        <menuitem id="menu_information_config"
+                  name="Configuration"
+                  parent="menu_information_access_root"
+                  sequence="90"
+                  groups="sama_conai.group_info_request_manager"/>
+
+        <menuitem id="menu_information_stages"
+                  name="Étapes"
+                  parent="menu_information_config"
+                  action="action_information_request_stage"
+                  sequence="10"/>
+
+        <menuitem id="menu_refusal_reasons"
+                  name="Motifs de Refus"
+                  parent="menu_information_config"
+                  action="action_refusal_reason"
+                  sequence="20"/>
+
+        <!-- ========================================= -->
+        <!-- MENU PRINCIPAL - SIGNALEMENTS D'ALERTE -->
+        <!-- ========================================= -->
+        
+        <!-- Menu racine pour les signalements d'alerte - ACCÈS ULTRA-RESTREINT -->
+        <menuitem id="menu_whistleblowing_root"
+                  name="Signalement d'Alerte"
+                  sequence="20"
+                  groups="sama_conai.group_whistleblowing_manager"
+                  web_icon="sama_conai,static/description/icon_whistleblowing.png"/>
+
+        <!-- Sous-menus pour les signalements d'alerte -->
+        <menuitem id="menu_whistleblowing_alerts"
+                  name="Signalements"
+                  parent="menu_whistleblowing_root"
+                  action="action_whistleblowing_alert"
+                  sequence="10"/>
+
+        <menuitem id="menu_whistleblowing_reports"
+                  name="Rapports"
+                  parent="menu_whistleblowing_root"
+                  sequence="20"/>
+
+        <menuitem id="menu_whistleblowing_alerts_analysis"
+                  name="Analyse des Signalements"
+                  parent="menu_whistleblowing_reports"
+                  action="action_whistleblowing_alert"
+                  sequence="10"/>
+
+        <!-- Configuration pour les signalements d'alerte -->
+        <menuitem id="menu_whistleblowing_config"
+                  name="Configuration"
+                  parent="menu_whistleblowing_root"
+                  sequence="90"/>
+
+        <menuitem id="menu_whistleblowing_stages"
+                  name="Étapes"
+                  parent="menu_whistleblowing_config"
+                  action="action_whistleblowing_stage"
+                  sequence="10"/>
+
+        <!-- ========================================= -->
+        <!-- MENU ADMINISTRATION GÉNÉRALE -->
+        <!-- ========================================= -->
+        
+        <!-- Menu pour l'administration générale du module -->
+        <menuitem id="menu_transparency_admin"
+                  name="Administration Transparence"
+                  parent="base.menu_administration"
+                  sequence="50"
+                  groups="sama_conai.group_transparency_admin"/>
+
+        <menuitem id="menu_transparency_users"
+                  name="Utilisateurs et Groupes"
+                  parent="menu_transparency_admin"
+                  sequence="10"/>
+
+        <menuitem id="menu_transparency_security"
+                  name="Sécurité"
+                  parent="menu_transparency_admin"
+                  sequence="20"/>
+
+    </data>
+</odoo>

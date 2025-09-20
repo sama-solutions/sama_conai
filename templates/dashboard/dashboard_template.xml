@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========================================= -->
+    <!-- SAMA CONAI - DASHBOARD NEUMORPHIQUE      -->
+    <!-- ========================================= -->
+    
+    <!-- Template principal du dashboard -->
+    <template id="sama_conai_dashboard_template" name="SAMA CONAI Dashboard">
+        <div class="sama-conai-dashboard">
+            <!-- Header du dashboard -->
+            <div class="dashboard-header">
+                <h1>Tableau de Bord</h1>
+                <div class="user-profile-icon" title="Profil utilisateur">
+                    <i class="fa fa-user"></i>
+                </div>
+            </div>
+
+            <!-- Cartes de métriques -->
+            <div class="metrics-grid">
+                <!-- Carte Demandes en Cours -->
+                <div class="neumorphic-card metric-card action">
+                    <div class="metric-content">
+                        <div class="metric-title">Demandes en Cours</div>
+                        <div class="metric-value" t-esc="in_progress_count or '12'"></div>
+                    </div>
+                    <div class="metric-icon">
+                        <i class="fa fa-file-text-o"></i>
+                    </div>
+                </div>
+
+                <!-- Carte Dossiers en Retard -->
+                <div class="neumorphic-card metric-card danger">
+                    <div class="metric-content">
+                        <div class="metric-title">Dossiers en Retard</div>
+                        <div class="metric-value" t-esc="overdue_count or '3'"></div>
+                    </div>
+                    <div class="metric-icon">
+                        <i class="fa fa-exclamation-triangle"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Graphique principal -->
+            <div class="neumorphic-card chart-container">
+                <div class="chart-title">Répartition des Demandes</div>
+                <canvas id="mainChart" width="400" height="200"></canvas>
+                <div class="chart-total" style="text-align: center; margin-top: 1rem;">
+                    <span style="font-size: 2rem; font-weight: bold; color: var(--text-color);">
+                        <t t-esc="total_requests or '87'"/>
+                    </span>
+                    <div style="font-size: 0.9rem; color: var(--text-color); opacity: 0.7;">
+                        Total des demandes
+                    </div>
+                </div>
+            </div>
+
+            <!-- Liste des tâches prioritaires -->
+            <div class="priority-list">
+                <div class="list-title">Mes Tâches Prioritaires</div>
+                
+                <t t-if="priority_tasks">
+                    <t t-foreach="priority_tasks" t-as="task">
+                        <div class="neumorphic-card list-item">
+                            <div class="status-bar" t-attf-style="background-color: #{task.urgency_color or '#E74C3C'}"></div>
+                            <div class="item-content">
+                                <div class="item-id" t-esc="task.reference or task.name"></div>
+                                <div class="item-title" t-esc="task.subject or task.description"></div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+                
+                <!-- Données par défaut si pas de tâches -->
+                <t t-if="not priority_tasks">
+                    <div class="neumorphic-card list-item">
+                        <div class="status-bar" style="background-color: #E74C3C"></div>
+                        <div class="item-content">
+                            <div class="item-id">REQ-2024-001</div>
+                            <div class="item-title">Demande d'accès aux documents budgétaires</div>
+                        </div>
+                    </div>
+                    
+                    <div class="neumorphic-card list-item">
+                        <div class="status-bar" style="background-color: #E67E22"></div>
+                        <div class="item-content">
+                            <div class="item-id">REQ-2024-002</div>
+                            <div class="item-title">Information sur les marchés publics</div>
+                        </div>
+                    </div>
+                    
+                    <div class="neumorphic-card list-item">
+                        <div class="status-bar" style="background-color: #E67E22"></div>
+                        <div class="item-content">
+                            <div class="item-id">ALERT-2024-001</div>
+                            <div class="item-title">Signalement de corruption - Enquête en cours</div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+
+            <!-- Navigation en bas -->
+            <nav class="bottom-nav neumorphic-nav">
+                <a href="#" class="nav-item active" data-section="dashboard" title="Tableau de Bord">
+                    <i class="fa fa-tachometer"></i>
+                    <span class="sr-only">Tableau de Bord</span>
+                </a>
+                <a href="#" class="nav-item" data-section="requests" title="Demandes">
+                    <i class="fa fa-file-text"></i>
+                    <span class="sr-only">Demandes</span>
+                </a>
+                <a href="#" class="nav-item" data-section="alerts" title="Alertes">
+                    <i class="fa fa-bell"></i>
+                    <span class="sr-only">Alertes</span>
+                </a>
+                <a href="#" class="nav-item" data-section="profile" title="Profil">
+                    <i class="fa fa-user"></i>
+                    <span class="sr-only">Profil</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Script pour initialiser le graphique -->
+        <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', function() {
+                // Initialisation du graphique Chart.js
+                var ctx = document.getElementById('mainChart');
+                if (ctx &amp;&amp; typeof Chart !== 'undefined') {
+                    var chartData = {
+                        labels: ['En cours', 'Terminées', 'En retard', 'Nouvelles'],
+                        datasets: [{
+                            data: [
+                                <t t-esc="chart_data.get('in_progress', 45)"/>,
+                                <t t-esc="chart_data.get('completed', 30)"/>,
+                                <t t-esc="chart_data.get('overdue', 8)"/>,
+                                <t t-esc="chart_data.get('new', 4)"/>
+                            ],
+                            backgroundColor: [
+                                'var(--chart-color-1)',
+                                'var(--chart-color-4)',
+                                'var(--chart-color-3)',
+                                'var(--chart-color-2)'
+                            ],
+                            borderWidth: 0
+                        }]
+                    };
+
+                    new Chart(ctx, {
+                        type: 'doughnut',
+                        data: chartData,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                    labels: {
+                                        padding: 20,
+                                        usePointStyle: true,
+                                        font: {
+                                            family: 'Poppins',
+                                            size: 12
+                                        }
+                                    }
+                                }
+                            },
+                            cutout: '60%'
+                        }
+                    });
+                }
+
+                // Gestion de la navigation
+                document.querySelectorAll('.bottom-nav .nav-item').forEach(function(item) {
+                    item.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        // Retire la classe active de tous les éléments
+                        document.querySelectorAll('.bottom-nav .nav-item').forEach(function(el) {
+                            el.classList.remove('active');
+                        });
+                        
+                        // Ajoute la classe active à l'élément cliqué
+                        this.classList.add('active');
+                        
+                        // Ici, vous pouvez ajouter la logique de navigation
+                        var section = this.getAttribute('data-section');
+                        console.log('Navigation vers:', section);
+                    });
+                });
+            });
+        </script>
+    </template>
+
+    <!-- Template pour le sélecteur de thème -->
+    <template id="sama_conai_theme_selector" name="SAMA CONAI Theme Selector">
+        <div class="theme-selector-section">
+            <h3>Préférences d'Affichage</h3>
+            <p>Choisissez votre thème préféré pour personnaliser l'interface SAMA CONAI.</p>
+            
+            <div class="theme-selector-grid">
+                <!-- Thème Institutionnel -->
+                <div class="neumorphic-card theme-choice-card" data-theme-name="default">
+                    <div class="theme-preview">
+                        <div class="color-sample" style="background-color: #EFF2F5;"></div>
+                        <div class="color-sample" style="background-color: #3498DB;"></div>
+                        <div class="color-sample" style="background-color: #E67E22;"></div>
+                        <div class="color-sample" style="background-color: #E74C3C;"></div>
+                    </div>
+                    <h4 class="theme-name">Thème Institutionnel</h4>
+                    <p class="theme-description">Couleurs officielles et professionnelles</p>
+                </div>
+
+                <!-- Thème Terre du Sénégal -->
+                <div class="neumorphic-card theme-choice-card" data-theme-name="terre">
+                    <div class="theme-preview">
+                        <div class="color-sample" style="background-color: #F5F1E8;"></div>
+                        <div class="color-sample" style="background-color: #D2691E;"></div>
+                        <div class="color-sample" style="background-color: #CD853F;"></div>
+                        <div class="color-sample" style="background-color: #A0522D;"></div>
+                    </div>
+                    <h4 class="theme-name">Thème Terre du Sénégal</h4>
+                    <p class="theme-description">Inspiré des couleurs de la terre sénégalaise</p>
+                </div>
+
+                <!-- Thème Moderne -->
+                <div class="neumorphic-card theme-choice-card" data-theme-name="moderne">
+                    <div class="theme-preview">
+                        <div class="color-sample" style="background-color: #F8F9FA;"></div>
+                        <div class="color-sample" style="background-color: #6C5CE7;"></div>
+                        <div class="color-sample" style="background-color: #FDCB6E;"></div>
+                        <div class="color-sample" style="background-color: #E17055;"></div>
+                    </div>
+                    <h4 class="theme-name">Thème Moderne</h4>
+                    <p class="theme-description">Design contemporain avec effets visuels</p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Template pour les métriques individuelles -->
+    <template id="sama_conai_metric_card" name="SAMA CONAI Metric Card">
+        <div t-attf-class="neumorphic-card metric-card #{metric_type or ''}">
+            <div class="metric-content">
+                <div class="metric-title" t-esc="metric_title"></div>
+                <div class="metric-value" t-esc="metric_value"></div>
+            </div>
+            <div class="metric-icon">
+                <i t-attf-class="fa #{metric_icon or 'fa-bar-chart'}"></i>
+            </div>
+        </div>
+    </template>
+
+    <!-- Template pour les éléments de liste prioritaire -->
+    <template id="sama_conai_priority_item" name="SAMA CONAI Priority Item">
+        <div class="neumorphic-card list-item">
+            <div class="status-bar" t-attf-style="background-color: #{urgency_color or '#E67E22'}"></div>
+            <div class="item-content">
+                <div class="item-id" t-esc="item_reference"></div>
+                <div class="item-title" t-esc="item_title"></div>
+            </div>
+        </div>
+    </template>
+</odoo>

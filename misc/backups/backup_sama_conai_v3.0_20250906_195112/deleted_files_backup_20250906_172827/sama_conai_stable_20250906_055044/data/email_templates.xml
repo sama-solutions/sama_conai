@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- ========================================= -->
+        <!-- TEMPLATES D'EMAILS POUR L'ACCÈS À L'INFORMATION -->
+        <!-- ========================================= -->
+        
+        <!-- Template d'accusé de réception -->
+        <record id="email_template_acknowledgment" model="mail.template">
+            <field name="name">Accusé de Réception - Demande d'Information</field>
+            <field name="model_id" ref="model_request_information"/>
+            <field name="subject">Accusé de réception - Demande d'information ${object.name}</field>
+            <field name="email_from">${(object.company_id.email or user.email)|safe}</field>
+            <field name="email_to">${object.partner_email}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFFFFF;">
+    <table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #FFFFFF; font-family:'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; color: rgb(34, 34, 34); width: 100%; border-collapse:separate;">
+        <tr>
+            <td align="center">
+                <table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: white; color: rgb(34, 34, 34); border-collapse:separate;">
+                    <tbody>
+                        <!-- Header -->
+                        <tr>
+                            <td align="center" style="min-height: 50px; border-bottom: 1px solid #dee2e6;">
+                                <h2 style="color: #007bff; margin: 0;">
+                                    <strong>SAMA CONAI - Accès à l'Information</strong>
+                                </h2>
+                                <p style="margin: 5px 0; color: #6c757d;">République du Sénégal</p>
+                            </td>
+                        </tr>
+                        
+                        <!-- Content -->
+                        <tr>
+                            <td style="padding-top: 20px;">
+                                <p>Madame, Monsieur <strong>${object.partner_name}</strong>,</p>
+                                
+                                <p>Nous accusons réception de votre demande d'accès à l'information publique.</p>
+                                
+                                <div style="background-color: #e7f3ff; padding: 15px; border-left: 4px solid #007bff; margin: 20px 0;">
+                                    <h3 style="margin: 0 0 10px 0; color: #007bff;">Détails de votre demande</h3>
+                                    <p style="margin: 5px 0;"><strong>Numéro de référence :</strong> ${object.name}</p>
+                                    <p style="margin: 5px 0;"><strong>Date de demande :</strong> ${format_datetime(object.request_date, tz=user.tz, dt_format='dd/MM/yyyy à HH:mm')}</p>
+                                    <p style="margin: 5px 0;"><strong>Date limite de réponse :</strong> ${format_date(object.deadline_date, date_format='dd/MM/yyyy')}</p>
+                                    <p style="margin: 5px 0;"><strong>Qualité :</strong> ${dict(object._fields['requester_quality'].selection).get(object.requester_quality)}</p>
+                                </div>
+                                
+                                <h4>Votre demande :</h4>
+                                <div style="background-color: #f8f9fa; padding: 15px; border: 1px solid #dee2e6;">
+                                    ${object.description}
+                                </div>
+                                
+                                <h4>Prochaines étapes :</h4>
+                                <ol>
+                                    <li>Votre demande sera analysée et assignée à un expert compétent</li>
+                                    <li>Une réponse vous sera fournie dans un délai maximum de <strong>30 jours</strong></li>
+                                    <li>Vous recevrez un email avec la réponse ou les documents demandés</li>
+                                </ol>
+                                
+                                <div style="background-color: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; margin: 20px 0;">
+                                    <p style="margin: 0;"><strong>Important :</strong> Conservez le numéro de référence <strong>${object.name}</strong> pour tout suivi de votre demande.</p>
+                                </div>
+                                
+                                <p>Nous vous remercions de votre confiance et vous assurons de notre engagement à respecter votre droit d'accès à l'information publique.</p>
+                                
+                                <p>Cordialement,<br/>
+                                <strong>L'équipe SAMA CONAI</strong></p>
+                            </td>
+                        </tr>
+                        
+                        <!-- Footer -->
+                        <tr>
+                            <td style="text-align: center; padding-top: 20px; border-top: 1px solid #dee2e6; color: #6c757d; font-size: 11px;">
+                                <p>Cet email a été envoyé automatiquement, merci de ne pas y répondre directement.</p>
+                                <p>SAMA CONAI - Commission Nationale d'Accès à l'Information - République du Sénégal</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+            </field>
+        </record>
+        
+        <!-- Template de réponse positive -->
+        <record id="email_template_response" model="mail.template">
+            <field name="name">Réponse - Demande d'Information</field>
+            <field name="model_id" ref="model_request_information"/>
+            <field name="subject">Réponse à votre demande d'information ${object.name}</field>
+            <field name="email_from">${(object.company_id.email or user.email)|safe}</field>
+            <field name="email_to">${object.partner_email}</field>
+            <field name="attachment_ids" eval="[(6, 0, [])]"/>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFFFFF;">
+    <table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #FFFFFF; font-family:'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; color: rgb(34, 34, 34); width: 100%; border-collapse:separate;">
+        <tr>
+            <td align="center">
+                <table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: white; color: rgb(34, 34, 34); border-collapse:separate;">
+                    <tbody>
+                        <!-- Header -->
+                        <tr>
+                            <td align="center" style="min-height: 50px; border-bottom: 1px solid #dee2e6;">
+                                <h2 style="color: #28a745; margin: 0;">
+                                    <strong>SAMA CONAI - Réponse à votre demande</strong>
+                                </h2>
+                                <p style="margin: 5px 0; color: #6c757d;">République du Sénégal</p>
+                            </td>
+                        </tr>
+                        
+                        <!-- Content -->
+                        <tr>
+                            <td style="padding-top: 20px;">
+                                <p>Madame, Monsieur <strong>${object.partner_name}</strong>,</p>
+                                
+                                <p>Nous avons le plaisir de vous transmettre la réponse à votre demande d'accès à l'information publique.</p>
+                                
+                                <div style="background-color: #d4edda; padding: 15px; border-left: 4px solid #28a745; margin: 20px 0;">
+                                    <h3 style="margin: 0 0 10px 0; color: #28a745;">Référence de votre demande</h3>
+                                    <p style="margin: 5px 0;"><strong>Numéro :</strong> ${object.name}</p>
+                                    <p style="margin: 5px 0;"><strong>Date de demande :</strong> ${format_datetime(object.request_date, tz=user.tz, dt_format='dd/MM/yyyy')}</p>
+                                    <p style="margin: 5px 0;"><strong>Date de réponse :</strong> ${format_datetime(object.response_date, tz=user.tz, dt_format='dd/MM/yyyy')}</p>
+                                </div>
+                                
+                                <h4>Réponse :</h4>
+                                <div style="background-color: #f8f9fa; padding: 15px; border: 1px solid #dee2e6;">
+                                    ${object.response_body}
+                                </div>
+                                
+                                % if object.response_attachment_ids:
+                                <div style="background-color: #e7f3ff; padding: 15px; border-left: 4px solid #007bff; margin: 20px 0;">
+                                    <h4 style="margin: 0 0 10px 0; color: #007bff;">Documents joints</h4>
+                                    <p>Les documents demandés sont joints à cet email :</p>
+                                    <ul>
+                                        % for attachment in object.response_attachment_ids:
+                                        <li>${attachment.name}</li>
+                                        % endfor
+                                    </ul>
+                                </div>
+                                % endif
+                                
+                                <p>Nous espérons que cette réponse répond à vos attentes. Si vous avez des questions complémentaires, n'hésitez pas à nous contacter.</p>
+                                
+                                <p>Nous vous remercions de votre confiance dans notre engagement pour la transparence.</p>
+                                
+                                <p>Cordialement,<br/>
+                                <strong>L'équipe SAMA CONAI</strong></p>
+                            </td>
+                        </tr>
+                        
+                        <!-- Footer -->
+                        <tr>
+                            <td style="text-align: center; padding-top: 20px; border-top: 1px solid #dee2e6; color: #6c757d; font-size: 11px;">
+                                <p>Cet email a été envoyé automatiquement, merci de ne pas y répondre directement.</p>
+                                <p>SAMA CONAI - Commission Nationale d'Accès à l'Information - République du Sénégal</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+            </field>
+        </record>
+        
+        <!-- Template de refus -->
+        <record id="email_template_response_refusal" model="mail.template">
+            <field name="name">Refus - Demande d'Information</field>
+            <field name="model_id" ref="model_request_information"/>
+            <field name="subject">Réponse à votre demande d'information ${object.name} - Refus motivé</field>
+            <field name="email_from">${(object.company_id.email or user.email)|safe}</field>
+            <field name="email_to">${object.partner_email}</field>
+            <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFFFFF;">
+    <table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #FFFFFF; font-family:'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; color: rgb(34, 34, 34); width: 100%; border-collapse:separate;">
+        <tr>
+            <td align="center">
+                <table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 16px; background-color: white; color: rgb(34, 34, 34); border-collapse:separate;">
+                    <tbody>
+                        <!-- Header -->
+                        <tr>
+                            <td align="center" style="min-height: 50px; border-bottom: 1px solid #dee2e6;">
+                                <h2 style="color: #dc3545; margin: 0;">
+                                    <strong>SAMA CONAI - Réponse à votre demande</strong>
+                                </h2>
+                                <p style="margin: 5px 0; color: #6c757d;">République du Sénégal</p>
+                            </td>
+                        </tr>
+                        
+                        <!-- Content -->
+                        <tr>
+                            <td style="padding-top: 20px;">
+                                <p>Madame, Monsieur <strong>${object.partner_name}</strong>,</p>
+                                
+                                <p>Nous avons examiné attentivement votre demande d'accès à l'information publique.</p>
+                                
+                                <div style="background-color: #f8d7da; padding: 15px; border-left: 4px solid #dc3545; margin: 20px 0;">
+                                    <h3 style="margin: 0 0 10px 0; color: #dc3545;">Référence de votre demande</h3>
+                                    <p style="margin: 5px 0;"><strong>Numéro :</strong> ${object.name}</p>
+                                    <p style="margin: 5px 0;"><strong>Date de demande :</strong> ${format_datetime(object.request_date, tz=user.tz, dt_format='dd/MM/yyyy')}</p>
+                                    <p style="margin: 5px 0;"><strong>Date de réponse :</strong> ${format_datetime(object.response_date, tz=user.tz, dt_format='dd/MM/yyyy')}</p>
+                                </div>
+                                
+                                <p>Après analyse, nous ne pouvons malheureusement pas donner suite favorablement à votre demande pour les raisons suivantes :</p>
+                                
+                                <div style="background-color: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; margin: 20px 0;">
+                                    <h4 style="margin: 0 0 10px 0; color: #856404;">Motif de refus</h4>
+                                    <p style="margin: 5px 0;"><strong>${object.refusal_reason_id.name}</strong></p>
+                                    % if object.refusal_reason_id.legal_reference:
+                                    <p style="margin: 5px 0; font-style: italic;">Référence légale : ${object.refusal_reason_id.legal_reference}</p>
+                                    % endif
+                                </div>
+                                
+                                <h4>Motivation détaillée :</h4>
+                                <div style="background-color: #f8f9fa; padding: 15px; border: 1px solid #dee2e6;">
+                                    ${object.refusal_motivation}
+                                </div>
+                                
+                                <div style="background-color: #e7f3ff; padding: 15px; border-left: 4px solid #007bff; margin: 20px 0;">
+                                    <h4 style="margin: 0 0 10px 0; color: #007bff;">Vos droits de recours</h4>
+                                    <p>Si vous n'êtes pas satisfait de cette décision, vous disposez des recours suivants :</p>
+                                    <ul>
+                                        <li>Recours gracieux auprès de notre service dans un délai de 2 mois</li>
+                                        <li>Recours contentieux devant le tribunal administratif compétent</li>
+                                        <li>Saisine de la Commission d'Accès aux Documents Administratifs (CADA)</li>
+                                    </ul>
+                                </div>
+                                
+                                <p>Nous vous remercions de votre compréhension et restons à votre disposition pour tout complément d'information.</p>
+                                
+                                <p>Cordialement,<br/>
+                                <strong>L'équipe SAMA CONAI</strong></p>
+                            </td>
+                        </tr>
+                        
+                        <!-- Footer -->
+                        <tr>
+                            <td style="text-align: center; padding-top: 20px; border-top: 1px solid #dee2e6; color: #6c757d; font-size: 11px;">
+                                <p>Cet email a été envoyé automatiquement, merci de ne pas y répondre directement.</p>
+                                <p>SAMA CONAI - Commission Nationale d'Accès à l'Information - République du Sénégal</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

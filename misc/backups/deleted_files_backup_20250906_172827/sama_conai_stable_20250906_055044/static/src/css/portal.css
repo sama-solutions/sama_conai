@@ -1,0 +1,221 @@
+/* CSS pour le portail web - Module Transparence Sénégal */
+
+/* Styles généraux pour les formulaires */
+.transparency-form {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.transparency-form .card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+.transparency-form .card-header {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Styles pour les alertes d'information */
+.alert-transparency {
+    border-left: 4px solid #007bff;
+    background-color: #e7f3ff;
+    border-color: #b8daff;
+}
+
+.alert-security {
+    border-left: 4px solid #ffc107;
+    background-color: #fff3cd;
+    border-color: #ffeaa7;
+}
+
+/* Styles pour les boutons */
+.btn-transparency {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    font-weight: 500;
+}
+
+.btn-transparency:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    color: white;
+}
+
+.btn-whistleblowing {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #212529;
+    padding: 10px 20px;
+    font-weight: 500;
+}
+
+.btn-whistleblowing:hover {
+    background-color: #e0a800;
+    border-color: #d39e00;
+    color: #212529;
+}
+
+/* Styles pour les cartes d'information */
+.info-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+}
+
+.info-card .card-body {
+    padding: 1.5rem;
+}
+
+.info-card h3, .info-card h4 {
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+/* Styles pour les badges de statut */
+.badge-overdue {
+    background-color: #dc3545;
+    color: white;
+}
+
+.badge-urgent {
+    background-color: #fd7e14;
+    color: white;
+}
+
+.badge-anonymous {
+    background-color: #6c757d;
+    color: white;
+}
+
+.badge-confidential {
+    background-color: #e83e8c;
+    color: white;
+}
+
+/* Styles pour les formulaires de validation */
+.form-validation .form-control:invalid {
+    border-color: #dc3545;
+}
+
+.form-validation .form-control:valid {
+    border-color: #28a745;
+}
+
+/* Styles pour les liens de suivi */
+.follow-link {
+    font-family: 'Courier New', monospace;
+    background-color: #f8f9fa;
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    word-break: break-all;
+}
+
+/* Styles pour les étapes de workflow */
+.workflow-steps {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.workflow-step {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 0 5px;
+    background-color: #f8f9fa;
+    border: 2px solid #dee2e6;
+}
+
+.workflow-step.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.workflow-step.completed {
+    background-color: #28a745;
+    color: white;
+    border-color: #28a745;
+}
+
+/* Styles pour les messages d'erreur */
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+/* Styles pour les messages de succès */
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 15px;
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+/* Styles responsifs */
+@media (max-width: 768px) {
+    .transparency-form {
+        padding: 10px;
+    }
+    
+    .workflow-steps {
+        flex-direction: column;
+    }
+    
+    .workflow-step {
+        margin: 5px 0;
+    }
+    
+    .btn-transparency, .btn-whistleblowing {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+/* Styles pour l'accessibilité */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Focus visible pour l'accessibilité */
+.btn:focus,
+.form-control:focus,
+.form-check-input:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
+
+/* Styles pour les indicateurs de chargement */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
