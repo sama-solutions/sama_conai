@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formation Administrateur - SAMA CONAI</title>
+    <meta name="description" content="Formation complète pour les administrateurs du module SAMA CONAI">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="../assets/css/formation.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="../index.html">
+                <i class="fas fa-shield-alt me-2"></i>SAMA CONAI
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Accueil</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">
+                            Formation
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item active" href="administrateur.html">Administrateur</a></li>
+                            <li><a class="dropdown-item" href="agent.html">Agent Public</a></li>
+                            <li><a class="dropdown-item" href="citoyen.html">Citoyen</a></li>
+                            <li><a class="dropdown-item" href="formateur.html">Formateur</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Certification
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../certification/utilisateur.html">Certification Utilisateur</a></li>
+                            <li><a class="dropdown-item" href="../certification/formateur.html">Certification Formateur</a></li>
+                            <li><a class="dropdown-item" href="../certification/expert.html">Certification Expert</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Documentation
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../documentation/guide-demarrage.html">Guide de Démarrage</a></li>
+                            <li><a class="dropdown-item" href="../documentation/manuel-utilisateur.html">Manuel Utilisateur</a></li>
+                            <li><a class="dropdown-item" href="../documentation/documentation-technique.html">Documentation Technique</a></li>
+                            <li><a class="dropdown-item" href="../documentation/faq.html">FAQ</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="formation-hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <div class="breadcrumb-nav">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="../index.html">Accueil</a></li>
+                                <li class="breadcrumb-item">Formation</li>
+                                <li class="breadcrumb-item active">Administrateur</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <h1 class="formation-title">
+                        <i class="fas fa-user-cog me-3"></i>
+                        Formation Administrateur
+                    </h1>
+                    <p class="formation-subtitle">
+                        Maîtrisez l'installation, la configuration et l'administration complète du module SAMA CONAI
+                    </p>
+                    <div class="formation-meta">
+                        <span class="meta-item">
+                            <i class="fas fa-clock"></i>
+                            Durée: 8-12 heures
+                        </span>
+                        <span class="meta-item">
+                            <i class="fas fa-signal"></i>
+                            Niveau: Avancé
+                        </span>
+                        <span class="meta-item">
+                            <i class="fas fa-users"></i>
+                            Prérequis: Odoo, Linux
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="progress-card">
+                        <h5>Votre Progression</h5>
+                        <div class="progress mb-3">
+                            <div class="progress-bar" role="progressbar" style="width: 0%" id="overallProgress">0%</div>
+                        </div>
+                        <div class="progress-stats">
+                            <div class="stat">
+                                <span class="stat-number" id="completedModules">0</span>
+                                <span class="stat-label">Modules Complétés</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">12</span>
+                                <span class="stat-label">Total Modules</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary w-100 mt-3" onclick="startFormation()">
+                            <i class="fas fa-play me-2"></i>Commencer la Formation
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formation Content -->
+    <section class="formation-content py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Sidebar Navigation -->
+                <div class="col-lg-3">
+                    <div class="formation-sidebar sticky-top">
+                        <h5>Plan de Formation</h5>
+                        <div class="module-list">
+                            <div class="module-item" data-module="1">
+                                <div class="module-header" onclick="toggleModule(1)">
+                                    <i class="fas fa-chevron-right module-toggle"></i>
+                                    <span class="module-title">1. Introduction et Prérequis</span>
+                                    <span class="module-status"><i class="fas fa-circle"></i></span>
+                                </div>
+                                <div class="module-content">
+                                    <a href="#" class="lesson-link" data-lesson="1.1">Vue d'ensemble du module</a>
+                                    <a href="#" class="lesson-link" data-lesson="1.2">Architecture technique</a>
+                                    <a href="#" class="lesson-link" data-lesson="1.3">Prérequis système</a>
+                                </div>
+                            </div>
+                            
+                            <div class="module-item" data-module="2">
+                                <div class="module-header" onclick="toggleModule(2)">
+                                    <i class="fas fa-chevron-right module-toggle"></i>
+                                    <span class="module-title">2. Installation et Configuration</span>
+                                    <span class="module-status"><i class="fas fa-circle"></i></span>
+                                </div>
+                                <div class="module-content">
+                                    <a href="#" class="lesson-link" data-lesson="2.1">Installation du module</a>
+                                    <a href="#" class="lesson-link" data-lesson="2.2">Configuration initiale</a>
+                                    <a href="#" class="lesson-link" data-lesson="2.3">Paramètres avancés</a>
+                                    <a href="#" class="lesson-link" data-lesson="2.4">Tests d'installation</a>
+                                </div>
+                            </div>
+
+                            <div class="module-item" data-module="3">
+                                <div class="module-header" onclick="toggleModule(3)">
+                                    <i class="fas fa-chevron-right module-toggle"></i>
+                                    <span class="module-title">3. Gestion des Utilisateurs</span>
+                                    <span class="module-status"><i class="fas fa-circle"></i></span>
+                                </div>
+                                <div class="module-content">
+                                    <a href="#" class="lesson-link" data-lesson="3.1">Groupes et permissions</a>
+                                    <a href="#" class="lesson-link" data-lesson="3.2">Création d'utilisateurs</a>
+                                    <a href="#" class="lesson-link" data-lesson="3.3">Gestion des rôles</a>
+                                    <a href="#" class="lesson-link" data-lesson="3.4">Sécurité et accès</a>
+                                </div>
+                            </div>
+
+                            <div class="module-item" data-module="4">
+                                <div class="module-header" onclick="toggleModule(4)">
+                                    <i class="fas fa-chevron-right module-toggle"></i>
+                                    <span class="module-title">4. Configuration des Workflows</span>
+                                    <span class="module-status"><i class="fas fa-circle"></i></span>
+                                </div>
+                                <div class="module-content">
+                                    <a href="#" class="lesson-link" data-lesson="4.1">Workflow des demandes</a>
+                                    <a href="#" class="lesson-link" data-lesson="4.2">Étapes et transitions</a>
+                                    <a href="#" class="lesson-link" data-lesson="4.3">Notifications automatiques</a>
+                                    <a href="#" class="lesson-link" data-lesson="4.4">Délais et escalades</a>
+                                </div>
+                            </div>
+
+                            <div class="module-item" data-module="5">
+                                <div class="module-header" onclick="toggleModule(5)">
+                                    <i class="fas fa-chevron-right module-toggle"></i>
+                                    <span class="module-title">5. Personnalisation Interface</span>
+                                    <span class="module-status"><i class="fas fa-circle"></i></span>
+                                </div>
+                                <div class="module-content">
+                                    <a href="#" class="lesson-link" data-lesson="5.1">Customisation des vues</a>
+                                    <a href="#" class="lesson-link" data-lesson="5.2">Champs personnalisés</a>
+                                    <a href="#" class="lesson-link" data-lesson="5.3">Rapports et tableaux de bord</a>
+                                </div>
+                            </div>
+
+                            <div class="module-item" data-module="6">
+                                <div class="module-header" onclick="toggleModule(6)">
+                                    <i class="fas fa-chevron-right module-toggle"></i>
+                                    <span class="module-title">6. Maintenance et Monitoring</span>
+                                    <span class="module-status"><i class="fas fa-circle"></i></span>
+                                </div>
+                                <div class="module-content">
+                                    <a href="#" class="lesson-link" data-lesson="6.1">Surveillance système</a>
+                                    <a href="#" class="lesson-link" data-lesson="6.2">Sauvegardes</a>
+                                    <a href="#" class="lesson-link" data-lesson="6.3">Mise à jour</a>
+                                    <a href="#" class="lesson-link" data-lesson="6.4">Dépannage</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="col-lg-9">
+                    <div class="lesson-content">
+                        <!-- Module 1: Introduction -->
+                        <div class="lesson-section active" id="lesson-1.1">
+                            <div class="lesson-header">
+                                <h2>Vue d'ensemble du module SAMA CONAI</h2>
+                                <div class="lesson-meta">
+                                    <span><i class="fas fa-clock"></i> 30 minutes</span>
+                                    <span><i class="fas fa-eye"></i> Lecture</span>
+                                </div>
+                            </div>
+                            
+                            <div class="lesson-body">
+                                <h3>Objectifs d'apprentissage</h3>
+                                <ul class="learning-objectives">
+                                    <li>Comprendre le contexte et les objectifs du module SAMA CONAI</li>
+                                    <li>Identifier les fonctionnalités principales</li>
+                                    <li>Connaître l'architecture technique générale</li>
+                                    <li>Comprendre les enjeux de transparence au Sénégal</li>
+                                </ul>
+
+                                <h3>Introduction</h3>
+                                <p>SAMA CONAI est un module Odoo 18.0 développé spécifiquement pour répondre aux exigences de transparence et de gouvernance au Sénégal. Il implémente les dispositions de la loi sur l'accès à l'information et fournit une plateforme complète pour la gestion des demandes citoyennes.</p>
+
+                                <div class="info-box">
+                                    <h4><i class="fas fa-info-circle"></i> Contexte Légal</h4>
+                                    <p>Le module s'appuie sur la loi sénégalaise sur l'accès à l'information publique et les directives de la Commission Nationale d'Accès à l'Information (CNAI).</p>
+                                </div>
+
+                                <h3>Fonctionnalités Principales</h3>
+                                <div class="feature-grid">
+                                    <div class="feature-item">
+                                        <i class="fas fa-file-alt"></i>
+                                        <h5>Gestion des Demandes</h5>
+                                        <p>Système complet de traitement des demandes d'accès à l'information avec workflow automatisé.</p>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                        <h5>Alertes Citoyennes</h5>
+                                        <p>Plateforme sécurisée pour les signalements avec protection de l'anonymat.</p>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fas fa-chart-bar"></i>
+                                        <h5>Tableau de Bord Public</h5>
+                                        <p>Visualisation transparente des données et statistiques en temps réel.</p>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fas fa-mobile-alt"></i>
+                                        <h5>Application Mobile</h5>
+                                        <p>Interface mobile responsive avec API dédiée pour les applications natives.</p>
+                                    </div>
+                                </div>
+
+                                <h3>Architecture Technique</h3>
+                                <div class="architecture-diagram">
+                                    <img src="../assets/images/architecture-diagram.png" alt="Architecture SAMA CONAI" class="img-fluid">
+                                    <p class="text-center mt-2"><em>Architecture modulaire du système SAMA CONAI</em></p>
+                                </div>
+
+                                <h3>Composants Principaux</h3>
+                                <div class="component-list">
+                                    <div class="component">
+                                        <h5>Backend Odoo</h5>
+                                        <ul>
+                                            <li>Modèles de données (models/)</li>
+                                            <li>Contrôleurs web (controllers/)</li>
+                                            <li>Vues et interfaces (views/)</li>
+                                            <li>Données de base (data/)</li>
+                                            <li>Sécurité et permissions (security/)</li>
+                                        </ul>
+                                    </div>
+                                    <div class="component">
+                                        <h5>Interface Utilisateur</h5>
+                                        <ul>
+                                            <li>Interface d'administration</li>
+                                            <li>Portail citoyen</li>
+                                            <li>Tableau de bord public</li>
+                                            <li>API mobile</li>
+                                        </ul>
+                                    </div>
+                                    <div class="component">
+                                        <h5>Intégrations</h5>
+                                        <ul>
+                                            <li>Système de notifications</li>
+                                            <li>Génération de rapports</li>
+                                            <li>Export de données</li>
+                                            <li>Analytics et métriques</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="quiz-section">
+                                    <h3>Quiz de Compréhension</h3>
+                                    <div class="quiz-question">
+                                        <p><strong>Question 1:</strong> Quels sont les trois composants principaux du module SAMA CONAI ?</p>
+                                        <div class="quiz-options">
+                                            <label><input type="radio" name="q1" value="a"> Demandes, Alertes, Dashboard</label>
+                                            <label><input type="radio" name="q1" value="b"> Backend, Frontend, Mobile</label>
+                                            <label><input type="radio" name="q1" value="c"> Odoo, PostgreSQL, Nginx</label>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary" onclick="checkQuiz()">Vérifier les Réponses</button>
+                                </div>
+                            </div>
+
+                            <div class="lesson-navigation">
+                                <button class="btn btn-outline-secondary" disabled>
+                                    <i class="fas fa-chevron-left"></i> Précédent
+                                </button>
+                                <button class="btn btn-primary" onclick="nextLesson('1.2')">
+                                    Suivant <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Placeholder for other lessons -->
+                        <div class="lesson-section" id="lesson-1.2" style="display: none;">
+                            <div class="lesson-header">
+                                <h2>Architecture Technique Détaillée</h2>
+                                <div class="lesson-meta">
+                                    <span><i class="fas fa-clock"></i> 45 minutes</span>
+                                    <span><i class="fas fa-code"></i> Technique</span>
+                                </div>
+                            </div>
+                            
+                            <div class="lesson-body">
+                                <h3>Architecture MVC d'Odoo</h3>
+                                <p>Le module SAMA CONAI suit l'architecture Model-View-Controller (MVC) d'Odoo...</p>
+                                
+                                <div class="code-example">
+                                    <h4>Structure des Fichiers</h4>
+                                    <pre><code>sama_conai/
+├── __init__.py
+├── __manifest__.py
+├── models/
+│   ├── __init__.py
+│   ├── information_request.py
+│   ├── whistleblowing_alert.py
+│   └── analytics/
+├── controllers/
+│   ├── __init__.py
+│   ├── portal_controller.py
+│   └── public_dashboard_controller.py
+├── views/
+│   ├── information_request_views.xml
+│   ├── whistleblowing_alert_views.xml
+│   └── menus.xml
+├── data/
+│   ├── sequences.xml
+│   └── demo_data.xml
+├── security/
+│   ├── ir.model.access.csv
+│   └── security_groups.xml
+└── static/
+    ├── src/css/
+    └── src/js/</code></pre>
+                                </div>
+                                
+                                <!-- Plus de contenu technique... -->
+                            </div>
+
+                            <div class="lesson-navigation">
+                                <button class="btn btn-outline-secondary" onclick="previousLesson('1.1')">
+                                    <i class="fas fa-chevron-left"></i> Précédent
+                                </button>
+                                <button class="btn btn-primary" onclick="nextLesson('1.3')">
+                                    Suivant <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Plus de sections de cours... -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <p>&copy; 2025 SAMA Solutions. Tous droits réservés.</p>
+                </div>
+                <div class="col-lg-6 text-end">
+                    <p>Formation Administrateur SAMA CONAI</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/formation.js"></script>
+</body>
+</html>

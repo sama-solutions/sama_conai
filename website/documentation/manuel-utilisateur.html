@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manuel Utilisateur - SAMA CONAI</title>
+    <meta name="description" content="Manuel complet d'utilisation du module SAMA CONAI">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="../index.html">
+                <i class="fas fa-shield-alt me-2"></i>SAMA CONAI
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../about.html">À propos</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Formation
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../formation/administrateur.html">Administrateur</a></li>
+                            <li><a class="dropdown-item" href="../formation/agent.html">Agent Public</a></li>
+                            <li><a class="dropdown-item" href="../formation/citoyen.html">Citoyen</a></li>
+                            <li><a class="dropdown-item" href="../formation/formateur.html">Formateur</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Certification
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../certification/utilisateur.html">Certification Utilisateur</a></li>
+                            <li><a class="dropdown-item" href="../certification/formateur.html">Certification Formateur</a></li>
+                            <li><a class="dropdown-item" href="../certification/expert.html">Certification Expert</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">
+                            Documentation
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="guide-demarrage.html">Guide de Démarrage</a></li>
+                            <li><a class="dropdown-item active" href="manuel-utilisateur.html">Manuel Utilisateur</a></li>
+                            <li><a class="dropdown-item" href="documentation-technique.html">Documentation Technique</a></li>
+                            <li><a class="dropdown-item" href="faq.html">FAQ</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <section class="py-5 mt-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h1 class="display-4 fw-bold text-primary">
+                        <i class="fas fa-book me-3"></i>Manuel Utilisateur
+                    </h1>
+                    <p class="lead">Guide complet d'utilisation de SAMA CONAI</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <!-- Table of Contents -->
+                    <div class="sticky-top" style="top: 100px;">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-list me-2"></i>Sommaire</h5>
+                            </div>
+                            <div class="card-body">
+                                <nav class="nav flex-column">
+                                    <a class="nav-link" href="#introduction">Introduction</a>
+                                    <a class="nav-link" href="#interface">Interface Utilisateur</a>
+                                    <a class="nav-link" href="#demandes">Gestion des Demandes</a>
+                                    <a class="nav-link" href="#alertes">Alertes Citoyennes</a>
+                                    <a class="nav-link" href="#tableau-bord">Tableau de Bord</a>
+                                    <a class="nav-link" href="#rapports">Rapports</a>
+                                    <a class="nav-link" href="#parametres">Paramètres</a>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <!-- Introduction -->
+                    <section id="introduction" class="mb-5">
+                        <h2 class="h3 text-primary mb-4">
+                            <i class="fas fa-info-circle me-2"></i>Introduction
+                        </h2>
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="lead">SAMA CONAI est un module Odoo conçu pour promouvoir la transparence et la bonne gouvernance au Sénégal.</p>
+                                
+                                <h5>Fonctionnalités principales :</h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <ul class="list-unstyled">
+                                            <li class="mb-2">
+                                                <i class="fas fa-file-alt text-primary me-2"></i>
+                                                Gestion des demandes d'accès à l'information
+                                            </li>
+                                            <li class="mb-2">
+                                                <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                                                Système d'alertes citoyennes
+                                            </li>
+                                            <li class="mb-2">
+                                                <i class="fas fa-chart-bar text-success me-2"></i>
+                                                Tableaux de bord analytiques
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ul class="list-unstyled">
+                                            <li class="mb-2">
+                                                <i class="fas fa-users text-info me-2"></i>
+                                                Gestion multi-utilisateurs
+                                            </li>
+                                            <li class="mb-2">
+                                                <i class="fas fa-shield-alt text-danger me-2"></i>
+                                                Sécurité et confidentialité
+                                            </li>
+                                            <li class="mb-2">
+                                                <i class="fas fa-mobile-alt text-secondary me-2"></i>
+                                                Interface mobile responsive
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Interface Utilisateur -->
+                    <section id="interface" class="mb-5">
+                        <h2 class="h3 text-primary mb-4">
+                            <i class="fas fa-desktop me-2"></i>Interface Utilisateur
+                        </h2>
+                        
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">Navigation principale</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6>Menu principal :</h6>
+                                        <ul>
+                                            <li><strong>Demandes :</strong> Gestion des demandes d'information</li>
+                                            <li><strong>Alertes :</strong> Système d'alertes citoyennes</li>
+                                            <li><strong>Rapports :</strong> Génération de rapports</li>
+                                            <li><strong>Configuration :</strong> Paramètres système</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6>Barre d'outils :</h6>
+                                        <ul>
+                                            <li><strong>Recherche globale :</strong> Recherche dans tous les modules</li>
+                                            <li><strong>Notifications :</strong> Alertes en temps réel</li>
+                                            <li><strong>Profil utilisateur :</strong> Paramètres personnels</li>
+                                            <li><strong>Aide :</strong> Documentation contextuelle</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info">
+                            <i class="fas fa-lightbulb me-2"></i>
+                            <strong>Astuce :</strong> Utilisez les raccourcis clavier pour naviguer plus rapidement. Appuyez sur <kbd>Alt + M</kbd> pour accéder au menu principal.
+                        </div>
+                    </section>
+
+                    <!-- Gestion des Demandes -->
+                    <section id="demandes" class="mb-5">
+                        <h2 class="h3 text-primary mb-4">
+                            <i class="fas fa-file-alt me-2"></i>Gestion des Demandes
+                        </h2>
+                        
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">Créer une nouvelle demande</h5>
+                            </div>
+                            <div class="card-body">
+                                <ol>
+                                    <li>Accédez au menu <strong>Demandes > Nouvelle demande</strong></li>
+                                    <li>Remplissez les informations requises :
+                                        <ul>
+                                            <li>Objet de la demande</li>
+                                            <li>Description détaillée</li>
+                                            <li>Organisme concerné</li>
+                                            <li>Type d'information demandée</li>
+                                        </ul>
+                                    </li>
+                                    <li>Joignez les documents justificatifs si nécessaire</li>
+                                    <li>Cliquez sur <strong>Soumettre</strong></li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">Suivi des demandes</h5>
+                            </div>
+                            <div class="card-body">
+                                <h6>États possibles :</h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <span class="badge bg-secondary me-2">Brouillon</span> Demande en cours de rédaction<br><br>
+                                        <span class="badge bg-primary me-2">Soumise</span> Demande envoyée à l'organisme<br><br>
+                                        <span class="badge bg-warning me-2">En traitement</span> Demande en cours d'analyse<br><br>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span class="badge bg-info me-2">Complément requis</span> Informations supplémentaires demandées<br><br>
+                                        <span class="badge bg-success me-2">Traitée</span> Réponse fournie<br><br>
+                                        <span class="badge bg-danger me-2">Rejetée</span> Demande refusée avec justification<br><br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Alertes Citoyennes -->
+                    <section id="alertes" class="mb-5">
+                        <h2 class="h3 text-primary mb-4">
+                            <i class="fas fa-exclamation-triangle me-2"></i>Alertes Citoyennes
+                        </h2>
+                        
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">Signaler un problème</h5>
+                            </div>
+                            <div class="card-body">
+                                <p>Le système d'alertes permet aux citoyens de signaler des problèmes de gouvernance ou de transparence.</p>
+                                
+                                <h6>Types d'alertes :</h6>
+                                <ul>
+                                    <li><strong>Corruption :</strong> Signalement d'actes de corruption</li>
+                                    <li><strong>Mauvaise gestion :</strong> Problèmes de gestion publique</li>
+                                    <li><strong>Non-transparence :</strong> Manque de transparence dans l'administration</li>
+                                    <li><strong>Autre :</strong> Autres problèmes de gouvernance</li>
+                                </ul>
+
+                                <div class="alert alert-warning">
+                                    <i class="fas fa-shield-alt me-2"></i>
+                                    <strong>Confidentialité :</strong> Toutes les alertes sont traitées de manière confidentielle. L'anonymat est garanti si souhaité.
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Tableau de Bord -->
+                    <section id="tableau-bord" class="mb-5">
+                        <h2 class="h3 text-primary mb-4">
+                            <i class="fas fa-chart-bar me-2"></i>Tableau de Bord
+                        </h2>
+                        
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5>Indicateurs clés :</h5>
+                                <div class="row">
+                                    <div class="col-md-3 text-center mb-3">
+                                        <div class="card bg-primary text-white">
+                                            <div class="card-body">
+                                                <h3><i class="fas fa-file-alt"></i></h3>
+                                                <h4>Demandes</h4>
+                                                <p>Total des demandes</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 text-center mb-3">
+                                        <div class="card bg-success text-white">
+                                            <div class="card-body">
+                                                <h3><i class="fas fa-check"></i></h3>
+                                                <h4>Traitées</h4>
+                                                <p>Demandes traitées</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 text-center mb-3">
+                                        <div class="card bg-warning text-white">
+                                            <div class="card-body">
+                                                <h3><i class="fas fa-clock"></i></h3>
+                                                <h4>En cours</h4>
+                                                <p>En traitement</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 text-center mb-3">
+                                        <div class="card bg-info text-white">
+                                            <div class="card-body">
+                                                <h3><i class="fas fa-exclamation-triangle"></i></h3>
+                                                <h4>Alertes</h4>
+                                                <p>Alertes actives</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Rapports -->
+                    <section id="rapports" class="mb-5">
+                        <h2 class="h3 text-primary mb-4">
+                            <i class="fas fa-chart-line me-2"></i>Rapports
+                        </h2>
+                        
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5>Types de rapports disponibles :</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Rapport</th>
+                                                <th>Description</th>
+                                                <th>Fréquence</th>
+                                                <th>Format</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Activité mensuelle</td>
+                                                <td>Résumé des demandes du mois</td>
+                                                <td>Mensuel</td>
+                                                <td>PDF, Excel</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Performance organismes</td>
+                                                <td>Temps de réponse par organisme</td>
+                                                <td>Trimestriel</td>
+                                                <td>PDF, Excel</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Alertes citoyennes</td>
+                                                <td>Synthèse des alertes reçues</td>
+                                                <td>Mensuel</td>
+                                                <td>PDF</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Tableau de bord exécutif</td>
+                                                <td>Indicateurs clés pour la direction</td>
+                                                <td>Hebdomadaire</td>
+                                                <td>PDF, PowerPoint</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Paramètres -->
+                    <section id="parametres" class="mb-5">
+                        <h2 class="h3 text-primary mb-4">
+                            <i class="fas fa-cog me-2"></i>Paramètres
+                        </h2>
+                        
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="mb-0">Configuration utilisateur</h5>
+                            </div>
+                            <div class="card-body">
+                                <h6>Paramètres personnels :</h6>
+                                <ul>
+                                    <li><strong>Profil :</strong> Informations personnelles et contact</li>
+                                    <li><strong>Notifications :</strong> Préférences de notification par email/SMS</li>
+                                    <li><strong>Langue :</strong> Choix de la langue d'interface</li>
+                                    <li><strong>Sécurité :</strong> Changement de mot de passe, authentification 2FA</li>
+                                </ul>
+
+                                <h6>Paramètres d'affichage :</h6>
+                                <ul>
+                                    <li><strong>Thème :</strong> Mode clair/sombre</li>
+                                    <li><strong>Tableau de bord :</strong> Personnalisation des widgets</li>
+                                    <li><strong>Listes :</strong> Nombre d'éléments par page</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <strong>Conseil :</strong> Configurez vos notifications pour être informé en temps réel des mises à jour importantes.
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <p>&copy; 2025 SAMA Solutions. Tous droits réservés.</p>
+                </div>
+                <div class="col-lg-6 text-end">
+                    <p>Promoting transparency and good governance in Senegal 🇸🇳</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>

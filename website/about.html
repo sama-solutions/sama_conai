@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>À propos - SAMA CONAI</title>
+    <meta name="description" content="Découvrez SAMA CONAI, le module de transparence et gouvernance pour le Sénégal">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <i class="fas fa-shield-alt me-2"></i>SAMA CONAI
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="about.html">À propos</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Formation
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="formation/administrateur.html">Administrateur</a></li>
+                            <li><a class="dropdown-item" href="formation/agent.html">Agent Public</a></li>
+                            <li><a class="dropdown-item" href="formation/citoyen.html">Citoyen</a></li>
+                            <li><a class="dropdown-item" href="formation/formateur.html">Formateur</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Certification
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="certification/utilisateur.html">Certification Utilisateur</a></li>
+                            <li><a class="dropdown-item" href="certification/formateur.html">Certification Formateur</a></li>
+                            <li><a class="dropdown-item" href="certification/expert.html">Certification Expert</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Documentation
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="documentation/guide-demarrage.html">Guide de Démarrage</a></li>
+                            <li><a class="dropdown-item" href="documentation/manuel-utilisateur.html">Manuel Utilisateur</a></li>
+                            <li><a class="dropdown-item" href="documentation/documentation-technique.html">Documentation Technique</a></li>
+                            <li><a class="dropdown-item" href="documentation/faq.html">FAQ</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-8" data-aos="fade-right">
+                    <h1 class="hero-title">
+                        À propos de
+                        <span class="text-primary">SAMA CONAI</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Le module Odoo de référence pour la transparence et la gouvernance au Sénégal, 
+                        développé pour promouvoir l'accès à l'information publique et renforcer la démocratie.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title">Notre Mission</h2>
+                    <p class="section-subtitle">
+                        Démocratiser l'accès à l'information publique au Sénégal
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h4>Transparence</h4>
+                        <p>Rendre l'administration publique plus transparente en facilitant l'accès aux informations et documents officiels.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <h4>Gouvernance</h4>
+                        <p>Améliorer la gouvernance en permettant aux citoyens de suivre et contrôler l'action publique.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4>Participation</h4>
+                        <p>Encourager la participation citoyenne et renforcer la confiance entre l'État et les citoyens.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <h2>Notre Histoire</h2>
+                    <p>SAMA CONAI est né de la volonté de moderniser l'administration sénégalaise et de répondre aux exigences de transparence de la société civile. Développé en collaboration avec les institutions publiques et les organisations de la société civile, ce module incarne l'engagement du Sénégal pour une gouvernance ouverte.</p>
+                    
+                    <h4>Pourquoi "SAMA CONAI" ?</h4>
+                    <p><strong>SAMA</strong> signifie "notre" en wolof, langue nationale du Sénégal, symbolisant l'appropriation collective de cet outil de transparence.</p>
+                    <p><strong>CONAI</strong> fait référence à la Commission Nationale d'Accès à l'Information, l'institution garante du droit d'accès à l'information au Sénégal.</p>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-date">2023</div>
+                            <div class="timeline-content">
+                                <h5>Conception</h5>
+                                <p>Analyse des besoins et conception de l'architecture</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">2024</div>
+                            <div class="timeline-content">
+                                <h5>Développement</h5>
+                                <p>Développement du module et tests pilotes</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">2025</div>
+                            <div class="timeline-content">
+                                <h5>Déploiement</h5>
+                                <p>Lancement officiel et formation des utilisateurs</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title">Fonctionnalités Principales</h2>
+                    <p class="section-subtitle">
+                        Un écosystème complet pour la transparence administrative
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-detail">
+                        <div class="feature-icon-large">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h4>Gestion des Demandes d'Information</h4>
+                            <p>Système complet de soumission, traitement et suivi des demandes d'accès à l'information avec workflow automatisé et respect des délais légaux.</p>
+                            <ul>
+                                <li>Formulaires intelligents</li>
+                                <li>Workflow automatisé</li>
+                                <li>Suivi en temps réel</li>
+                                <li>Notifications automatiques</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-detail">
+                        <div class="feature-icon-large">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h4>Alertes Citoyennes</h4>
+                            <p>Plateforme sécurisée pour les signalements citoyens avec protection de l'anonymat et traitement confidentiel des alertes.</p>
+                            <ul>
+                                <li>Anonymisation complète</li>
+                                <li>Chiffrement des données</li>
+                                <li>Traitement sécurisé</li>
+                                <li>Protection des témoins</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-detail">
+                        <div class="feature-icon-large">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h4>Tableau de Bord Public</h4>
+                            <p>Visualisation transparente des données de performance de l'administration avec indicateurs en temps réel et analytics avancés.</p>
+                            <ul>
+                                <li>Données en temps réel</li>
+                                <li>Indicateurs de performance</li>
+                                <li>Graphiques interactifs</li>
+                                <li>Export des données</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-detail">
+                        <div class="feature-icon-large">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h4>Application Mobile</h4>
+                            <p>Interface mobile responsive et API dédiée pour faciliter l'accès depuis smartphones et tablettes.</p>
+                            <ul>
+                                <li>Interface responsive</li>
+                                <li>API REST complète</li>
+                                <li>Notifications push</li>
+                                <li>Mode hors ligne</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title">Spécifications Techniques</h2>
+                    <p class="section-subtitle">
+                        Une solution moderne et robuste
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="tech-card">
+                        <i class="fab fa-python"></i>
+                        <h5>Odoo 18.0</h5>
+                        <p>Basé sur le framework Odoo 18.0 avec Python 3.8+</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="tech-card">
+                        <i class="fas fa-database"></i>
+                        <h5>PostgreSQL</h5>
+                        <p>Base de données PostgreSQL pour la performance et la fiabilité</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="tech-card">
+                        <i class="fab fa-docker"></i>
+                        <h5>Docker</h5>
+                        <p>Déploiement containerisé pour la scalabilité</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title">Équipe de Développement</h2>
+                    <p class="section-subtitle">
+                        Une équipe passionnée par la transparence et l'innovation
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="team-info" data-aos="fade-up">
+                        <h4>SAMA Solutions</h4>
+                        <p>SAMA CONAI est développé par SAMA Solutions, une entreprise sénégalaise spécialisée dans les solutions numériques pour la gouvernance et la transparence.</p>
+                        <p>Notre équipe multidisciplinaire combine expertise technique, connaissance du contexte sénégalais et engagement pour la bonne gouvernance.</p>
+                        
+                        <div class="team-values mt-4">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <h6><i class="fas fa-heart text-danger"></i> Passion</h6>
+                                    <p>Passion pour l'innovation et la transparence</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <h6><i class="fas fa-handshake text-primary"></i> Collaboration</h6>
+                                    <p>Travail en étroite collaboration avec les institutions</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <h6><i class="fas fa-trophy text-warning"></i> Excellence</h6>
+                                    <p>Recherche constante de l'excellence technique</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title">Contactez-nous</h2>
+                    <p class="section-subtitle">
+                        Nous sommes à votre écoute pour toute question ou collaboration
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="contact-card">
+                        <i class="fas fa-envelope"></i>
+                        <h5>Email</h5>
+                        <p>contact@sama-solutions.com</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="contact-card">
+                        <i class="fab fa-github"></i>
+                        <h5>GitHub</h5>
+                        <p>github.com/sama-solutions/conai</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="contact-card">
+                        <i class="fas fa-globe"></i>
+                        <h5>Site Web</h5>
+                        <p>www.sama-solutions.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <p>&copy; 2025 SAMA Solutions. Tous droits réservés.</p>
+                </div>
+                <div class="col-lg-6 text-end">
+                    <p>Promoting transparency and good governance in Senegal 🇸🇳</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <style>
+        .feature-detail {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+        }
+        
+        .feature-icon-large {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .feature-icon-large i {
+            font-size: 2rem;
+            color: white;
+        }
+        
+        .feature-content ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-content li {
+            padding: 0.25rem 0;
+            position: relative;
+            padding-left: 1rem;
+        }
+        
+        .feature-content li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: bold;
+        }
+        
+        .tech-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .tech-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .tech-card i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary-color);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.5rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: var(--primary-color);
+            border-radius: 50%;
+        }
+        
+        .timeline-date {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-content h5 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .team-values h6 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certification Formateur - SAMA CONAI</title>
+    <meta name="description" content="Certification officielle formateur pour le module SAMA CONAI">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="../assets/css/certification.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="../index.html">
+                <i class="fas fa-shield-alt me-2"></i>SAMA CONAI
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Accueil</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Formation
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../formation/administrateur.html">Administrateur</a></li>
+                            <li><a class="dropdown-item" href="../formation/agent.html">Agent Public</a></li>
+                            <li><a class="dropdown-item" href="../formation/citoyen.html">Citoyen</a></li>
+                            <li><a class="dropdown-item" href="../formation/formateur.html">Formateur</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Documentation
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../documentation/guide-demarrage.html">Guide de Démarrage</a></li>
+                            <li><a class="dropdown-item" href="../documentation/manuel-utilisateur.html">Manuel Utilisateur</a></li>
+                            <li><a class="dropdown-item" href="../documentation/documentation-technique.html">Documentation Technique</a></li>
+                            <li><a class="dropdown-item" href="../documentation/faq.html">FAQ</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html#contact">Contact</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">
+                            Certification
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="utilisateur.html">Certification Utilisateur</a></li>
+                            <li><a class="dropdown-item active" href="formateur.html">Certification Formateur</a></li>
+                            <li><a class="dropdown-item" href="expert.html">Certification Expert</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="certification-hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <div class="breadcrumb-nav">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="../index.html">Accueil</a></li>
+                                <li class="breadcrumb-item">Certification</li>
+                                <li class="breadcrumb-item active">Formateur</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <h1 class="certification-title">
+                        <i class="fas fa-trophy me-3"></i>
+                        Certification Formateur SAMA CONAI
+                    </h1>
+                    <p class="certification-subtitle">
+                        Devenez formateur certifié et transmettez l'expertise SAMA CONAI
+                    </p>
+                    <div class="certification-meta">
+                        <span class="meta-item">
+                            <i class="fas fa-clock"></i>
+                            Durée: 4-6 heures
+                        </span>
+                        <span class="meta-item">
+                            <i class="fas fa-tasks"></i>
+                            40 questions + Projet
+                        </span>
+                        <span class="meta-item">
+                            <i class="fas fa-percentage"></i>
+                            80% requis
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="certification-card-hero">
+                        <div class="cert-badge-large">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h4>Certification Officielle</h4>
+                        <p>Niveau Avancé</p>
+                        <div class="cert-price">
+                            <span class="price-label">Gratuit</span>
+                        </div>
+                        <button class="btn btn-warning btn-lg w-100" onclick="startCertification('formateur')">
+                            <i class="fas fa-play me-2"></i>Commencer l'Examen
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certification Info -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="certification-info">
+                        <h2>À propos de cette certification</h2>
+                        <p>La Certification Formateur SAMA CONAI valide vos compétences avancées pour former d'autres utilisateurs au module de transparence et gouvernance. Cette certification vous permet de devenir formateur officiel et de contribuer à la diffusion des bonnes pratiques de transparence au Sénégal.</p>
+                        
+                        <h3>Prérequis Obligatoires</h3>
+                        <div class="prerequisites">
+                            <li><strong>Certification Utilisateur</strong> : Obtenue avec un score minimum de 75%</li>
+                            <li><strong>Expérience pratique</strong> : 6 mois d'utilisation de SAMA CONAI</li>
+                            <li><strong>Formation formateur</strong> : Completion du parcours formateur</li>
+                            <li><strong>Projet pédagogique</strong> : Préparation d'un module de formation</li>
+                        </div>
+
+                        <h3>Compétences évaluées</h3>
+                        <div class="skills-grid">
+                            <div class="skill-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h5>Maîtrise Technique Complète</h5>
+                                    <p>Connaissance approfondie de toutes les fonctionnalités SAMA CONAI</p>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h5>Pédagogie et Andragogie</h5>
+                                    <p>Méthodes d'enseignement adaptées aux adultes en formation</p>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h5>Conception de Formations</h5>
+                                    <p>Création de parcours pédagogiques structurés et efficaces</p>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h5>Animation de Sessions</h5>
+                                    <p>Techniques d'animation et gestion de groupes d'apprenants</p>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h5>Évaluation et Certification</h5>
+                                    <p>Méthodes d'évaluation et processus de certification</p>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h5>Adaptation par Public</h5>
+                                    <p>Personnalisation selon les profils (admin, agent, citoyen)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3>Format de l'examen</h3>
+                        <div class="exam-format">
+                            <div class="format-item">
+                                <i class="fas fa-laptop"></i>
+                                <div>
+                                    <h5>Examen Théorique</h5>
+                                    <p>40 questions sur la pédagogie et SAMA CONAI (3 heures)</p>
+                                </div>
+                            </div>
+                            <div class="format-item">
+                                <i class="fas fa-presentation"></i>
+                                <div>
+                                    <h5>Projet Pratique</h5>
+                                    <p>Conception et présentation d'un module de formation (2-3 heures)</p>
+                                </div>
+                            </div>
+                            <div class="format-item">
+                                <i class="fas fa-users"></i>
+                                <div>
+                                    <h5>Simulation d'Animation</h5>
+                                    <p>Animation d'une séquence de formation (30 minutes)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3>Projet de Certification</h3>
+                        <div class="post-certification">
+                            <div class="benefit-item">
+                                <i class="fas fa-clipboard-list text-primary"></i>
+                                <div>
+                                    <h5>Cahier des charges</h5>
+                                    <p>Concevoir un module de formation de 4 heures pour un public spécifique</p>
+                                </div>
+                            </div>
+                            <div class="benefit-item">
+                                <i class="fas fa-file-powerpoint text-success"></i>
+                                <div>
+                                    <h5>Supports pédagogiques</h5>
+                                    <p>Créer les supports de formation (slides, exercices, évaluations)</p>
+                                </div>
+                            </div>
+                            <div class="benefit-item">
+                                <i class="fas fa-microphone text-warning"></i>
+                                <div>
+                                    <h5>Présentation orale</h5>
+                                    <p>Animer une séquence de 30 minutes devant un jury</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3>Après la certification</h3>
+                        <div class="post-certification">
+                            <div class="benefit-item">
+                                <i class="fas fa-certificate text-warning"></i>
+                                <div>
+                                    <h5>Certificat officiel</h5>
+                                    <p>Certificat formateur SAMA CONAI reconnu officiellement</p>
+                                </div>
+                            </div>
+                            <div class="benefit-item">
+                                <i class="fas fa-chalkboard-teacher text-primary"></i>
+                                <div>
+                                    <h5>Habilitation formateur</h5>
+                                    <p>Autorisation de dispenser des formations SAMA CONAI</p>
+                                </div>
+                            </div>
+                            <div class="benefit-item">
+                                <i class="fas fa-network-wired text-success"></i>
+                                <div>
+                                    <h5>Réseau formateurs</h5>
+                                    <p>Accès au réseau des formateurs certifiés</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="sidebar-info">
+                        <div class="info-card">
+                            <h5><i class="fas fa-chart-line me-2"></i>Statistiques</h5>
+                            <div class="stat-row">
+                                <span>Taux de réussite</span>
+                                <span class="stat-value">65%</span>
+                            </div>
+                            <div class="stat-row">
+                                <span>Formateurs certifiés</span>
+                                <span class="stat-value">89</span>
+                            </div>
+                            <div class="stat-row">
+                                <span>Note moyenne</span>
+                                <span class="stat-value">82%</span>
+                            </div>
+                        </div>
+
+                        <div class="info-card">
+                            <h5><i class="fas fa-users me-2"></i>Témoignages</h5>
+                            <div class="testimonial">
+                                <p>"Certification exigeante mais très enrichissante. Je forme maintenant des agents publics avec confiance."</p>
+                                <cite>- Dr. Fatou K., Formatrice</cite>
+                            </div>
+                            <div class="testimonial">
+                                <p>"Le projet pratique m'a permis de structurer ma pédagogie. Excellent programme !"</p>
+                                <cite>- Mamadou D., Formateur</cite>
+                            </div>
+                        </div>
+
+                        <div class="info-card">
+                            <h5><i class="fas fa-download me-2"></i>Ressources</h5>
+                            <div class="resource-list">
+                                <a href="#" class="resource-link">
+                                    <i class="fas fa-file-pdf"></i>
+                                    Guide du formateur
+                                </a>
+                                <a href="#" class="resource-link">
+                                    <i class="fas fa-book"></i>
+                                    Manuel pédagogique
+                                </a>
+                                <a href="#" class="resource-link">
+                                    <i class="fas fa-video"></i>
+                                    Techniques d'animation
+                                </a>
+                                <a href="#" class="resource-link">
+                                    <i class="fas fa-clipboard-check"></i>
+                                    Grilles d'évaluation
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Exam Preview -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5">
+                    <h2>Aperçu de l'examen</h2>
+                    <p class="text-muted">Exemples de questions et de projet que vous pourriez rencontrer</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="exam-preview">
+                        <div class="question-preview">
+                            <div class="question-header">
+                                <span class="question-number">Question Théorique</span>
+                                <span class="question-type">Pédagogie</span>
+                            </div>
+                            <div class="question-content">
+                                <h5>Quelle méthode pédagogique est la plus adaptée pour enseigner l'utilisation pratique de SAMA CONAI à des agents publics ?</h5>
+                                <div class="options-preview">
+                                    <div class="option">A) Cours magistral avec présentation</div>
+                                    <div class="option correct">B) Atelier pratique avec exercices guidés</div>
+                                    <div class="option">C) Lecture de documentation</div>
+                                    <div class="option">D) Vidéo de démonstration</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="question-preview">
+                            <div class="question-header">
+                                <span class="question-number">Question Technique</span>
+                                <span class="question-type">SAMA CONAI</span>
+                            </div>
+                            <div class="question-content">
+                                <h5>Un apprenant vous demande comment configurer les notifications automatiques. Quelle est votre approche pédagogique ?</h5>
+                                <div class="options-preview">
+                                    <div class="option">A) Lui donner la procédure écrite</div>
+                                    <div class="option correct">B) Démontrer puis le faire pratiquer</div>
+                                    <div class="option">C) L'orienter vers la documentation</div>
+                                    <div class="option">D) Faire la configuration à sa place</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="question-preview">
+                            <div class="question-header">
+                                <span class="question-number">Projet Pratique</span>
+                                <span class="question-type">Conception</span>
+                            </div>
+                            <div class="question-content">
+                                <h5>Concevez un module de formation de 4 heures pour former des citoyens à l'utilisation du portail SAMA CONAI</h5>
+                                <div class="project-requirements">
+                                    <h6>Livrables attendus :</h6>
+                                    <ul>
+                                        <li>Objectifs pédagogiques SMART</li>
+                                        <li>Programme détaillé avec timing</li>
+                                        <li>Supports de formation (slides + exercices)</li>
+                                        <li>Méthodes d'évaluation</li>
+                                        <li>Présentation orale de 30 minutes</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2>Prêt à devenir formateur certifié ?</h2>
+                    <p class="lead">Rejoignez l'élite des formateurs SAMA CONAI et contribuez à la transparence au Sénégal</p>
+                    <div class="cta-buttons">
+                        <button class="btn btn-warning btn-lg me-3" onclick="startCertification('formateur')">
+                            <i class="fas fa-play me-2"></i>Commencer l'Examen
+                        </button>
+                        <a href="../formation/formateur.html" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-graduation-cap me-2"></i>Formation Préparatoire
+                        </a>
+                    </div>
+                    <p class="mt-3 text-muted">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Certification exigeante - Préparation recommandée
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <p>&copy; 2025 SAMA Solutions. Tous droits réservés.</p>
+                </div>
+                <div class="col-lg-6 text-end">
+                    <p>Certification Formateur SAMA CONAI</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/certification.js"></script>
+</body>
+</html>

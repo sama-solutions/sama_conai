@@ -1,0 +1,293 @@
+# =============================================================================
+# SAMA CONAI - Development Dependencies
+# =============================================================================
+# Auteurs: Mamadou Mbagnick DOGUE & Rassol DOGUE
+# Description: Dépendances pour le développement et les tests
+# =============================================================================
+
+# Testing Framework
+pytest>=7.0.0
+pytest-cov>=4.0.0
+pytest-django>=4.5.0
+pytest-mock>=3.10.0
+pytest-xdist>=3.0.0
+coverage>=7.0.0
+
+# Code Quality
+black>=23.0.0
+flake8>=6.0.0
+isort>=5.12.0
+mypy>=1.0.0
+pre-commit>=3.0.0
+
+# Security
+bandit>=1.7.0
+safety>=2.3.0
+
+# Documentation
+sphinx>=6.0.0
+sphinx-rtd-theme>=1.2.0
+sphinx-autodoc-typehints>=1.22.0
+
+# Development Tools
+ipython>=8.0.0
+ipdb>=0.13.0
+django-debug-toolbar>=4.0.0
+django-extensions>=3.2.0
+
+# API Testing
+requests>=2.28.0
+httpx>=0.24.0
+
+# Database Testing
+factory-boy>=3.2.0
+faker>=18.0.0
+
+# Performance Testing
+locust>=2.14.0
+
+# Linting and Formatting
+pylint>=2.17.0
+autopep8>=2.0.0
+
+# Type Checking
+types-requests>=2.28.0
+types-python-dateutil>=2.8.0
+
+# Git Hooks
+gitpython>=3.1.0
+
+# Environment Management
+python-dotenv>=1.0.0
+
+# Debugging
+pdb++>=0.10.0
+rich>=13.0.0
+
+# Code Analysis
+radon>=6.0.0
+xenon>=0.9.0
+
+# Documentation Testing
+doc8>=1.1.0
+rstcheck>=6.1.0
+
+# Frontend Testing (if applicable)
+selenium>=4.8.0
+playwright>=1.32.0
+
+# API Documentation
+drf-spectacular>=0.26.0  # if using Django REST Framework
+
+# Development Server
+watchdog>=3.0.0
+
+# Database Migrations Testing
+django-migration-testcase>=1.0.0  # if using Django
+
+# Mock Services
+responses>=0.23.0
+httpretty>=1.1.0
+
+# Performance Monitoring
+memory-profiler>=0.60.0
+line-profiler>=4.0.0
+
+# Code Complexity
+mccabe>=0.7.0
+
+# Import Sorting
+seed-isort-config>=2.2.0
+
+# Dependency Management
+pip-tools>=6.12.0
+pipdeptree>=2.7.0
+
+# Security Scanning
+pip-audit>=2.5.0
+
+# Code Formatting
+yapf>=0.32.0  # Alternative to black
+
+# Documentation Generation
+pdoc>=13.0.0  # Alternative to sphinx
+
+# Testing Utilities
+tox>=4.4.0
+nox>=2023.4.22
+
+# Development Workflow
+invoke>=2.0.0
+fabric>=3.0.0
+
+# Code Review
+review-board>=5.0.0  # if using Review Board
+
+# Continuous Integration
+tox-gh-actions>=3.1.0
+
+# Database Testing
+pytest-postgresql>=5.0.0
+pytest-redis>=3.0.0
+
+# Async Testing
+pytest-asyncio>=0.21.0
+aioresponses>=0.7.0
+
+# Web Testing
+pytest-html>=3.1.0
+pytest-bdd>=6.1.0
+
+# Load Testing
+artillery>=2.0.0  # Alternative to locust
+
+# Code Metrics
+vulture>=2.7.0  # Find dead code
+cohesion>=1.0.0  # Measure class cohesion
+
+# Development Utilities
+bpython>=0.24.0  # Enhanced Python REPL
+ptpython>=3.0.0  # Another enhanced REPL
+
+# File Watching
+watchfiles>=0.19.0
+
+# JSON Schema Validation
+jsonschema>=4.17.0
+
+# YAML Processing
+pyyaml>=6.0.0
+
+# Configuration Management
+dynaconf>=3.1.0
+python-decouple>=3.8.0
+
+# Logging
+structlog>=23.1.0
+colorlog>=6.7.0
+
+# Development Profiling
+py-spy>=0.3.0
+scalene>=1.5.0
+
+# Code Generation
+cookiecutter>=2.1.0
+
+# Development Documentation
+mkdocs>=1.4.0
+mkdocs-material>=9.1.0
+
+# API Mocking
+wiremock>=2.1.0
+
+# Development Containers
+docker-compose>=1.29.0
+
+# Code Visualization
+graphviz>=0.20.0
+pycallgraph>=1.0.0
+
+# Development Metrics
+gitpython>=3.1.0
+pygount>=1.6.0
+
+# Code Refactoring
+rope>=1.7.0
+bowler>=0.9.0
+
+# Development Automation
+pre-commit-hooks>=4.4.0
+commitizen>=3.2.0
+
+# Performance Testing
+py-cpuinfo>=9.0.0
+psutil>=5.9.0
+
+# Development Monitoring
+sentry-sdk>=1.21.0  # For error tracking in development
+
+# Code Documentation
+pydocstyle>=6.3.0
+darglint>=1.8.0
+
+# Development Security
+semgrep>=1.21.0
+dlint>=0.14.0
+
+# Development Workflow
+github3.py>=4.0.0  # GitHub API integration
+python-gitlab>=3.14.0  # GitLab API integration
+
+# Development Testing
+hypothesis>=6.75.0  # Property-based testing
+mutmut>=2.4.0  # Mutation testing
+
+# Development Utilities
+click>=8.1.0  # Command line interface
+rich-click>=1.6.0  # Enhanced click with rich
+
+# Development Configuration
+configparser>=5.3.0
+toml>=0.10.0
+
+# Development Serialization
+marshmallow>=3.19.0
+pydantic>=1.10.0
+
+# Development Validation
+cerberus>=1.3.0
+schema>=0.7.0
+
+# Development Caching
+diskcache>=5.6.0
+cachetools>=5.3.0
+
+# Development Networking
+httpx>=0.24.0
+aiohttp>=3.8.0
+
+# Development Database
+sqlalchemy>=2.0.0
+alembic>=1.10.0
+
+# Development Message Queue
+celery>=5.2.0
+redis>=4.5.0
+
+# Development File Processing
+openpyxl>=3.1.0
+pandas>=2.0.0
+
+# Development Image Processing
+pillow>=9.5.0
+wand>=0.6.0
+
+# Development PDF Processing
+reportlab>=4.0.0
+pypdf2>=3.0.0
+
+# Development Email
+sendgrid>=6.10.0
+mailgun>=0.1.0
+
+# Development SMS
+twilio>=8.2.0
+
+# Development Payment
+stripe>=5.4.0
+
+# Development Cloud
+boto3>=1.26.0
+google-cloud-storage>=2.8.0
+
+# Development Monitoring
+prometheus-client>=0.16.0
+statsd>=4.0.0
+
+# Development Deployment
+ansible>=7.4.0
+terraform>=1.4.0
+
+# Development Containerization
+docker>=6.1.0
+kubernetes>=26.1.0

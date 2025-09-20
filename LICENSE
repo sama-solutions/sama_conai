@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2025 sama-solutions
+Copyright (c) 2024 Mamadou Mbagnick DOGUE and Rassol DOGUE
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +19,68 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+---
+
+## About SAMA CONAI
+
+SAMA CONAI (Système d'Accès Moderne à l'Information) is a modern information 
+access system designed specifically for Senegalese public administration. 
+This project aims to enhance transparency, efficiency, and citizen engagement 
+in government information access processes.
+
+### Authors
+
+**Mamadou Mbagnick DOGUE**
+- Principal Architect & Lead Developer
+- Email: mamadou.dogue@example.com
+- LinkedIn: https://linkedin.com/in/mamadou-dogue
+
+**Rassol DOGUE**
+- Co-Architect & Innovation Lead  
+- Email: rassol.dogue@example.com
+- LinkedIn: https://linkedin.com/in/rassol-dogue
+
+### Project Information
+
+- **Project Name**: SAMA CONAI
+- **Version**: 3.0.0
+- **License**: MIT
+- **Language**: Python, JavaScript, HTML, CSS
+- **Framework**: Odoo 16.0+
+- **Target**: Senegalese Public Administration
+- **Status**: Production Ready
+
+### Key Features
+
+- Complete training system (8 modules, 27 lessons)
+- Multi-user interface for all stakeholders
+- Advanced analytics and reporting capabilities
+- Mobile-responsive Progressive Web App
+- Comprehensive security and compliance features
+- Full documentation in French and English
+
+### Contributing
+
+We welcome contributions from the community! Please read our CONTRIBUTING.md 
+file for guidelines on how to contribute to this project.
+
+### Support
+
+For support, please contact:
+- Email: support@sama-conai.sn
+- GitHub Issues: https://github.com/your-org/sama_conai/issues
+- Documentation: https://docs.sama-conai.sn
+
+### Acknowledgments
+
+This project is developed with support from:
+- Republic of Senegal - Ministry of Public Service
+- ADIE (Agence de l'Informatique de l'État)
+- Information Access Commission - Senegal
+
+---
+
+🇸🇳 Made with ❤️ in Senegal for Africa and the World
+
+SAMA CONAI - Transparency • Innovation • Excellence

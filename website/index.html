@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAMA CONAI - Formation et Certification</title>
+    <meta name="description" content="Formation complète et certification pour le module SAMA CONAI - Transparence et gouvernance au Sénégal">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#home">
+                <i class="fas fa-shield-alt me-2"></i>SAMA CONAI
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">À propos</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Formation
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="formation/administrateur.html">Administrateur</a></li>
+                            <li><a class="dropdown-item" href="formation/agent.html">Agent Public</a></li>
+                            <li><a class="dropdown-item" href="formation/citoyen.html">Citoyen</a></li>
+                            <li><a class="dropdown-item" href="formation/formateur.html">Formateur</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Certification
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="certification/utilisateur.html">Certification Utilisateur</a></li>
+                            <li><a class="dropdown-item" href="certification/formateur.html">Certification Formateur</a></li>
+                            <li><a class="dropdown-item" href="certification/expert.html">Certification Expert</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Documentation
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="documentation/guide-demarrage.html">Guide de Démarrage</a></li>
+                            <li><a class="dropdown-item" href="documentation/manuel-utilisateur.html">Manuel Utilisateur</a></li>
+                            <li><a class="dropdown-item" href="documentation/documentation-technique.html">Documentation Technique</a></li>
+                            <li><a class="dropdown-item" href="documentation/faq.html">FAQ</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#documentation">Toute la documentation</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <h1 class="hero-title">
+                        Formation et Certification
+                        <span class="text-primary">SAMA CONAI</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Maîtrisez le module de transparence et gouvernance du Sénégal. 
+                        Formation complète par rôle avec certification officielle.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="#formation" class="btn btn-primary btn-lg me-3">
+                            <i class="fas fa-graduation-cap me-2"></i>Commencer la Formation
+                        </a>
+                        <a href="#about" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-info-circle me-2"></i>En savoir plus
+                        </a>
+                    </div>
+                    <div class="hero-stats mt-4">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="stat-item">
+                                    <h3>4</h3>
+                                    <p>Rôles de Formation</p>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-item">
+                                    <h3>3</h3>
+                                    <p>Niveaux de Certification</p>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-item">
+                                    <h3>100%</h3>
+                                    <p>Pratique</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="hero-image">
+                        <div class="floating-card">
+                            <i class="fas fa-certificate text-primary"></i>
+                            <h5>Certification Officielle</h5>
+                            <p>Validez vos compétences</p>
+                        </div>
+                        <div class="floating-card floating-card-2">
+                            <i class="fas fa-users text-success"></i>
+                            <h5>Formation Interactive</h5>
+                            <p>Apprentissage pratique</p>
+                        </div>
+                        <div class="floating-card floating-card-3">
+                            <i class="fas fa-shield-alt text-warning"></i>
+                            <h5>Transparence</h5>
+                            <p>Gouvernance moderne</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title">À propos de SAMA CONAI</h2>
+                    <p class="section-subtitle">
+                        Le module Odoo de référence pour la transparence et la gouvernance au Sénégal
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4>Gestion des Demandes</h4>
+                        <p>Système complet de gestion des demandes d'accès à l'information avec workflow automatisé.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h4>Alertes Citoyennes</h4>
+                        <p>Plateforme sécurisée pour les alertes citoyennes avec anonymisation et protection des données.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h4>Tableau de Bord</h4>
+                        <p>Visualisation en temps réel des données de transparence avec analytics avancés.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formation Roles Section -->
+    <section id="formation" class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title">Formation par Rôle</h2>
+                    <p class="section-subtitle">
+                        Formations spécialisées adaptées à chaque profil utilisateur
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="role-card">
+                        <div class="role-icon">
+                            <i class="fas fa-user-cog"></i>
+                        </div>
+                        <h4>Administrateur</h4>
+                        <p>Configuration système, gestion des utilisateurs, paramétrage avancé</p>
+                        <ul class="role-features">
+                            <li><i class="fas fa-check"></i> Installation et configuration</li>
+                            <li><i class="fas fa-check"></i> Gestion des droits</li>
+                            <li><i class="fas fa-check"></i> Maintenance système</li>
+                        </ul>
+                        <a href="formation/administrateur.html" class="btn btn-primary">
+                            Commencer <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="role-card">
+                        <div class="role-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <h4>Agent Public</h4>
+                        <p>Traitement des demandes, gestion des réponses, suivi des dossiers</p>
+                        <ul class="role-features">
+                            <li><i class="fas fa-check"></i> Traitement des demandes</li>
+                            <li><i class="fas fa-check"></i> Gestion des délais</li>
+                            <li><i class="fas fa-check"></i> Reporting</li>
+                        </ul>
+                        <a href="formation/agent.html" class="btn btn-primary">
+                            Commencer <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="role-card">
+                        <div class="role-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4>Citoyen</h4>
+                        <p>Soumission de demandes, suivi des requêtes, accès aux informations</p>
+                        <ul class="role-features">
+                            <li><i class="fas fa-check"></i> Création de demandes</li>
+                            <li><i class="fas fa-check"></i> Suivi en temps réel</li>
+                            <li><i class="fas fa-check"></i> Accès aux données</li>
+                        </ul>
+                        <a href="formation/citoyen.html" class="btn btn-primary">
+                            Commencer <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="role-card">
+                        <div class="role-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <h4>Formateur</h4>
+                        <p>Animation de formations, évaluation, certification des apprenants</p>
+                        <ul class="role-features">
+                            <li><i class="fas fa-check"></i> Méthodes pédagogiques</li>
+                            <li><i class="fas fa-check"></i> Outils d'évaluation</li>
+                            <li><i class="fas fa-check"></i> Certification</li>
+                        </ul>
+                        <a href="formation/formateur.html" class="btn btn-primary">
+                            Commencer <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certification Section -->
+    <section id="certification" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title">Système de Certification</h2>
+                    <p class="section-subtitle">
+                        Validez officiellement vos compétences avec nos certifications reconnues
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="certification-card">
+                        <div class="cert-badge">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <h4>Certification Utilisateur</h4>
+                        <p class="cert-level">Niveau Fondamental</p>
+                        <div class="cert-details">
+                            <div class="cert-item">
+                                <i class="fas fa-clock"></i>
+                                <span>2-4 heures</span>
+                            </div>
+                            <div class="cert-item">
+                                <i class="fas fa-tasks"></i>
+                                <span>20 questions</span>
+                            </div>
+                            <div class="cert-item">
+                                <i class="fas fa-percentage"></i>
+                                <span>70% requis</span>
+                            </div>
+                        </div>
+                        <ul class="cert-skills">
+                            <li>Navigation dans l'interface</li>
+                            <li>Fonctionnalités de base</li>
+                            <li>Bonnes pratiques</li>
+                        </ul>
+                        <a href="certification/utilisateur.html" class="btn btn-outline-primary">
+                            Passer l'examen
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="certification-card featured">
+                        <div class="cert-badge">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h4>Certification Formateur</h4>
+                        <p class="cert-level">Niveau Avancé</p>
+                        <div class="cert-details">
+                            <div class="cert-item">
+                                <i class="fas fa-clock"></i>
+                                <span>4-6 heures</span>
+                            </div>
+                            <div class="cert-item">
+                                <i class="fas fa-tasks"></i>
+                                <span>40 questions</span>
+                            </div>
+                            <div class="cert-item">
+                                <i class="fas fa-percentage"></i>
+                                <span>80% requis</span>
+                            </div>
+                        </div>
+                        <ul class="cert-skills">
+                            <li>Maîtrise complète du module</li>
+                            <li>Pédagogie et animation</li>
+                            <li>Évaluation et certification</li>
+                        </ul>
+                        <a href="certification/formateur.html" class="btn btn-primary">
+                            Passer l'examen
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="certification-card">
+                        <div class="cert-badge">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h4>Certification Expert</h4>
+                        <p class="cert-level">Niveau Expert</p>
+                        <div class="cert-details">
+                            <div class="cert-item">
+                                <i class="fas fa-clock"></i>
+                                <span>6-8 heures</span>
+                            </div>
+                            <div class="cert-item">
+                                <i class="fas fa-tasks"></i>
+                                <span>60 questions</span>
+                            </div>
+                            <div class="cert-item">
+                                <i class="fas fa-percentage"></i>
+                                <span>85% requis</span>
+                            </div>
+                        </div>
+                        <ul class="cert-skills">
+                            <li>Configuration avancée</li>
+                            <li>Développement et personnalisation</li>
+                            <li>Architecture et déploiement</li>
+                        </ul>
+                        <a href="certification/expert.html" class="btn btn-outline-primary">
+                            Passer l'examen
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Documentation Section -->
+    <section id="documentation" class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title">Documentation Complète</h2>
+                    <p class="section-subtitle">
+                        Accédez à toute la documentation technique et utilisateur
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="doc-card">
+                        <i class="fas fa-rocket"></i>
+                        <h5>Guide de Démarrage</h5>
+                        <p>Installation et première configuration</p>
+                        <a href="documentation/guide-demarrage.html" class="btn btn-sm btn-outline-primary">Consulter</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="doc-card">
+                        <i class="fas fa-book"></i>
+                        <h5>Manuel Utilisateur</h5>
+                        <p>Guide complet d'utilisation</p>
+                        <a href="documentation/manuel-utilisateur.html" class="btn btn-sm btn-outline-primary">Consulter</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="doc-card">
+                        <i class="fas fa-cogs"></i>
+                        <h5>Documentation Technique</h5>
+                        <p>API, architecture et développement</p>
+                        <a href="documentation/documentation-technique.html" class="btn btn-sm btn-outline-primary">Consulter</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="doc-card">
+                        <i class="fas fa-question-circle"></i>
+                        <h5>FAQ</h5>
+                        <p>Questions fréquemment posées</p>
+                        <a href="documentation/faq.html" class="btn btn-sm btn-outline-primary">Consulter</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5" data-aos="fade-up">
+                    <h2 class="section-title">Contactez-nous</h2>
+                    <p class="section-subtitle">
+                        Besoin d'aide ou d'informations supplémentaires ?
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="contact-card">
+                        <i class="fas fa-envelope"></i>
+                        <h5>Email</h5>
+                        <p>formation@sama-solutions.com</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="contact-card">
+                        <i class="fas fa-phone"></i>
+                        <h5>Téléphone</h5>
+                        <p>+221 XX XXX XX XX</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="contact-card">
+                        <i class="fab fa-github"></i>
+                        <h5>GitHub</h5>
+                        <p>github.com/sama-solutions/conai</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <p>&copy; 2025 SAMA Solutions. Tous droits réservés.</p>
+                </div>
+                <div class="col-lg-6 text-end">
+                    <p>Promoting transparency and good governance in Senegal 🇸🇳</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

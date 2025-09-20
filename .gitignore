@@ -181,6 +181,31 @@ yarn-error.log*
 config.env
 .env.local
 .env.production
+*.env
+*.key
+*.pem
+*.p12
+*.pfx
+*password*
+*secret*
+secrets/
+keys/
+
+# Misc folder sensitive files
+misc/config/*.env
+misc/**/*.env
+misc/**/*.key
+misc/**/*.pem
+
+# Node modules sensitive files
+node_modules/**/*.key
+node_modules/**/*.pem
+node_modules/**/*.env
+
+# Backup folders (may contain sensitive data)
+misc/backups/
+backup_*/
+*_backup_*/
 
 # Backup files
 *.backup

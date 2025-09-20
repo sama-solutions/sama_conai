@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formation Formateur - SAMA CONAI</title>
+    <meta name="description" content="Formation pour les formateurs certifiés SAMA CONAI">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="../assets/css/formation.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="../index.html">
+                <i class="fas fa-shield-alt me-2"></i>SAMA CONAI
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Accueil</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">
+                            Formation
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="administrateur.html">Administrateur</a></li>
+                            <li><a class="dropdown-item" href="agent.html">Agent Public</a></li>
+                            <li><a class="dropdown-item" href="citoyen.html">Citoyen</a></li>
+                            <li><a class="dropdown-item active" href="formateur.html">Formateur</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Certification
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../certification/utilisateur.html">Certification Utilisateur</a></li>
+                            <li><a class="dropdown-item" href="../certification/formateur.html">Certification Formateur</a></li>
+                            <li><a class="dropdown-item" href="../certification/expert.html">Certification Expert</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Documentation
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../documentation/guide-demarrage.html">Guide de Démarrage</a></li>
+                            <li><a class="dropdown-item" href="../documentation/manuel-utilisateur.html">Manuel Utilisateur</a></li>
+                            <li><a class="dropdown-item" href="../documentation/documentation-technique.html">Documentation Technique</a></li>
+                            <li><a class="dropdown-item" href="../documentation/faq.html">FAQ</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="formation-hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <div class="breadcrumb-nav">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="../index.html">Accueil</a></li>
+                                <li class="breadcrumb-item">Formation</li>
+                                <li class="breadcrumb-item active">Formateur</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <h1 class="formation-title">
+                        <i class="fas fa-chalkboard-teacher me-3"></i>
+                        Formation Formateur
+                    </h1>
+                    <p class="formation-subtitle">
+                        Devenez formateur certifié SAMA CONAI et transmettez les compétences de transparence et gouvernance
+                    </p>
+                    <div class="formation-meta">
+                        <span class="meta-item">
+                            <i class="fas fa-clock"></i>
+                            Durée: 12-16 heures
+                        </span>
+                        <span class="meta-item">
+                            <i class="fas fa-signal"></i>
+                            Niveau: Expert
+                        </span>
+                        <span class="meta-item">
+                            <i class="fas fa-users"></i>
+                            Prérequis: Certification Utilisateur
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="progress-card">
+                        <h5>Votre Progression</h5>
+                        <div class="progress mb-3">
+                            <div class="progress-bar" role="progressbar" style="width: 0%" id="overallProgress">0%</div>
+                        </div>
+                        <div class="progress-stats">
+                            <div class="stat">
+                                <span class="stat-number" id="completedModules">0</span>
+                                <span class="stat-label">Modules Complétés</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number">10</span>
+                                <span class="stat-label">Total Modules</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary w-100 mt-3" onclick="startFormation()">
+                            <i class="fas fa-play me-2"></i>Commencer la Formation
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formation Content -->
+    <section class="formation-content py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Sidebar Navigation -->
+                <div class="col-lg-3">
+                    <div class="formation-sidebar sticky-top">
+                        <h5>Plan de Formation</h5>
+                        <div class="module-list">
+                            <div class="module-item" data-module="1">
+                                <div class="module-header" onclick="toggleModule(1)">
+                                    <i class="fas fa-chevron-right module-toggle"></i>
+                                    <span class="module-title">1. Pédagogie et Andragogie</span>
+                                    <span class="module-status"><i class="fas fa-circle"></i></span>
+                                </div>
+                                <div class="module-content">
+                                    <a href="#" class="lesson-link" data-lesson="1.1">Principes pédagogiques</a>
+                                    <a href="#" class="lesson-link" data-lesson="1.2">Formation d'adultes</a>
+                                    <a href="#" class="lesson-link" data-lesson="1.3">Styles d'apprentissage</a>
+                                </div>
+                            </div>
+                            
+                            <div class="module-item" data-module="2">
+                                <div class="module-header" onclick="toggleModule(2)">
+                                    <i class="fas fa-chevron-right module-toggle"></i>
+                                    <span class="module-title">2. Maîtrise Complète SAMA CONAI</span>
+                                    <span class="module-status"><i class="fas fa-circle"></i></span>
+                                </div>
+                                <div class="module-content">
+                                    <a href="#" class="lesson-link" data-lesson="2.1">Architecture technique</a>
+                                    <a href="#" class="lesson-link" data-lesson="2.2">Fonctionnalités avancées</a>
+                                    <a href="#" class="lesson-link" data-lesson="2.3">Administration système</a>
+                                    <a href="#" class="lesson-link" data-lesson="2.4">Dépannage et support</a>
+                                </div>
+                            </div>
+
+                            <div class="module-item" data-module="3">
+                                <div class="module-header" onclick="toggleModule(3)">
+                                    <i class="fas fa-chevron-right module-toggle"></i>
+                                    <span class="module-title">3. Conception de Formations</span>
+                                    <span class="module-status"><i class="fas fa-circle"></i></span>
+                                </div>
+                                <div class="module-content">
+                                    <a href="#" class="lesson-link" data-lesson="3.1">Analyse des besoins</a>
+                                    <a href="#" class="lesson-link" data-lesson="3.2">Objectifs pédagogiques</a>
+                                    <a href="#" class="lesson-link" data-lesson="3.3">Progression pédagogique</a>
+                                    <a href="#" class="lesson-link" data-lesson="3.4">Supports de formation</a>
+                                </div>
+                            </div>
+
+                            <div class="module-item" data-module="4">
+                                <div class="module-header" onclick="toggleModule(4)">
+                                    <i class="fas fa-chevron-right module-toggle"></i>
+                                    <span class="module-title">4. Animation de Sessions</span>
+                                    <span class="module-status"><i class="fas fa-circle"></i></span>
+                                </div>
+                                <div class="module-content">
+                                    <a href="#" class="lesson-link" data-lesson="4.1">Techniques d'animation</a>
+                                    <a href="#" class="lesson-link" data-lesson="4.2">Gestion de groupe</a>
+                                    <a href="#" class="lesson-link" data-lesson="4.3">Outils interactifs</a>
+                                    <a href="#" class="lesson-link" data-lesson="4.4">Gestion du temps</a>
+                                </div>
+                            </div>
+
+                            <div class="module-item" data-module="5">
+                                <div class="module-header" onclick="toggleModule(5)">
+                                    <i class="fas fa-chevron-right module-toggle"></i>
+                                    <span class="module-title">5. Évaluation et Certification</span>
+                                    <span class="module-status"><i class="fas fa-circle"></i></span>
+                                </div>
+                                <div class="module-content">
+                                    <a href="#" class="lesson-link" data-lesson="5.1">Méthodes d'évaluation</a>
+                                    <a href="#" class="lesson-link" data-lesson="5.2">Création de quiz</a>
+                                    <a href="#" class="lesson-link" data-lesson="5.3">Grilles d'évaluation</a>
+                                    <a href="#" class="lesson-link" data-lesson="5.4">Processus de certification</a>
+                                </div>
+                            </div>
+
+                            <div class="module-item" data-module="6">
+                                <div class="module-header" onclick="toggleModule(6)">
+                                    <i class="fas fa-chevron-right module-toggle"></i>
+                                    <span class="module-title">6. Formation Digitale</span>
+                                    <span class="module-status"><i class="fas fa-circle"></i></span>
+                                </div>
+                                <div class="module-content">
+                                    <a href="#" class="lesson-link" data-lesson="6.1">E-learning et blended</a>
+                                    <a href="#" class="lesson-link" data-lesson="6.2">Outils numériques</a>
+                                    <a href="#" class="lesson-link" data-lesson="6.3">Classes virtuelles</a>
+                                </div>
+                            </div>
+
+                            <div class="module-item" data-module="7">
+                                <div class="module-header" onclick="toggleModule(7)">
+                                    <i class="fas fa-chevron-right module-toggle"></i>
+                                    <span class="module-title">7. Adaptation par Public</span>
+                                    <span class="module-status"><i class="fas fa-circle"></i></span>
+                                </div>
+                                <div class="module-content">
+                                    <a href="#" class="lesson-link" data-lesson="7.1">Formation administrateurs</a>
+                                    <a href="#" class="lesson-link" data-lesson="7.2">Formation agents publics</a>
+                                    <a href="#" class="lesson-link" data-lesson="7.3">Formation citoyens</a>
+                                    <a href="#" class="lesson-link" data-lesson="7.4">Publics spécialisés</a>
+                                </div>
+                            </div>
+
+                            <div class="module-item" data-module="8">
+                                <div class="module-header" onclick="toggleModule(8)">
+                                    <i class="fas fa-chevron-right module-toggle"></i>
+                                    <span class="module-title">8. Gestion de Projet Formation</span>
+                                    <span class="module-status"><i class="fas fa-circle"></i></span>
+                                </div>
+                                <div class="module-content">
+                                    <a href="#" class="lesson-link" data-lesson="8.1">Planification</a>
+                                    <a href="#" class="lesson-link" data-lesson="8.2">Logistique</a>
+                                    <a href="#" class="lesson-link" data-lesson="8.3">Suivi et évaluation</a>
+                                </div>
+                            </div>
+
+                            <div class="module-item" data-module="9">
+                                <div class="module-header" onclick="toggleModule(9)">
+                                    <i class="fas fa-chevron-right module-toggle"></i>
+                                    <span class="module-title">9. Amélioration Continue</span>
+                                    <span class="module-status"><i class="fas fa-circle"></i></span>
+                                </div>
+                                <div class="module-content">
+                                    <a href="#" class="lesson-link" data-lesson="9.1">Feedback et retours</a>
+                                    <a href="#" class="lesson-link" data-lesson="9.2">Mise à jour des contenus</a>
+                                    <a href="#" class="lesson-link" data-lesson="9.3">Veille pédagogique</a>
+                                </div>
+                            </div>
+
+                            <div class="module-item" data-module="10">
+                                <div class="module-header" onclick="toggleModule(10)">
+                                    <i class="fas fa-chevron-right module-toggle"></i>
+                                    <span class="module-title">10. Certification Formateur</span>
+                                    <span class="module-status"><i class="fas fa-circle"></i></span>
+                                </div>
+                                <div class="module-content">
+                                    <a href="#" class="lesson-link" data-lesson="10.1">Préparation à l'examen</a>
+                                    <a href="#" class="lesson-link" data-lesson="10.2">Projet de formation</a>
+                                    <a href="#" class="lesson-link" data-lesson="10.3">Soutenance</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="col-lg-9">
+                    <div class="lesson-content">
+                        <!-- Module 1: Pédagogie -->
+                        <div class="lesson-section active" id="lesson-1.1">
+                            <div class="lesson-header">
+                                <h2>Principes Pédagogiques Fondamentaux</h2>
+                                <div class="lesson-meta">
+                                    <span><i class="fas fa-clock"></i> 60 minutes</span>
+                                    <span><i class="fas fa-brain"></i> Théorie + Pratique</span>
+                                </div>
+                            </div>
+                            
+                            <div class="lesson-body">
+                                <h3>Objectifs d'apprentissage</h3>
+                                <ul class="learning-objectives">
+                                    <li>Maîtriser les principes fondamentaux de la pédagogie moderne</li>
+                                    <li>Comprendre les spécificités de la formation d'adultes (andragogie)</li>
+                                    <li>Identifier les différents styles d'apprentissage</li>
+                                    <li>Adapter votre approche pédagogique au contexte SAMA CONAI</li>
+                                </ul>
+
+                                <h3>Introduction à la Pédagogie</h3>
+                                <p>En tant que formateur SAMA CONAI, vous devez maîtriser les principes pédagogiques pour transmettre efficacement les compétences de transparence et gouvernance. La formation d'adultes en contexte professionnel nécessite une approche spécifique.</p>
+
+                                <div class="info-box">
+                                    <h4><i class="fas fa-lightbulb"></i> Principe Clé</h4>
+                                    <p>L'andragogie (formation d'adultes) diffère de la pédagogie traditionnelle. Les adultes apprennent mieux quand ils voient l'utilité immédiate et pratique de la formation.</p>
+                                </div>
+
+                                <h3>Les 4 Piliers de l'Apprentissage</h3>
+                                <div class="feature-grid">
+                                    <div class="feature-item">
+                                        <i class="fas fa-eye"></i>
+                                        <h5>Apprendre à Connaître</h5>
+                                        <p>Acquisition des connaissances théoriques sur SAMA CONAI et la transparence.</p>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fas fa-tools"></i>
+                                        <h5>Apprendre à Faire</h5>
+                                        <p>Développement des compétences pratiques d'utilisation du système.</p>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fas fa-users"></i>
+                                        <h5>Apprendre à Vivre Ensemble</h5>
+                                        <p>Collaboration entre citoyens et administration pour la transparence.</p>
+                                    </div>
+                                    <div class="feature-item">
+                                        <i class="fas fa-user-graduate"></i>
+                                        <h5>Apprendre à Être</h5>
+                                        <p>Développement de l'esprit critique et de la responsabilité civique.</p>
+                                    </div>
+                                </div>
+
+                                <h3>Styles d'Apprentissage</h3>
+                                <div class="component-list">
+                                    <div class="component">
+                                        <h5>Apprenant Visuel</h5>
+                                        <ul>
+                                            <li>Préfère les schémas, diagrammes, captures d'écran</li>
+                                            <li>Utilise des couleurs et des symboles</li>
+                                            <li>Mémorise par l'image</li>
+                                            <li>Outils : présentations, vidéos, infographies</li>
+                                        </ul>
+                                    </div>
+                                    <div class="component">
+                                        <h5>Apprenant Auditif</h5>
+                                        <ul>
+                                            <li>Apprend par l'écoute et la discussion</li>
+                                            <li>Retient les explications orales</li>
+                                            <li>Aime les débats et questions-réponses</li>
+                                            <li>Outils : exposés, podcasts, discussions</li>
+                                        </ul>
+                                    </div>
+                                    <div class="component">
+                                        <h5>Apprenant Kinesthésique</h5>
+                                        <ul>
+                                            <li>Apprend par la pratique et l'expérimentation</li>
+                                            <li>Besoin de manipuler et tester</li>
+                                            <li>Mémorise par le geste</li>
+                                            <li>Outils : ateliers pratiques, simulations</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <h3>Méthodes Pédagogiques Adaptées</h3>
+                                <div class="exam-format">
+                                    <div class="format-item">
+                                        <i class="fas fa-chalkboard-teacher"></i>
+                                        <div>
+                                            <h5>Méthode Expositive</h5>
+                                            <p>Présentation structurée des concepts et procédures</p>
+                                        </div>
+                                    </div>
+                                    <div class="format-item">
+                                        <i class="fas fa-comments"></i>
+                                        <div>
+                                            <h5>Méthode Interactive</h5>
+                                            <p>Échanges, questions-réponses, discussions de groupe</p>
+                                        </div>
+                                    </div>
+                                    <div class="format-item">
+                                        <i class="fas fa-hands-helping"></i>
+                                        <div>
+                                            <h5>Méthode Active</h5>
+                                            <p>Ateliers pratiques, études de cas, simulations</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h3>Spécificités SAMA CONAI</h3>
+                                <div class="post-certification">
+                                    <div class="benefit-item">
+                                        <i class="fas fa-balance-scale text-primary"></i>
+                                        <div>
+                                            <h5>Contexte légal</h5>
+                                            <p>Intégrer les aspects juridiques et réglementaires</p>
+                                        </div>
+                                    </div>
+                                    <div class="benefit-item">
+                                        <i class="fas fa-laptop text-success"></i>
+                                        <div>
+                                            <h5>Outil numérique</h5>
+                                            <p>Maîtriser l'interface et les fonctionnalités</p>
+                                        </div>
+                                    </div>
+                                    <div class="benefit-item">
+                                        <i class="fas fa-heart text-danger"></i>
+                                        <div>
+                                            <h5>Dimension civique</h5>
+                                            <p>Sensibiliser à l'importance de la transparence</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h3>Cycle d'Apprentissage de Kolb</h3>
+                                <div class="architecture-diagram">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="cycle-step">
+                                                <h5>1. Expérience Concrète</h5>
+                                                <p>Démonstration pratique de SAMA CONAI</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="cycle-step">
+                                                <h5>2. Observation Réflexive</h5>
+                                                <p>Analyse des processus observés</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="cycle-step">
+                                                <h5>3. Conceptualisation</h5>
+                                                <p>Théorisation des bonnes pratiques</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="cycle-step">
+                                                <h5>4. Expérimentation</h5>
+                                                <p>Mise en pratique autonome</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="interactive-demo">
+                                    <h4>Atelier Pratique : Analyse de Style</h4>
+                                    <p>Identifiez votre style pédagogique et celui de vos apprenants</p>
+                                    <button class="btn btn-primary" onclick="startDemo('teaching-style-assessment')">
+                                        <i class="fas fa-play me-2"></i>Commencer l'Atelier
+                                    </button>
+                                </div>
+
+                                <div class="quiz-section">
+                                    <h3>Auto-évaluation Pédagogique</h3>
+                                    <div class="quiz-question">
+                                        <p><strong>Question 1:</strong> Quelle est la principale différence entre pédagogie et andragogie ?</p>
+                                        <div class="quiz-options">
+                                            <label><input type="radio" name="q1" value="a"> L'âge des apprenants</label>
+                                            <label><input type="radio" name="q1" value="b"> La motivation et l'expérience des apprenants</label>
+                                            <label><input type="radio" name="q1" value="c"> Les outils utilisés</label>
+                                        </div>
+                                    </div>
+                                    <div class="quiz-question">
+                                        <p><strong>Question 2:</strong> Pour un apprenant kinesthésique, quelle approche est la plus efficace ?</p>
+                                        <div class="quiz-options">
+                                            <label><input type="radio" name="q2" value="a"> Présentation PowerPoint détaillée</label>
+                                            <label><input type="radio" name="q2" value="b"> Atelier pratique sur SAMA CONAI</label>
+                                            <label><input type="radio" name="q2" value="c"> Lecture de documentation</label>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary" onclick="checkQuiz()">Vérifier les Réponses</button>
+                                </div>
+                            </div>
+
+                            <div class="lesson-navigation">
+                                <button class="btn btn-outline-secondary" disabled>
+                                    <i class="fas fa-chevron-left"></i> Précédent
+                                </button>
+                                <button class="btn btn-primary" onclick="nextLesson('1.2')">
+                                    Suivant <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Placeholder for other lessons -->
+                        <div class="lesson-section" id="lesson-1.2" style="display: none;">
+                            <div class="lesson-header">
+                                <h2>Formation d'Adultes (Andragogie)</h2>
+                                <div class="lesson-meta">
+                                    <span><i class="fas fa-clock"></i> 45 minutes</span>
+                                    <span><i class="fas fa-users"></i> Pratique</span>
+                                </div>
+                            </div>
+                            
+                            <div class="lesson-body">
+                                <h3>Spécificités de l'Apprentissage Adulte</h3>
+                                <p>Les adultes apprennent différemment des enfants. Découvrez les principes de l'andragogie...</p>
+                                <!-- Plus de contenu... -->
+                            </div>
+
+                            <div class="lesson-navigation">
+                                <button class="btn btn-outline-secondary" onclick="previousLesson('1.1')">
+                                    <i class="fas fa-chevron-left"></i> Précédent
+                                </button>
+                                <button class="btn btn-primary" onclick="nextLesson('1.3')">
+                                    Suivant <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <p>&copy; 2025 SAMA Solutions. Tous droits réservés.</p>
+                </div>
+                <div class="col-lg-6 text-end">
+                    <p>Formation Formateur SAMA CONAI</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/formation.js"></script>
+</body>
+</html>

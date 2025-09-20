@@ -1,0 +1,284 @@
+# =============================================================================
+# SAMA CONAI - Pre-commit Configuration
+# =============================================================================
+# Auteurs: Mamadou Mbagnick DOGUE & Rassol DOGUE
+# Description: Configuration des hooks pre-commit pour la qualité du code
+# =============================================================================
+
+repos:
+  # =============================================================================
+  # HOOKS GÉNÉRAUX
+  # =============================================================================
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+        name: 🧹 Remove trailing whitespace
+      - id: end-of-file-fixer
+        name: 📝 Fix end of files
+      - id: check-yaml
+        name: ✅ Check YAML syntax
+      - id: check-json
+        name: ✅ Check JSON syntax
+      - id: check-toml
+        name: ✅ Check TOML syntax
+      - id: check-xml
+        name: ✅ Check XML syntax
+      - id: check-merge-conflict
+        name: 🔀 Check for merge conflicts
+      - id: check-case-conflict
+        name: 📁 Check for case conflicts
+      - id: check-symlinks
+        name: 🔗 Check for broken symlinks
+      - id: check-executables-have-shebangs
+        name: 📜 Check executables have shebangs
+      - id: check-shebang-scripts-are-executable
+        name: 🔧 Check shebang scripts are executable
+      - id: fix-byte-order-marker
+        name: 🔤 Fix UTF-8 byte order marker
+      - id: mixed-line-ending
+        name: 📄 Fix mixed line endings
+      - id: check-docstring-first
+        name: 📚 Check docstring is first
+      - id: debug-statements
+        name: 🐛 Check for debug statements
+      - id: name-tests-test
+        name: 🧪 Check test naming convention
+        args: ['--django']
+
+  # =============================================================================
+  # FORMATAGE PYTHON
+  # =============================================================================
+  - repo: https://github.com/psf/black
+    rev: 23.3.0
+    hooks:
+      - id: black
+        name: 🎨 Format Python code (Black)
+        language_version: python3
+        args: ['--line-length=88', '--target-version=py38']
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        name: 📦 Sort Python imports (isort)
+        args: ['--profile=black', '--line-length=88']
+
+  # =============================================================================
+  # LINTING PYTHON
+  # =============================================================================
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.0.0
+    hooks:
+      - id: flake8
+        name: 🔍 Lint Python code (Flake8)
+        args: ['--max-line-length=88', '--extend-ignore=E203,W503']
+        additional_dependencies:
+          - flake8-docstrings
+          - flake8-bugbear
+          - flake8-comprehensions
+          - flake8-simplify
+
+  - repo: https://github.com/pycqa/pylint
+    rev: v3.0.0a6
+    hooks:
+      - id: pylint
+        name: 🔎 Advanced Python linting (Pylint)
+        args: ['--disable=C0114,C0115,C0116']  # Disable missing docstring warnings
+
+  # =============================================================================
+  # TYPE CHECKING
+  # =============================================================================
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.3.0
+    hooks:
+      - id: mypy
+        name: 🔬 Type checking (MyPy)
+        additional_dependencies: [types-all]
+        args: ['--ignore-missing-imports', '--no-strict-optional']
+
+  # =============================================================================
+  # SÉCURITÉ
+  # =============================================================================
+  - repo: https://github.com/pycqa/bandit
+    rev: 1.7.5
+    hooks:
+      - id: bandit
+        name: 🔒 Security linting (Bandit)
+        args: ['-r', '.', '-f', 'json', '-o', 'bandit-report.json']
+        exclude: ^tests/
+
+  - repo: https://github.com/gitguardian/ggshield
+    rev: v1.21.0
+    hooks:
+      - id: ggshield
+        name: 🛡️ Secrets detection (GitGuardian)
+        language: python
+        stages: [commit]
+
+  # =============================================================================
+  # DOCUMENTATION
+  # =============================================================================
+  - repo: https://github.com/pycqa/pydocstyle
+    rev: 6.3.0
+    hooks:
+      - id: pydocstyle
+        name: 📖 Check docstring style (pydocstyle)
+        args: ['--convention=google']
+
+  - repo: https://github.com/terrencepreilly/darglint
+    rev: v1.8.1
+    hooks:
+      - id: darglint
+        name: 📝 Check docstring arguments (darglint)
+
+  # =============================================================================
+  # FRONTEND (CSS/JS)
+  # =============================================================================
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.0.0-alpha.9-for-vscode
+    hooks:
+      - id: prettier
+        name: 💅 Format frontend code (Prettier)
+        types_or: [css, scss, javascript, json, yaml, markdown]
+        args: ['--tab-width=2', '--single-quote']
+
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v8.42.0
+    hooks:
+      - id: eslint
+        name: 🔍 Lint JavaScript (ESLint)
+        files: \.(js|jsx|ts|tsx)$
+        types: [file]
+        additional_dependencies:
+          - eslint@8.42.0
+          - eslint-config-prettier@8.8.0
+
+  # =============================================================================
+  # MARKDOWN
+  # =============================================================================
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.35.0
+    hooks:
+      - id: markdownlint
+        name: 📄 Lint Markdown files
+        args: ['--fix']
+
+  # =============================================================================
+  # YAML
+  # =============================================================================
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.32.0
+    hooks:
+      - id: yamllint
+        name: 📋 Lint YAML files
+        args: ['-d', 'relaxed']
+
+  # =============================================================================
+  # DOCKER
+  # =============================================================================
+  - repo: https://github.com/hadolint/hadolint
+    rev: v2.12.0
+    hooks:
+      - id: hadolint-docker
+        name: 🐳 Lint Dockerfile
+        args: ['--ignore', 'DL3008', '--ignore', 'DL3009']
+
+  # =============================================================================
+  # COMMITS
+  # =============================================================================
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: 3.2.2
+    hooks:
+      - id: commitizen
+        name: 📝 Check commit message format
+        stages: [commit-msg]
+
+  # =============================================================================
+  # PERFORMANCE
+  # =============================================================================
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.7.0
+    hooks:
+      - id: pyupgrade
+        name: ⬆️ Upgrade Python syntax
+        args: ['--py38-plus']
+
+  # =============================================================================
+  # DEPENDENCIES
+  # =============================================================================
+  - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
+    rev: v1.3.2
+    hooks:
+      - id: python-safety-dependencies-check
+        name: 🔐 Check dependencies security
+
+  # =============================================================================
+  # CUSTOM HOOKS SAMA CONAI
+  # =============================================================================
+  - repo: local
+    hooks:
+      - id: sama-conai-version-check
+        name: 🇸🇳 SAMA CONAI version consistency
+        entry: python scripts/check_version_consistency.py
+        language: python
+        files: ^(setup.py|__manifest__.py|package.json)$
+        pass_filenames: false
+
+      - id: sama-conai-translation-check
+        name: 🌍 Check translation files
+        entry: python scripts/check_translations.py
+        language: python
+        files: ^locale/.*\.po$
+        pass_filenames: false
+
+      - id: sama-conai-security-check
+        name: 🔒 SAMA CONAI security check
+        entry: python scripts/security_check.py
+        language: python
+        files: ^(models|controllers|views)/.*\.py$
+        pass_filenames: false
+
+      - id: sama-conai-documentation-check
+        name: 📚 Check documentation completeness
+        entry: python scripts/check_documentation.py
+        language: python
+        files: ^(README|CONTRIBUTING|CHANGELOG|SECURITY)\.md$
+        pass_filenames: false
+
+# =============================================================================
+# CONFIGURATION GLOBALE
+# =============================================================================
+default_stages: [commit]
+fail_fast: false
+minimum_pre_commit_version: '3.0.0'
+
+# Exclusions globales
+exclude: |
+  (?x)^(
+    migrations/.*|
+    static/vendor/.*|
+    node_modules/.*|
+    \.git/.*|
+    \.tox/.*|
+    \.venv/.*|
+    venv/.*|
+    env/.*|
+    build/.*|
+    dist/.*|
+    \.eggs/.*|
+    .*\.egg-info/.*|
+    __pycache__/.*|
+    \.pytest_cache/.*|
+    \.coverage|
+    \.mypy_cache/.*|
+    locale/.*/LC_MESSAGES/.*\.mo$
+  )$
+
+# Configuration des hooks par défaut
+default_language_version:
+  python: python3.9
+  node: '16.20.0'
+
+# Repos à mettre à jour automatiquement
+repos_update_schedule: weekly

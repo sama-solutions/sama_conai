@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certification Expert - SAMA CONAI</title>
+    <meta name="description" content="Certification expert pour les spécialistes SAMA CONAI">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="../assets/css/certification.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="../index.html">
+                <i class="fas fa-shield-alt me-2"></i>SAMA CONAI
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Accueil</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Formation
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../formation/administrateur.html">Administrateur</a></li>
+                            <li><a class="dropdown-item" href="../formation/agent.html">Agent Public</a></li>
+                            <li><a class="dropdown-item" href="../formation/citoyen.html">Citoyen</a></li>
+                            <li><a class="dropdown-item" href="../formation/formateur.html">Formateur</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Documentation
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../documentation/guide-demarrage.html">Guide de Démarrage</a></li>
+                            <li><a class="dropdown-item" href="../documentation/manuel-utilisateur.html">Manuel Utilisateur</a></li>
+                            <li><a class="dropdown-item" href="../documentation/documentation-technique.html">Documentation Technique</a></li>
+                            <li><a class="dropdown-item" href="../documentation/faq.html">FAQ</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html#contact">Contact</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">
+                            Certification
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="utilisateur.html">Certification Utilisateur</a></li>
+                            <li><a class="dropdown-item" href="formateur.html">Certification Formateur</a></li>
+                            <li><a class="dropdown-item active" href="expert.html">Certification Expert</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="certification-hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <div class="breadcrumb-nav">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="../index.html">Accueil</a></li>
+                                <li class="breadcrumb-item">Certification</li>
+                                <li class="breadcrumb-item active">Expert</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <h1 class="certification-title">
+                        <i class="fas fa-crown me-3"></i>
+                        Certification Expert SAMA CONAI
+                    </h1>
+                    <p class="certification-subtitle">
+                        Le plus haut niveau de certification pour les spécialistes et architectes SAMA CONAI
+                    </p>
+                    <div class="certification-meta">
+                        <span class="meta-item">
+                            <i class="fas fa-clock"></i>
+                            Durée: 6-8 heures
+                        </span>
+                        <span class="meta-item">
+                            <i class="fas fa-tasks"></i>
+                            60 questions + Projet
+                        </span>
+                        <span class="meta-item">
+                            <i class="fas fa-percentage"></i>
+                            85% requis
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="certification-card-hero">
+                        <div class="cert-badge-large">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h4>Certification Officielle</h4>
+                        <p>Niveau Expert</p>
+                        <div class="cert-price">
+                            <span class="price-label">Gratuit</span>
+                        </div>
+                        <button class="btn btn-warning btn-lg w-100" onclick="startCertification('expert')">
+                            <i class="fas fa-play me-2"></i>Commencer l'Examen
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certification Info -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="certification-info">
+                        <h2>À propos de cette certification</h2>
+                        <p>La Certification Expert SAMA CONAI représente le plus haut niveau de maîtrise du module. Elle valide vos compétences pour concevoir, déployer, personnaliser et optimiser des solutions SAMA CONAI complexes. Cette certification vous positionne comme référent technique et consultant spécialisé.</p>
+                        
+                        <h3>Prérequis Obligatoires</h3>
+                        <div class="prerequisites">
+                            <li><strong>Certification Formateur</strong> : Obtenue avec un score minimum de 85%</li>
+                            <li><strong>Expérience technique</strong> : 2 ans d'administration SAMA CONAI</li>
+                            <li><strong>Projets réalisés</strong> : 3 déploiements documentés minimum</li>
+                            <li><strong>Développement</strong> : Connaissance Python/JavaScript</li>
+                            <li><strong>Architecture</strong> : Maîtrise Odoo et infrastructure</li>
+                        </div>
+
+                        <h3>Compétences évaluées</h3>
+                        <div class="skills-grid">
+                            <div class="skill-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h5>Architecture et Déploiement</h5>
+                                    <p>Conception d'architectures complexes et déploiements multi-sites</p>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h5>Développement et Personnalisation</h5>
+                                    <p>Développement de modules personnalisés et intégrations</p>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h5>Performance et Optimisation</h5>
+                                    <p>Optimisation des performances et montée en charge</p>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h5>Sécurité Avancée</h5>
+                                    <p>Implémentation de mesures de sécurité renforcées</p>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h5>Intégration Système</h5>
+                                    <p>Intégration avec systèmes tiers et APIs externes</p>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <h5>Conseil et Expertise</h5>
+                                    <p>Capacité de conseil stratégique et technique</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3>Format de l'examen</h3>
+                        <div class="exam-format">
+                            <div class="format-item">
+                                <i class="fas fa-laptop-code"></i>
+                                <div>
+                                    <h5>Examen Technique</h5>
+                                    <p>60 questions sur l'architecture, développement et optimisation (4 heures)</p>
+                                </div>
+                            </div>
+                            <div class="format-item">
+                                <i class="fas fa-project-diagram"></i>
+                                <div>
+                                    <h5>Projet d'Architecture</h5>
+                                    <p>Conception d'une solution complète avec documentation (3-4 heures)</p>
+                                </div>
+                            </div>
+                            <div class="format-item">
+                                <i class="fas fa-code"></i>
+                                <div>
+                                    <h5>Développement Pratique</h5>
+                                    <p>Implémentation d'une fonctionnalité personnalisée (2 heures)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3>Projet de Certification Expert</h3>
+                        <div class="post-certification">
+                            <div class="benefit-item">
+                                <i class="fas fa-sitemap text-primary"></i>
+                                <div>
+                                    <h5>Architecture Solution</h5>
+                                    <p>Concevoir une architecture SAMA CONAI pour 50,000+ utilisateurs</p>
+                                </div>
+                            </div>
+                            <div class="benefit-item">
+                                <i class="fas fa-code text-success"></i>
+                                <div>
+                                    <h5>Développement Module</h5>
+                                    <p>Développer un module d'extension avec tests unitaires</p>
+                                </div>
+                            </div>
+                            <div class="benefit-item">
+                                <i class="fas fa-shield-alt text-danger"></i>
+                                <div>
+                                    <h5>Audit Sécurité</h5>
+                                    <p>Réaliser un audit de sécurité complet avec recommandations</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3>Domaines d'expertise</h3>
+                        <div class="component-list">
+                            <div class="component">
+                                <h5>Architecture Technique</h5>
+                                <ul>
+                                    <li>Conception d'architectures haute disponibilité</li>
+                                    <li>Stratégies de sauvegarde et reprise d'activité</li>
+                                    <li>Optimisation des performances</li>
+                                    <li>Monitoring et alerting avancés</li>
+                                </ul>
+                            </div>
+                            <div class="component">
+                                <h5>Développement Avancé</h5>
+                                <ul>
+                                    <li>Modules personnalisés Odoo</li>
+                                    <li>APIs et intégrations</li>
+                                    <li>Workflows complexes</li>
+                                    <li>Tests automatisés</li>
+                                </ul>
+                            </div>
+                            <div class="component">
+                                <h5>Sécurité et Conformité</h5>
+                                <ul>
+                                    <li>Chiffrement et protection des données</li>
+                                    <li>Audit trails et traçabilité</li>
+                                    <li>Conformité RGPD</li>
+                                    <li>Gestion des accès avancée</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <h3>Après la certification</h3>
+                        <div class="post-certification">
+                            <div class="benefit-item">
+                                <i class="fas fa-crown text-warning"></i>
+                                <div>
+                                    <h5>Statut Expert Officiel</h5>
+                                    <p>Reconnaissance comme expert SAMA CONAI de niveau mondial</p>
+                                </div>
+                            </div>
+                            <div class="benefit-item">
+                                <i class="fas fa-handshake text-primary"></i>
+                                <div>
+                                    <h5>Partenaire Consultant</h5>
+                                    <p>Éligibilité pour devenir partenaire consultant officiel</p>
+                                </div>
+                            </div>
+                            <div class="benefit-item">
+                                <i class="fas fa-users-cog text-success"></i>
+                                <div>
+                                    <h5>Communauté Experts</h5>
+                                    <p>Accès exclusif à la communauté des experts certifiés</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="sidebar-info">
+                        <div class="info-card">
+                            <h5><i class="fas fa-chart-line me-2"></i>Statistiques</h5>
+                            <div class="stat-row">
+                                <span>Taux de réussite</span>
+                                <span class="stat-value">35%</span>
+                            </div>
+                            <div class="stat-row">
+                                <span>Experts certifiés</span>
+                                <span class="stat-value">12</span>
+                            </div>
+                            <div class="stat-row">
+                                <span>Note moyenne</span>
+                                <span class="stat-value">87%</span>
+                            </div>
+                        </div>
+
+                        <div class="info-card">
+                            <h5><i class="fas fa-users me-2"></i>Témoignages</h5>
+                            <div class="testimonial">
+                                <p>"Certification très exigeante qui m'a poussé à approfondir tous les aspects techniques. Je suis maintenant consultant SAMA CONAI."</p>
+                                <cite>- Ing. Cheikh B., Expert</cite>
+                            </div>
+                            <div class="testimonial">
+                                <p>"Le projet d'architecture était passionnant. Cette certification ouvre de nombreuses opportunités."</p>
+                                <cite>- Aïssatou M., Architecte</cite>
+                            </div>
+                        </div>
+
+                        <div class="info-card">
+                            <h5><i class="fas fa-download me-2"></i>Ressources</h5>
+                            <div class="resource-list">
+                                <a href="#" class="resource-link">
+                                    <i class="fas fa-file-code"></i>
+                                    Documentation technique
+                                </a>
+                                <a href="#" class="resource-link">
+                                    <i class="fas fa-sitemap"></i>
+                                    Guide d'architecture
+                                </a>
+                                <a href="#" class="resource-link">
+                                    <i class="fas fa-shield-alt"></i>
+                                    Guide de sécurité
+                                </a>
+                                <a href="#" class="resource-link">
+                                    <i class="fas fa-tools"></i>
+                                    Outils de développement
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="info-card">
+                            <h5><i class="fas fa-exclamation-triangle me-2"></i>Attention</h5>
+                            <p class="text-warning">Cette certification est très exigeante et nécessite une préparation approfondie. Le taux d'échec est élevé.</p>
+                            <p class="text-info">Recommandation : 6 mois de préparation minimum avec expérience pratique.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Exam Preview -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5">
+                    <h2>Aperçu de l'examen expert</h2>
+                    <p class="text-muted">Exemples de questions et projets de niveau expert</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <div class="exam-preview">
+                        <div class="question-preview">
+                            <div class="question-header">
+                                <span class="question-number">Question Architecture</span>
+                                <span class="question-type">Niveau Expert</span>
+                            </div>
+                            <div class="question-content">
+                                <h5>Vous devez déployer SAMA CONAI pour 100,000 citoyens avec une disponibilité de 99.9%. Quelle architecture recommandez-vous ?</h5>
+                                <div class="options-preview">
+                                    <div class="option">A) Serveur unique avec backup</div>
+                                    <div class="option">B) Load balancer + 2 serveurs web + base répliquée</div>
+                                    <div class="option correct">C) Architecture microservices avec orchestration Kubernetes</div>
+                                    <div class="option">D) Cluster de 3 serveurs avec partage de charge</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="question-preview">
+                            <div class="question-header">
+                                <span class="question-number">Question Développement</span>
+                                <span class="question-type">Code Python</span>
+                            </div>
+                            <div class="question-content">
+                                <h5>Implémentez une méthode de chiffrement pour les données sensibles dans les alertes citoyennes</h5>
+                                <div class="code-example">
+                                    <pre><code>class WhistleblowingAlert(models.Model):
+    _name = 'sama.whistleblowing.alert'
+    
+    sensitive_data = fields.Text('Données Sensibles')
+    
+    def encrypt_sensitive_data(self, data):
+        # Votre implémentation ici
+        pass
+    
+    def decrypt_sensitive_data(self, encrypted_data):
+        # Votre implémentation ici
+        pass</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="question-preview">
+                            <div class="question-header">
+                                <span class="question-number">Projet Expert</span>
+                                <span class="question-type">Architecture Complète</span>
+                            </div>
+                            <div class="question-content">
+                                <h5>Projet : Conception d'une solution SAMA CONAI multi-pays pour l'Afrique de l'Ouest</h5>
+                                <div class="project-requirements">
+                                    <h6>Spécifications :</h6>
+                                    <ul>
+                                        <li>Support de 5 pays avec législations différentes</li>
+                                        <li>Multi-langues (Français, Anglais, langues locales)</li>
+                                        <li>Fédération d'identité entre pays</li>
+                                        <li>Conformité RGPD et réglementations locales</li>
+                                        <li>Haute disponibilité 99.95%</li>
+                                        <li>Capacité : 1 million d'utilisateurs</li>
+                                    </ul>
+                                    <h6>Livrables :</h6>
+                                    <ul>
+                                        <li>Architecture technique détaillée</li>
+                                        <li>Plan de déploiement par phases</li>
+                                        <li>Stratégie de sécurité et conformité</li>
+                                        <li>Estimation des coûts et ressources</li>
+                                        <li>Prototype fonctionnel (module personnalisé)</li>
+                                        <li>Présentation devant jury d'experts (45 min)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2>Prêt pour le défi expert ?</h2>
+                    <p class="lead">Rejoignez l'élite des experts SAMA CONAI et devenez référent technique mondial</p>
+                    <div class="cta-buttons">
+                        <button class="btn btn-warning btn-lg me-3" onclick="startCertification('expert')">
+                            <i class="fas fa-crown me-2"></i>Relever le Défi
+                        </button>
+                        <a href="../formation/administrateur.html" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-graduation-cap me-2"></i>Préparation Technique
+                        </a>
+                    </div>
+                    <div class="mt-4">
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <strong>Attention :</strong> Cette certification nécessite une préparation intensive. 
+                            Taux de réussite : 35%. Préparation recommandée : 6+ mois.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <p>&copy; 2025 SAMA Solutions. Tous droits réservés.</p>
+                </div>
+                <div class="col-lg-6 text-end">
+                    <p>Certification Expert SAMA CONAI</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/certification.js"></script>
+</body>
+</html>

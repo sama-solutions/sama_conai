@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - SAMA CONAI</title>
+    <meta name="description" content="Questions fréquemment posées sur le module SAMA CONAI">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="../index.html">
+                <i class="fas fa-shield-alt me-2"></i>SAMA CONAI
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../about.html">À propos</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Formation
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../formation/administrateur.html">Administrateur</a></li>
+                            <li><a class="dropdown-item" href="../formation/agent.html">Agent Public</a></li>
+                            <li><a class="dropdown-item" href="../formation/citoyen.html">Citoyen</a></li>
+                            <li><a class="dropdown-item" href="../formation/formateur.html">Formateur</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            Certification
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../certification/utilisateur.html">Certification Utilisateur</a></li>
+                            <li><a class="dropdown-item" href="../certification/formateur.html">Certification Formateur</a></li>
+                            <li><a class="dropdown-item" href="../certification/expert.html">Certification Expert</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">
+                            Documentation
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="guide-demarrage.html">Guide de Démarrage</a></li>
+                            <li><a class="dropdown-item" href="manuel-utilisateur.html">Manuel Utilisateur</a></li>
+                            <li><a class="dropdown-item" href="documentation-technique.html">Documentation Technique</a></li>
+                            <li><a class="dropdown-item active" href="faq.html">FAQ</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <section class="py-5 mt-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h1 class="display-4 fw-bold text-primary">
+                        <i class="fas fa-question-circle me-3"></i>FAQ
+                    </h1>
+                    <p class="lead">Questions fréquemment posées</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="py-4 bg-white">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="faqSearch" placeholder="Rechercher dans la FAQ...">
+                        <button class="btn btn-primary" type="button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <!-- Categories -->
+                    <div class="sticky-top" style="top: 100px;">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-list me-2"></i>Catégories</h5>
+                            </div>
+                            <div class="card-body">
+                                <nav class="nav flex-column">
+                                    <a class="nav-link" href="#general">Questions Générales</a>
+                                    <a class="nav-link" href="#installation">Installation</a>
+                                    <a class="nav-link" href="#utilisation">Utilisation</a>
+                                    <a class="nav-link" href="#demandes">Demandes</a>
+                                    <a class="nav-link" href="#alertes">Alertes</a>
+                                    <a class="nav-link" href="#securite">Sécurité</a>
+                                    <a class="nav-link" href="#technique">Technique</a>
+                                    <a class="nav-link" href="#formation">Formation</a>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <!-- Questions Générales -->
+                    <section id="general" class="mb-5">
+                        <h2 class="h3 text-primary mb-4">
+                            <i class="fas fa-info-circle me-2"></i>Questions Générales
+                        </h2>
+                        
+                        <div class="accordion" id="accordionGeneral">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#general1">
+                                        Qu'est-ce que SAMA CONAI ?
+                                    </button>
+                                </h2>
+                                <div id="general1" class="accordion-collapse collapse show" data-bs-parent="#accordionGeneral">
+                                    <div class="accordion-body">
+                                        SAMA CONAI est un module Odoo conçu pour promouvoir la transparence et la bonne gouvernance au Sénégal. Il permet aux citoyens de faire des demandes d'accès à l'information publique et de signaler des problèmes de gouvernance via un système d'alertes sécurisé.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#general2">
+                                        Qui peut utiliser SAMA CONAI ?
+                                    </button>
+                                </h2>
+                                <div id="general2" class="accordion-collapse collapse" data-bs-parent="#accordionGeneral">
+                                    <div class="accordion-body">
+                                        SAMA CONAI est destiné à plusieurs types d'utilisateurs :
+                                        <ul>
+                                            <li><strong>Citoyens :</strong> Pour faire des demandes d'information et signaler des problèmes</li>
+                                            <li><strong>Agents publics :</strong> Pour traiter les demandes et gérer les réponses</li>
+                                            <li><strong>Administrateurs :</strong> Pour configurer et maintenir le système</li>
+                                            <li><strong>Organismes publics :</strong> Pour améliorer leur transparence</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#general3">
+                                        SAMA CONAI est-il gratuit ?
+                                    </button>
+                                </h2>
+                                <div id="general3" class="accordion-collapse collapse" data-bs-parent="#accordionGeneral">
+                                    <div class="accordion-body">
+                                        Oui, SAMA CONAI est un logiciel libre et open source. Il peut être utilisé gratuitement par toute organisation publique ou privée. Le code source est disponible sur GitHub sous licence AGPL-3.0.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Installation -->
+                    <section id="installation" class="mb-5">
+                        <h2 class="h3 text-primary mb-4">
+                            <i class="fas fa-download me-2"></i>Installation
+                        </h2>
+                        
+                        <div class="accordion" id="accordionInstallation">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#install1">
+                                        Quels sont les prérequis pour installer SAMA CONAI ?
+                                    </button>
+                                </h2>
+                                <div id="install1" class="accordion-collapse collapse" data-bs-parent="#accordionInstallation">
+                                    <div class="accordion-body">
+                                        <strong>Système requis :</strong>
+                                        <ul>
+                                            <li>Ubuntu 20.04+ / Debian 10+ / CentOS 8+</li>
+                                            <li>Python 3.8 ou supérieure</li>
+                                            <li>PostgreSQL 12+ (recommandé)</li>
+                                            <li>Minimum 4 GB RAM (8 GB recommandé)</li>
+                                            <li>Minimum 20 GB d'espace disque</li>
+                                            <li>Odoo 16 ou version supérieure</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#install2">
+                                        Comment installer SAMA CONAI ?
+                                    </button>
+                                </h2>
+                                <div id="install2" class="accordion-collapse collapse" data-bs-parent="#accordionInstallation">
+                                    <div class="accordion-body">
+                                        L'installation se fait en quelques étapes simples :
+                                        <ol>
+                                            <li>Installez Odoo 16 ou supérieur</li>
+                                            <li>Clonez le repository SAMA CONAI dans le dossier addons</li>
+                                            <li>Exécutez le script d'installation : <code>./install.sh</code></li>
+                                            <li>Redémarrez Odoo</li>
+                                            <li>Activez le module dans l'interface d'administration</li>
+                                        </ol>
+                                        Consultez le <a href="guide-demarrage.html">Guide de Démarrage</a> pour les détails complets.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#install3">
+                                        Que faire si l'installation échoue ?
+                                    </button>
+                                </h2>
+                                <div id="install3" class="accordion-collapse collapse" data-bs-parent="#accordionInstallation">
+                                    <div class="accordion-body">
+                                        En cas de problème d'installation :
+                                        <ol>
+                                            <li>Vérifiez que tous les prérequis sont installés</li>
+                                            <li>Consultez les logs d'Odoo pour identifier l'erreur</li>
+                                            <li>Vérifiez les permissions sur les dossiers</li>
+                                            <li>Assurez-vous que la base de données est accessible</li>
+                                            <li>Contactez le support technique si le problème persiste</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Utilisation -->
+                    <section id="utilisation" class="mb-5">
+                        <h2 class="h3 text-primary mb-4">
+                            <i class="fas fa-user me-2"></i>Utilisation
+                        </h2>
+                        
+                        <div class="accordion" id="accordionUtilisation">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#usage1">
+                                        Comment créer un compte utilisateur ?
+                                    </button>
+                                </h2>
+                                <div id="usage1" class="accordion-collapse collapse" data-bs-parent="#accordionUtilisation">
+                                    <div class="accordion-body">
+                                        Pour créer un compte :
+                                        <ol>
+                                            <li>Accédez à la page d'inscription sur le site</li>
+                                            <li>Remplissez le formulaire avec vos informations personnelles</li>
+                                            <li>Choisissez un mot de passe sécurisé</li>
+                                            <li>Validez votre email via le lien de confirmation</li>
+                                            <li>Votre compte sera activé après validation par un administrateur</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#usage2">
+                                        Comment réinitialiser mon mot de passe ?
+                                    </button>
+                                </h2>
+                                <div id="usage2" class="accordion-collapse collapse" data-bs-parent="#accordionUtilisation">
+                                    <div class="accordion-body">
+                                        Pour réinitialiser votre mot de passe :
+                                        <ol>
+                                            <li>Cliquez sur "Mot de passe oublié" sur la page de connexion</li>
+                                            <li>Saisissez votre adresse email</li>
+                                            <li>Consultez votre boîte email pour le lien de réinitialisation</li>
+                                            <li>Cliquez sur le lien et définissez un nouveau mot de passe</li>
+                                            <li>Connectez-vous avec votre nouveau mot de passe</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#usage3">
+                                        L'interface est-elle disponible en plusieurs langues ?
+                                    </button>
+                                </h2>
+                                <div id="usage3" class="accordion-collapse collapse" data-bs-parent="#accordionUtilisation">
+                                    <div class="accordion-body">
+                                        Oui, SAMA CONAI est disponible en plusieurs langues :
+                                        <ul>
+                                            <li><strong>Français :</strong> Langue principale</li>
+                                            <li><strong>Wolof :</strong> Langue nationale du Sénégal</li>
+                                            <li><strong>Anglais :</strong> Pour les utilisateurs internationaux</li>
+                                        </ul>
+                                        Vous pouvez changer la langue dans vos paramètres utilisateur.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Demandes -->
+                    <section id="demandes" class="mb-5">
+                        <h2 class="h3 text-primary mb-4">
+                            <i class="fas fa-file-alt me-2"></i>Demandes d'Information
+                        </h2>
+                        
+                        <div class="accordion" id="accordionDemandes">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#demande1">
+                                        Quel type d'information puis-je demander ?
+                                    </button>
+                                </h2>
+                                <div id="demande1" class="accordion-collapse collapse" data-bs-parent="#accordionDemandes">
+                                    <div class="accordion-body">
+                                        Vous pouvez demander tout type d'information publique :
+                                        <ul>
+                                            <li>Documents budgétaires et financiers</li>
+                                            <li>Rapports d'activité des organismes publics</li>
+                                            <li>Données statistiques publiques</li>
+                                            <li>Procédures et réglementations</li>
+                                            <li>Informations sur les marchés publics</li>
+                                            <li>Données environnementales</li>
+                                        </ul>
+                                        <strong>Exceptions :</strong> Informations classifiées, données personnelles, secrets d'État.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#demande2">
+                                        Combien de temps faut-il pour obtenir une réponse ?
+                                    </button>
+                                </h2>
+                                <div id="demande2" class="accordion-collapse collapse" data-bs-parent="#accordionDemandes">
+                                    <div class="accordion-body">
+                                        Les délais de réponse varient selon le type de demande :
+                                        <ul>
+                                            <li><strong>Informations simples :</strong> 15 jours ouvrables</li>
+                                            <li><strong>Informations complexes :</strong> 30 jours ouvrables</li>
+                                            <li><strong>Demandes nécessitant des consultations :</strong> 45 jours ouvrables</li>
+                                        </ul>
+                                        Vous recevrez une notification si un délai supplémentaire est nécessaire.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#demande3">
+                                        Que faire si ma demande est rejetée ?
+                                    </button>
+                                </h2>
+                                <div id="demande3" class="accordion-collapse collapse" data-bs-parent="#accordionDemandes">
+                                    <div class="accordion-body">
+                                        En cas de rejet de votre demande :
+                                        <ol>
+                                            <li>Consultez la justification fournie par l'organisme</li>
+                                            <li>Vous pouvez faire appel dans les 30 jours</li>
+                                            <li>Reformulez votre demande si nécessaire</li>
+                                            <li>Contactez la Commission d'Accès aux Documents Administratifs (CADA)</li>
+                                            <li>En dernier recours, saisissez la justice administrative</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Alertes -->
+                    <section id="alertes" class="mb-5">
+                        <h2 class="h3 text-primary mb-4">
+                            <i class="fas fa-exclamation-triangle me-2"></i>Alertes Citoyennes
+                        </h2>
+                        
+                        <div class="accordion" id="accordionAlertes">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#alerte1">
+                                        Puis-je signaler anonymement ?
+                                    </button>
+                                </h2>
+                                <div id="alerte1" class="accordion-collapse collapse" data-bs-parent="#accordionAlertes">
+                                    <div class="accordion-body">
+                                        Oui, le système permet les signalements anonymes. Vos données personnelles sont chiffrées et votre identité est protégée. Cependant, fournir vos coordonnées peut aider à mieux traiter votre signalement.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#alerte2">
+                                        Quel type de problème puis-je signaler ?
+                                    </button>
+                                </h2>
+                                <div id="alerte2" class="accordion-collapse collapse" data-bs-parent="#accordionAlertes">
+                                    <div class="accordion-body">
+                                        Vous pouvez signaler :
+                                        <ul>
+                                            <li><strong>Corruption :</strong> Pots-de-vin, détournements, abus de pouvoir</li>
+                                            <li><strong>Mauvaise gestion :</strong> Gaspillage, négligence, inefficacité</li>
+                                            <li><strong>Non-transparence :</strong> Refus d'information, opacité</li>
+                                            <li><strong>Discrimination :</strong> Traitement inéquitable</li>
+                                            <li><strong>Autres :</strong> Tout problème de gouvernance</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#alerte3">
+                                        Que se passe-t-il après mon signalement ?
+                                    </button>
+                                </h2>
+                                <div id="alerte3" class="accordion-collapse collapse" data-bs-parent="#accordionAlertes">
+                                    <div class="accordion-body">
+                                        Après votre signalement :
+                                        <ol>
+                                            <li>Votre alerte est enregistrée et un numéro de suivi vous est attribué</li>
+                                            <li>L'alerte est évaluée par une équipe spécialisée</li>
+                                            <li>Une enquête peut être ouverte si nécessaire</li>
+                                            <li>Vous êtes informé de l'avancement (si vous n'êtes pas anonyme)</li>
+                                            <li>Des mesures correctives sont prises si le problème est avéré</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Sécurité -->
+                    <section id="securite" class="mb-5">
+                        <h2 class="h3 text-primary mb-4">
+                            <i class="fas fa-shield-alt me-2"></i>Sécurité et Confidentialité
+                        </h2>
+                        
+                        <div class="accordion" id="accordionSecurite">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#securite1">
+                                        Mes données sont-elles sécurisées ?
+                                    </button>
+                                </h2>
+                                <div id="securite1" class="accordion-collapse collapse" data-bs-parent="#accordionSecurite">
+                                    <div class="accordion-body">
+                                        Oui, SAMA CONAI utilise plusieurs mesures de sécurité :
+                                        <ul>
+                                            <li>Chiffrement SSL/TLS pour toutes les communications</li>
+                                            <li>Chiffrement des données sensibles en base</li>
+                                            <li>Authentification à deux facteurs disponible</li>
+                                            <li>Logs d'audit complets</li>
+                                            <li>Sauvegardes régulières et sécurisées</li>
+                                            <li>Conformité RGPD</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#securite2">
+                                        Qui peut accéder à mes informations ?
+                                    </button>
+                                </h2>
+                                <div id="securite2" class="accordion-collapse collapse" data-bs-parent="#accordionSecurite">
+                                    <div class="accordion-body">
+                                        L'accès aux informations est strictement contrôlé :
+                                        <ul>
+                                            <li><strong>Vos demandes :</strong> Vous et les agents assignés uniquement</li>
+                                            <li><strong>Alertes anonymes :</strong> Équipe d'enquête spécialisée uniquement</li>
+                                            <li><strong>Données personnelles :</strong> Administrateurs autorisés uniquement</li>
+                                            <li><strong>Statistiques :</strong> Données anonymisées pour les rapports publics</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#securite3">
+                                        Puis-je supprimer mes données ?
+                                    </button>
+                                </h2>
+                                <div id="securite3" class="accordion-collapse collapse" data-bs-parent="#accordionSecurite">
+                                    <div class="accordion-body">
+                                        Conformément au RGPD, vous avez le droit :
+                                        <ul>
+                                            <li>D'accéder à vos données personnelles</li>
+                                            <li>De rectifier des informations incorrectes</li>
+                                            <li>De demander la suppression de vos données</li>
+                                            <li>De vous opposer au traitement</li>
+                                            <li>De demander la portabilité de vos données</li>
+                                        </ul>
+                                        Contactez l'administrateur pour exercer ces droits.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Technique -->
+                    <section id="technique" class="mb-5">
+                        <h2 class="h3 text-primary mb-4">
+                            <i class="fas fa-cogs me-2"></i>Questions Techniques
+                        </h2>
+                        
+                        <div class="accordion" id="accordionTechnique">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tech1">
+                                        SAMA CONAI fonctionne-t-il sur mobile ?
+                                    </button>
+                                </h2>
+                                <div id="tech1" class="accordion-collapse collapse" data-bs-parent="#accordionTechnique">
+                                    <div class="accordion-body">
+                                        Oui, SAMA CONAI est entièrement responsive et fonctionne sur :
+                                        <ul>
+                                            <li>Navigateurs web mobiles (iOS Safari, Android Chrome)</li>
+                                            <li>Tablettes</li>
+                                            <li>Applications mobiles dédiées (en développement)</li>
+                                        </ul>
+                                        L'interface s'adapte automatiquement à la taille de votre écran.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tech2">
+                                        Quels navigateurs sont supportés ?
+                                    </button>
+                                </h2>
+                                <div id="tech2" class="accordion-collapse collapse" data-bs-parent="#accordionTechnique">
+                                    <div class="accordion-body">
+                                        SAMA CONAI est compatible avec :
+                                        <ul>
+                                            <li><strong>Chrome :</strong> Version 90+</li>
+                                            <li><strong>Firefox :</strong> Version 88+</li>
+                                            <li><strong>Safari :</strong> Version 14+</li>
+                                            <li><strong>Edge :</strong> Version 90+</li>
+                                        </ul>
+                                        Pour une expérience optimale, utilisez la dernière version de votre navigateur.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#tech3">
+                                        Y a-t-il une API disponible ?
+                                    </button>
+                                </h2>
+                                <div id="tech3" class="accordion-collapse collapse" data-bs-parent="#accordionTechnique">
+                                    <div class="accordion-body">
+                                        Oui, SAMA CONAI propose une API REST complète permettant :
+                                        <ul>
+                                            <li>Intégration avec d'autres systèmes</li>
+                                            <li>Développement d'applications tierces</li>
+                                            <li>Automatisation des processus</li>
+                                            <li>Extraction de données pour analyses</li>
+                                        </ul>
+                                        Consultez la <a href="documentation-technique.html">Documentation Technique</a> pour plus de détails.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Formation -->
+                    <section id="formation" class="mb-5">
+                        <h2 class="h3 text-primary mb-4">
+                            <i class="fas fa-graduation-cap me-2"></i>Formation et Certification
+                        </h2>
+                        
+                        <div class="accordion" id="accordionFormation">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#formation1">
+                                        Comment puis-je me former à SAMA CONAI ?
+                                    </button>
+                                </h2>
+                                <div id="formation1" class="accordion-collapse collapse" data-bs-parent="#accordionFormation">
+                                    <div class="accordion-body">
+                                        Plusieurs options de formation sont disponibles :
+                                        <ul>
+                                            <li><strong>Formations en ligne :</strong> Modules interactifs par rôle</li>
+                                            <li><strong>Formations présentielles :</strong> Sessions organisées régulièrement</li>
+                                            <li><strong>Webinaires :</strong> Sessions thématiques en direct</li>
+                                            <li><strong>Documentation :</strong> Guides et tutoriels complets</li>
+                                        </ul>
+                                        Consultez la section <a href="../index.html#formation">Formation</a> pour plus d'informations.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#formation2">
+                                        Les certifications sont-elles reconnues ?
+                                    </button>
+                                </h2>
+                                <div id="formation2" class="accordion-collapse collapse" data-bs-parent="#accordionFormation">
+                                    <div class="accordion-body">
+                                        Oui, les certifications SAMA CONAI sont :
+                                        <ul>
+                                            <li>Reconnues par l'État du Sénégal</li>
+                                            <li>Validées par des experts en gouvernance</li>
+                                            <li>Acceptées par les organismes publics</li>
+                                            <li>Valorisées dans le secteur privé</li>
+                                        </ul>
+                                        Les certificats sont délivrés en format numérique sécurisé.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#formation3">
+                                        Combien coûte la formation ?
+                                    </button>
+                                </h2>
+                                <div id="formation3" class="accordion-collapse collapse" data-bs-parent="#accordionFormation">
+                                    <div class="accordion-body">
+                                        Les tarifs varient selon le type de formation :
+                                        <ul>
+                                            <li><strong>Formations en ligne :</strong> Gratuites pour les agents publics</li>
+                                            <li><strong>Certifications :</strong> 25 000 FCFA par niveau</li>
+                                            <li><strong>Formations présentielles :</strong> 50 000 FCFA par session</li>
+                                            <li><strong>Formation formateur :</strong> 100 000 FCFA</li>
+                                        </ul>
+                                        Des tarifs préférentiels sont disponibles pour les groupes.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Contact Support -->
+                    <section class="mb-5">
+                        <div class="card bg-light">
+                            <div class="card-body text-center">
+                                <h4 class="text-primary">Vous ne trouvez pas la réponse à votre question ?</h4>
+                                <p class="mb-4">Notre équipe de support est là pour vous aider</p>
+                                <div class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <i class="fas fa-envelope fa-2x text-primary mb-3"></i>
+                                                <h6>Email</h6>
+                                                <p>support@sama-solutions.com</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <i class="fas fa-phone fa-2x text-success mb-3"></i>
+                                                <h6>Téléphone</h6>
+                                                <p>+221 XX XXX XX XX</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <i class="fab fa-github fa-2x text-dark mb-3"></i>
+                                                <h6>GitHub</h6>
+                                                <p>Issues et discussions</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <p>&copy; 2025 SAMA Solutions. Tous droits réservés.</p>
+                </div>
+                <div class="col-lg-6 text-end">
+                    <p>Promoting transparency and good governance in Senegal 🇸🇳</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script>
+        // FAQ Search functionality
+        document.getElementById('faqSearch').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const accordions = document.querySelectorAll('.accordion-item');
+            
+            accordions.forEach(function(accordion) {
+                const text = accordion.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    accordion.style.display = 'block';
+                } else {
+                    accordion.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
