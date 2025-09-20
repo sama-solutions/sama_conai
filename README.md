@@ -268,9 +268,8 @@ copies or substantial portions of the Software.
 
 ## 📞 Contact
 
-### 💼 Contact Commercial
-- **Email** : contact@sama-conai.sn
-- **LinkedIn** : SAMA CONAI Official
+### 💼 Contact 
+- **Email** :ssamasolutions@gmail.com
 
 ---
 
