@@ -9,6 +9,34 @@
   [![Status](https://img.shields.io/badge/Status-Production%20Ready-green.svg)]()
 </div>
 
+## 👨‍💻 Auteurs & Créateurs
+
+<table align="center">
+  <tr>
+    <td align="center">
+      <img src="https://github.com/mamadou-dogue.png" width="100px;" alt="Mamadou Mbagnick DOGUE"/><br />
+      <sub><b>Mamadou Mbagnick DOGUE</b></sub><br />
+      <sub>Architecte Principal & Lead Developer</sub><br />
+      <a href="mailto:mamadou.dogue@example.com">📧</a>
+      <a href="https://linkedin.com/in/mamadou-dogue">💼</a>
+    </td>
+    <td align="center">
+      <img src="https://github.com/rassol-dogue.png" width="100px;" alt="Rassol DOGUE"/><br />
+      <sub><b>Rassol DOGUE</b></sub><br />
+      <sub>Co-Architecte & Innovation Lead</sub><br />
+      <a href="mailto:rassol.dogue@example.com">📧</a>
+      <a href="https://linkedin.com/in/rassol-dogue">💼</a>
+    </td>
+  </tr>
+</table>
+
+### 🏆 Expertise & Vision
+- **Spécialistes** en transformation digitale gouvernementale
+- **Experts** en solutions Odoo et architectures cloud
+- **Passionnés** par l'innovation au service du bien public
+
+---
+
 ## 🇸🇳 Solution Innovante pour l'Administration Publique Sénégalaise
 
 **SAMA CONAI** est une plateforme révolutionnaire de gestion de l'accès à l'information publique, spécialement conçue pour moderniser l'administration sénégalaise et renforcer la transparence gouvernementale.
@@ -200,34 +228,7 @@ Nous encourageons les contributions de la communauté ! Voici comment participer
 
 ---
 
-## 👨‍💻 Auteurs & Équipe
 
-### 🎯 Créateurs Principaux
-
-<table>
-  <tr>
-    <td align="center">
-      <img src="https://github.com/mamadou-dogue.png" width="100px;" alt="Mamadou Mbagnick DOGUE"/><br />
-      <sub><b>Mamadou Mbagnick DOGUE</b></sub><br />
-      <sub>Architecte Principal & Lead Developer</sub><br />
-      <a href="mailto:mamadou.dogue@example.com">📧</a>
-      <a href="https://linkedin.com/in/mamadou-dogue">💼</a>
-    </td>
-    <td align="center">
-      <img src="https://github.com/rassol-dogue.png" width="100px;" alt="Rassol DOGUE"/><br />
-      <sub><b>Rassol DOGUE</b></sub><br />
-      <sub>Co-Architecte & Innovation Lead</sub><br />
-      <a href="mailto:rassol.dogue@example.com">📧</a>
-      <a href="https://linkedin.com/in/rassol-dogue">💼</a>
-    </td>
-  </tr>
-</table>
-
-### 🏆 Expertise & Vision
-- **15+ années** d'expérience combinée en développement
-- **Spécialistes** en transformation digitale gouvernementale
-- **Experts** en solutions Odoo et architectures cloud
-- **Passionnés** par l'innovation au service du bien public
 
 ---
 
@@ -265,21 +266,11 @@ copies or substantial portions of the Software.
 
 ---
 
-## 📞 Contact & Support
-
-### 🆘 Support Technique
-- **Email** : support@sama-conai.sn
-- **Téléphone** : +221 33 XXX XX XX
-- **Documentation** : [docs.sama-conai.sn](https://docs.sama-conai.sn)
+## 📞 Contact
 
 ### 💼 Contact Commercial
 - **Email** : contact@sama-conai.sn
-- **LinkedIn** : [SAMA CONAI Official](https://linkedin.com/company/sama-conai)
-
-### 🌐 Liens Utiles
-- **Site Web** : [www.sama-conai.sn](https://www.sama-conai.sn)
-- **Démo Live** : [demo.sama-conai.sn](https://demo.sama-conai.sn)
-- **Formation** : [formation.sama-conai.sn](https://formation.sama-conai.sn)
+- **LinkedIn** : SAMA CONAI Official
 
 ---
 
